@@ -3,7 +3,7 @@
 <script setup>
     function changeText(event){
         const btn = document.querySelector('.field_name')
-        btn.textContent = event.target.textContent
+        btn.textContent = event.target.textContent;
     }
     definePageMeta({
         layout:"custom"
