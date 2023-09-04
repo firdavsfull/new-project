@@ -1,0 +1,3 @@
+<template>
+    <furniture-technics/>
+</template>
