@@ -1,12 +1,9 @@
 
 
 <script setup>
-    function changeText(){
-        const item = document.querySelectorAll('.dropdown-menu > .item');
-        for (let i = 0; i < item.length; i++) {
-            
-            
-        }
+    function changeText(event){
+        const btn = document.querySelector('.field_name')
+        btn.textContent = event.target.textContent
     }
     definePageMeta({
         layout:"custom"
@@ -29,23 +26,7 @@
                         <div class="add-form__body fs-5">
                             <form  class="add-form__main">
                                 
-                            <div class="add-segment">
-                                <div class="field__name fs-7 ">Тип аккаунта</div>
-                                    <div class="btn-group">
-                                        <button class="field_name btn btn-light border btn-sm dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                            Не выбранно
-                                        </button>
-                                    
-                                        <ul class="dropdown-menu">
-                                            <li class="dropdown-item">
-                                                Агент
-                                            </li>
-                                            <li class="dropdown-item">
-                                                Собственник
-                                            </li>
-                                        </ul>
-                                </div>
-                            </div>
+                            
                                 
 
                             <div class="add-segment">
