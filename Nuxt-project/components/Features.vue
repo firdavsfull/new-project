@@ -22,12 +22,14 @@
                         <div class="col mt-4" style="color:#152242;">
                             <div class="row">
                                 <div class="contrainer-balconies">
-                                    <div class="balcon w-25">
+                                    <div class="balcon w-25 flex flex-col">
                                         <label for="#balcon" class="mb-2 fw-bold" style="font-family:lato, sans-seif">Балкон</label>
-                                        <select id="balcon" class="form-select">
-                                            <option>нет</option>
-                                            <option>есть</option>
+                                        
+                                        <select id="balcon" class="form-select" >
+                                            <option @change="isBalcon">нет</option>
+                                            <option @change="isBalcon">есть</option>
                                         </select>
+                                        
                                     </div>
                                 </div>
                             </div>
@@ -125,6 +127,10 @@
 function change(){
     const file =  document.querySelector('.choose-picture > input')
     file.click()
+}
+
+function isBalcon(event){
+
 }
 </script>
 
