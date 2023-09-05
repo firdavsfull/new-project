@@ -1,3 +1,4 @@
+
 <template>
        <form class="layouts">
             <div class="container-xl mt-4">
@@ -14,7 +15,7 @@
                     </div>
                 </div>
 
-            <div class="container-sm">
+            <div class="container-sm h-[auto]">
                 <div class="text-container">
                     <span>Параметры Квартиры </span>
                 </div>
@@ -23,24 +24,24 @@
                     <p>Количество Комнат</p>
                     <div class="quantity-room">
                         <label class="quantity-room-item" for="1">
-                            <input class="" name="radioInput" type="radio" id="1">
-                            <span class="form-control">1</span>
+                            <input @change="quantityRoom" data-name="1" name="radioInput" type="radio" id="1">
+                            <span :style="!apartmentParams.quantityRoom ?'border:1px solid red;':''" class="form-control">1</span>
                         </label>
                         <label class="quantity-room-item" for="2">
-                            <input name="radioInput" type="radio"  id="2">
-                            <span class="form-control">2</span>
+                            <input @change="quantityRoom" data-name="2" name="radioInput" type="radio"  id="2">
+                            <span :style="!apartmentParams.quantityRoom ?'border:1px solid red;':''" class="form-control">2</span>
                         </label>
                         <label class="quantity-room-item" for="3">
-                            <input name="radioInput" type="radio"  id="3">
-                            <span class="form-control">3</span>
+                            <input @change="quantityRoom" data-name="3" name="radioInput" type="radio"  id="3">
+                            <span :style="!apartmentParams.quantityRoom ?'border:1px solid red;':''" class="form-control">3</span>
                         </label>
                         <label class="quantity-room-item" for="4">
-                            <input name="radioInput" type="radio"  id="4">
-                            <span class="form-control">4</span>
+                            <input @change="quantityRoom" data-name="4" name="radioInput" type="radio"  id="4">
+                            <span :style="!apartmentParams.quantityRoom ?'border:1px solid red;':''" class="form-control">4</span>
                         </label>
                         <label class="quantity-room-item" for="5">
-                            <input name="radioInput" type="radio"  id="5">
-                            <span class="form-control">5</span>
+                            <input @change="quantityRoom" data-name="5" name="radioInput" type="radio"  id="5">
+                            <span :style="!apartmentParams.quantityRoom ?'border:1px solid red;':''" class="form-control">5</span>
                         </label>
                     </div>
                 </div>
@@ -49,27 +50,40 @@
                     <div class="area-room">
                        <div class="room">
                         <p>Общая площадь</p>
-                        <div class="input-area form-control">
-                            <input type="number">
+                        <div style="flex-direction:column;" class="relative">
+
+                        <div :style="!generalArea || liveArea + kitchenArea > generalArea ?'border:1px solid red;':''" class="input-area form-control">
+                            <input v-model="generalArea" type="number">
                             <div>м<sup>2</sup></div>
                         </div>
+                       <p style="font-size:11px;" 
+                       v-if="liveArea + kitchenArea > generalArea"
+                       class="
+                       overflow-hidden
+                       whitespace-nowrap
+                       leading-[15px] text-[red] font-normal lg:relative md:relative md:left-0 absolute sm:relative sm:left-0 top-[4px] lg:left-0 left-[50%]">Общая площадь должна быть 
+                            <br>больше жилой + кухни
+                        </p>
+                        </div>
                        </div> 
+                        
 
-                       <div class="room">
+                       <div  class="room">
+                        
                         <p>Жилая площадь</p>
-                        <div class="input-area form-control">
-                            <input type="number">
+                        <div :style="!liveArea ?'border:1px solid red;':''" class="input-area form-control">
+                            <input v-model="liveArea" type="number">
                             <div>м<sup>2</sup></div>
                         </div>
                        </div>
                     </div>
                 </div>
-                <div class="area-room-container mt-5">
+                <div  class="area-room-container mt-5">
                     <div class="area-room">
                         <div class="room">
                         <p>Кухня</p>
-                        <div class="input-area form-control">
-                            <input type="number">
+                        <div :style="!kitchenArea ?'border:1px solid red;':''" class="input-area form-control">
+                            <input v-model="kitchenArea" type="number">
                             <div>м<sup>2</sup></div>
                         </div>
                        </div>
@@ -106,7 +120,7 @@
                         <label for="link-video">
                             Ссылка на Youtube
                         </label>
-                        <textarea class="font-monospace"  id="link-video" rows="1" placeholder="https://"></textarea>
+                        <textarea v-model="videoLink" class="font-monospace"  id="link-video" rows="1" placeholder="https://"></textarea>
                     </div>
                 </div>
                 <div class="container mt-4 mb-2 d-flex justify-content-end mx-1">
@@ -117,10 +131,29 @@
             </div>
             </div>
         </form>
-        
 </template>
+
 <script setup>
+
+const {announData} = getData()
+const apartmentParams = ref({})
+const generalArea = ref('')
+const liveArea = ref('')
+const kitchenArea = ref('')
+const videoLink = ref('')
+
+
+function quantityRoom (event){
+    apartmentParams.value.quantityRoom = parseInt(event.target.dataset.name)
+}
+    
 function next(){
+    apartmentParams.value.generalArea = parseInt(generalArea.value)
+    apartmentParams.value.liveArea = parseInt(liveArea.value)
+    apartmentParams.value.kitchenArea = parseInt(kitchenArea.value)
+    apartmentParams.value.linkvideo = videoLink.value
+    announData.value.push(apartmentParams.value)
+    localStorage.setItem('announ', JSON.stringify(announData.value))
     navigateTo('/feature')
 }
 function prew(){

@@ -48,13 +48,16 @@ const router = useRouter()
         //     navigateTo('/pictures') 
         // }
         
+    // if (mapObj.value.city && mapObj.value.floor && mapObj.value.apartmentNumber && mapObj.value.year && mapObj.value.selectType) {
+        
+    // }
+}
+function move(){
     if (mapObj.value.city && mapObj.value.floor && mapObj.value.apartmentNumber && mapObj.value.year && mapObj.value.selectType) {
         announData.value.push(mapObj.value)
         localStorage.setItem('announ',JSON.stringify(announData.value))
+        navigateTo('/pictures')
     }
-}
-function move(){
-    navigateTo('/pictures')
 }
 </script>
 <template>
@@ -159,8 +162,13 @@ function move(){
                     </div>
                     <div class="container mt-3 d-flex justify-content-end mx-1">
                     <a class="btn btn-primary px-4"
-                    @click="next"
-                    :href="!cityName ? '#selectcity'
+                    @click="move"
+                    >
+                        Далее
+                    </a>
+                    </div>
+                </div>
+                <!-- :href="!cityName ? '#selectcity'
                     :!floorObj.floor || !floorObj.floor_in_house 
                     ? '#floor'
                     :!mapObj.apartmentNumber?'#number_apartament'
@@ -168,11 +176,7 @@ function move(){
                     : 
                     !mapObj.selectType
                     ?
-                    '#type-home':'/pictures'">
-                        Далее
-                    </a>
-                    </div>
-                </div>
+                    '#type-home':'/pictures'" -->
 </template>
 
 <style scoped>
