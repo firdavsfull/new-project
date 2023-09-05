@@ -66,7 +66,7 @@ const et = ref('_________')
    async function createUser(){
        loader.value = true
         if(tel.value.phone && tel.value.phone.length >= 9){
-            await fetch('http://192.168.54.169:8000/api/create_user', {
+            await fetch('http://127.0.0.1:8000/api/create_user', {
             method: "post",
             headers: {
                 "Content-type":'application/json'

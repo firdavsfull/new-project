@@ -1,10 +1,52 @@
 
 
 <script setup>
+        const isRent = ref("")
+        const AnnounOgj = ref({});
+        const {announData} = getData()
+    
     function changeText(event){
         const btn = document.querySelector('.field_name')
-        btn.textContent = event.target.textContent;
+        btn.textContent = event.target.textContent.trim();
+        isRent.value = btn.textContent;
+        AnnounOgj.value.rent = btn.textContent
+        console.log(AnnounOgj.value);
     }
+
+
+    function selectRent(event){
+        const btn = document.querySelector('.rent')
+        btn.textContent = event.target.textContent.trim();
+        isRent.value = btn.textContent;
+        AnnounOgj.value.typeRent = btn.textContent
+        if (AnnounOgj.value.typeRent == 'Посуточно') {
+            AnnounOgj.value.objects = 'Квартира'
+            AnnounOgj.value.Estate = 'Жилая'
+        }
+        console.log(AnnounOgj.value);
+    }
+    function selectEstate(event){
+        const btn = document.querySelector('.real_estate')
+        btn.textContent = event.target.textContent.trim();
+        isRent.value = btn.textContent;
+        AnnounOgj.value.Estate = btn.textContent
+        if (AnnounOgj.value.typeRent == 'Посуточно') {
+            AnnounOgj.value.objects = 'Не выбранно'
+            AnnounOgj.value.Estate = 'Жилая'
+        }
+        console.log(AnnounOgj.value);
+    }
+
+    function selectObject(event){
+        const btn = document.querySelector('.object')
+        // btn.textContent = event.target.textContent.trim() || event.previousSibling.textContent.trim();
+        // isRent.value = btn.textContent;
+        // AnnounOgj.value.objects = btn.textContent
+        // navigateTo('/map')
+        console.log(event);
+    }
+
+    console.log();
     definePageMeta({
         layout:"custom"
     })
@@ -26,9 +68,6 @@
                         <div class="add-form__body fs-5">
                             <form  class="add-form__main">
                                 
-                            
-                                
-
                             <div class="add-segment">
                             <div class="field__name fs-7">Тип сделки</div>
                                 <div class="btn-group">
@@ -37,51 +76,47 @@
                                     </button>
                                 
                                     <ul class="dropdown-menu">
-                                        <li @click="changeText" class="dropdown-item item">
+                                        <li @click="changeText" class="cursor-pointer dropdown-item item">
                                             Аренда
                                         </li>
-                                        <li @click="changeText" class="dropdown-item item">
+                                        <li @click="changeText" class="cursor-pointer dropdown-item item">
                                             Продажа
                                         </li>
                                     </ul>
                                 </div>
                             </div>
-
-
-                            <div class="add-segment">
-                                    <div class="field__name fs-7">Тип аренды</div>
-                                <div class="btn-group">
-                                    <button class="field_name btn btn-light border btn-sm dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                        Не выбранно
-                                    </button>
-                                
+                            <div class="add-segment "  v-if="AnnounOgj.rent && AnnounOgj.rent == 'Аренда'">
+                                <div class="field__name fs-7">Тип аренды</div>
+                                    <div class="btn-group">
+                                        <button class="field_name rent btn btn-light border btn-sm dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                            Не выбранно
+                                        </button>
                                     <ul class="dropdown-menu">
-                                        <li class="dropdown-item">
+                                        <li @click="selectRent" class="cursor-pointer dropdown-item">
                                             Длительно
                                         </li>
-                                        <li class="dropdown-item">
+                                        <!-- <li @click="selectRent" class="cursor-pointer dropdown-item">
                                             Несколько месяцев
-                                        </li>
-                                        <li class="dropdown-item">
+                                        </li> -->
+                                        <li @click="selectRent" class="cursor-pointer dropdown-item">
                                             Посуточно
                                         </li>
                                     </ul>
                                 </div>
                             </div>
 
-
-                             <div class="add-segment">
+                             <div class="add-segment" v-if="AnnounOgj.typeRent || AnnounOgj.rent == 'Продажа'">
                                     <div class="field__name fs-7">Тип недвижимости</div>
                                 <div class="btn-group">
-                                    <button class="field_name btn btn-light border btn-sm dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                        Не выбранно
+                                    <button class="field_name real_estate btn btn-light border btn-sm dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                        {{ AnnounOgj.typeRent == 'Посуточно' ? 'Жилая' :'Не выбранно' }}
                                     </button>
                                 
                                     <ul class="dropdown-menu">
-                                        <li class="dropdown-item">
+                                        <li @click="selectEstate" class="dropdown-item">
                                             Жилая
                                         </li>
-                                        <li class="dropdown-item">
+                                        <li @click="selectEstate" v-if="AnnounOgj.typeRent !== 'Посуточно'" class="dropdown-item">
                                             Коммерческая
                                         </li>
                                     </ul>
@@ -89,21 +124,21 @@
                             </div>
 
 
-                            <div class="add-segment">
+                            <div class="add-segment" v-if="AnnounOgj.rent == 'Аренда' && AnnounOgj.typeRent == 'Посуточно'">
                                     <div class="field__name fs-7">Объект</div>
                                 <div class="btn-group">
-                                    <button class="field_name btn btn-light border btn-sm dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                        Не выбранно
+                                    <button class="object field_name  btn btn-light border btn-sm dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                        {{ AnnounOgj.typeRent == 'Посуточно' ? 'Квартира' :'Не выбранно' }}
                                     </button>
                                 
-                                    <ul class="dropdown-menu ">
-                                        <li class="dropdown-item">
+                                    <ul class="dropdown-menu">
+                                        <li @click="selectObject" class="dropdown-item">
                                             Квартира
                                         </li>
-                                        <li class="dropdown-item">
+                                        <li @click="selectObject" class="dropdown-item">
                                             Комната
                                         </li>
-                                        <li class="dropdown-item">
+                                        <li @click="selectObject" class="dropdown-item">
                                             Дом
                                         </li>
                                     </ul>
@@ -112,84 +147,78 @@
 
 
 
-                            <div class="containers objects fs-6">
+                            <div class="containers objects fs-6"  v-if="!AnnounOgj.objects  && AnnounOgj.Estate && AnnounOgj.typeRent !== 'Посуточно'">
                                 <div class="field__name fw-bold fs-7 ms-3 ">
                                     Объект
                                 </div>
-                                <div class="all__contents">
+                                <div class="all__contents" v-if="!AnnounOgj.objects && AnnounOgj.Estate == 'Жилая'">
 
                                     <div class="field__content">
                                         <div class="type-radio">
                                             <label for="label1">Квартира</label>
-                                            <input type="radio" @click="navigateTo('/map')"  id="label1">
+                                            <input type="radio" @click="selectObject"  id="label1">
                                         </div>
                                         <div class="type-radio">
                                             <label for="label2">Квартира в Новостройке</label>
-                                            <input type="radio" @click="navigateTo('/map')"  id="label2">
+                                            <input type="radio" @click="selectObject"  id="label2">
                                         </div>
 
                                         <div class="type-radio">
                                             <label for="label3">Комната</label>
-                                            <input type="radio" @click="navigateTo('/map')"  id="label3">
+                                            <input type="radio" @click="selectObject"  id="label3">
                                         </div>
                                         <div class="type-radio">
                                             <label for="label5">Доля в Квартире</label>
-                                            <input type="radio" @click="navigateTo('/map')" id="label5">
+                                            <input type="radio" @click="selectObject" id="label5">
                                         </div>
                                     </div>
-                                <!-- Коммерческая тип недвижимости -->
 
-
-                                    <!-- <div class="field__content">
-                                        <div class="type-radio">
-                                            <label for="label1">Офис</label>
-                                            <input type="radio"  id="label1">
-                                        </div>
-                                        <div class="type-radio">
-                                            <label for="label2">Здание</label>
-                                            <input type="radio"  id="label2">
-                                        </div>
-
-                                        <div class="type-radio">
-                                            <label for="label3">Торговая площадь</label>
-                                            <input type="radio"  id="label3">
-                                        </div>
-                                        <div class="type-radio">
-                                            <label for="label5">Коммерческая земля</label>
-                                            <input type="radio" id="label5">
-                                        </div>
-                                        <div class="type-radio">
-                                            <label for="label5">Склад</label>
-                                            <input type="radio" id="label5">
-                                        </div>
-                                    </div> -->
 
                                 <div class="field__content">
                                     <div class="type-radio">
                                         <label for="label6">Дом/Дача</label>
-                                        <input type="radio" @click="navigateTo('/map')"  id="label6">
+                                        <input type="radio" @click="selectObject"  id="label6">
                                     </div>
                                     <div class="type-radio">
                                         <label for="label7">Коттедж</label>
-                                        <input type="radio" @click="navigateTo('/map')"  id="label7">
-                                    </div>
-
-                                    <div class="type-radio">
-                                        <label for="label8">Таунхаус</label>
-                                        <input type="radio" @click="navigateTo('/map')"  id="label8">
+                                        <input type="radio" @click="selectObject"  id="label7">
                                     </div>
                                     <div class="type-radio">
                                         <label for="label9">Часть дома</label>
-                                        <input type="radio" @click="navigateTo('/map')"  id="label9">
+                                        <input type="radio" @click="selectObject"  id="label9">
                                     </div>
                                     <div class="type-radio">
                                         <label for="label10">Участок</label>
-                                        <input type="radio" @click="navigateTo('/map')" id="label10">
+                                        <input type="radio" @click="selectObject" id="label10">
                                     </div>
                                 </div>
                                 </div>
 
                                 <!-- ---------- -->
+
+                                <div class="field__content" v-if="!AnnounOgj.objects && AnnounOgj.Estate == 'Коммерческая'">
+                                        <div class="type-radio">
+                                            <label for="label1">Офис</label>
+                                            <input @click="selectObject" name="commercial" type="radio"  id="label1">
+                                        </div>
+                                        <div class="type-radio">
+                                            <label for="label2">Здание</label>
+                                            <input @click="selectObject" name="commercial" type="radio"  id="label2">
+                                        </div>
+
+                                        <div class="type-radio">
+                                            <label for="label3">Торговая площадь</label>
+                                            <input @click="selectObject" name="commercial" type="radio"  id="label3">
+                                        </div>
+                                        <div class="type-radio">
+                                            <label for="label5">Коммерческая земля</label>
+                                            <input @click="selectObject" name="commercial" type="radio" id="label5">
+                                        </div>
+                                        <div class="type-radio">
+                                            <label for="label6">Склад</label>
+                                            <input @click="selectObject" name="commercial" type="radio" id="label6">
+                                        </div>
+                                    </div>
                             </div>
                         </form>
                     </div>

@@ -12,7 +12,7 @@ const moreThen = ref(false)
     const cityName = ref('')
 
     async function selectCity(){
-    const cityUrl = fetch(`http://192.168.54.169:8000/api/city`)
+    const cityUrl = fetch(`http://127.0.0.1:8000/api/city`)
     const c = await cityUrl;
     const city = await c.json()
     showCities.value = city
