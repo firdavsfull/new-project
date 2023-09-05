@@ -25,10 +25,15 @@
                                     <div class="balcon w-25 flex flex-col">
                                         <label for="#balcon" class="mb-2 fw-bold" style="font-family:lato, sans-seif">Балкон</label>
                                         
-                                        <select id="balcon" class="form-select" >
-                                            <option @change="isBalcon">нет</option>
-                                            <option @change="isBalcon">есть</option>
-                                        </select>
+                                        <div class="dropdown">
+                                                <button class="w-[100px] form-select text-left" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
+                                                    нет
+                                                </button>
+                                                <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+                                                    <li><a class="dropdown-item" href="#">есть</a></li>
+                                                    <li><a class="dropdown-item" href="#">нет</a></li>
+                                                </ul>
+                                            </div>
                                         
                                     </div>
                                 </div>
@@ -80,10 +85,15 @@
                                 <div class="contrainer-balconies">
                                     <div class="balcon w-25">
                                         <label for="#balcon" class="mb-2 fw-bold" style="font-family:lato, sans-seif">Лифт</label>
-                                        <select id="balcon" class="form-select">
-                                            <option>нет</option>
-                                            <option>есть</option>
-                                        </select>
+                                        <div class="dropdown">
+                                                <button class="w-[100px] form-select text-left" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
+                                                    нет
+                                                </button>
+                                                <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+                                                    <li><a class="dropdown-item" href="#">есть</a></li>
+                                                    <li><a class="dropdown-item" href="#">нет</a></li>
+                                                </ul>
+                                            </div>
                                     </div>
                                 </div>
                             </div>
@@ -123,6 +133,8 @@
         
 </template>
 <script setup>
+const {announData} = getData()
+const aprtFeatures = ref({})
 
 function change(){
     const file =  document.querySelector('.choose-picture > input')
@@ -130,7 +142,8 @@ function change(){
 }
 
 function isBalcon(event){
-
+    // event.target.children.item(0)
+console.log(announData.value);
 }
 </script>
 

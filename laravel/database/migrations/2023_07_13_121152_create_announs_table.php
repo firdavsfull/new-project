@@ -22,7 +22,7 @@ return new class extends Migration
             $table->integer('quantity_rooms')->nullable();
             $table->string('total_area')->nullable();
             $table->string('living_area')->nullable();
-            $table->integer('kitchen')->nullable();
+            $table->integer('kitchen_area')->nullable();
             $table->text('link_video')->nullable();
             $table->string('parking')->nullable();
             $table->boolean('elevator')->default(0);
