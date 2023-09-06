@@ -24,23 +24,23 @@
                     <p>Количество Комнат</p>
                     <div class="quantity-room">
                         <label class="quantity-room-item" for="1">
-                            <input @change="quantityRoom" data-name="1" name="radioInput" type="radio" id="1">
+                            <input :checked="apartmentParams.quantityRoom == 1" @change="quantityRoom" data-name="1" name="radioInput" type="radio" id="1">
                             <span :style="!apartmentParams.quantityRoom ?'border:1px solid red;':''" class="form-control">1</span>
                         </label>
                         <label class="quantity-room-item" for="2">
-                            <input @change="quantityRoom" data-name="2" name="radioInput" type="radio"  id="2">
+                            <input :checked="apartmentParams.quantityRoom == 2" @change="quantityRoom" data-name="2" name="radioInput" type="radio"  id="2">
                             <span :style="!apartmentParams.quantityRoom ?'border:1px solid red;':''" class="form-control">2</span>
                         </label>
                         <label class="quantity-room-item" for="3">
-                            <input @change="quantityRoom" data-name="3" name="radioInput" type="radio"  id="3">
+                            <input :checked="apartmentParams.quantityRoom == 3" @change="quantityRoom" data-name="3" name="radioInput" type="radio"  id="3">
                             <span :style="!apartmentParams.quantityRoom ?'border:1px solid red;':''" class="form-control">3</span>
                         </label>
                         <label class="quantity-room-item" for="4">
-                            <input @change="quantityRoom" data-name="4" name="radioInput" type="radio"  id="4">
+                            <input :checked="apartmentParams.quantityRoom == 4" @change="quantityRoom" data-name="4" name="radioInput" type="radio"  id="4">
                             <span :style="!apartmentParams.quantityRoom ?'border:1px solid red;':''" class="form-control">4</span>
                         </label>
                         <label class="quantity-room-item" for="5">
-                            <input @change="quantityRoom" data-name="5" name="radioInput" type="radio"  id="5">
+                            <input :checked="apartmentParams.quantityRoom == 5" @change="quantityRoom" data-name="5" name="radioInput" type="radio"  id="5">
                             <span :style="!apartmentParams.quantityRoom ?'border:1px solid red;':''" class="form-control">5</span>
                         </label>
                     </div>
@@ -52,12 +52,12 @@
                         <p>Общая площадь</p>
                         <div style="flex-direction:column;" class="relative">
 
-                        <div :style="!generalArea || liveArea + kitchenArea > generalArea ?'border:1px solid red;':''" class="input-area form-control">
-                            <input v-model="generalArea" type="number">
+                        <div :style="!apartmentParams.generalArea || apartmentParams.liveArea + apartmentParams.kitchenArea > apartmentParams.generalArea ?'border:1px solid red;':''" class="input-area form-control">
+                            <input v-model="apartmentParams.generalArea" type="number">
                             <div>м<sup>2</sup></div>
                         </div>
                        <p style="font-size:11px;" 
-                       v-if="liveArea + kitchenArea > generalArea"
+                       v-if="apartmentParams.liveArea + apartmentParams.kitchenArea > apartmentParams.generalArea"
                        class="
                        overflow-hidden
                        whitespace-nowrap
@@ -71,8 +71,8 @@
                        <div  class="room">
                         
                         <p>Жилая площадь</p>
-                        <div :style="!liveArea ?'border:1px solid red;':''" class="input-area form-control">
-                            <input v-model="liveArea" type="number">
+                        <div :style="!apartmentParams.liveArea ?'border:1px solid red;':''" class="input-area form-control">
+                            <input v-model="apartmentParams.liveArea" type="number">
                             <div>м<sup>2</sup></div>
                         </div>
                        </div>
@@ -82,8 +82,8 @@
                     <div class="area-room">
                         <div class="room">
                         <p>Кухня</p>
-                        <div :style="!kitchenArea ?'border:1px solid red;':''" class="input-area form-control">
-                            <input v-model="kitchenArea" type="number">
+                        <div :style="!apartmentParams.kitchenArea ?'border:1px solid red;':''" class="input-area form-control">
+                            <input v-model="apartmentParams.kitchenArea" type="number">
                             <div>м<sup>2</sup></div>
                         </div>
                        </div>
@@ -120,7 +120,7 @@
                         <label for="link-video">
                             Ссылка на Youtube
                         </label>
-                        <textarea v-model="videoLink" class="font-monospace"  id="link-video" rows="1" placeholder="https://"></textarea>
+                        <textarea v-model="apartmentParams.linkvideo" class="font-monospace"  id="link-video" rows="1" placeholder="https://"></textarea>
                     </div>
                 </div>
                 <div class="container mt-4 mb-2 d-flex justify-content-end mx-1">
@@ -137,6 +137,7 @@
 
 const {announData} = getData()
 const apartmentParams = ref({})
+const apartmentParams1 = ref({})
 const generalArea = ref('')
 const liveArea = ref('')
 const kitchenArea = ref('')
@@ -148,17 +149,33 @@ function quantityRoom (event){
 }
     
 function next(){
-    apartmentParams.value.generalArea = parseInt(generalArea.value)
-    apartmentParams.value.liveArea = parseInt(liveArea.value)
-    apartmentParams.value.kitchenArea = parseInt(kitchenArea.value)
-    apartmentParams.value.linkvideo = videoLink.value
-    announData.value.push(apartmentParams.value)
+    // apartmentParams.value.generalArea = parseInt(generalArea.value)
+    // apartmentParams.value.liveArea = parseInt(liveArea.value)
+    // apartmentParams.value.kitchenArea = parseInt(kitchenArea.value)
+    // apartmentParams.value.linkvideo = videoLink.value
+
+    // apartmentParams1.value.generalArea = parseInt(generalArea.value)
+    // apartmentParams1.value.liveArea = parseInt(liveArea.value)
+    // apartmentParams1.value.kitchenArea = parseInt(kitchenArea.value)
+    // apartmentParams1.value.linkvideo = videoLink.value
+
+    announData.value[0] = JSON.parse(localStorage.getItem('announ'))[0]
+    announData.value[1] = JSON.parse(localStorage.getItem('announ'))[1]
+    announData.value[2] = apartmentParams.value
     localStorage.setItem('announ', JSON.stringify(announData.value))
     navigateTo('/feature')
 }
 function prew(){
     navigateTo('/map')
 }
+
+onMounted(()=>{
+    if (JSON.parse(localStorage.getItem('announ'))[2]) {
+        apartmentParams.value = JSON.parse(localStorage.getItem('announ'))[2];
+    }else{
+        apartmentParams.value = apartmentParams1.value
+    }
+})
 
 function change(){
     const file =  document.querySelector('.choose-picture > input')
