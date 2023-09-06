@@ -69,15 +69,15 @@
     
 
     
+    onMounted(()=>{
         if (JSON.parse(localStorage.getItem('announ'))) {
             AnnounOgj.value = JSON.parse(localStorage.getItem('announ'))[0]
         } else
         {
             AnnounOgj.value = AnnounOgj2.value
         }
-    // onMounted(()=>{
     
-    // })
+    })
 </script>
 
 <template>

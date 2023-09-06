@@ -171,7 +171,11 @@ function selecetParking(event){
 
 function next(){
 
-    announData.value.push(aprtFeatures.value)
+    // announData.value[0] = JSON.parse(localStorage.getItem('announ'))[0]
+    // announData.value[1] = JSON.parse(localStorage.getItem('announ'))[1]
+    // announData.value[2] = JSON.parse(localStorage.getItem('announ'))[2]
+    announData.value[3] = aprtFeatures.value
+
     localStorage.setItem('announ', JSON.stringify(announData.value))   
     navigateTo('/technicsandfurniture')
 }
