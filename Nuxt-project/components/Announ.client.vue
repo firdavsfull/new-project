@@ -15,10 +15,7 @@
         btn.textContent = event.target.textContent.trim();
         isRent.value = btn.textContent;
         AnnounOgj.value.rent = btn.textContent
-<<<<<<< HEAD
-=======
         AnnounOgj2.value.rent = btn.textContent
->>>>>>> 8c53cfe6c07fa201df15b86f9af08b8dc1fdc693
     }
 
 
@@ -54,10 +51,7 @@
         const btn = document.querySelector('.object')
             isRent.value = btn.textContent;
             AnnounOgj.value.objects = event.target.textContent
-<<<<<<< HEAD
-=======
             AnnounOgj2.value.objects = event.target.textContent
->>>>>>> 8c53cfe6c07fa201df15b86f9af08b8dc1fdc693
             btn.textContent = event.target.textContent.trim()
             announData.value[0] = AnnounOgj.value
             localStorage.setItem('announ', JSON.stringify(announData.value))
@@ -67,28 +61,14 @@
     function selectObjectFromSale(event){
         typeObject.value = event.target.dataset.name
         AnnounOgj.value.objects = event.target.dataset.name;
-<<<<<<< HEAD
-        announData.value.push(AnnounOgj.value)
-=======
         AnnounOgj2.value.objects = event.target.dataset.name;
         announData.value[0] = AnnounOgj.value
->>>>>>> 8c53cfe6c07fa201df15b86f9af08b8dc1fdc693
         localStorage.setItem('announ', JSON.stringify(announData.value))
          navigateTo('/map')
     }
     
 
     
-<<<<<<< HEAD
-    AnnounOgj.value = JSON.parse(localStorage.getItem('announ'))[2] 
-    onMounted(()=>{
-        if (!JSON.parse(localStorage.getItem('announ'))) {
-            
-            localStorage.setItem('announ',JSON.stringify({announ:"announ"}))
-        }
-    
-    })
-=======
         if (JSON.parse(localStorage.getItem('announ'))) {
             AnnounOgj.value = JSON.parse(localStorage.getItem('announ'))[0]
         } else
@@ -98,7 +78,6 @@
     // onMounted(()=>{
     
     // })
->>>>>>> 8c53cfe6c07fa201df15b86f9af08b8dc1fdc693
 </script>
 
 <template>
@@ -177,11 +156,7 @@
                                     <div class="field__name fs-7">Объект</div>
                                 <div class="btn-group">
                                     <button class="object field_name  btn btn-light border btn-sm dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-<<<<<<< HEAD
-                                        {{AnnounOgj.objects == 'Посуточно' ? 'typeObject.objects' :'Не выбранно' }}
-=======
                                         {{AnnounOgj.objects == 'Посуточно' ? 'typeObject.objects' :'Не выбранно' || AnnounOgj.objects ? AnnounOgj.objects: 'Не выбранно'}}
->>>>>>> 8c53cfe6c07fa201df15b86f9af08b8dc1fdc693
                                     </button>
                                 
                                     <ul class="dropdown-menu">

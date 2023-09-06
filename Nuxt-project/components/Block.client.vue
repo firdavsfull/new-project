@@ -13,11 +13,7 @@ const moreThen = ref(false)
     const cityName = ref('')
 
     async function selectCity(){
-<<<<<<< HEAD:Nuxt-project/components/Block.vue
-    const cityUrl = fetch(`http://127.0.0.1:8000/api/city`)
-=======
     const cityUrl = fetch(`http://192.168.0.114:8000/api/city`)
->>>>>>> 8c53cfe6c07fa201df15b86f9af08b8dc1fdc693:Nuxt-project/components/Block.client.vue
     const c = await cityUrl;
     const city = await c.json()
     showCities.value = city
@@ -70,10 +66,6 @@ function move(){
     }
 }
 
-<<<<<<< HEAD:Nuxt-project/components/Block.vue
-     
-    mapObj.value = JSON.parse(localStorage.getItem('announ'))[1] || [];
-=======
 onMounted(()=>{
     if (JSON.parse(localStorage.getItem('announ'))[1]) {
         mapObj.value = JSON.parse(localStorage.getItem('announ'))[1]
@@ -84,7 +76,6 @@ onMounted(()=>{
 
     console.log(inputs);
 })
->>>>>>> 8c53cfe6c07fa201df15b86f9af08b8dc1fdc693:Nuxt-project/components/Block.client.vue
 </script>
 <template>
         <div class="container-sm">
@@ -120,13 +111,8 @@ onMounted(()=>{
 
                         <div class="rows" >
                             <span>Этаж</span>
-<<<<<<< HEAD:Nuxt-project/components/Block.vue
-                        <input :style="moreThen && !floorObj.floor ? `border:1px solid red; `:''" @input="isFloor" type="number" v-model="floorObj.floor" max="30" style="-moz-appearance: textfield;" class="input form-control">
-                        <p v-if="moreThen && floorObj.floor_in_house" style="margin-top:3px; font-family: Lato,Arial,sans-serif; font-weight:400; font-size:11px; line-height:15px; color:red;">Этаж должен быть меньше или <br> равен количеству этажей</p>
-=======
                         <input :style="moreThen || !mapObj.floor ? `border:1px solid red; `:''" @input="isFloor" type="number" v-model="mapObj.floor" style="-moz-appearance: textfield;" class="input form-control">
                         <p v-if="moreThen" style="margin-top:3px; font-family: Lato,Arial,sans-serif; font-weight:400; font-size:11px; line-height:15px; color:red;">Этаж должен быть меньше или <br> равен количеству этажей</p>
->>>>>>> 8c53cfe6c07fa201df15b86f9af08b8dc1fdc693:Nuxt-project/components/Block.client.vue
                         </div>
                         <div class="rows">
                             <span>Этаж в доме</span>
