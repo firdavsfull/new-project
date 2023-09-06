@@ -26,18 +26,18 @@
                                     <div class="balcon w-25 mt-3" >
                                         <span for="#balcon" class="mb-2 fw-bold text-nowrap" style="font-family:lato, sans-seif">мебель</span>
                                         <div class="d-flex text-nowrap mt-2" style="font-family:lato, sans-serif;">
-                                            <label for="checkbox-2"  class="me-2">
-                                                <input type="checkbox" id="" class="d-none">
+                                            <label for="checkbox-1" class="me-2">
+                                                <input :checked="cheks == false" data-name="Без мебели" @change="chooseFurniture" type="checkbox" id="checkbox-1" class="d-none">
                                                 <span class="form-control">Без мебели</span>
                                             </label>
 
                                             <label for="checkbox-2" class="me-2">
-                                                <input type="checkbox" id="checkbox-2" class="d-none">
+                                                <input :checked="chek" data-name="На кухне" @change="chooseFurniture" type="checkbox" id="checkbox-2" class="d-none">
                                                 <span class="form-control">На кухне</span>
                                             </label>
 
                                             <label for="checkbox3">
-                                                <input type="checkbox" id="checkbox3" class="d-none">
+                                                <input :checked="chek" data-name="В комнатах" @change="chooseFurniture" type="checkbox" id="checkbox3" class="d-none">
                                                 <span class="form-control">В комнатах</span>
                                             </label>
                                         </div>   
@@ -124,6 +124,17 @@
         
 </template>
 <script setup>
+
+const {announData} = getData()
+const facilities = ref({})
+const cheks = ref('')
+function chooseFurniture(event){
+    cheks.value = true 
+    if(event.target.dataset.name == 'Без мебели'){
+        cheks.value = false
+    }
+}
+
 function next(){
     navigateTo('/feature')
 }

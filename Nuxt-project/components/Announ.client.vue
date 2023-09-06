@@ -3,6 +3,7 @@
 <script setup>
         const isRent = ref("")
         const AnnounOgj = ref({});
+        const AnnounOgj2 = ref({})
         const {announData} = getData()
         
         
@@ -14,6 +15,10 @@
         btn.textContent = event.target.textContent.trim();
         isRent.value = btn.textContent;
         AnnounOgj.value.rent = btn.textContent
+<<<<<<< HEAD
+=======
+        AnnounOgj2.value.rent = btn.textContent
+>>>>>>> 8c53cfe6c07fa201df15b86f9af08b8dc1fdc693
     }
 
 
@@ -22,9 +27,11 @@
         btn.textContent = event.target.textContent.trim();
         isRent.value = btn.textContent;
         AnnounOgj.value.typeRent = btn.textContent
-        if (AnnounOgj.value.typeRent == 'Посуточно') {
+        if (AnnounOgj.value.typeRent == 'Посуточно' && AnnounOgj2.value.typeRent == 'Посуточно') {
             AnnounOgj.value.objects = 'Квартира'
             AnnounOgj.value.Estate = 'Жилая'
+            AnnounOgj2.value.objects = 'Квартира'
+            AnnounOgj2.value.Estate = 'Жилая'
         }
         console.log(AnnounOgj.value);
     }
@@ -33,9 +40,12 @@
         btn.textContent = event.target.textContent.trim();
         isRent.value = btn.textContent;
         AnnounOgj.value.Estate = btn.textContent
-        if (AnnounOgj.value.typeRent == 'Посуточно') {
+        AnnounOgj2.value.Estate = btn.textContent
+        if (AnnounOgj.value.typeRent == 'Посуточно' && AnnounOgj2.value.typeRent == 'Посуточно') {
             AnnounOgj.value.objects = 'Не выбранно'
             AnnounOgj.value.Estate = 'Жилая'
+            AnnounOgj2.value.objects = 'Не выбранно'
+            AnnounOgj2.value.Estate = 'Жилая'
         }
         console.log(AnnounOgj.value);
     }
@@ -44,8 +54,12 @@
         const btn = document.querySelector('.object')
             isRent.value = btn.textContent;
             AnnounOgj.value.objects = event.target.textContent
+<<<<<<< HEAD
+=======
+            AnnounOgj2.value.objects = event.target.textContent
+>>>>>>> 8c53cfe6c07fa201df15b86f9af08b8dc1fdc693
             btn.textContent = event.target.textContent.trim()
-            announData.value.push(AnnounOgj.value)
+            announData.value[0] = AnnounOgj.value
             localStorage.setItem('announ', JSON.stringify(announData.value))
             navigateTo('/map')
     }
@@ -53,13 +67,19 @@
     function selectObjectFromSale(event){
         typeObject.value = event.target.dataset.name
         AnnounOgj.value.objects = event.target.dataset.name;
+<<<<<<< HEAD
         announData.value.push(AnnounOgj.value)
+=======
+        AnnounOgj2.value.objects = event.target.dataset.name;
+        announData.value[0] = AnnounOgj.value
+>>>>>>> 8c53cfe6c07fa201df15b86f9af08b8dc1fdc693
         localStorage.setItem('announ', JSON.stringify(announData.value))
          navigateTo('/map')
     }
     
 
     
+<<<<<<< HEAD
     AnnounOgj.value = JSON.parse(localStorage.getItem('announ'))[2] 
     onMounted(()=>{
         if (!JSON.parse(localStorage.getItem('announ'))) {
@@ -68,6 +88,17 @@
         }
     
     })
+=======
+        if (JSON.parse(localStorage.getItem('announ'))) {
+            AnnounOgj.value = JSON.parse(localStorage.getItem('announ'))[0]
+        } else
+        {
+            AnnounOgj.value = AnnounOgj2.value
+        }
+    // onMounted(()=>{
+    
+    // })
+>>>>>>> 8c53cfe6c07fa201df15b86f9af08b8dc1fdc693
 </script>
 
 <template>
@@ -90,14 +121,14 @@
                             <div class="field__name fs-7">Тип сделки</div>
                                 <div class="btn-group">
                                     <button class="field_name btn btn-light border btn-sm dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                        Не выбранно
+                                        {{`${AnnounOgj.rent ? AnnounOgj.rent:'Не выбранно'}`}}
                                     </button>
                                 
                                     <ul class="dropdown-menu">
-                                        <li @click="changeText" class="cursor-pointer dropdown-item item">
+                                        <li :style="AnnounOgj.rent =='Аренда' ? `background-color: #43E9FF;font-weight:bold;`:''" @click="changeText" class="cursor-pointer dropdown-item item">
                                             Аренда
                                         </li>
-                                        <li @click="changeText" class="cursor-pointer dropdown-item item">
+                                        <li :style="AnnounOgj.rent =='Продажа' ? `background-color: #43E9FF;font-weight:bold;`:''" @click="changeText" class="cursor-pointer dropdown-item item">
                                             Продажа
                                         </li>
                                     </ul>
@@ -107,16 +138,16 @@
                                 <div class="field__name fs-7">Тип аренды</div>
                                     <div class="btn-group">
                                         <button class="field_name rent btn btn-light border btn-sm dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                            Не выбранно
+                                            {{`${AnnounOgj.typeRent ? AnnounOgj.typeRent: 'Не выбранно'}`}}
                                         </button>
                                     <ul class="dropdown-menu">
-                                        <li @click="selectRent" class="cursor-pointer dropdown-item">
+                                        <li :style="AnnounOgj.typeRent =='Длительно' ? `background-color: #43E9FF;font-weight:bold;`:''" @click="selectRent" class="cursor-pointer dropdown-item">
                                             Длительно
                                         </li>
-                                        <!-- <li @click="selectRent" class="cursor-pointer dropdown-item">
+                                        <li :style="AnnounOgj.typeRent =='Несколько месяцев' ? `background-color: #43E9FF;font-weight:bold;`:''" @click="selectRent" class="cursor-pointer dropdown-item">
                                             Несколько месяцев
-                                        </li> -->
-                                        <li @click="selectRent" class="cursor-pointer dropdown-item">
+                                        </li>
+                                        <li :style="AnnounOgj.typeRent =='Посуточно' ? `background-color: #43E9FF;font-weight:bold;`:''" @click="selectRent" class="cursor-pointer dropdown-item">
                                             Посуточно
                                         </li>
                                     </ul>
@@ -127,14 +158,14 @@
                                     <div class="field__name fs-7">Тип недвижимости</div>
                                 <div class="btn-group">
                                     <button class="field_name real_estate btn btn-light border btn-sm dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                        {{ AnnounOgj.typeRent == 'Посуточно' ? 'Жилая' :'Не выбранно' }}
+                                        {{ AnnounOgj.typeRent == 'Посуточно' ? 'Жилая' :'Не выбранно' && AnnounOgj.Estate ? AnnounOgj.Estate: 'Не выбранно' }}
                                     </button>
                                 
                                     <ul class="dropdown-menu">
-                                        <li @click="selectEstate" class="dropdown-item">
+                                        <li :style="AnnounOgj.Estate =='Жилая' ? `background-color: #43E9FF;font-weight:bold;`:''" @click="selectEstate" class="dropdown-item">
                                             Жилая
                                         </li>
-                                        <li @click="selectEstate" v-if="AnnounOgj.typeRent !== 'Посуточно'" class="dropdown-item">
+                                        <li :style="AnnounOgj.Estate == 'Коммерческая' ? `background-color:#43E9FF;font-weight:bold;`:''" @click="selectEstate" v-if="AnnounOgj.typeRent !== 'Посуточно'" class="dropdown-item">
                                             Коммерческая
                                         </li>
                                     </ul>
@@ -146,17 +177,21 @@
                                     <div class="field__name fs-7">Объект</div>
                                 <div class="btn-group">
                                     <button class="object field_name  btn btn-light border btn-sm dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+<<<<<<< HEAD
                                         {{AnnounOgj.objects == 'Посуточно' ? 'typeObject.objects' :'Не выбранно' }}
+=======
+                                        {{AnnounOgj.objects == 'Посуточно' ? 'typeObject.objects' :'Не выбранно' || AnnounOgj.objects ? AnnounOgj.objects: 'Не выбранно'}}
+>>>>>>> 8c53cfe6c07fa201df15b86f9af08b8dc1fdc693
                                     </button>
                                 
                                     <ul class="dropdown-menu">
-                                        <li @click="selectObject" class="dropdown-item">
+                                        <li :style="AnnounOgj.objects.trim() =='Квартира' ? `background-color: #43E9FF;font-weight:bold;`:''" @click="selectObject" class="dropdown-item">
                                             Квартира
                                         </li>
-                                        <li @click="selectObject" class="dropdown-item">
+                                        <li :style="AnnounOgj.objects.trim() =='Комната' ? `background-color: #43E9FF;font-weight:bold;`:''" @click="selectObject" class="dropdown-item">
                                             Комната
                                         </li>
-                                        <li @click="selectObject" class="dropdown-item">
+                                        <li :style="AnnounOgj.objects.trim() =='Дом' ? `background-color: #43E9FF;font-weight:bold;`:''" @click="selectObject" class="dropdown-item">
                                             Дом
                                         </li>
                                     </ul>
@@ -176,7 +211,7 @@
                                             <label for="label1">Квартира</label>
                                             <input :checked="AnnounOgj.objects == `Квартира`" name="house" data-name="Квартира" type="radio" @change="selectObjectFromSale"  id="label1">
                                         </div>
-                                        <div class="type-radio">
+                                        <div v-if="AnnounOgj.rent == 'Продажа'" class="type-radio">
                                             <label for="label2">Квартира в Новостройке</label>
                                             <input :checked="AnnounOgj.objects == `Квартира в Новостройке`" name="house" data-name="Квартира в Новостройке" type="radio" @change="selectObjectFromSale"  id="label2">
                                         </div>
@@ -185,7 +220,7 @@
                                             <label for="label3">Комната</label>
                                             <input :checked="AnnounOgj.objects == `Комната`" name="house" data-name="Комната" type="radio" @change="selectObjectFromSale"  id="label3">
                                         </div>
-                                        <div class="type-radio">
+                                        <div v-if="AnnounOgj.rent == 'Продажа'" class="type-radio">
                                             <label for="label5">Доля в Квартире</label>
                                             <input :checked="AnnounOgj.objects == `Доля в Квартире`" name="house" data-name="Доля в Квартире" type="radio" @change="selectObjectFromSale" id="label5">
                                         </div>
@@ -204,7 +239,7 @@
                                         <label for="label9">Часть дома</label>
                                         <input :checked="AnnounOgj.objects == `Часть дома`" name="house" data-name="Часть дома" type="radio" @change="selectObjectFromSale"  id="label9">
                                     </div>
-                                    <div class="type-radio">
+                                    <div v-if="AnnounOgj.rent == 'Продажа'" class="type-radio">
                                         <label for="label10">Участок</label>
                                         <input :checked="AnnounOgj.objects == `Участок`" name="house" data-name="Участок" type="radio" @change="selectObjectFromSale" id="label10">
                                     </div>

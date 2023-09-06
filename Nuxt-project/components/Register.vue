@@ -27,7 +27,7 @@
             style="font-family: Lato,Arial,sans-serif;"
             class="text-primary btn mt-[10px] flex align-items-center">
             <span v-if="!loader" >Получить код</span>
-            <font-awesome-icon v-if="loader" class="text-[20px] font-bold" :icon="['fas', 'spinner']" spin-pulse />
+            <font-awesome-icon v-if="loader" class="text-[20px] font-bold" :icon="['fa', 'spinner']" spin-pulse />
             </button>
             <button style="font-family: Lato,Arial,sans-serif; ;" 
             class="btn-light text-primary btn mt-[10px]">Другим способом</button>
@@ -66,7 +66,11 @@ const et = ref('_________')
    async function createUser(){
        loader.value = true
         if(tel.value.phone && tel.value.phone.length >= 9){
+<<<<<<< HEAD
             await fetch('http://127.0.0.1:8000/api/create_user', {
+=======
+            await fetch('http://192.168.0.114:8000/api/create_user', {
+>>>>>>> 8c53cfe6c07fa201df15b86f9af08b8dc1fdc693
             method: "post",
             headers: {
                 "Content-type":'application/json'

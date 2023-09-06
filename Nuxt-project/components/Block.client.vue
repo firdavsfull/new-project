@@ -5,6 +5,7 @@ const floorObj = ref({
     floor_in_house:""
 })
 const mapObj = ref({})
+const mapObj1 = ref({})
 
 const moreThen = ref(false)
 
@@ -12,7 +13,11 @@ const moreThen = ref(false)
     const cityName = ref('')
 
     async function selectCity(){
+<<<<<<< HEAD:Nuxt-project/components/Block.vue
     const cityUrl = fetch(`http://127.0.0.1:8000/api/city`)
+=======
+    const cityUrl = fetch(`http://192.168.0.114:8000/api/city`)
+>>>>>>> 8c53cfe6c07fa201df15b86f9af08b8dc1fdc693:Nuxt-project/components/Block.client.vue
     const c = await cityUrl;
     const city = await c.json()
     showCities.value = city
@@ -22,22 +27,26 @@ const moreThen = ref(false)
     function select(event){
         cityName.value = event.target.textContent;
         mapObj.value.city = event.target.textContent
+        mapObj1.value.city = event.target.textContent
     }
 
     function isFloor(){
-        if (floorObj.value.floor > floorObj.value.floor_in_house) {
+        if (mapObj.value.floor > mapObj.value.floorHouse) {
             moreThen.value = true
         }else{
             moreThen.value = false
         }
 
-        mapObj.value.floor = floorObj.value.floor
-        mapObj.value.floorHouse = floorObj.value.floor_in_house
+        // mapObj.value.floor = floorObj.value.floor
+        // mapObj.value.floorHouse = floorObj.value.floor_in_house
+        // mapObj1.value.floor = floorObj.value.floor
+        // mapObj1.value.floorHouse = floorObj.value.floor_in_house
 
     }
 
 function selectType(event){
     mapObj.value.selectType = event.target.parentElement.textContent
+    mapObj1.value.selectType = event.target.parentElement.textContent
 }
 
 const router = useRouter()
@@ -54,14 +63,28 @@ const router = useRouter()
 }
 function move(){
     if (mapObj.value.city && mapObj.value.floor && mapObj.value.apartmentNumber && mapObj.value.year && mapObj.value.selectType) {
-        announData.value.push(mapObj.value)
+        announData.value[0] = JSON.parse(localStorage.getItem('announ'))[0]
+        announData.value[1] = mapObj.value
         localStorage.setItem('announ',JSON.stringify(announData.value))
         navigateTo('/pictures')
     }
 }
 
+<<<<<<< HEAD:Nuxt-project/components/Block.vue
      
     mapObj.value = JSON.parse(localStorage.getItem('announ'))[1] || [];
+=======
+onMounted(()=>{
+    if (JSON.parse(localStorage.getItem('announ'))[1]) {
+        mapObj.value = JSON.parse(localStorage.getItem('announ'))[1]
+    }else {
+        mapObj.value = mapObj1.value
+    }
+    const inputs = document.querySelectorAll('input');
+
+    console.log(inputs);
+})
+>>>>>>> 8c53cfe6c07fa201df15b86f9af08b8dc1fdc693:Nuxt-project/components/Block.client.vue
 </script>
 <template>
         <div class="container-sm">
@@ -73,18 +96,19 @@ function move(){
                         <!-- <div class="mb-5 mt-2">
                             <input type="text" class="form-control border-none w-100" placeholder="Укажите город или улица">
                         </div> -->
-                        <div :style="!cityName ? `border-radius:8px; border:1px solid red`:''"  class="dropdown mb-5" @click="selectCity">
+                        <div :style="!mapObj.city ? `border-radius:8px; border:1px solid red`:''"  class="dropdown mb-5" @click="selectCity">
                             <a class="btn form-control border dropdown-toggle-none position-relative" href="#" role="button" data-bs-toggle="dropdown" >
-                                <span class="me-5">{{!cityName ? 'Укажите город': cityName}}</span>
+                                <span class="me-5">{{ mapObj.city ? mapObj.city:'Укажите город' }}</span>
                             </a>
 
                             <ul style="height:300px; overflow: auto;" class="dropdown-menu form-control">
                                 <li @click="select" v-for="city of showCities" :key="city">
-                                    <a class="dropdown-item" href="#">{{city.name}}</a>
+                                    <a :style="mapObj.city == city.name?'background-color:#0468FF; color:white; font-weight:bold;':''" class="dropdown-item" href="#">{{city.name}}</a>
                                 </li>
+
                             </ul>
                             </div>
-                        <p v-if="!cityName" style="margin-top:-45px; font-family: Lato,Arial,sans-serif; font-weight:400; font-size:11px; line-height:15px; color:red;">Укажите адрес</p>
+                        <p v-if="!mapObj.city" style="margin-top:-45px; font-family: Lato,Arial,sans-serif; font-weight:400; font-size:11px; line-height:15px; color:red;">Укажите адрес</p>
                     </form>
 
 
@@ -96,12 +120,17 @@ function move(){
 
                         <div class="rows" >
                             <span>Этаж</span>
+<<<<<<< HEAD:Nuxt-project/components/Block.vue
                         <input :style="moreThen && !floorObj.floor ? `border:1px solid red; `:''" @input="isFloor" type="number" v-model="floorObj.floor" max="30" style="-moz-appearance: textfield;" class="input form-control">
                         <p v-if="moreThen && floorObj.floor_in_house" style="margin-top:3px; font-family: Lato,Arial,sans-serif; font-weight:400; font-size:11px; line-height:15px; color:red;">Этаж должен быть меньше или <br> равен количеству этажей</p>
+=======
+                        <input :style="moreThen || !mapObj.floor ? `border:1px solid red; `:''" @input="isFloor" type="number" v-model="mapObj.floor" style="-moz-appearance: textfield;" class="input form-control">
+                        <p v-if="moreThen" style="margin-top:3px; font-family: Lato,Arial,sans-serif; font-weight:400; font-size:11px; line-height:15px; color:red;">Этаж должен быть меньше или <br> равен количеству этажей</p>
+>>>>>>> 8c53cfe6c07fa201df15b86f9af08b8dc1fdc693:Nuxt-project/components/Block.client.vue
                         </div>
                         <div class="rows">
                             <span>Этаж в доме</span>
-                            <input :style="!floorObj.floor_in_house ? `border:1px solid red; `:''" @input="isFloor" type="number" v-model="floorObj.floor_in_house" max="30" class="input form-control">
+                            <input :style="!mapObj.floorHouse ? `border:1px solid red; `:''" @input="isFloor" type="number" v-model="mapObj.floorHouse" class="input form-control">
                         </div>
                         </div>
                     </div>
@@ -133,31 +162,31 @@ function move(){
                             <slot/>
                             <div class="rows">
                                 <label for="1" >
-                                    <input @change="selectType" name="radioinp" type="radio" id="1">
+                                    <input :checked="mapObj.selectType == 'Кирпичный'" @change="selectType" name="radioinp" type="radio" id="1">
                                     <span :style="!mapObj.selectType ?'border: 1px solid red':''" class="form-control">Кирпичный</span>
                                 </label>
                                 <label for="2" >
-                                    <input @change="selectType" name="radioinp" type="radio" id="2">
+                                    <input :checked="mapObj.selectType == 'Монолитный'" @change="selectType" name="radioinp" type="radio" id="2">
                                     <span :style="!mapObj.selectType ?'border: 1px solid red':''" class="form-control">Монолитный</span>
                                 </label>
                                 <label for="3" >
-                                    <input @change="selectType" name="radioinp" type="radio" id="3">
+                                    <input :checked="mapObj.selectType == 'Панельный'" @change="selectType" name="radioinp" type="radio" id="3">
                                     <span :style="!mapObj.selectType ?'border: 1px solid red':''" class="form-control">Панельный</span>
                                 </label>
                                 <label for="4" >
-                                    <input @change="selectType" name="radioinp" type="radio" id="4">
+                                    <input :checked="mapObj.selectType == 'Блочный'" @change="selectType" name="radioinp" type="radio" id="4">
                                     <span :style="!mapObj.selectType ?'border: 1px solid red':''" class="form-control">Блочный</span>
                                 </label>
                                 <label for="5" >
-                                    <input @change="selectType" name="radioinp" type="radio" id="5">
+                                    <input :checked="mapObj.selectType == 'Деревянный'" @change="selectType" name="radioinp" type="radio" id="5">
                                     <span :style="!mapObj.selectType ?'border: 1px solid red':''" class="form-control">Деревянный</span>
                                 </label>
                                 <label for="6" >
-                                    <input @change="selectType" name="radioinp" type="radio" id="6">
+                                    <input :checked="mapObj.selectType == 'Сталинский'" @change="selectType" name="radioinp" type="radio" id="6">
                                     <span :style="!mapObj.selectType ?'border: 1px solid red':''" class="form-control">Сталинский</span>
                                 </label>
                                 <label for="7" >
-                                    <input @change="selectType" name="radioinp" type="radio"  id="7">
+                                    <input :checked="mapObj.selectType == 'Монолитно-кирпичный'" @change="selectType" name="radioinp" type="radio"  id="7">
                                     <span :style="!mapObj.selectType ?'border: 1px solid red':''" class="form-control">Монолитно-кирпичный</span>
                                 </label>
                             </div>

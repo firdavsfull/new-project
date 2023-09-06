@@ -20,6 +20,7 @@
                  <span>Параметры Квартиры </span>
              </div>
 
+<<<<<<< HEAD
              <div class="quantity-room-container">
                  <p>Количество Комнат</p>
                  <div class="quantity-room">
@@ -45,6 +46,33 @@
                      </label>
                  </div>
              </div>
+=======
+                <div class="quantity-room-container">
+                    <p>Количество Комнат</p>
+                    <div class="quantity-room">
+                        <label class="quantity-room-item" for="1">
+                            <input :checked="apartmentParams.quantityRoom == 1" @change="quantityRoom" data-name="1" name="radioInput" type="radio" id="1">
+                            <span :style="!apartmentParams.quantityRoom ?'border:1px solid red;':''" class="form-control">1</span>
+                        </label>
+                        <label class="quantity-room-item" for="2">
+                            <input :checked="apartmentParams.quantityRoom == 2" @change="quantityRoom" data-name="2" name="radioInput" type="radio"  id="2">
+                            <span :style="!apartmentParams.quantityRoom ?'border:1px solid red;':''" class="form-control">2</span>
+                        </label>
+                        <label class="quantity-room-item" for="3">
+                            <input :checked="apartmentParams.quantityRoom == 3" @change="quantityRoom" data-name="3" name="radioInput" type="radio"  id="3">
+                            <span :style="!apartmentParams.quantityRoom ?'border:1px solid red;':''" class="form-control">3</span>
+                        </label>
+                        <label class="quantity-room-item" for="4">
+                            <input :checked="apartmentParams.quantityRoom == 4" @change="quantityRoom" data-name="4" name="radioInput" type="radio"  id="4">
+                            <span :style="!apartmentParams.quantityRoom ?'border:1px solid red;':''" class="form-control">4</span>
+                        </label>
+                        <label class="quantity-room-item" for="5">
+                            <input :checked="apartmentParams.quantityRoom == 5" @change="quantityRoom" data-name="5" name="radioInput" type="radio"  id="5">
+                            <span :style="!apartmentParams.quantityRoom ?'border:1px solid red;':''" class="form-control">5</span>
+                        </label>
+                    </div>
+                </div>
+>>>>>>> 8c53cfe6c07fa201df15b86f9af08b8dc1fdc693
 
              <div class="area-room-container">
                  <div class="area-room">
@@ -52,6 +80,7 @@
                      <p>Общая площадь</p>
                      <div style="flex-direction:column;" class="relative">
 
+<<<<<<< HEAD
                      <div :style="!generalArea || liveArea + kitchenArea > generalArea ?'border:1px solid red;':''" class="input-area form-control">
                          <input v-model="generalArea" type="number">
                          <div>м<sup>2</sup></div>
@@ -86,10 +115,48 @@
                          <input v-model="kitchenArea" type="number">
                          <div>м<sup>2</sup></div>
                      </div>
+=======
+                        <div :style="!apartmentParams.generalArea || apartmentParams.liveArea + apartmentParams.kitchenArea > apartmentParams.generalArea ?'border:1px solid red;':''" class="input-area form-control">
+                            <input v-model="apartmentParams.generalArea" type="number">
+                            <div>м<sup>2</sup></div>
+                        </div>
+                       <p style="font-size:11px;" 
+                       v-if="apartmentParams.liveArea + apartmentParams.kitchenArea > apartmentParams.generalArea"
+                       class="
+                       overflow-hidden
+                       whitespace-nowrap
+                       leading-[15px] text-[red] font-normal lg:relative md:relative md:left-0 absolute sm:relative sm:left-0 top-[4px] lg:left-0 left-[50%]">Общая площадь должна быть 
+                            <br>больше жилой + кухни
+                        </p>
+                        </div>
+                       </div> 
+                        
+
+                       <div  class="room">
+                        
+                        <p>Жилая площадь</p>
+                        <div :style="!apartmentParams.liveArea ?'border:1px solid red;':''" class="input-area form-control">
+                            <input v-model="apartmentParams.liveArea" type="number">
+                            <div>м<sup>2</sup></div>
+                        </div>
+                       </div>
+                    </div>
+                </div>
+                <div  class="area-room-container mt-5">
+                    <div class="area-room">
+                        <div class="room">
+                        <p>Кухня</p>
+                        <div :style="!apartmentParams.kitchenArea ?'border:1px solid red;':''" class="input-area form-control">
+                            <input v-model="apartmentParams.kitchenArea" type="number">
+                            <div>м<sup>2</sup></div>
+                        </div>
+                       </div>
+>>>>>>> 8c53cfe6c07fa201df15b86f9af08b8dc1fdc693
                     </div>
                  </div>
              </div>
 
+<<<<<<< HEAD
              <div class="picture-room-container">
                  <span>Фото и планировка - от 5 и больше</span>
                  <div class="picture-room">
@@ -131,12 +198,56 @@
          </div>
          </div>
      </form>
+=======
+                <div class="picture-room-container">
+                    <span>Фото и планировка - от 5 и больше</span>
+                    <div class="picture-room">
+                        <div>
+                            <font-awesome-icon style="color:darkgray;" :icon="['fas', 'camera']" />
+                        </div>
+                        <p>На фото не должно быть людей, животных,
+                            алкоголя, табака, оружия. Не добавляйте
+                            чужие фото, картинки с водяными знаками
+                            и рекламу.
+                        </p>
+                    </div>
+                    <div class="choose-picture">
+                        <button @click.prevent='change'  style="background-color:rgba(15,72,157,.1); color:#0468ff;" class="btn w-100  fw-bold font-monospace">Выберите файлы</button>
+                        <input type="file" accept="*png" multiple style="display:none;" id="">
+                    </div>
+                </div>
+
+                <div class="video-link-container">
+                    <div style="margin-top:24px;">
+                        <div style="display:inline;">
+                            <span>Видео</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="container-input-link">
+                    <div style="flex-basis:280px; margin-top:16px">
+                        <label for="link-video">
+                            Ссылка на Youtube
+                        </label>
+                        <textarea v-model="apartmentParams.linkvideo" class="font-monospace"  id="link-video" rows="1" placeholder="https://"></textarea>
+                    </div>
+                </div>
+                <div class="container mt-4 mb-2 d-flex justify-content-end mx-1">
+                <next-btn class="btn btn-light text-primary px-4 mx-4" @click.prevent="prew">Назад</next-btn>    
+                <next-btn class="btn btn-primary px-4" @click.prevent="next" >Далее</next-btn>
+                </div>
+                
+            </div>
+            </div>
+        </form>
+>>>>>>> 8c53cfe6c07fa201df15b86f9af08b8dc1fdc693
 </template>
 
 <script setup>
 
 const {announData} = getData()
 const apartmentParams = ref({})
+const apartmentParams1 = ref({})
 const generalArea = ref('')
 const liveArea = ref('')
 const kitchenArea = ref('')
@@ -148,6 +259,7 @@ function quantityRoom (event){
 }
  
 function next(){
+<<<<<<< HEAD
  apartmentParams.value.generalArea = parseInt(generalArea.value)
  apartmentParams.value.liveArea = parseInt(liveArea.value)
  apartmentParams.value.kitchenArea = parseInt(kitchenArea.value)
@@ -155,10 +267,35 @@ function next(){
  announData.value.push(apartmentParams.value)
  localStorage.setItem('announ', JSON.stringify(announData.value))
  navigateTo('/feature')
+=======
+    // apartmentParams.value.generalArea = parseInt(generalArea.value)
+    // apartmentParams.value.liveArea = parseInt(liveArea.value)
+    // apartmentParams.value.kitchenArea = parseInt(kitchenArea.value)
+    // apartmentParams.value.linkvideo = videoLink.value
+
+    // apartmentParams1.value.generalArea = parseInt(generalArea.value)
+    // apartmentParams1.value.liveArea = parseInt(liveArea.value)
+    // apartmentParams1.value.kitchenArea = parseInt(kitchenArea.value)
+    // apartmentParams1.value.linkvideo = videoLink.value
+
+    announData.value[0] = JSON.parse(localStorage.getItem('announ'))[0]
+    announData.value[1] = JSON.parse(localStorage.getItem('announ'))[1]
+    announData.value[2] = apartmentParams.value
+    localStorage.setItem('announ', JSON.stringify(announData.value))
+    navigateTo('/feature')
+>>>>>>> 8c53cfe6c07fa201df15b86f9af08b8dc1fdc693
 }
 function prew(){
  navigateTo('/map')
 }
+
+onMounted(()=>{
+    if (JSON.parse(localStorage.getItem('announ'))[2]) {
+        apartmentParams.value = JSON.parse(localStorage.getItem('announ'))[2];
+    }else{
+        apartmentParams.value = apartmentParams1.value
+    }
+})
 
 function change(){
  const file =  document.querySelector('.choose-picture > input')
