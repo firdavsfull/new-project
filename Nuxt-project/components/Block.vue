@@ -48,14 +48,20 @@ const router = useRouter()
         //     navigateTo('/pictures') 
         // }
         
+    // if (mapObj.value.city && mapObj.value.floor && mapObj.value.apartmentNumber && mapObj.value.year && mapObj.value.selectType) {
+        
+    // }
+}
+function move(){
     if (mapObj.value.city && mapObj.value.floor && mapObj.value.apartmentNumber && mapObj.value.year && mapObj.value.selectType) {
         announData.value.push(mapObj.value)
         localStorage.setItem('announ',JSON.stringify(announData.value))
+        navigateTo('/pictures')
     }
 }
-function move(){
-    navigateTo('/pictures')
-}
+
+     
+    mapObj.value = JSON.parse(localStorage.getItem('announ'))[1] || [];
 </script>
 <template>
         <div class="container-sm">
@@ -90,8 +96,8 @@ function move(){
 
                         <div class="rows" >
                             <span>Этаж</span>
-                        <input :style="moreThen || !floorObj.floor ? `border:1px solid red; `:''" @input="isFloor" type="number" v-model="floorObj.floor" max="30" style="-moz-appearance: textfield;" class="input form-control">
-                        <p v-if="moreThen" style="margin-top:3px; font-family: Lato,Arial,sans-serif; font-weight:400; font-size:11px; line-height:15px; color:red;">Этаж должен быть меньше или <br> равен количеству этажей</p>
+                        <input :style="moreThen && !floorObj.floor ? `border:1px solid red; `:''" @input="isFloor" type="number" v-model="floorObj.floor" max="30" style="-moz-appearance: textfield;" class="input form-control">
+                        <p v-if="moreThen && floorObj.floor_in_house" style="margin-top:3px; font-family: Lato,Arial,sans-serif; font-weight:400; font-size:11px; line-height:15px; color:red;">Этаж должен быть меньше или <br> равен количеству этажей</p>
                         </div>
                         <div class="rows">
                             <span>Этаж в доме</span>
@@ -159,8 +165,13 @@ function move(){
                     </div>
                     <div class="container mt-3 d-flex justify-content-end mx-1">
                     <a class="btn btn-primary px-4"
-                    @click="next"
-                    :href="!cityName ? '#selectcity'
+                    @click="move"
+                    >
+                        Далее
+                    </a>
+                    </div>
+                </div>
+                <!-- :href="!cityName ? '#selectcity'
                     :!floorObj.floor || !floorObj.floor_in_house 
                     ? '#floor'
                     :!mapObj.apartmentNumber?'#number_apartament'
@@ -168,11 +179,7 @@ function move(){
                     : 
                     !mapObj.selectType
                     ?
-                    '#type-home':'/pictures'">
-                        Далее
-                    </a>
-                    </div>
-                </div>
+                    '#type-home':'/pictures'" -->
 </template>
 
 <style scoped>
@@ -398,4 +405,3 @@ label > span{
     }
     }
 </style>
-

@@ -13,8 +13,9 @@
                         <div class="progress-bar" role="progressbar" style="width:10%" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
                     </div>
                 </div>
-        
-                <Block/>
+                <ClientOnly>
+                    <Block/>
+                </ClientOnly>
             </div>
         </div>
 </template>

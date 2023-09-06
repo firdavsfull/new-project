@@ -4,13 +4,16 @@
         const isRent = ref("")
         const AnnounOgj = ref({});
         const {announData} = getData()
-    
+        
+        
+        const typeObject = ref(JSON.parse(localStorage.getItem('announ')) || {})
+        
+
     function changeText(event){
         const btn = document.querySelector('.field_name')
         btn.textContent = event.target.textContent.trim();
         isRent.value = btn.textContent;
         AnnounOgj.value.rent = btn.textContent
-        console.log(AnnounOgj.value);
     }
 
 
@@ -39,16 +42,31 @@
 
     function selectObject(event){
         const btn = document.querySelector('.object')
-        // btn.textContent = event.target.textContent.trim() || event.previousSibling.textContent.trim();
-        // isRent.value = btn.textContent;
-        // AnnounOgj.value.objects = btn.textContent
-        // navigateTo('/map')
-        console.log(event);
+            isRent.value = btn.textContent;
+            AnnounOgj.value.objects = event.target.textContent
+            btn.textContent = event.target.textContent.trim()
+            announData.value.push(AnnounOgj.value)
+            localStorage.setItem('announ', JSON.stringify(announData.value))
+            navigateTo('/map')
     }
 
-    console.log();
-    definePageMeta({
-        layout:"custom"
+    function selectObjectFromSale(event){
+        typeObject.value = event.target.dataset.name
+        AnnounOgj.value.objects = event.target.dataset.name;
+        announData.value.push(AnnounOgj.value)
+        localStorage.setItem('announ', JSON.stringify(announData.value))
+         navigateTo('/map')
+    }
+    
+
+    
+    AnnounOgj.value = JSON.parse(localStorage.getItem('announ'))[2] 
+    onMounted(()=>{
+        if (!JSON.parse(localStorage.getItem('announ'))) {
+            
+            localStorage.setItem('announ',JSON.stringify({announ:"announ"}))
+        }
+    
     })
 </script>
 
@@ -128,7 +146,7 @@
                                     <div class="field__name fs-7">Объект</div>
                                 <div class="btn-group">
                                     <button class="object field_name  btn btn-light border btn-sm dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                        {{ AnnounOgj.typeRent == 'Посуточно' ? 'Квартира' :'Не выбранно' }}
+                                        {{AnnounOgj.objects == 'Посуточно' ? 'typeObject.objects' :'Не выбранно' }}
                                     </button>
                                 
                                     <ul class="dropdown-menu">
@@ -147,76 +165,76 @@
 
 
 
-                            <div class="containers objects fs-6"  v-if="!AnnounOgj.objects  && AnnounOgj.Estate && AnnounOgj.typeRent !== 'Посуточно'">
+                            <div class="containers objects fs-6"  v-if=" AnnounOgj.Estate && AnnounOgj.typeRent !== 'Посуточно'">
                                 <div class="field__name fw-bold fs-7 ms-3 ">
                                     Объект
                                 </div>
-                                <div class="all__contents" v-if="!AnnounOgj.objects && AnnounOgj.Estate == 'Жилая'">
+                                <div class="all__contents" v-if="AnnounOgj.Estate == 'Жилая'">
 
                                     <div class="field__content">
                                         <div class="type-radio">
                                             <label for="label1">Квартира</label>
-                                            <input type="radio" @click="selectObject"  id="label1">
+                                            <input :checked="AnnounOgj.objects == `Квартира`" name="house" data-name="Квартира" type="radio" @change="selectObjectFromSale"  id="label1">
                                         </div>
                                         <div class="type-radio">
                                             <label for="label2">Квартира в Новостройке</label>
-                                            <input type="radio" @click="selectObject"  id="label2">
+                                            <input :checked="AnnounOgj.objects == `Квартира в Новостройке`" name="house" data-name="Квартира в Новостройке" type="radio" @change="selectObjectFromSale"  id="label2">
                                         </div>
 
                                         <div class="type-radio">
                                             <label for="label3">Комната</label>
-                                            <input type="radio" @click="selectObject"  id="label3">
+                                            <input :checked="AnnounOgj.objects == `Комната`" name="house" data-name="Комната" type="radio" @change="selectObjectFromSale"  id="label3">
                                         </div>
                                         <div class="type-radio">
                                             <label for="label5">Доля в Квартире</label>
-                                            <input type="radio" @click="selectObject" id="label5">
+                                            <input :checked="AnnounOgj.objects == `Доля в Квартире`" name="house" data-name="Доля в Квартире" type="radio" @change="selectObjectFromSale" id="label5">
                                         </div>
                                     </div>
-
 
                                 <div class="field__content">
                                     <div class="type-radio">
                                         <label for="label6">Дом/Дача</label>
-                                        <input type="radio" @click="selectObject"  id="label6">
+                                        <input :checked="AnnounOgj.objects == `Дом/Дача`" name="house" data-name="Дом/Дача" type="radio" @change="selectObjectFromSale"  id="label6">
                                     </div>
                                     <div class="type-radio">
                                         <label for="label7">Коттедж</label>
-                                        <input type="radio" @click="selectObject"  id="label7">
+                                        <input :checked="AnnounOgj.objects == `Коттедж`" name="house" data-name="Коттедж" type="radio" @change="selectObjectFromSale"  id="label7">
                                     </div>
                                     <div class="type-radio">
                                         <label for="label9">Часть дома</label>
-                                        <input type="radio" @click="selectObject"  id="label9">
+                                        <input :checked="AnnounOgj.objects == `Часть дома`" name="house" data-name="Часть дома" type="radio" @change="selectObjectFromSale"  id="label9">
                                     </div>
                                     <div class="type-radio">
                                         <label for="label10">Участок</label>
-                                        <input type="radio" @click="selectObject" id="label10">
+                                        <input :checked="AnnounOgj.objects == `Участок`" name="house" data-name="Участок" type="radio" @change="selectObjectFromSale" id="label10">
                                     </div>
                                 </div>
                                 </div>
 
                                 <!-- ---------- -->
 
-                                <div class="field__content" v-if="!AnnounOgj.objects && AnnounOgj.Estate == 'Коммерческая'">
+                                <div class="field__content" v-if="AnnounOgj.Estate == 'Коммерческая'">
                                         <div class="type-radio">
                                             <label for="label1">Офис</label>
-                                            <input @click="selectObject" name="commercial" type="radio"  id="label1">
+                                            <input :checked="AnnounOgj.objects == `Офис`" data-name="Офис" @change="selectObjectFromSale" name="commercial" type="radio"  id="label1">
                                         </div>
                                         <div class="type-radio">
                                             <label for="label2">Здание</label>
-                                            <input @click="selectObject" name="commercial" type="radio"  id="label2">
+                                            <input :checked="AnnounOgj.objects == `Здание`" data-name="Здание" @change="selectObjectFromSale" name="commercial" type="radio"  id="label2">
                                         </div>
 
                                         <div class="type-radio">
                                             <label for="label3">Торговая площадь</label>
-                                            <input @click="selectObject" name="commercial" type="radio"  id="label3">
+                                            <input :checked="AnnounOgj.objects == `Торговая площадь`" data-name="Торговая площадь"
+                                             @change="selectObjectFromSale" name="commercial" type="radio"  id="label3">
                                         </div>
                                         <div class="type-radio">
                                             <label for="label5">Коммерческая земля</label>
-                                            <input @click="selectObject" name="commercial" type="radio" id="label5">
+                                            <input :checked="AnnounOgj.objects == `Коммерческая земля`" data-name="Коммерческая земля" @change="selectObjectFromSale" name="commercial" type="radio" id="label5">
                                         </div>
                                         <div class="type-radio">
                                             <label for="label6">Склад</label>
-                                            <input @click="selectObject" name="commercial" type="radio" id="label6">
+                                            <input :checked="AnnounOgj.objects == `Склад`" data-name="Склад" @change="selectObjectFromSale" name="commercial" type="radio" id="label6">
                                         </div>
                                     </div>
                             </div>

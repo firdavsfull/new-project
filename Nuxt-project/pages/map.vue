@@ -1,3 +1,5 @@
 <template>
-    <Map/>
+    <ClientOnly>
+        <Map/>
+    </ClientOnly>
 </template>

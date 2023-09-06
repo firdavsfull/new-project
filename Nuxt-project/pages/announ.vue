@@ -1,5 +1,8 @@
 <template>
-        <Announs />
+        
+
+                <Announs />
+        
 </template>
 <script>
 definePageMeta({

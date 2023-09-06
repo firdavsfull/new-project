@@ -22,17 +22,18 @@
                     <div class="container w-100">
                         <div class="mt-3">
                             <label for="exampleFormControlInput1" style="font-size:14px; margin-bottom:6px; color:#152242;" class="form-label" >Заголовок</label>
-                            <input type="text" class="form-control" id="exampleFormControlInput1" placeholder="Просторная видовая двушка у парка">
-                            </div>
+                            <input :style="!title ? `border:1px solid red;`:''" :max="title.length == 33" v-model="title" type="text" class="form-control" id="exampleFormControlInput1" placeholder="Просторная видовая двушка у парка">
+                            <span>{{ title.length }}</span>    
+                        </div>
                             <div style="margin-top:24px">
                                 <label for="floatingTextarea2" style="font-size:14px; margin-bottom:6px; color:#152242;">Описание</label>
-                                <textarea class="form-control" id="floatingTextarea2" placeholder="Уютная светлая двушка в тихом спальном районе. Окна на красивые цветущие деревья. Свежий ремонт 2020 года делали для себя. Рядом есть детсад, до метро 10 минут пешком, но ходит автобус. Можно заезжать и жить!" style="resize:none; height:300px"></textarea>
+                                <textarea :style="!description?`border:1px solid red;` :''" v-model="description" class="form-control" id="floatingTextarea2" placeholder="Уютная светлая двушка в тихом спальном районе. Окна на красивые цветущие деревья. Свежий ремонт 2020 года делали для себя. Рядом есть детсад, до метро 10 минут пешком, но ходит автобус. Можно заезжать и жить!" style="resize:none; height:300px"></textarea>
                             </div>
                     </div>
 
                     <div class="container mt-4 mb-2 d-flex justify-content-end mx-1 ">
                         <next-btn class="px-4 mx-4 btn btn-light mx-4 text-primary" @click.prevent="navigateTo('/technicsandfurniture')">Назад</next-btn>
-                        <next-btn class="px-4 btn  btn-primary" @click.prevent="navigateTo('/price')">Далее</next-btn>
+                        <next-btn class="px-4 btn  btn-primary" @click.prevent="next">Далее</next-btn>
                     </div>
                 </div>
             </div>
@@ -40,10 +41,22 @@
         
 </template>
 <script setup>
-
+const {announData} = getData()
+const title = ref('')
+const description = ref('')
 function change(){
     const file =  document.querySelector('.choose-picture > input')
     file.click()
+}
+
+function next(){
+    announData.value.push({
+        title:title.value,
+        description: description.value
+    })
+    console.log(announData.value);
+    localStorage.setItem('announ', JSON.stringify(announData.value))
+    navigateTo('/price')
 }
 </script>
 
