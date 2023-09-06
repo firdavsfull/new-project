@@ -27,7 +27,7 @@
             style="font-family: Lato,Arial,sans-serif;"
             class="text-primary btn mt-[10px] flex align-items-center">
             <span v-if="!loader" >Получить код</span>
-            <font-awesome-icon v-if="loader" class="text-[20px] font-bold" :icon="['fas', 'spinner']" spin-pulse />
+            <font-awesome-icon v-if="loader" class="text-[20px] font-bold" :icon="['fa', 'spinner']" spin-pulse />
             </button>
             <button style="font-family: Lato,Arial,sans-serif; ;" 
             class="btn-light text-primary btn mt-[10px]">Другим способом</button>

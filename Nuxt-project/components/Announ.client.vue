@@ -69,15 +69,15 @@
     
 
     
-    onMounted(()=>{
         if (JSON.parse(localStorage.getItem('announ'))) {
             AnnounOgj.value = JSON.parse(localStorage.getItem('announ'))[0]
         } else
         {
             AnnounOgj.value = AnnounOgj2.value
         }
+    // onMounted(()=>{
     
-    })
+    // })
 </script>
 
 <template>
@@ -186,7 +186,7 @@
                                             <label for="label1">Квартира</label>
                                             <input :checked="AnnounOgj.objects == `Квартира`" name="house" data-name="Квартира" type="radio" @change="selectObjectFromSale"  id="label1">
                                         </div>
-                                        <div class="type-radio">
+                                        <div v-if="AnnounOgj.rent == 'Продажа'" class="type-radio">
                                             <label for="label2">Квартира в Новостройке</label>
                                             <input :checked="AnnounOgj.objects == `Квартира в Новостройке`" name="house" data-name="Квартира в Новостройке" type="radio" @change="selectObjectFromSale"  id="label2">
                                         </div>
@@ -195,7 +195,7 @@
                                             <label for="label3">Комната</label>
                                             <input :checked="AnnounOgj.objects == `Комната`" name="house" data-name="Комната" type="radio" @change="selectObjectFromSale"  id="label3">
                                         </div>
-                                        <div class="type-radio">
+                                        <div v-if="AnnounOgj.rent == 'Продажа'" class="type-radio">
                                             <label for="label5">Доля в Квартире</label>
                                             <input :checked="AnnounOgj.objects == `Доля в Квартире`" name="house" data-name="Доля в Квартире" type="radio" @change="selectObjectFromSale" id="label5">
                                         </div>
@@ -214,7 +214,7 @@
                                         <label for="label9">Часть дома</label>
                                         <input :checked="AnnounOgj.objects == `Часть дома`" name="house" data-name="Часть дома" type="radio" @change="selectObjectFromSale"  id="label9">
                                     </div>
-                                    <div class="type-radio">
+                                    <div v-if="AnnounOgj.rent == 'Продажа'" class="type-radio">
                                         <label for="label10">Участок</label>
                                         <input :checked="AnnounOgj.objects == `Участок`" name="house" data-name="Участок" type="radio" @change="selectObjectFromSale" id="label10">
                                     </div>

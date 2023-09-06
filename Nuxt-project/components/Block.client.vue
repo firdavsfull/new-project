@@ -94,8 +94,9 @@ onMounted(()=>{
 
                             <ul style="height:300px; overflow: auto;" class="dropdown-menu form-control">
                                 <li @click="select" v-for="city of showCities" :key="city">
-                                    <a class="dropdown-item" href="#">{{city.name}}</a>
+                                    <a :style="mapObj.city == city.name?'background-color:#0468FF; color:white; font-weight:bold;':''" class="dropdown-item" href="#">{{city.name}}</a>
                                 </li>
+
                             </ul>
                             </div>
                         <p v-if="!mapObj.city" style="margin-top:-45px; font-family: Lato,Arial,sans-serif; font-weight:400; font-size:11px; line-height:15px; color:red;">Укажите адрес</p>

@@ -104,7 +104,7 @@
                     </div>
                     <div class="choose-picture">
                         <button @click.prevent='change'  style="background-color:rgba(15,72,157,.1); color:#0468ff;" class="btn w-100  fw-bold font-monospace">Выберите файлы</button>
-                        <input type="file" multiple style="display:none;" id="">
+                        <input type="file" accept="*png" multiple style="display:none;" id="">
                     </div>
                 </div>
 
