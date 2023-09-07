@@ -137,6 +137,7 @@
 
 const {announData} = getData()
 const facilities = ref({})
+const facilities1 = ref({})
 const cheks = ref('')
 function chooseFurniture(event){
     cheks.value = true 
