@@ -27,17 +27,17 @@
                                         <span for="#balcon" class="mb-2 fw-bold text-nowrap" style="font-family:lato, sans-seif">мебель</span>
                                         <div class="d-flex text-nowrap mt-2" style="font-family:lato, sans-serif;">
                                             <label for="checkbox-1" class="me-2">
-                                                <input :checked="cheks == false" data-name="Без мебели" @change="chooseFurniture" type="checkbox" id="checkbox-1" class="d-none">
+                                                <button  data-name="Без мебели" @click.prevent="selecTechnics" type="checkbox" id="checkbox-1" class="d-none"></button>
                                                 <span class="form-control">Без мебели</span>
                                             </label>
 
                                             <label for="checkbox-2" class="me-2">
-                                                <input :checked="chek" data-name="На кухне" @change="chooseFurniture" type="checkbox" id="checkbox-2" class="d-none">
+                                                <input :checked="cheks1" data-name="На кухне" @change="selecTechnics" type="checkbox" id="checkbox-2" class="d-none">
                                                 <span class="form-control">На кухне</span>
                                             </label>
 
                                             <label for="checkbox3">
-                                                <input :checked="chek" data-name="В комнатах" @change="chooseFurniture" type="checkbox" id="checkbox3" class="d-none">
+                                                <input :checked="cheks2" data-name="В комнатах" @change="selecTechnics" type="checkbox" id="checkbox3" class="d-none">
                                                 <span class="form-control">В комнатах</span>
                                             </label>
                                         </div>   
@@ -53,12 +53,12 @@
 
                                         <div class="d-flex text-nowrap mt-2" style="font-family:lato, sans-serif;">
                                             <label for="checkbox-4" class="me-2">
-                                                <input type="checkbox" id="checkbox-4" class="d-none">
+                                                <input  @change="selecTechnics" data-name="Ванна" type="checkbox" id="checkbox-4" class="d-none">
                                                 <span class="form-control">Ванна</span>
                                             </label>
 
                                             <label for="checkbox-5" class="me-2">
-                                                <input type="checkbox" id="checkbox-5" class="d-none">
+                                                <input @change="selecTechnics" data-name="Душевая кабина" type="checkbox" id="checkbox-5" class="d-none">
                                                 <span class="form-control">Душевая кабина</span>
                                             </label>
 
@@ -74,20 +74,20 @@
                                         
 
                                         <div class="container-repair  flex-wrap d-flex text-nowrap">
-                                            <input type="checkbox" class="btn-check" name="options" id="option5" autocomplete="off">
+                                            <input @change="selecTechnics" data-name="Кондиционер" type="checkbox" class="btn-check d-none" name="options" id="option5" autocomplete="off">
                                             <label class="form-control me-2 my-1" for="option5">Кондиционер</label>
 
-                                            <input type="checkbox" class="btn-check" name="options" id="option6" autocomplete="off">
+                                            <input @change="selecTechnics" data-name="Холодильник" type="checkbox" class="btn-check d-none" name="options" id="option6" autocomplete="off">
                                             <label class="form-control me-2 my-1" for="option6">Холодильник</label>
 
-                                            <input type="checkbox" class="btn-check" name="options" id="option7" autocomplete="off" >
+                                            <input @change="selecTechnics" data-name="Телевизор" type="checkbox" class="btn-check d-none" name="options " id="option7" autocomplete="off" >
                                             <label class="form-control me-2 my-1" for="option7">Телевизор</label>
 
-                                            <input type="checkbox" class="btn-check" name="options" id="option8" autocomplete="off">
+                                            <input @change="selecTechnics" data-name="Посудомоечная машина" type="checkbox" class="btn-check  d-none" name="options" id="option8" autocomplete="off">
                                             <label class="form-control my-1" for="option8">Посудомоечная машина</label>
 
-                                            <input type="checkbox" class="btn-check" name="options" id="option9" autocomplete="off">
-                                            <label class="form-control my-1" for="option9">Стиральная маншина</label>
+                                            <input @change="selecTechnics" data-name="Стиральная маншина" type="checkbox" class="btn-check  d-none" name="options" id="option9" autocomplete="off">
+                                            <label  class="form-control my-1" for="option9">Стиральная маншина</label>
                                         </div>
                                     </div>
                                 </div>
@@ -100,10 +100,10 @@
                                         
 
                                         <div class="container-repair  flex-wrap d-flex text-nowrap">
-                                            <input type="checkbox" class="btn-check" name="options" id="option10" autocomplete="off">
+                                            <input @change="selecTechnics" data-name="Интернет" type="checkbox" class="btn-check d-none" name="options" id="option10" autocomplete="off">
                                             <label class="form-control me-2 my-1" for="option10">Интернет</label>
 
-                                            <input type="checkbox" class="btn-check" name="options" id="option11" autocomplete="off">
+                                            <input @change="selecTechnics" data-name="Телефон" type="checkbox" class="btn-check d-none" name="options" id="option11" autocomplete="off">
                                             <label class="form-control me-2 my-1" for="option11">Телефон</label>
 
                                             
@@ -115,8 +115,8 @@
                     </div>
 
                     <div class="container mt-4 mb-2 d-flex justify-content-end mx-1 ">
-                        <next-btn class="px-4 mx-4 btn btn-light mx-4 text-primary" @click.prevent="navigateTo('/feature')">Назад</next-btn>
-                        <next-btn class="px-4 btn  btn-primary" @click.prevent="navigateTo('/description')">Далее</next-btn>
+                        <next-btn class="px-4 mx-4 btn btn-light mx-4 text-primary" @click.prevent="prew">Назад</next-btn>
+                        <next-btn class="px-4 btn  btn-primary" @click.prevent="next">Далее</next-btn>
                     </div>
                 </div>
             </div>
@@ -126,26 +126,68 @@
 <script setup>
 
 const {announData} = getData()
-const facilities = ref({})
-const cheks = ref('')
-function chooseFurniture(event){
-    cheks.value = true 
-    if(event.target.dataset.name == 'Без мебели'){
-        cheks.value = false
+const facilities = ref([])
+const facilities1 = ref([])
+const cheks1 = ref(false)
+const cheks2 = ref(false)
+
+function selecTechnics(event){
+    if (event.target.dataset.name == 'На кухне') cheks1.value = true
+    if (event.target.dataset.name == 'В комнатах') cheks2.value = true
+    if(event.target.dataset.name == 'Без мебели') cheks2.value = cheks1.value = false 
+    
+    
+    if (event.target.checked) {
+        facilities.value.push(event.target.dataset.name)
     }
+    if (!event.target.checked) {
+        facilities.value.forEach(item => {
+            facilities.value.splice(facilities.value.indexOf(event.target.dataset.name),1)
+        });
+    }
+
+    
+    console.log(facilities.value);
 }
 
+
 function next(){
-    navigateTo('/feature')
+    announData.value[0] = JSON.parse(localStorage.getItem('announ'))[0]
+    announData.value[1] = JSON.parse(localStorage.getItem('announ'))[1]
+    announData.value[2] = JSON.parse(localStorage.getItem('announ'))[2]
+    announData.value[3] = JSON.parse(localStorage.getItem('announ'))[3]
+    announData.value[4] = facilities.value
+    localStorage.setItem('announ', JSON.stringify(announData.value))
+    navigateTo('/description')
+    facilities.value = facilities1.value
 }
 function prew(){
-    navigateTo('/pictures')
+    navigateTo('/feature')
 }
 
 function change(){
     const file =  document.querySelector('.choose-picture > input')
     file.click()
 }
+
+onMounted(()=>{
+    if (JSON.parse(localStorage.getItem('announ'))[4]) {
+        facilities.value = JSON.parse(localStorage.getItem('announ'))[4]
+    }else{
+        facilities.value = facilities1.value
+    }
+    let inputs = document.querySelectorAll('.d-none');
+    // facilities.value.forEach(item =>{
+    //     console.log(item)
+    // })
+    inputs.forEach(elem  =>{
+        facilities.value.forEach(item=>{
+            if(elem.dataset.name === item){
+                elem.checked = true
+            }
+        })
+    })
+})
 </script>
 
 <style scoped>

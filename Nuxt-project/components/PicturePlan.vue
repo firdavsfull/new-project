@@ -52,8 +52,8 @@
                      <p>Общая площадь</p>
                      <div style="flex-direction:column;" class="relative">
 
-                     <div :style="!apartmentParams.generalArea || apartmentParams.liveArea + apartmentParams.kitchenArea > apartmentParams.generalArea ?'border:1px solid red;':''" class="input-area form-control">
-                         <input v-model="apartmentParams.generalArea" type="number">
+                     <div :style="apartmentParams.liveArea + apartmentParams.kitchenArea > apartmentParams.generalArea ?'border:1px solid red;':''" class="input-area form-control">
+                         <input v-model="apartmentParams.generalArea" type="tell" maxlength="4">
                          <div>м<sup>2</sup></div>
                      </div>
                     <p style="font-size:11px;" 
@@ -72,7 +72,7 @@
                      
                      <p>Жилая площадь</p>
                      <div :style="!apartmentParams.liveArea ?'border:1px solid red;':''" class="input-area form-control">
-                         <input v-model="apartmentParams.liveArea" type="number">
+                         <input v-model="apartmentParams.liveArea" type="tell" maxlength="4">
                          <div>м<sup>2</sup></div>
                      </div>
                     </div>
@@ -83,7 +83,7 @@
                      <div class="room">
                      <p>Кухня</p>
                      <div :style="!apartmentParams.kitchenArea ?'border:1px solid red;':''" class="input-area form-control">
-                         <input v-model="apartmentParams.kitchenArea" type="number">
+                         <input v-model="apartmentParams.kitchenArea" type="tell" maxlength="3">
                          <div>м<sup>2</sup></div>
                      </div>
                     </div>
