@@ -13,7 +13,7 @@ const moreThen = ref(false)
     const cityName = ref('')
 
     async function selectCity(){
-    const cityUrl = fetch(`http://127.0.0.1:8000/api/city`)
+    const cityUrl = fetch(`http://192.168.0.114:8000/api/city`)
     const c = await cityUrl;
     const city = await c.json()
     showCities.value = city
@@ -63,6 +63,12 @@ function move(){
         announData.value[1] = mapObj.value
         localStorage.setItem('announ',JSON.stringify(announData.value))
         navigateTo('/pictures')
+
+        if (mapObj.value.floor > mapObj.value.floorHouse) {
+            navigateTo('/map')   
+            announData.value[1] =''
+            localStorage.setItem('announ',JSON.stringify(announData.value))
+        }
     }
 }
 
@@ -111,12 +117,12 @@ onMounted(()=>{
 
                         <div class="rows" >
                             <span>Этаж</span>
-                        <input :style="moreThen || !mapObj.floor ? `border:1px solid red; `:''" @input="isFloor" type="number" v-model="mapObj.floor" style="-moz-appearance: textfield;" class="input form-control">
+                        <input :style="moreThen || !mapObj.floor ? `border:1px solid red; `:''" @input="isFloor" type="tell" maxlength="2" v-model="mapObj.floor" style="-moz-appearance: textfield;" class="input form-control">
                         <p v-if="moreThen" style="margin-top:3px; font-family: Lato,Arial,sans-serif; font-weight:400; font-size:11px; line-height:15px; color:red;">Этаж должен быть меньше или <br> равен количеству этажей</p>
                         </div>
-                        <div class="rows">
+                        <div class="rows sm:ml-[50px]">
                             <span>Этаж в доме</span>
-                            <input :style="!mapObj.floorHouse ? `border:1px solid red; `:''" @input="isFloor" type="number" v-model="mapObj.floorHouse" class="input form-control">
+                            <input :style="!mapObj.floorHouse ? `border:1px solid red; `:''" @input="isFloor" type="tell" maxlength="2" v-model="mapObj.floorHouse" class="input form-control">
                         </div>
                         </div>
                     </div>
@@ -124,7 +130,7 @@ onMounted(()=>{
                     <div class="flex mt-4" id="number_apartament">
                         <div class="rows">
                         <span>Номер квартиры</span>
-                        <input :style="!mapObj.apartmentNumber?'border:1px solid red;':''" v-model="mapObj.apartmentNumber" type="number" class="input form-control">
+                        <input :style="!mapObj.apartmentNumber?'border:1px solid red;':''" v-model="mapObj.apartmentNumber" type="tell" maxlength="5" class="input form-control">
                         </div>
                     </div>
 
@@ -137,7 +143,7 @@ onMounted(()=>{
                         <div class="contents">
                             <div class="rows">
                                 <p>Год постройки</p>
-                            <input :style="`${!mapObj.year ? 'border:1px solid red;':''}` " v-model="mapObj.year" type="number" class="form-control ">
+                            <input :style="`${!mapObj.year ? 'border:1px solid red;':''}` " v-model="mapObj.year" type="tell" min="1970" maxlength="4" class="form-control ">
                             </div>
                         </div>
                     </div>
