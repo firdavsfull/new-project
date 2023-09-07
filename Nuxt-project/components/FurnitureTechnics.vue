@@ -134,13 +134,8 @@
 const {announData} = getData()
 const facilities = ref([])
 const facilities1 = ref([])
-const cheks1 = ref(false)
-const cheks2 = ref(false)
 
 function selecTechnics(event){
-    
-    
-    
     if (event.target.checked) {
         facilities.value.push(event.target.dataset.name)
     }
@@ -149,6 +144,17 @@ function selecTechnics(event){
             facilities.value.splice(facilities.value.indexOf(event.target.dataset.name),1)
         });
     }
+
+    const elems = document.querySelectorAll('.d-none');
+    elems.forEach(elem=>{
+        facilities.value.forEach(val =>{
+            if (elem.dataset.name == val) {
+                elem.checked = true
+            }else{
+                elem.checked = false
+            }
+        })
+    })
 
     
     console.log(facilities.value);
