@@ -48,6 +48,7 @@ function Announ(){
         navigateTo('/announ')
         isShow.value = false
         active.value = false
+        localStorage.removeItem('announ')
         document.body.style.overflow='auto'
     }else{
             isShow.value = true
