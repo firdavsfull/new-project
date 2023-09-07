@@ -1,6 +1,6 @@
-<template>
-   <Navbar/>
+<!-- <template>
+   <Navbar key="10"/>
 </template>
 <script setup>
 
-</script>
+</script> -->

@@ -3,10 +3,10 @@
         <NuxtLayouts >
           <NavBar v-if="showNavBar" />
         </NuxtLayouts>
-        <NuxtPage key="5"/>
+        <NuxtPage />
         <Register v-if="showMadoal" />
-        <MobilePage :key="1" v-if="isShow && mobileOrDesktop  "/>
-        <DesktopPage :key="2" v-if="isShow && mobileOrDesktop < 1" />
+        <MobilePage v-if="isShow && mobileOrDesktop  "/>
+        <DesktopPage v-if="isShow && mobileOrDesktop < 1" />
     
   </div>
 </template>

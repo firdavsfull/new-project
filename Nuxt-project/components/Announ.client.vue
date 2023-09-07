@@ -16,6 +16,8 @@
         isRent.value = btn.textContent;
         AnnounOgj.value.rent = btn.textContent
         AnnounOgj2.value.rent = btn.textContent
+
+        
     }
 
 
@@ -29,6 +31,9 @@
             AnnounOgj.value.Estate = 'Жилая'
             AnnounOgj2.value.objects = 'Квартира'
             AnnounOgj2.value.Estate = 'Жилая'
+        }
+        if (isRent.value == 'Продажа') {
+            
         }
         console.log(AnnounOgj.value);
     }
@@ -99,15 +104,21 @@
                             <div class="add-segment">
                             <div class="field__name fs-7">Тип сделки</div>
                                 <div class="btn-group">
-                                    <button class="field_name btn btn-light border btn-sm dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                    <button 
+                                    class="field_name 
+                                    btn btn-light border
+                                    btn-sm dropdown-toggle"
+                                    type="button"
+                                    data-bs-toggle="dropdown"
+                                    aria-expanded="false">
                                         {{`${AnnounOgj.rent ? AnnounOgj.rent:'Не выбранно'}`}}
                                     </button>
                                 
                                     <ul class="dropdown-menu">
-                                        <li :style="AnnounOgj.rent =='Аренда' ? `background-color: #43E9FF;font-weight:bold;`:''" @click="changeText" class="cursor-pointer dropdown-item item">
+                                        <li :style="AnnounOgj.rent =='Аренда' ? `background-color: #0468FF; color:white; font-weight:bold;`:''" @click="changeText" class="cursor-pointer dropdown-item item">
                                             Аренда
                                         </li>
-                                        <li :style="AnnounOgj.rent =='Продажа' ? `background-color: #43E9FF;font-weight:bold;`:''" @click="changeText" class="cursor-pointer dropdown-item item">
+                                        <li :style="AnnounOgj.rent =='Продажа' ? `background-color: #0468FF; color:white; font-weight:bold;`:''" @click="changeText" class="cursor-pointer dropdown-item item">
                                             Продажа
                                         </li>
                                     </ul>
@@ -120,13 +131,13 @@
                                             {{`${AnnounOgj.typeRent ? AnnounOgj.typeRent: 'Не выбранно'}`}}
                                         </button>
                                     <ul class="dropdown-menu">
-                                        <li :style="AnnounOgj.typeRent =='Длительно' ? `background-color: #43E9FF;font-weight:bold;`:''" @click="selectRent" class="cursor-pointer dropdown-item">
+                                        <li :style="AnnounOgj.typeRent =='Длительно' ? `background-color: #0468FF; color:white; font-weight:bold;`:''" @click="selectRent" class="cursor-pointer dropdown-item">
                                             Длительно
                                         </li>
-                                        <li :style="AnnounOgj.typeRent =='Несколько месяцев' ? `background-color: #43E9FF;font-weight:bold;`:''" @click="selectRent" class="cursor-pointer dropdown-item">
+                                        <li :style="AnnounOgj.typeRent =='Несколько месяцев' ? `background-color: #0468FF; color:white; font-weight:bold;`:''" @click="selectRent" class="cursor-pointer dropdown-item">
                                             Несколько месяцев
                                         </li>
-                                        <li :style="AnnounOgj.typeRent =='Посуточно' ? `background-color: #43E9FF;font-weight:bold;`:''" @click="selectRent" class="cursor-pointer dropdown-item">
+                                        <li :style="AnnounOgj.typeRent =='Посуточно' ? `background-color: #0468FF; color:white; font-weight:bold;`:''" @click="selectRent" class="cursor-pointer dropdown-item">
                                             Посуточно
                                         </li>
                                     </ul>
@@ -141,10 +152,10 @@
                                     </button>
                                 
                                     <ul class="dropdown-menu">
-                                        <li :style="AnnounOgj.Estate =='Жилая' ? `background-color: #43E9FF;font-weight:bold;`:''" @click="selectEstate" class="dropdown-item">
+                                        <li :style="AnnounOgj.Estate =='Жилая' ? `background-color: #0468FF; color:white; font-weight:bold;`:''" @click="selectEstate" class="dropdown-item">
                                             Жилая
                                         </li>
-                                        <li :style="AnnounOgj.Estate == 'Коммерческая' ? `background-color:#43E9FF;font-weight:bold;`:''" @click="selectEstate" v-if="AnnounOgj.typeRent !== 'Посуточно'" class="dropdown-item">
+                                        <li :style="AnnounOgj.Estate == 'Коммерческая' ? `background-color:#0468FF; color:white; font-weight:bold;`:''" @click="selectEstate" v-if="AnnounOgj.typeRent !== 'Посуточно'" class="dropdown-item">
                                             Коммерческая
                                         </li>
                                     </ul>
@@ -160,13 +171,13 @@
                                     </button>
                                 
                                     <ul class="dropdown-menu">
-                                        <li :style="AnnounOgj.objects.trim() =='Квартира' ? `background-color: #43E9FF;font-weight:bold;`:''" @click="selectObject" class="dropdown-item">
+                                        <li :style="AnnounOgj.objects.trim() =='Квартира' ? `background-color: #0468FF; color:white; font-weight:bold;`:''" @click="selectObject" class="dropdown-item">
                                             Квартира
                                         </li>
-                                        <li :style="AnnounOgj.objects.trim() =='Комната' ? `background-color: #43E9FF;font-weight:bold;`:''" @click="selectObject" class="dropdown-item">
+                                        <li :style="AnnounOgj.objects.trim() =='Комната' ? `background-color: #0468FF; color:white; font-weight:bold;`:''" @click="selectObject" class="dropdown-item">
                                             Комната
                                         </li>
-                                        <li :style="AnnounOgj.objects.trim() =='Дом' ? `background-color: #43E9FF;font-weight:bold;`:''" @click="selectObject" class="dropdown-item">
+                                        <li :style="AnnounOgj.objects.trim() =='Дом' ? `background-color: #0468FF; color:white; font-weight:bold;`:''" @click="selectObject" class="dropdown-item">
                                             Дом
                                         </li>
                                     </ul>
