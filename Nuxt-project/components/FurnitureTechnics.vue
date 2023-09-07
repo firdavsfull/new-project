@@ -27,17 +27,17 @@
                                         <span for="#balcon" class="mb-2 fw-bold text-nowrap" style="font-family:lato, sans-seif">мебель</span>
                                         <div class="d-flex text-nowrap mt-2" style="font-family:lato, sans-serif;">
                                             <label for="checkbox-1" class="me-2">
-                                                <input :checked="cheks == false" data-name="Без мебели" @change="chooseFurniture" type="checkbox" id="checkbox-1" class="d-none">
+                                                <input !checked data-name="Без мебели" @change="chooseFurniture" type="checkbox" id="checkbox-1" class="d-none">
                                                 <span class="form-control">Без мебели</span>
                                             </label>
 
                                             <label for="checkbox-2" class="me-2">
-                                                <input :checked="chek" data-name="На кухне" @change="chooseFurniture" type="checkbox" id="checkbox-2" class="d-none">
+                                                <input :checked="cheks" data-name="На кухне" @change="chooseFurniture" type="checkbox" id="checkbox-2" class="d-none">
                                                 <span class="form-control">На кухне</span>
                                             </label>
 
                                             <label for="checkbox3">
-                                                <input :checked="chek" data-name="В комнатах" @change="chooseFurniture" type="checkbox" id="checkbox3" class="d-none">
+                                                <input :checked="cheks1" data-name="В комнатах" @change="cheks1 = true" type="checkbox" id="checkbox3" class="d-none">
                                                 <span class="form-control">В комнатах</span>
                                             </label>
                                         </div>   
@@ -127,13 +127,16 @@
 
 const {announData} = getData()
 const facilities = ref({})
-const cheks = ref('')
+const cheks = ref(false)
+const cheks1 = ref(false)
 function chooseFurniture(event){
     cheks.value = true 
     if(event.target.dataset.name == 'Без мебели'){
         cheks.value = false
+        cheks1.value = false
     }
 }
+
 
 function next(){
     navigateTo('/feature')
@@ -275,6 +278,9 @@ label > span{
     cursor: pointer;
     border: 2px solid rgb(230, 230, 230);
 }
+
+
+
 label > input:checked + span{
     background-color: rgb(230, 230, 230);
     border: 2px solid #152242;
