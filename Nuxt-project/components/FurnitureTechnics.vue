@@ -26,18 +26,14 @@
                                     <div class="balcon w-25 mt-3" >
                                         <span for="#balcon" class="mb-2 fw-bold text-nowrap" style="font-family:lato, sans-seif">мебель</span>
                                         <div class="d-flex text-nowrap mt-2" style="font-family:lato, sans-serif;">
-                                            <label for="checkbox-1" class="me-2">
-                                                <button  data-name="Без мебели" @click.prevent="selecTechnics" type="checkbox" id="checkbox-1" class="d-none"></button>
-                                                <span class="form-control">Без мебели</span>
-                                            </label>
 
                                             <label for="checkbox-2" class="me-2">
-                                                <input :checked="cheks1" data-name="На кухне" @change="selecTechnics" type="checkbox" id="checkbox-2" class="d-none">
+                                                <input data-name="На кухне" @change="selecTechnics" type="checkbox" id="checkbox-2" class="d-none">
                                                 <span class="form-control">На кухне</span>
                                             </label>
 
                                             <label for="checkbox3">
-                                                <input :checked="cheks2" data-name="В комнатах" @change="selecTechnics" type="checkbox" id="checkbox3" class="d-none">
+                                                <input data-name="В комнатах" @change="selecTechnics" type="checkbox" id="checkbox3" class="d-none">
                                                 <span class="form-control">В комнатах</span>
                                             </label>
                                         </div>   
@@ -74,20 +70,30 @@
                                         
 
                                         <div class="container-repair  flex-wrap d-flex text-nowrap">
+                                            <label for="option5">
                                             <input @change="selecTechnics" data-name="Кондиционер" type="checkbox" class="btn-check d-none" name="options" id="option5" autocomplete="off">
-                                            <label class="form-control me-2 my-1" for="option5">Кондиционер</label>
+                                            <span class="form-control me-2 my-1">Кондиционер</span>
+                                            </label>
 
+                                            <label for="option6">
                                             <input @change="selecTechnics" data-name="Холодильник" type="checkbox" class="btn-check d-none" name="options" id="option6" autocomplete="off">
-                                            <label class="form-control me-2 my-1" for="option6">Холодильник</label>
+                                            <span class="form-control me-2 my-1">Холодильник</span>
+                                            </label>
 
+                                            <label for="option7">
                                             <input @change="selecTechnics" data-name="Телевизор" type="checkbox" class="btn-check d-none" name="options " id="option7" autocomplete="off" >
-                                            <label class="form-control me-2 my-1" for="option7">Телевизор</label>
+                                            <span class="form-control me-2 my-1">Телевизор</span>
+                                            </label>
 
+                                            <label  for="option8">
                                             <input @change="selecTechnics" data-name="Посудомоечная машина" type="checkbox" class="btn-check  d-none" name="options" id="option8" autocomplete="off">
-                                            <label class="form-control my-1" for="option8">Посудомоечная машина</label>
+                                             <span class="form-control my-1">Посудомоечная машина</span>   
+                                            </label>
 
+                                            <label  for="option9">
                                             <input @change="selecTechnics" data-name="Стиральная маншина" type="checkbox" class="btn-check  d-none" name="options" id="option9" autocomplete="off">
-                                            <label  class="form-control my-1" for="option9">Стиральная маншина</label>
+                                            <span class="form-control my-1">Стиральная маншина</span>
+                                            </label>
                                         </div>
                                     </div>
                                 </div>
@@ -132,9 +138,7 @@ const cheks1 = ref(false)
 const cheks2 = ref(false)
 
 function selecTechnics(event){
-    if (event.target.dataset.name == 'На кухне') cheks1.value = true
-    if (event.target.dataset.name == 'В комнатах') cheks2.value = true
-    if(event.target.dataset.name == 'Без мебели') cheks2.value = cheks1.value = false 
+    
     
     
     if (event.target.checked) {
