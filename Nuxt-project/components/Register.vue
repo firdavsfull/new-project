@@ -23,7 +23,7 @@
             </div>
         <form class="w-[80%] h-[max-content] flex flex-col mx-auto">
             <input maxlength="9" v-model="tel.phone" class="form-control" type="tel" placeholder="+(992)">
-            <button @click.prevent="createUser" :class ="tel.phone.length == 9 ? 'btn-primary text-white':'bg-light'"
+            <button @click.prevent="createUser" :class ="tel.phone.length >= 9 ? 'btn-primary text-white':'bg-light'"
             style="font-family: Lato,Arial,sans-serif;"
             class="text-primary btn mt-[10px] flex align-items-center">
             <span v-if="!loader" >Получить код</span>

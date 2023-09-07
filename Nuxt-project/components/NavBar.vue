@@ -99,6 +99,7 @@
         if (!responce.value) {
             showMadoal.value = true
         } else {
+            localStorage.removeItem('announ')
             navigateTo('/announ')
             isShow.value = false
         }

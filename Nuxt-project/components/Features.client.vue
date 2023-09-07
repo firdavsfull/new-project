@@ -27,7 +27,7 @@
                                      
                                      <div class="dropdown">
                                              <button class="w-[100px] form-select text-left" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
-                                                 {{ aprtFeatures.balcon || balcon  ? "есть" : 'нет' }}
+                                                 {{  balcon  ? "есть" : 'нет' }}
                                              </button>
                                              <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
                                                  <li @click="isBalcon" class="dropdown-item">есть</li>
@@ -65,16 +65,16 @@
                                      
 
                                      <div class="container-repair  flex-wrap d-flex text-nowrap">
-                                         <input :checked="aprtFeatures.repair =='Без ремонта'" @change="withRepair" data-name="Без ремонта" type="radio" class="btn-check" name="options" id="option1" autocomplete="off">
+                                         <input :checked="repair =='Без ремонта'" @change="withRepair" data-name="Без ремонта" type="radio" class="btn-check" name="options" id="option1" autocomplete="off">
                                          <label class="form-control me-2 my-1" for="option1">Без ремонта</label>
 
-                                         <input :checked="aprtFeatures.repair =='Косметический'" @change="withRepair" data-name="Косметический" type="radio" class="btn-check" name="options" id="option2" autocomplete="off">
+                                         <input :checked="repair =='Косметический'" @change="withRepair" data-name="Косметический" type="radio" class="btn-check" name="options" id="option2" autocomplete="off">
                                          <label class="form-control me-2 my-1" for="option2">Косметический</label>
 
-                                         <input :checked="aprtFeatures.repair =='Евро'" @change="withRepair" data-name="Евро" type="radio" class="btn-check" name="options" id="option3" autocomplete="off" >
+                                         <input :checked="repair =='Евро'" @change="withRepair" data-name="Евро" type="radio" class="btn-check" name="options" id="option3" autocomplete="off" >
                                          <label class="form-control me-2 my-1" for="option3">Евро</label>
 
-                                         <input :checked="aprtFeatures.repair =='Дизайнерксий'" @change="withRepair" data-name="Дизайнерксий" type="radio" class="btn-check" name="options" id="option4" autocomplete="off">
+                                         <input :checked="repair =='Дизайнерксий'" @change="withRepair" data-name="Дизайнерксий" type="radio" class="btn-check" name="options" id="option4" autocomplete="off">
                                          <label class="form-control my-1" for="option4">Дизайнерксий</label>
                                      </div>
                                  </div>
@@ -87,11 +87,11 @@
                                      <label for="#balcon" class="mb-2 fw-bold" style="font-family:lato, sans-seif">Лифт</label>
                                      <div class="dropdown">
                                              <button class="w-[100px] form-select text-left" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
-                                                {{ aprtFeatures || aprtFeatures.elevator ? 'есть' : 'нет' }}
+                                                {{ elevator ? 'есть' : 'нет' }}
                                              </button>
                                              <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
-                                                 <li :style="aprtFeatures.elevator ? 'background-color:0468FF;':'' " @click="withElevator" class="dropdown-item">есть</li>
-                                                 <li :style="aprtFeatures.elevator ? 'background-color:0468FF;':'' " @click="withElevator" class="dropdown-item">нет</li>
+                                                 <li :style="elevator ? 'background-color:0468FF;':'' " @click="withElevator" class="dropdown-item">есть</li>
+                                                 <li :style="elevator ? 'background-color:0468FF;':'' " @click="withElevator" class="dropdown-item">нет</li>
                                              </ul>
                                          </div>
                                  </div>
@@ -105,16 +105,16 @@
                                      
 
                                      <div class="container-repair  flex-wrap d-flex text-nowrap">
-                                         <input :checked="aprtFeatures.parking == 'Наземная'" @change="selecetParking" data-parking="Наземная" type="checkbox" class="btn-check" name="options" id="sel1" autocomplete="off">
+                                         <input :checked="parking == 'Наземная'" @change="selecetParking" data-parking="Наземная" type="checkbox" class="btn-check" name="options" id="sel1" autocomplete="off">
                                          <label class="form-control me-2 my-1" for="sel1">Наземная</label>
 
-                                         <input :checked="aprtFeatures.parking == 'Многоуровневая'" @change="selecetParking" data-parking="Многоуровневая" type="checkbox" class="btn-check" name="options" id="sel2" autocomplete="off">
+                                         <input :checked="parking == 'Многоуровневая'" @change="selecetParking" data-parking="Многоуровневая" type="checkbox" class="btn-check" name="options" id="sel2" autocomplete="off">
                                          <label class="form-control me-2 my-1" for="sel2">Многоуровневая</label>
 
-                                         <input :checked="aprtFeatures.parking == 'Подземная'" @change="selecetParking" data-parking="Подземная" type="checkbox" class="btn-check" name="options" id="sel3" autocomplete="off" >
+                                         <input :checked="parking == 'Подземная'" @change="selecetParking" data-parking="Подземная" type="checkbox" class="btn-check" name="options" id="sel3" autocomplete="off" >
                                          <label class="form-control me-2 my-1" for="sel3">Подземная</label>
 
-                                         <input :checked="aprtFeatures.parking == 'На крыше'" @change="selecetParking" data-parking="На крыше" type="checkbox" class="btn-check" name="options" id="sel4" autocomplete="off">
+                                         <input :checked="parking == 'На крыше'" @change="selecetParking" data-parking="На крыше" type="checkbox" class="btn-check" name="options" id="sel4" autocomplete="off">
                                          <label class="form-control my-1" for="sel4">На крыше</label>
                                      </div>
                                  </div>
@@ -143,27 +143,26 @@ function change(){
 }
 const balcon = ref('')
 function isBalcon(event){
-    balcon.value = event.target.textContent
-    if (balcon.value == 'есть') {
-        aprtFeatures.value.balcon = 1
+    if (event.target.textContent == 'есть') {
+        balcon.value = aprtFeatures.value.balcon = 1
         aprtFeatures1.value.balcon = 1
     } else{
-        aprtFeatures.value.balcon = 0
+        balcon.value= aprtFeatures.value.balcon = 0
         aprtFeatures1.value.balcon = 0
     }
     
 }
 
+const repair = ref('')
 function withRepair(event){
-    aprtFeatures.value.repair = event.target.dataset.name
+    repair = aprtFeatures.value.repair = event.target.dataset.name
     aprtFeatures1.value.repair = event.target.dataset.name
 }
  
 const elevator = ref('')
 function withElevator(event){
-    elevator.value = event.target.textContent
-    if (elevator.value == 'есть') {
-        aprtFeatures.value.elevator = 1
+    if (event.target.textContent == 'есть') {
+        elevator.value = aprtFeatures.value.elevator = 1
         aprtFeatures1.value.elevator = 1
     } else{
         aprtFeatures.value.elevator = 0
@@ -171,8 +170,10 @@ function withElevator(event){
     }
 }
 
+const parking =ref('')
+
 function selecetParking(event){
-    aprtFeatures.value.parking = event.target.dataset.parking
+    parking.value = aprtFeatures.value.parking = event.target.dataset.parking
     aprtFeatures1.value.parking = event.target.dataset.parking
 }
 
@@ -186,13 +187,13 @@ function next(){
     navigateTo('/technicsandfurniture')
 }
 
-onMounted(() => {
+// onMounted(() => {
     if (JSON.parse(localStorage.getItem('announ'))) {
         aprtFeatures.value = JSON.parse(localStorage.getItem('announ'))[3]
     }else{
         aprtFeatures.value = aprtFeatures1.value
     }
-})
+// })
 
 </script>
 
