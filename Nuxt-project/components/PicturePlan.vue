@@ -164,6 +164,12 @@ function next(){
  announData.value[2] = apartmentParams.value
  localStorage.setItem('announ', JSON.stringify(announData.value))
  navigateTo('/feature')
+
+ if (apartmentParams.value.liveArea + apartmentParams.value.kitchenArea > apartmentParams.value.generalArea) {
+    navigateTo('/pictures')
+    announData.value[2] = ''
+    localStorage.setItem('announ', JSON.stringify(announData.value))
+ }
 }
 function prew(){
  navigateTo('/map')
