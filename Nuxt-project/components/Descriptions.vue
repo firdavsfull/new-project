@@ -38,9 +38,12 @@
                         </div>
                             <div style="margin-top:24px">
                                 <label for="floatingTextarea2" style="font-size:14px; margin-bottom:6px; color:#152242;">Описание</label>
-                                <textarea :style="!message.description ? 'border:1px solid red;':''" @input="writeMessages" v-model="message.description" class="form-control" id="floatingTextarea2" placeholder="Уютная светлая двушка в тихом спальном районе. Окна на красивые цветущие деревья. Свежий ремонт 2020 года делали для себя. Рядом есть детсад, до метро 10 минут пешком, но ходит автобус. Можно заезжать и жить!" style="resize:none; height:300px">
+                                <textarea :style="!message.description || message.description.length < 15 ? 'border:1px solid red;':''" @input="writeMessages" v-model="message.description" class="form-control" id="floatingTextarea2" placeholder="Уютная светлая двушка в тихом спальном районе. Окна на красивые цветущие деревья. Свежий ремонт 2020 года делали для себя. Рядом есть детсад, до метро 10 минут пешком, но ходит автобус. Можно заезжать и жить!" style="resize:none; height:300px">
                                 
                                 </textarea>
+                                <p v-if="!message.description || message.description.length < 15" :class="!message.description || message.description.length < 15 ? 'mt-[6px] text-[12px] text-[red]':''">
+                                  Напишите хотя бы пару предложений: от 15 до 3 000 букв  
+                                </p>
                             </div>
                     </div>
 
@@ -72,7 +75,7 @@ function writeMessages(){
 const route = useRoute()
 
 function next(){
-    if (message.value.title == '' && message.value.description == '') {
+    if (message.value.title == '' && !message.description ) {
         navigateTo('/description')
     }else{
     navigateTo('/price')

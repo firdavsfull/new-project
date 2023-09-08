@@ -25,6 +25,8 @@
     "@fortawesome/vue-fontawesome": "^3.0.3",
     "bootstrap": "^5.3.0",
     "bootstrap-icons": "^1.10.5",
+    "maska": "^2.1.10",
+    "v-mask": "^2.3.0",
     "vue-remix-icons": "^3.5.0"
   }
 }
