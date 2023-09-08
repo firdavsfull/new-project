@@ -24,17 +24,22 @@
                             <label for="exampleFormControlInput1" style="font-size:14px; margin-bottom:6px; color:#152242;" class="form-label w-full" >
                               
                                 <h6>Заголовок</h6>
+                                
                               <div 
+                              :style="!messageObj.title ? 'border:1px solid red;':''"
                               class="
-                              border 
+                              
+                              
                               rounded flex
                               w-full
                               h-[40px]
                               overflow-hidden
-                              ">
-                                <input class="w-full px-[10px] outline-0 border-0" :style="!title && !messageObj.title ? `border:1px solid red;`:''" :max="title.length <= 33" v-model="messageObj.title" type="text" id="exampleFormControlInput1" placeholder="Просторная видовая двушка у парка">
+                              "
+                              >
+                                <input  class="w-full px-[10px] outline-0 border-0" 
+                                :style="!title && !messageObj.title ? `border:1px solid red;`:''"
+                                v-model="title" type="text" id="exampleFormControlInput1" placeholder="Просторная видовая двушка у парка">
                                 <span style="
-                                /* border: 1px solid #dee2e6; */
                                 border-left: none;
                                 border-radius: 6px;
                                 border-top-left-radius: 0;
@@ -47,15 +52,15 @@
                                 text-[gray]
                                 items-center
                                 bg-[white]
-                                ">{{ messageObj.title.length }}
-                            </span>    
+                                ">
+                            </span>
                               </div>
                             </label>
                         </div>
                             <div style="margin-top:24px">
                                 <label for="floatingTextarea2" style="font-size:14px; margin-bottom:6px; color:#152242;">Описание</label>
-                                <textarea :style="!description && !messageObj.description?`border:1px solid red;` :''" v-model="messageObj.description" class="form-control" id="floatingTextarea2" placeholder="Уютная светлая двушка в тихом спальном районе. Окна на красивые цветущие деревья. Свежий ремонт 2020 года делали для себя. Рядом есть детсад, до метро 10 минут пешком, но ходит автобус. Можно заезжать и жить!" style="resize:none; height:300px">
-                                {{ messageObj.description }}
+                                <textarea :style="!description && !messageObj.description?`border:1px solid red;` :''" v-model="description" class="form-control" id="floatingTextarea2" placeholder="Уютная светлая двушка в тихом спальном районе. Окна на красивые цветущие деревья. Свежий ремонт 2020 года делали для себя. Рядом есть детсад, до метро 10 минут пешком, но ходит автобус. Можно заезжать и жить!" style="resize:none; height:300px">
+                                {{ description }}
                                 </textarea>
                             </div>
                     </div>
@@ -88,12 +93,14 @@ function next(){
     announData.value[4] = JSON.parse(localStorage.getItem('announ'))[4]
     messageObj.value.title = title.value
     messageObj.value.description = description.value
+    // messageObj1.value.title = title.value
+    // messageObj1.value.description = description.value
     announData.value[5] = messageObj.value
-    messageObj1.value = messageObj.value
     localStorage.setItem('announ', JSON.stringify(announData.value))
     navigateTo('/price')
+    messageObj1.value = messageObj.value
+    console.log(messageObj.value);
 }
-
 
 onMounted(()=>{
 
