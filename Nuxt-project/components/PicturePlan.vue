@@ -52,15 +52,9 @@
                      <p>Общая площадь</p>
                      <div style="flex-direction:column;" class="relative">
 
-<<<<<<< HEAD
-                     <div :style="apartmentParams.liveArea + apartmentParams.kitchenArea > apartmentParams.generalArea ?'border:1px solid red;':''" class="input-area form-control">
-                         <input v-model="apartmentParams.generalArea" type="tell" maxlength="4">
-                         <div>м<sup>2</sup></div>
-=======
                      <div :style="!apartmentParams.generalArea ?'border:1px solid red;':''" class="input-area form-control">
                          <input @input="verfied" v-model="apartmentParams.generalArea" type="tell" maxlength="6">
                          <div>м<sup class="text-[10px]">2</sup></div>
->>>>>>> master
                      </div>
                     <p style="font-size:11px;" 
                     v-if="mooreArea"
@@ -78,13 +72,8 @@
                      
                      <p>Жилая площадь</p>
                      <div :style="!apartmentParams.liveArea ?'border:1px solid red;':''" class="input-area form-control">
-<<<<<<< HEAD
-                         <input v-model="apartmentParams.liveArea" type="tell" maxlength="4">
-                         <div>м<sup>2</sup></div>
-=======
                          <input @input="verfied" v-model="apartmentParams.liveArea" type="tell" maxlength="6">
                          <div>м<sup class="text-[10px]">2</sup></div>
->>>>>>> master
                      </div>
                     </div>
                  </div>
@@ -94,13 +83,8 @@
                      <div class="room">
                      <p>Кухня</p>
                      <div :style="!apartmentParams.kitchenArea ?'border:1px solid red;':''" class="input-area form-control">
-<<<<<<< HEAD
-                         <input v-model="apartmentParams.kitchenArea" type="tell" maxlength="3">
-                         <div>м<sup>2</sup></div>
-=======
                          <input @input="verfied" v-model="apartmentParams.kitchenArea" type="tell" maxlength="6">
                          <div>м<sup class="text-[10px]">2</sup></div>
->>>>>>> master
                      </div>
                     </div>
                  </div>
@@ -198,11 +182,7 @@ function next(){
  localStorage.setItem('announ', JSON.stringify(announData.value))
  navigateTo('/feature')
 
-<<<<<<< HEAD
- if (apartmentParams.value.liveArea + apartmentParams.value.kitchenArea > apartmentParams.value.generalArea) {
-=======
  if (parseInt(apartmentParams.value.liveArea) + parseInt(apartmentParams.value.kitchenArea) > parseInt(apartmentParams.value.generalArea)) {
->>>>>>> master
     navigateTo('/pictures')
     announData.value[2] = ''
     localStorage.setItem('announ', JSON.stringify(announData.value))

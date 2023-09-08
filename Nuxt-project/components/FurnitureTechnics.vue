@@ -21,41 +21,6 @@
                  <div class="container w-100">
                      <div class="col mt-4" style="color:#152242;">
 
-<<<<<<< HEAD
-                             <div class="row mt-2">
-                                <div class="preview-window">
-                                    <div class="balcon w-25 mt-3" >
-                                        <span for="#balcon" class="mb-2 fw-bold text-nowrap" style="font-family:lato, sans-seif">мебель</span>
-                                        <div class="d-flex text-nowrap mt-2" style="font-family:lato, sans-serif;">
-<<<<<<< HEAD
-                                            <label for="checkbox-1" class="me-2">
-                                                <input !checked data-name="Без мебели" @change="chooseFurniture" type="checkbox" id="checkbox-1" class="d-none">
-                                                <span class="form-control">Без мебели</span>
-                                            </label>
-
-                                            <label for="checkbox-2" class="me-2">
-                                                <input :checked="cheks" data-name="На кухне" @change="chooseFurniture" type="checkbox" id="checkbox-2" class="d-none">
-=======
-
-                                            <label for="checkbox-2" class="me-2">
-                                                <input data-name="На кухне" @change="selecTechnics" type="checkbox" id="checkbox-2" class="d-none">
->>>>>>> 0efea4f4bfb45457db8b7a22d66d30af3fbabd2a
-                                                <span class="form-control">На кухне</span>
-                                            </label>
-
-                                            <label for="checkbox3">
-<<<<<<< HEAD
-                                                <input :checked="cheks1" data-name="В комнатах" @change="cheks1 = true" type="checkbox" id="checkbox3" class="d-none">
-=======
-                                                <input data-name="В комнатах" @change="selecTechnics" type="checkbox" id="checkbox3" class="d-none">
->>>>>>> 0efea4f4bfb45457db8b7a22d66d30af3fbabd2a
-                                                <span class="form-control">В комнатах</span>
-                                            </label>
-                                        </div>   
-                                    </div>
-                                </div>
-                            </div>
-=======
                           <div class="row mt-2">
                              <div class="preview-window">
                                  <div class="balcon w-25 mt-3" >
@@ -75,7 +40,6 @@
                                  </div>
                              </div>
                          </div>
->>>>>>> master
 
                          <div class="row mt-2">
                              <div class="contrainer-balconies">
@@ -83,18 +47,6 @@
                                      <p for="#balcon" class="mb-1 mt-2 fw-bold" style="font-family:lato, sans-seif">Ванная комната</p>
                                      
 
-<<<<<<< HEAD
-                                        <div class="d-flex text-nowrap mt-2" style="font-family:lato, sans-serif;">
-                                            <label for="checkbox-4" class="me-2">
-                                                <input  @change="selecTechnics" data-name="Ванна" type="checkbox" id="checkbox-4" class="d-none">
-                                                <span class="form-control">Ванна</span>
-                                            </label>
-
-                                            <label for="checkbox-5" class="me-2">
-                                                <input @change="selecTechnics" data-name="Душевая кабина" type="checkbox" id="checkbox-5" class="d-none">
-                                                <span class="form-control">Душевая кабина</span>
-                                            </label>
-=======
                                      <div class="d-flex text-nowrap mt-2" style="font-family:lato, sans-serif;">
                                          <label for="checkbox-4" class="me-2">
                                              <input  @change="selecTechnics" data-name="Ванна" type="checkbox" id="checkbox-4" class="d-none">
@@ -105,7 +57,6 @@
                                              <input @change="selecTechnics" data-name="Душевая кабина" type="checkbox" id="checkbox-5" class="d-none">
                                              <span class="form-control">Душевая кабина</span>
                                          </label>
->>>>>>> master
 
                                      </div> 
                                  </div>
@@ -118,37 +69,6 @@
                                      <p for="#balcon" class="mb-1 mt-2 fw-bold" style="font-family:lato, sans-seif">Техника</p>
                                      
 
-<<<<<<< HEAD
-                                        <div class="container-repair  flex-wrap d-flex text-nowrap">
-                                            <label for="option5">
-                                            <input @change="selecTechnics" data-name="Кондиционер" type="checkbox" class="btn-check d-none" name="options" id="option5" autocomplete="off">
-                                            <span class="form-control me-2 my-1">Кондиционер</span>
-                                            </label>
-
-                                            <label for="option6">
-                                            <input @change="selecTechnics" data-name="Холодильник" type="checkbox" class="btn-check d-none" name="options" id="option6" autocomplete="off">
-                                            <span class="form-control me-2 my-1">Холодильник</span>
-                                            </label>
-
-                                            <label for="option7">
-                                            <input @change="selecTechnics" data-name="Телевизор" type="checkbox" class="btn-check d-none" name="options " id="option7" autocomplete="off" >
-                                            <span class="form-control me-2 my-1">Телевизор</span>
-                                            </label>
-
-                                            <label  for="option8">
-                                            <input @change="selecTechnics" data-name="Посудомоечная машина" type="checkbox" class="btn-check  d-none" name="options" id="option8" autocomplete="off">
-                                             <span class="form-control my-1">Посудомоечная машина</span>   
-                                            </label>
-
-                                            <label  for="option9">
-                                            <input @change="selecTechnics" data-name="Стиральная маншина" type="checkbox" class="btn-check  d-none" name="options" id="option9" autocomplete="off">
-                                            <span class="form-control my-1">Стиральная маншина</span>
-                                            </label>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-=======
                                      <div class="container-repair  flex-wrap d-flex text-nowrap">
                                          <label for="option5">
                                          <input @change="selecTechnics" data-name="Кондиционер" type="checkbox" class="btn-check d-none" name="options" id="option5" autocomplete="off">
@@ -178,7 +98,6 @@
                                  </div>
                              </div>
                          </div>
->>>>>>> master
 
                          <div class="row mt-2">
                              <div class="contrainer-balconies  ">
@@ -186,21 +105,12 @@
                                      <p for="#balcon" class="mb-1 mt-2 fw-bold" style="font-family:lato, sans-seif">Связь</p>
                                      
 
-<<<<<<< HEAD
-                                        <div class="container-repair  flex-wrap d-flex text-nowrap">
-                                            <input @change="selecTechnics" data-name="Интернет" type="checkbox" class="btn-check d-none" name="options" id="option10" autocomplete="off">
-                                            <label class="form-control me-2 my-1" for="option10">Интернет</label>
-
-                                            <input @change="selecTechnics" data-name="Телефон" type="checkbox" class="btn-check d-none" name="options" id="option11" autocomplete="off">
-                                            <label class="form-control me-2 my-1" for="option11">Телефон</label>
-=======
                                      <div class="container-repair  flex-wrap d-flex text-nowrap">
                                          <input @change="selecTechnics" data-name="Интернет" type="checkbox" class="btn-check d-none" name="options" id="option10" autocomplete="off">
                                          <label class="form-control me-2 my-1" for="option10">Интернет</label>
 
                                          <input @change="selecTechnics" data-name="Телефон" type="checkbox" class="btn-check d-none" name="options" id="option11" autocomplete="off">
                                          <label class="form-control me-2 my-1" for="option11">Телефон</label>
->>>>>>> master
 
                                          
                                      </div>
@@ -210,16 +120,6 @@
                      </div>
                  </div>
 
-<<<<<<< HEAD
-                    <div class="container mt-4 mb-2 d-flex justify-content-end mx-1 ">
-                        <next-btn class="px-4 mx-4 btn btn-light mx-4 text-primary" @click.prevent="prew">Назад</next-btn>
-                        <next-btn class="px-4 btn  btn-primary" @click.prevent="next">Далее</next-btn>
-                    </div>
-                </div>
-            </div>
-        </form>
-        
-=======
                  <div class="container mt-4 mb-2 d-flex justify-content-end mx-1 ">
                      <next-btn class="px-4 mx-4 btn btn-light mx-4 text-primary" @click.prevent="prew">Назад</next-btn>
                      <next-btn class="px-4 btn  btn-primary" @click.prevent="next">Далее</next-btn>
@@ -228,59 +128,14 @@
          </div>
      </form>
      
->>>>>>> master
 </template>
 <script setup>
 
 const {announData} = getData()
-<<<<<<< HEAD
-<<<<<<< HEAD
-const facilities = ref({})
-const cheks = ref(false)
-const cheks1 = ref(false)
-function chooseFurniture(event){
-    cheks.value = true 
-    if(event.target.dataset.name == 'Без мебели'){
-        cheks.value = false
-        cheks1.value = false
-=======
-=======
->>>>>>> master
 const facilities = ref([])
 const facilities1 = ref([])
 
 function selecTechnics(event){
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
-    if (event.target.checked) {
-        facilities.value.push(event.target.dataset.name)
->>>>>>> 0efea4f4bfb45457db8b7a22d66d30af3fbabd2a
-    }
-    if (!event.target.checked) {
-        facilities.value.forEach(item => {
-            facilities.value.splice(facilities.value.indexOf(event.target.dataset.name),1)
-        });
-    }
-
->>>>>>> 24ade70a71b55432e6a4e6f109f3b8f8420955bf
-    const elems = document.querySelectorAll('.d-none');
-    
-       if (event.target.checked) {
-        facilities.value.push(event.target.dataset.name)
-        }
-        // if (event.target.checked) {
-        facilities.value.forEach(item => {
-            // facilities.value.splice(facilities.value.indexOf(item),1)
-            console.log(item);
-        });
-        // event.target.dataset.name.trim()
-    // }
-    
-
-    
-    console.log(facilities.value);
-=======
  if (event.target.checked) {
      facilities.value.push(event.target.dataset.name)
  }
@@ -303,24 +158,10 @@ function selecTechnics(event){
 
  
  console.log(facilities.value);
->>>>>>> master
 }
 
 
 function next(){
-<<<<<<< HEAD
-    announData.value[0] = JSON.parse(localStorage.getItem('announ'))[0]
-    announData.value[1] = JSON.parse(localStorage.getItem('announ'))[1]
-    announData.value[2] = JSON.parse(localStorage.getItem('announ'))[2]
-    announData.value[3] = JSON.parse(localStorage.getItem('announ'))[3]
-    announData.value[4] = facilities.value
-    localStorage.setItem('announ', JSON.stringify(announData.value))
-    navigateTo('/description')
-    facilities.value = facilities1.value
-}
-function prew(){
-    navigateTo('/feature')
-=======
  announData.value[0] = JSON.parse(localStorage.getItem('announ'))[0]
  announData.value[1] = JSON.parse(localStorage.getItem('announ'))[1]
  announData.value[2] = JSON.parse(localStorage.getItem('announ'))[2]
@@ -332,7 +173,6 @@ function prew(){
 }
 function prew(){
  navigateTo('/feature')
->>>>>>> master
 }
 
 function change(){
@@ -341,24 +181,6 @@ function change(){
 }
 
 onMounted(()=>{
-<<<<<<< HEAD
-    if (JSON.parse(localStorage.getItem('announ'))[4]) {
-        facilities.value = JSON.parse(localStorage.getItem('announ'))[4]
-    }else{
-        facilities.value = facilities1.value
-    }
-    let inputs = document.querySelectorAll('.d-none');
-    // facilities.value.forEach(item =>{
-    //     console.log(item)
-    // })
-    inputs.forEach(elem  =>{
-        facilities.value.forEach(item=>{
-            if(elem.dataset.name === item){
-                elem.checked = true
-            }
-        })
-    })
-=======
  if (JSON.parse(localStorage.getItem('announ'))[4]) {
      facilities.value = JSON.parse(localStorage.getItem('announ'))[4]
  }else{
@@ -375,7 +197,6 @@ onMounted(()=>{
          }
      })
  })
->>>>>>> master
 })
 </script>
 
