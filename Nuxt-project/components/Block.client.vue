@@ -27,7 +27,7 @@ const moreThen = ref(false)
     }
 
     function isFloor(){
-        if (mapObj.value.floor > mapObj.value.floorHouse) {
+        if (parseInt(mapObj.value.floor) > parseInt(mapObj.value.floorHouse)) {
             moreThen.value = true
         }else{
             moreThen.value = false
@@ -64,7 +64,11 @@ function move(){
         localStorage.setItem('announ',JSON.stringify(announData.value))
         navigateTo('/pictures')
 
+<<<<<<< HEAD
         if (mapObj.value.floor > mapObj.value.floorHouse) {
+=======
+        if (parseInt(mapObj.value.floor) > parseInt(mapObj.value.floorHouse)) {
+>>>>>>> master
             navigateTo('/map')   
             announData.value[1] =''
             localStorage.setItem('announ',JSON.stringify(announData.value))
