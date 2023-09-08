@@ -188,9 +188,6 @@ onMounted(()=>{
      facilities.value = facilities1.value
  }
  let inputs = document.querySelectorAll('.d-none');
- // facilities.value.forEach(item =>{
- //     console.log(item)
- // })
  inputs.forEach(elem  =>{
      facilities.value.forEach(item=>{
          if(elem.dataset.name === item){
@@ -198,6 +195,7 @@ onMounted(()=>{
          }
      })
  })
+ 
 })
 </script>
 
