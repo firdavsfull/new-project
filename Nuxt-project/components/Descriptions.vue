@@ -20,14 +20,43 @@
                         <span>Описание объекта </span>
                     </div>
                     <div class="container w-100">
-                        <div class="mt-3">
-                            <label for="exampleFormControlInput1" style="font-size:14px; margin-bottom:6px; color:#152242;" class="form-label" >Заголовок</label>
-                            <input :style="!title ? `border:1px solid red;`:''" :max="title.length == 33" v-model="title" type="text" class="form-control" id="exampleFormControlInput1" placeholder="Просторная видовая двушка у парка">
-                            <span>{{ title.length }}</span>    
+                        <div class="mt-3 flex">
+                            <label for="exampleFormControlInput1" style="font-size:14px; margin-bottom:6px; color:#152242;" class="form-label w-full" >
+                              
+                                <h6>Заголовок</h6>
+                              <div 
+                              class="
+                              border 
+                              rounded flex
+                              w-full
+                              h-[40px]
+                              overflow-hidden
+                              ">
+                                <input class="w-full px-[10px] outline-0 border-0" :style="!title && !messageObj.title ? `border:1px solid red;`:''" :max="title.length <= 33" v-model="messageObj.title" type="text" id="exampleFormControlInput1" placeholder="Просторная видовая двушка у парка">
+                                <span style="
+                                /* border: 1px solid #dee2e6; */
+                                border-left: none;
+                                border-radius: 6px;
+                                border-top-left-radius: 0;
+                                border-bottom-left-radius: 0;
+                                "
+                                class="
+                                relative 
+                                px-[3px]
+                                flex
+                                text-[gray]
+                                items-center
+                                bg-[white]
+                                ">{{ messageObj.title.length }}
+                            </span>    
+                              </div>
+                            </label>
                         </div>
                             <div style="margin-top:24px">
                                 <label for="floatingTextarea2" style="font-size:14px; margin-bottom:6px; color:#152242;">Описание</label>
-                                <textarea :style="!description?`border:1px solid red;` :''" v-model="description" class="form-control" id="floatingTextarea2" placeholder="Уютная светлая двушка в тихом спальном районе. Окна на красивые цветущие деревья. Свежий ремонт 2020 года делали для себя. Рядом есть детсад, до метро 10 минут пешком, но ходит автобус. Можно заезжать и жить!" style="resize:none; height:300px"></textarea>
+                                <textarea :style="!description && !messageObj.description?`border:1px solid red;` :''" v-model="messageObj.description" class="form-control" id="floatingTextarea2" placeholder="Уютная светлая двушка в тихом спальном районе. Окна на красивые цветущие деревья. Свежий ремонт 2020 года делали для себя. Рядом есть детсад, до метро 10 минут пешком, но ходит автобус. Можно заезжать и жить!" style="resize:none; height:300px">
+                                {{ messageObj.description }}
+                                </textarea>
                             </div>
                     </div>
 
@@ -44,20 +73,36 @@
 const {announData} = getData()
 const title = ref('')
 const description = ref('')
+const messageObj = ref({})
+const messageObj1 = ref({})
 function change(){
     const file =  document.querySelector('.choose-picture > input')
     file.click()
 }
 
 function next(){
-    announData.value.push({
-        title:title.value,
-        description: description.value
-    })
-    console.log(announData.value);
+    announData.value[0] = JSON.parse(localStorage.getItem('announ'))[0]
+    announData.value[1] = JSON.parse(localStorage.getItem('announ'))[1]
+    announData.value[2] = JSON.parse(localStorage.getItem('announ'))[2]
+    announData.value[3] = JSON.parse(localStorage.getItem('announ'))[3]
+    announData.value[4] = JSON.parse(localStorage.getItem('announ'))[4]
+    messageObj.value.title = title.value
+    messageObj.value.description = description.value
+    announData.value[5] = messageObj.value
+    messageObj1.value = messageObj.value
     localStorage.setItem('announ', JSON.stringify(announData.value))
     navigateTo('/price')
 }
+
+
+onMounted(()=>{
+
+    if (JSON.parse(localStorage.getItem('announ'))[5]) {
+        messageObj.value = JSON.parse(localStorage.getItem('announ'))[5]
+    }else{
+        messageObj.value = messageObj1.value
+    }
+})
 </script>
 
 <style scoped>
