@@ -15,7 +15,7 @@
                  </div>
              </div>
 
-         <div class="container-sm h-[auto]">
+         <div class="mx-[20px] mt-[10px] h-[auto]">
              <div class="text-container">
                  <span>Параметры Квартиры </span>
              </div>
@@ -52,12 +52,12 @@
                      <p>Общая площадь</p>
                      <div style="flex-direction:column;" class="relative">
 
-                     <div :style="apartmentParams.liveArea + apartmentParams.kitchenArea > apartmentParams.generalArea ?'border:1px solid red;':''" class="input-area form-control">
-                         <input v-model="apartmentParams.generalArea" type="tell" maxlength="4">
-                         <div>м<sup>2</sup></div>
+                     <div :style="!apartmentParams.generalArea ?'border:1px solid red;':''" class="input-area form-control">
+                         <input @input="verfied" v-model="apartmentParams.generalArea" type="tell" maxlength="6">
+                         <div>м<sup class="text-[10px]">2</sup></div>
                      </div>
                     <p style="font-size:11px;" 
-                    v-if="apartmentParams.liveArea + apartmentParams.kitchenArea > apartmentParams.generalArea"
+                    v-if="mooreArea"
                     class="
                     overflow-hidden
                     whitespace-nowrap
@@ -72,8 +72,8 @@
                      
                      <p>Жилая площадь</p>
                      <div :style="!apartmentParams.liveArea ?'border:1px solid red;':''" class="input-area form-control">
-                         <input v-model="apartmentParams.liveArea" type="tell" maxlength="4">
-                         <div>м<sup>2</sup></div>
+                         <input @input="verfied" v-model="apartmentParams.liveArea" type="tell" maxlength="6">
+                         <div>м<sup class="text-[10px]">2</sup></div>
                      </div>
                     </div>
                  </div>
@@ -83,8 +83,8 @@
                      <div class="room">
                      <p>Кухня</p>
                      <div :style="!apartmentParams.kitchenArea ?'border:1px solid red;':''" class="input-area form-control">
-                         <input v-model="apartmentParams.kitchenArea" type="tell" maxlength="3">
-                         <div>м<sup>2</sup></div>
+                         <input @input="verfied" v-model="apartmentParams.kitchenArea" type="tell" maxlength="6">
+                         <div>м<sup class="text-[10px]">2</sup></div>
                      </div>
                     </div>
                  </div>
@@ -138,6 +138,7 @@
 const {announData} = getData()
 const apartmentParams = ref({})
 const apartmentParams1 = ref({})
+const mooreArea = ref(false)
 const generalArea = ref('')
 const liveArea = ref('')
 const kitchenArea = ref('')
@@ -147,17 +148,33 @@ const videoLink = ref('')
 function quantityRoom (event){
  apartmentParams.value.quantityRoom = parseInt(event.target.dataset.name)
 }
- 
-function next(){
- // apartmentParams.value.generalArea = parseInt(generalArea.value)
- // apartmentParams.value.liveArea = parseInt(liveArea.value)
- // apartmentParams.value.kitchenArea = parseInt(kitchenArea.value)
- // apartmentParams.value.linkvideo = videoLink.value
 
- // apartmentParams1.value.generalArea = parseInt(generalArea.value)
- // apartmentParams1.value.liveArea = parseInt(liveArea.value)
- // apartmentParams1.value.kitchenArea = parseInt(kitchenArea.value)
- // apartmentParams1.value.linkvideo = videoLink.value
+function verfied(){
+        if (
+            parseInt(apartmentParams.value.liveArea) 
+            + parseInt(apartmentParams.value.kitchenArea) 
+            > parseInt(apartmentParams.value.generalArea)
+            || parseInt(apartmentParams.value.generalArea) 
+            < parseInt(apartmentParams.value.kitchenArea)
+            || parseInt(apartmentParams.value.liveArea) 
+            > parseInt(apartmentParams.value.generalArea) 
+            ) {
+            mooreArea.value = true
+        }else {
+            mooreArea.value = false
+        }
+    }
+
+function next(){
+//  apartmentParams.value.generalArea = parseInt(generalArea.value)
+//  apartmentParams.value.liveArea = parseInt(liveArea.value)
+//  apartmentParams.value.kitchenArea = parseInt(kitchenArea.value)
+//  apartmentParams.value.linkvideo = videoLink.value
+
+//  apartmentParams1.value.generalArea = parseInt(generalArea.value)
+//  apartmentParams1.value.liveArea = parseInt(liveArea.value)
+//  apartmentParams1.value.kitchenArea = parseInt(kitchenArea.value)
+//  apartmentParams1.value.linkvideo = videoLink.value
 
  announData.value[0] = JSON.parse(localStorage.getItem('announ'))[0]
  announData.value[1] = JSON.parse(localStorage.getItem('announ'))[1]
@@ -165,7 +182,7 @@ function next(){
  localStorage.setItem('announ', JSON.stringify(announData.value))
  navigateTo('/feature')
 
- if (apartmentParams.value.liveArea + apartmentParams.value.kitchenArea > apartmentParams.value.generalArea) {
+ if (parseInt(apartmentParams.value.liveArea) + parseInt(apartmentParams.value.kitchenArea) > parseInt(apartmentParams.value.generalArea)) {
     navigateTo('/pictures')
     announData.value[2] = ''
     localStorage.setItem('announ', JSON.stringify(announData.value))
@@ -174,6 +191,7 @@ function next(){
 function prew(){
  navigateTo('/map')
 }
+
 
 onMounted(()=>{
  if (JSON.parse(localStorage.getItem('announ'))[2]) {
@@ -224,8 +242,8 @@ margin: 0;
  }
  .quantity-room{
      display: flex;
-     min-width: 40%;
-     max-width: 50%;
+     width: 35%;
+     /* max-width: 50%; */
      /* width: 43%; */
      justify-content: space-between;
      background-color: #fff;
@@ -239,7 +257,7 @@ margin: 0;
      background-color: rgba(192, 192, 192, 0.39);
  }
  .quantity-room-item{
-     margin-left: 0;
+     margin-right: 10px;
  }
 
  .area-room-container{
@@ -392,7 +410,7 @@ margin: 0;
  }
  .quantity-room{
      display: flex;
-     max-width: 10%;
+     max-width: 100px;
      /* justify-content: space-between; */
      background-color: #fff;
  }
