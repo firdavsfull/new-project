@@ -139,19 +139,20 @@ function selecTechnics(event){
  if (event.target.checked) {
      facilities.value.push(event.target.dataset.name)
  }
- if (!event.target.checked) {
+ 
      facilities.value.forEach(item => {
-         facilities.value.splice(facilities.value.indexOf(event.target.dataset.name),1)
+         if (!event.target.checked && event.target.dataset.name === item) {
+             facilities.value.splice(facilities.value.indexOf(item),1)
+         }
+         
      });
- }
+ 
 
  const elems = document.querySelectorAll('.d-none');
  elems.forEach(elem=>{
      facilities.value.forEach(val =>{
          if (elem.dataset.name == val) {
              elem.checked = true
-         }else{
-             elem.checked = false
          }
      })
  })
