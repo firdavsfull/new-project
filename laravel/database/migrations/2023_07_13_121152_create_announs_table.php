@@ -28,7 +28,7 @@ return new class extends Migration
             $table->boolean('elevator')->default(1);
             $table->boolean('Balcony')->default(0);
             $table->integer('number_of_rent')->nullable();
-
+            $table->string('rental period')->nullable();
             $table->string('repair')->nullable();
             $table->string('title')->nullable();
             $table->text('description')->nullable();
