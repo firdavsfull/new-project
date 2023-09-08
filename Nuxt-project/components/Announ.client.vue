@@ -152,10 +152,10 @@
                                     </button>
                                 
                                     <ul class="dropdown-menu">
-                                        <li :style="AnnounOgj.Estate =='Жилая' ? `background-color: #0468FF; color:white; font-weight:bold;`:''" @click="selectEstate" class="dropdown-item">
+                                        <li :style="AnnounOgj.Estate =='Жилая' ? `background-color: #0468FF; color:white; font-weight:bold;`:''" @click="selectEstate" class="dropdown-item cursor-pointer">
                                             Жилая
                                         </li>
-                                        <li :style="AnnounOgj.Estate == 'Коммерческая' ? `background-color:#0468FF; color:white; font-weight:bold;`:''" @click="selectEstate" v-if="AnnounOgj.typeRent !== 'Посуточно'" class="dropdown-item">
+                                        <li :style="AnnounOgj.Estate == 'Коммерческая' ? `background-color:#0468FF; color:white; font-weight:bold;`:''" @click="selectEstate" v-if="AnnounOgj.typeRent !== 'Посуточно'" class="dropdown-item cursor-pointer">
                                             Коммерческая
                                         </li>
                                     </ul>
