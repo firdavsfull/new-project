@@ -136,25 +136,19 @@ const facilities = ref([])
 const facilities1 = ref([])
 
 function selecTechnics(event){
-    if (event.target.checked) {
-        facilities.value.push(event.target.dataset.name)
-    }
-    if (!event.target.checked) {
-        facilities.value.forEach(item => {
-            facilities.value.splice(facilities.value.indexOf(event.target.dataset.name),1)
-        });
-    }
-
     const elems = document.querySelectorAll('.d-none');
-    elems.forEach(elem=>{
-        facilities.value.forEach(val =>{
-            if (elem.dataset.name == val) {
-                elem.checked = true
-            }else{
-                elem.checked = false
-            }
-        })
-    })
+    
+       if (event.target.checked) {
+        facilities.value.push(event.target.dataset.name)
+        }
+        // if (event.target.checked) {
+        facilities.value.forEach(item => {
+            // facilities.value.splice(facilities.value.indexOf(item),1)
+            console.log(item);
+        });
+        // event.target.dataset.name.trim()
+    // }
+    
 
     
     console.log(facilities.value);
