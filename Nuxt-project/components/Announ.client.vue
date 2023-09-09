@@ -54,8 +54,8 @@
     function selectObject(event){
         const btn = document.querySelector('.object')
             isRent.value = btn.textContent;
-            AnnounOgj.value.objects = event.target.textContent
-            AnnounOgj2.value.objects = event.target.textContent
+            AnnounOgj.value.objects = event.target.textContent.trim()
+            AnnounOgj2.value.objects = event.target.textContent.trim()
             btn.textContent = event.target.textContent.trim()
             announData.value[0] = AnnounOgj.value
             localStorage.setItem('announ', JSON.stringify(announData.value))

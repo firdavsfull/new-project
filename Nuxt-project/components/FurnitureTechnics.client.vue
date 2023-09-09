@@ -1,6 +1,6 @@
 <template>
-    <form class="layouts" >
-         <div class="container-xl mt-4">
+    <form class="layouts" v-if="AnnounOgj.objects == 'Квартира'">
+         <div  class="container-xl mt-4">
              <div class="progress-container container">
                  <div class="d-flex justify-content-between mb-2 mt-3">
                      <span class="fw-bold pt-1 2">Мебель и техника</span>
@@ -21,47 +21,36 @@
                  <div class="container w-100">
                      <div class="col mt-4" style="color:#152242;">
 
-                          <!-- <div class="row mt-2">
+                           <div class="row mt-2">
                              <div class="preview-window">
                                  <div class="balcon w-25 mt-3" >
                                      <span for="#balcon" class="mb-2 fw-bold text-nowrap" style="font-family:lato, sans-seif">мебель</span>
                                      <div class="d-flex text-nowrap mt-2" style="font-family:lato, sans-serif;">
 
-                                         <label for="checkbox-2" class="me-2">
-                                             <input data-name="На кухне" @change="selecTechnics" type="checkbox" id="checkbox-2" class="d-none">
-                                             <span class="form-control">На кухне</span>
-                                         </label>
-
-                                         <label for="checkbox3">
-                                             <input data-name="В комнатах" @change="selecTechnics" type="checkbox" id="checkbox3" class="d-none">
-                                             <span class="form-control">В комнатах</span>
+                                         <label v-for="pos of furniture" :for="`${pos.id}`" class="me-2">
+                                             <input :data-name="pos.id" @change="selecTechnics" type="checkbox" :id="`${pos.id}`" class="d-none">
+                                             <span class="form-control">{{ pos.name }}</span>
                                          </label>
                                      </div>   
                                  </div>
                              </div>
                          </div>
 
-                         <div class="row mt-2">
+                        <div class="row mt-2">
                              <div class="contrainer-balconies">
                                  <div class="balcon">
                                      <p for="#balcon" class="mb-1 mt-2 fw-bold" style="font-family:lato, sans-seif">Ванная комната</p>
                                      
 
                                      <div class="d-flex text-nowrap mt-2" style="font-family:lato, sans-serif;">
-                                         <label for="checkbox-4" class="me-2">
-                                             <input  @change="selecTechnics" data-name="Ванна" type="checkbox" id="checkbox-4" class="d-none">
-                                             <span class="form-control">Ванна</span>
+                                         <label v-for="bathroom of bath" :for="bathroom.id" class="me-2">
+                                             <input  @change="selecTechnics" :data-name="bathroom.id" type="checkbox" :id="bathroom.id" class="d-none">
+                                             <span class="form-control">{{ bathroom.name }}</span>
                                          </label>
-
-                                         <label for="checkbox-5" class="me-2">
-                                             <input @change="selecTechnics" data-name="Душевая кабина" type="checkbox" id="checkbox-5" class="d-none">
-                                             <span class="form-control">Душевая кабина</span>
-                                         </label>
-
                                      </div> 
                                  </div>
                              </div>
-                         </div> -->
+                         </div>
 
                          <div class="row mt-2">
                              <div class="contrainer-balconies  ">
@@ -74,49 +63,29 @@
                                          <input @change="selecTechnics" :data-name="cond.id" type="checkbox" class="btn-check d-none" name="options" :id="`option${cond.id}`" autocomplete="off">
                                          <span class="form-control me-2 my-1">{{ cond.name }}</span>
                                          </label>
-
-                                         <!-- <label for="option6">
-                                         <input @change="selecTechnics" data-name="Холодильник" type="checkbox" class="btn-check d-none" name="options" id="option6" autocomplete="off">
-                                         <span class="form-control me-2 my-1">Холодильник</span>
-                                         </label>
-
-                                         <label for="option7">
-                                         <input @change="selecTechnics" data-name="Телевизор" type="checkbox" class="btn-check d-none" name="options " id="option7" autocomplete="off" >
-                                         <span class="form-control me-2 my-1">Телевизор</span>
-                                         </label>
-
-                                         <label  for="option8">
-                                         <input @change="selecTechnics" data-name="Посудомоечная машина" type="checkbox" class="btn-check  d-none" name="options" id="option8" autocomplete="off">
-                                          <span class="form-control my-1">Посудомоечная машина</span>   
-                                         </label>
-
-                                         <label  for="option9">
-                                         <input @change="selecTechnics" data-name="Стиральная маншина" type="checkbox" class="btn-check  d-none" name="options" id="option9" autocomplete="off">
-                                         <span class="form-control my-1">Стиральная маншина</span>
-                                         </label> -->
                                      </div>
                                  </div>
                              </div>
                          </div>
 
-                         <!-- <div class="row mt-2">
+                         <div class="row mt-2">
                              <div class="contrainer-balconies  ">
                                  <div class="balcon">
                                      <p for="#balcon" class="mb-1 mt-2 fw-bold" style="font-family:lato, sans-seif">Связь</p>
                                      
 
                                      <div class="container-repair  flex-wrap d-flex text-nowrap">
-                                         <input @change="selecTechnics" data-name="Интернет" type="checkbox" class="btn-check d-none" name="options" id="option10" autocomplete="off">
-                                         <label class="form-control me-2 my-1" for="option10">Интернет</label>
+                                         <label v-for="tel of contact" class="me-2 my-1" :for="`option${tel.id}`">
+                                             <input @change="selecTechnics" :data-name="tel.id" type="checkbox" class="btn-check d-none" name="options" :id="`option${tel.id}`" autocomplete="off">
+                                            <span class="form-control">{{ tel.name }}</span>
+                                            </label>
 
-                                         <input @change="selecTechnics" data-name="Телефон" type="checkbox" class="btn-check d-none" name="options" id="option11" autocomplete="off">
-                                         <label class="form-control me-2 my-1" for="option11">Телефон</label>
 
                                          
                                      </div>
                                  </div>
                              </div>
-                         </div> -->
+                         </div>
                      </div>
                  </div>
 
@@ -126,6 +95,8 @@
                  </div>
              </div>
          </div>
+
+         
      </form>
      
 </template>
@@ -140,32 +111,32 @@ const facilities1 = ref([])
     const condition = await conditions
     c.value = await condition.json()
     
-    // if (AnnounOgj.Estate == 'Жилая' && AnnounOgj.object == 'Квартира') {
-        
-        // c.value = c.value.filter((item=>item !=='Басейн'))
-        // }
-        
-        
-        onMounted(()=>{
-    console.log(AnnounOgj.value);
+    onMounted(()=>{
  if (JSON.parse(localStorage.getItem('announ'))[4]) {
      facilities.value = JSON.parse(localStorage.getItem('announ'))[4]
  }else{
      facilities.value = facilities1.value
  }
- let inputs = document.querySelectorAll('.d-none');
- inputs.forEach(elem  =>{
-     facilities.value.forEach(item=>{
-         if(elem.dataset.name == item){
-             elem.checked = true
-         }
-     })
- })
  
+ 
+ 
+ 
+ AnnounOgj.value = JSON.parse(localStorage.getItem('announ'))[0]
+ 
+ setTimeout(()=>{
+    let inputs = document.querySelectorAll('.d-none');
+    inputs.forEach(elem  =>{
+        let checks = elem.dataset.name
+        facilities.value.forEach(item => {
+            if(parseInt(checks) === item){
+                elem.checked = true
+            }
+            })
+    })
+ }, 500)
 
-
+ 
 })
-
 function selecTechnics(event){
  if (event.target.checked) {
      facilities.value.push(parseInt(event.target.dataset.name))
@@ -177,19 +148,62 @@ function selecTechnics(event){
          }
      });
 
-console.log(facilities.value);
-
  const elems = document.querySelectorAll('.d-none');
  elems.forEach(elem=>{
          facilities.value.forEach(val =>{
-         if (parseInt(elem.dataset.name) == parseInt(val) && c.value) {
+         if (parseInt(elem.dataset.name) == val) {
              elem.checked = true
          }
-     })
+        })
  })
 
  
 }
+
+
+    // if (AnnounOgj.Estate == 'Жилая' && AnnounOgj.object == 'Квартира') {
+        const technics = [
+        'Кондиционер',
+        'Мебель на кухне',
+        'Мебель в комнатах',
+        'Посудамоечная машина',
+        'Стиральная машина',
+        'Телевизор',
+        'Холодильник',
+        ]
+        const contact = ref(c.value.filter(item=>{
+            return item.name =='Интернет' || item.name == 'Телефон'
+        }))
+
+        const furniture = ref(c.value.filter(item=>{
+            return item.name == 'На кухне' || item.name == 'В комнатах'
+        }))
+
+        const bath = ref(c.value.filter(item=>{
+            return item.name == 'Ванна' || item.name == 'Душевая кабина'
+        }))
+
+
+        c.value = c.value.filter(item=>{
+            return  technics.indexOf(item.name) !== -1;
+        })
+
+
+        c.value = c.value.sort((a, b)=>{
+            const nameA = a.name.toUpperCase()
+            const nameB = b.name.toUpperCase()
+
+            if (nameA < nameB) {
+                return -1
+            }
+            if (nameA > nameB) {
+                return 1
+            }
+            return 0 
+        })
+        // }
+        
+        
 
 
 function next(){

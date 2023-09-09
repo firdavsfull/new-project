@@ -40,12 +40,10 @@
         >
           <span v-if="!loader">Получить код</span>
           <!-- <img src="" class="w-[32px] h-[32px]" alt=""> -->
-          <font-awesome-icon
-            v-if="loader"
-            class="text-[20px] font-bold"
-            :icon="['fa', 'spinner']"
-            spin-pulse
-          />
+          <!-- <span v-if="loader" class="spinner-border" style="color: white;"></span> -->
+          <button v-if="loader" class="buttonload">
+            <i class="fa fa-spinner fa-spin"></i>
+          </button>
         </button>
         <button
           style="font-family: Lato, Arial, sans-serif"

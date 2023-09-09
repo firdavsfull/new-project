@@ -42,7 +42,7 @@
                                 
                                 </textarea>
                                 <p v-if="!message.description || message.description.length < 15" :class="!message.description || message.description.length < 15 ? 'mt-[6px] text-[12px] text-[red]':''">
-                                  Напишите хотя бы пару предложений: от 15 до 3 000 букв  
+                                    Ваш текст не должен быть меньше 15 символов. В вашем тексте {{ message.description.length }} символ 
                                 </p>
                             </div>
                     </div>
@@ -75,7 +75,7 @@ function writeMessages(){
 const route = useRoute()
 
 function next(){
-    if (message.value.title == '' && !message.description ) {
+    if (!message.value.title || message.value.title == '' && !message.value.description  || message.value.description.length < 15 ) {
         navigateTo('/description')
     }else{
     navigateTo('/price')
