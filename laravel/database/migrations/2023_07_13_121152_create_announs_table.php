@@ -34,7 +34,6 @@ return new class extends Migration
             $table->text('description')->nullable();
             $table->integer('price')->nullable();
             $table->string('rental_type')->nullable();
-            $table->string('prepayment')->default('нет');
             $table->string('house_type')->nullable();
             $table->string('type_object')->nullable();
             $table->string('layout')->nullable();
