@@ -54,7 +54,7 @@
 
                      <div :style="!apartmentParams.generalArea ?'border:1px solid red;':''" class="input-area form-control">
                          <input @input="verfied" v-model="apartmentParams.generalArea" type="text" v-maska
-          data-maska="# ###">
+          data-maska="####">
                          <div>м<sup class="text-[10px]">2</sup></div>
                      </div>
                     <p style="font-size:11px;" 
@@ -73,7 +73,7 @@
                      
                      <p>Жилая площадь</p>
                      <div :style="!apartmentParams.liveArea ?'border:1px solid red;':''" class="input-area form-control">
-                         <input @input="verfied" v-model="apartmentParams.liveArea" type="text" v-maska data-maska="# ###">
+                         <input @input="verfied" v-model="apartmentParams.liveArea" type="text" v-maska data-maska="####">
                          <div>м<sup class="text-[10px]">2</sup></div>
                      </div>
                     </div>
@@ -84,7 +84,7 @@
                      <div class="room">
                      <p>Кухня</p>
                      <div :style="!apartmentParams.kitchenArea ?'border:1px solid red;':''" class="input-area form-control">
-                         <input @input="verfied" v-model="apartmentParams.kitchenArea" type="text" v-maska data-maska="# ###">
+                         <input @input="verfied" v-model="apartmentParams.kitchenArea" type="text" v-maska data-maska="####">
                          <div>м<sup class="text-[10px]">2</sup></div>
                      </div>
                     </div>

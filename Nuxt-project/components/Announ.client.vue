@@ -2,9 +2,8 @@
 
 <script setup>
         const isRent = ref("")
-        const AnnounOgj = ref({});
         const AnnounOgj2 = ref({})
-        const {announData} = getData()
+        const {announData,AnnounOgj} = getData()
         
         
         const typeObject = ref(JSON.parse(localStorage.getItem('announ')) || {})

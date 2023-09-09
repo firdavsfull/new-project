@@ -1,5 +1,5 @@
 <template>
-    <form class="layouts">
+    <form class="layouts" >
          <div class="container-xl mt-4">
              <div class="progress-container container">
                  <div class="d-flex justify-content-between mb-2 mt-3">
@@ -21,7 +21,7 @@
                  <div class="container w-100">
                      <div class="col mt-4" style="color:#152242;">
 
-                          <div class="row mt-2">
+                          <!-- <div class="row mt-2">
                              <div class="preview-window">
                                  <div class="balcon w-25 mt-3" >
                                      <span for="#balcon" class="mb-2 fw-bold text-nowrap" style="font-family:lato, sans-seif">мебель</span>
@@ -61,7 +61,7 @@
                                      </div> 
                                  </div>
                              </div>
-                         </div>
+                         </div> -->
 
                          <div class="row mt-2">
                              <div class="contrainer-balconies  ">
@@ -70,12 +70,12 @@
                                      
 
                                      <div class="container-repair  flex-wrap d-flex text-nowrap">
-                                         <label for="option5">
-                                         <input @change="selecTechnics" data-name="Кондиционер" type="checkbox" class="btn-check d-none" name="options" id="option5" autocomplete="off">
-                                         <span class="form-control me-2 my-1">Кондиционер</span>
+                                         <label v-for="cond in c" :for="`option${cond.id}`" :key="cond.id">
+                                         <input @change="selecTechnics" :data-name="cond.id" type="checkbox" class="btn-check d-none" name="options" :id="`option${cond.id}`" autocomplete="off">
+                                         <span class="form-control me-2 my-1">{{ cond.name }}</span>
                                          </label>
 
-                                         <label for="option6">
+                                         <!-- <label for="option6">
                                          <input @change="selecTechnics" data-name="Холодильник" type="checkbox" class="btn-check d-none" name="options" id="option6" autocomplete="off">
                                          <span class="form-control me-2 my-1">Холодильник</span>
                                          </label>
@@ -93,13 +93,13 @@
                                          <label  for="option9">
                                          <input @change="selecTechnics" data-name="Стиральная маншина" type="checkbox" class="btn-check  d-none" name="options" id="option9" autocomplete="off">
                                          <span class="form-control my-1">Стиральная маншина</span>
-                                         </label>
+                                         </label> -->
                                      </div>
                                  </div>
                              </div>
                          </div>
 
-                         <div class="row mt-2">
+                         <!-- <div class="row mt-2">
                              <div class="contrainer-balconies  ">
                                  <div class="balcon">
                                      <p for="#balcon" class="mb-1 mt-2 fw-bold" style="font-family:lato, sans-seif">Связь</p>
@@ -116,7 +116,7 @@
                                      </div>
                                  </div>
                              </div>
-                         </div>
+                         </div> -->
                      </div>
                  </div>
 
@@ -131,34 +131,64 @@
 </template>
 <script setup>
 
-const {announData} = getData()
+const {announData,AnnounOgj} = getData()
 const facilities = ref([])
 const facilities1 = ref([])
 
+    const c = ref()
+    const conditions = fetch('http://127.0.0.1:8000/api/conditions')
+    const condition = await conditions
+    c.value = await condition.json()
+    
+    // if (AnnounOgj.Estate == 'Жилая' && AnnounOgj.object == 'Квартира') {
+        
+        // c.value = c.value.filter((item=>item !=='Басейн'))
+        // }
+        
+        
+        onMounted(()=>{
+    console.log(AnnounOgj.value);
+ if (JSON.parse(localStorage.getItem('announ'))[4]) {
+     facilities.value = JSON.parse(localStorage.getItem('announ'))[4]
+ }else{
+     facilities.value = facilities1.value
+ }
+ let inputs = document.querySelectorAll('.d-none');
+ inputs.forEach(elem  =>{
+     facilities.value.forEach(item=>{
+         if(elem.dataset.name == item){
+             elem.checked = true
+         }
+     })
+ })
+ 
+
+
+})
+
 function selecTechnics(event){
  if (event.target.checked) {
-     facilities.value.push(event.target.dataset.name)
+     facilities.value.push(parseInt(event.target.dataset.name))
  }
  
      facilities.value.forEach(item => {
-         if (!event.target.checked && event.target.dataset.name === item) {
+         if (!event.target.checked && parseInt(event.target.dataset.name) === parseInt(item)) {
              facilities.value.splice(facilities.value.indexOf(item),1)
          }
-         
      });
- 
+
+console.log(facilities.value);
 
  const elems = document.querySelectorAll('.d-none');
  elems.forEach(elem=>{
-     facilities.value.forEach(val =>{
-         if (elem.dataset.name == val) {
+         facilities.value.forEach(val =>{
+         if (parseInt(elem.dataset.name) == parseInt(val) && c.value) {
              elem.checked = true
          }
      })
  })
 
  
- console.log(facilities.value);
 }
 
 
@@ -181,22 +211,6 @@ function change(){
  file.click()
 }
 
-onMounted(()=>{
- if (JSON.parse(localStorage.getItem('announ'))[4]) {
-     facilities.value = JSON.parse(localStorage.getItem('announ'))[4]
- }else{
-     facilities.value = facilities1.value
- }
- let inputs = document.querySelectorAll('.d-none');
- inputs.forEach(elem  =>{
-     facilities.value.forEach(item=>{
-         if(elem.dataset.name === item){
-             elem.checked = true
-         }
-     })
- })
- 
-})
 </script>
 
 <style scoped>
