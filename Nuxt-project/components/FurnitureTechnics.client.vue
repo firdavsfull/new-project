@@ -105,37 +105,39 @@
 const {announData,AnnounOgj} = getData()
 const facilities = ref([])
 const facilities1 = ref([])
+let checkStyle = false
 
-    const c = ref()
-    const conditions = fetch('http://127.0.0.1:8000/api/conditions')
-    const condition = await conditions
-    c.value = await condition.json()
-    
-    onMounted(()=>{
- if (JSON.parse(localStorage.getItem('announ'))[4]) {
+const c = ref()
+        
+        const conditions = fetch('http://127.0.0.1:8000/api/conditions')
+        const condition = await conditions
+        c.value = await condition.json() 
+
+
+
+onMounted( ()=>{
+        
+            setTimeout(()=>{
+                let inputs = document.querySelectorAll('.d-none');
+                    inputs.forEach(elem  =>{
+                        let checks = elem.dataset.name
+                        facilities.value.forEach((item) => {
+                            if(parseInt(checks) === item){
+                                 elem.checked = true
+                            }
+                            })
+                    })
+            })
+
+        
+
+        if (JSON.parse(localStorage.getItem('announ'))[4]) {
      facilities.value = JSON.parse(localStorage.getItem('announ'))[4]
  }else{
      facilities.value = facilities1.value
  }
- 
- 
- 
- 
  AnnounOgj.value = JSON.parse(localStorage.getItem('announ'))[0]
- 
- setTimeout(()=>{
-    let inputs = document.querySelectorAll('.d-none');
-    inputs.forEach(elem  =>{
-        let checks = elem.dataset.name
-        facilities.value.forEach(item => {
-            if(parseInt(checks) === item){
-                elem.checked = true
-            }
-            })
-    })
- }, 500)
 
- 
 })
 function selecTechnics(event){
  if (event.target.checked) {

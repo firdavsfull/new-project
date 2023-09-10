@@ -39,11 +39,7 @@
           class="text-primary btn mt-[10px] flex align-items-center"
         >
           <span v-if="!loader">Получить код</span>
-          <!-- <img src="" class="w-[32px] h-[32px]" alt=""> -->
-          <!-- <span v-if="loader" class="spinner-border" style="color: white;"></span> -->
-          <button v-if="loader" class="buttonload">
-            <i class="fa fa-spinner fa-spin"></i>
-          </button>
+          <span v-if="loader" class="spinner-border" style="color: white;"></span>
         </button>
         <button
           style="font-family: Lato, Arial, sans-serif"
