@@ -101,7 +101,7 @@
                                     </label>
 
                                     <div class="h-[40px] w-[250px] flex rounded-1 border bg-[white] overflow-hidden">
-                                        <input v-maska data-maska="# ### ### ###" class="border-[0] outline-0 px-[10px] h-full w-[85%]" type="text" id="area-plot">
+                                        <input autocomplete="off" v-maska data-maska="# ### ### ###" class="border-[0] outline-0 px-[10px] h-full w-[85%]" type="text" id="area-plot">
                                         <select style="-webkit-appearance: none; text-align: center;" class="flex border-0 outline-0 items-center justify-center bg-[white] w-[30%]" name="name" id="">
                                                 <option value="">сот.</option>
                                                 <option value="">га</option>
@@ -140,7 +140,7 @@
                                         </label>
     
                                         <div class="h-[40px] w-[200px] flex rounded-1 border bg-[white] overflow-hidden">
-                                            <input v-maska data-maska="####" class="border-[0] outline-0 px-[10px] h-full w-[85%]" type="text" id="area-home">
+                                            <input autocomplete="off" v-maska data-maska="####" class="border-[0] outline-0 px-[10px] h-full w-[85%]" type="text" id="area-home">
                                             <span class="flex items-center justify-center bg-[white] w-[15%]">м<sup class="text-[10px]">2</sup></span>
                                             
                                         </div>
@@ -471,7 +471,7 @@ label > span{
 }
 label > input:checked + span{
  background-color: rgb(230, 230, 230);
- border: 2px solid #152242;
+ border: 1px solid #152242;
 }
 
 .container-repair{
@@ -486,9 +486,8 @@ label > input:checked + span{
 
 .container-repair input:checked + .form-control{
   background-color: rgb(230, 230, 230);
- border: 2px solid #152242;
+ border: 1px solid #152242;
 }
-
 
 
 

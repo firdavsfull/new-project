@@ -69,6 +69,10 @@
         announData.value[0] = AnnounOgj.value
         localStorage.setItem('announ', JSON.stringify(announData.value))
          navigateTo('/map')
+
+        if (event.target.dataset.name == 'Офис') {
+            navigateTo('/office')
+         }
     }
     
 

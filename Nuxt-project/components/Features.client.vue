@@ -302,7 +302,7 @@ label > span{
 }
 label > input:checked + span{
  background-color: rgb(230, 230, 230);
- border: 2px solid #152242;
+ border: 1px solid #152242;
 }
 
 .container-repair{
@@ -317,7 +317,7 @@ label > input:checked + span{
 
 .container-repair input:checked + .form-control{
   background-color: rgb(230, 230, 230);
- border: 2px solid #152242;
+ border: 1px solid #152242;
 }
 
 

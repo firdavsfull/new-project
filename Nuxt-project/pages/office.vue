@@ -1,5 +1,5 @@
 <template>
     <ClientOnly>
-        <PicturePlan />
+        <Office />
     </ClientOnly>
 </template>
