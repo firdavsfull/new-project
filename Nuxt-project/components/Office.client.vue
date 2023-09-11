@@ -232,29 +232,46 @@
             </div>
           </div>
         </div>
-         <div class="px-[10px] border-y-[2px] mt-[10px]  h-[100vh]">
+         <div class="px-[10px] border-y-[2px] mt-[10px]  min-h-[100vh] ">
             <div >
                 <div class="mt-[24px] font-bold text-[16px] leading-[16px]">Инфраструктура</div>
             </div>
 
-            <div class="flex flex-wrap bg-[pink]/40n h-full">
-                <div style="flex: 1 1;">
+            <div class="flex xsm:flex-wrap mt-[10px] max-w-[65%] h-full">
+                
+                <div class="flex  justify-between h-[max-content] w-[100%]">
 
+                <div style="flex: 1 1 flex-col;">
+                    <label class="flex mt-[14px] " :for="data1.id" v-for="data1 of firstData" :key="data1.id">
+                        <input :data-name="data1.name" type="checkbox"  :id="data1.id">
+                        <span style="font-family: Lato,Arial,sans-serif;" class="text-[14px] ml-[10px]">{{data1.name}}</span>
+                    </label>
                 </div>
-                <div class="ml-[15px]"></div>
+                <div class="ml-[15px] flex flex-col">
+                    <label class="flex mt-[14px] " :for="data2.id" v-for="data2 of secondData" :key="data2.id">
+                        <input :data-name="data2.name" type="checkbox"  :id="data2.id">
+                        <span style="font-family: Lato,Arial,sans-serif;" class="text-[14px] ml-[10px]">{{data2.name}}</span>
+                    </label>
+                </div>
+                </div>
             </div>
          </div>
       </div>
+      <Pictures />
     </div>
   </div>
 </template>
 <script setup>
-onMounted(async ()=>{
-
-    const data = fetch('http://192.168.0.114:8000/api/infrastructure');
+const  data =  fetch('http://192.168.0.114:8000/api/infrastructure');
     const dataFetch = await data
     const d = await dataFetch.json()
-console.log(d);
-})
 
+const firstData =  ref(d.filter(item => item.id < 14 )) 
+const secondData = ref(d.filter(item=>item.id > 14))
+    
 </script>
+<style scoped>
+*{
+    font-family: Lato,Arial,sans-serif;
+}
+</style>

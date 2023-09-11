@@ -23,6 +23,6 @@ class getDataController extends Controller
 
     public function getInfrastrucures(){
         $infrastructures = Infrastructure::all();
-        return [$infrastructures];
+        return $infrastructures;
     }
 }

@@ -91,23 +91,7 @@
                  </div>
              </div>
 
-             <div class="picture-room-container">
-                 <span>Фото и планировка - от 5 и больше</span>
-                 <div class="picture-room">
-                     <div>
-                         <font-awesome-icon style="color:darkgray;" :icon="['fas', 'camera']" />
-                     </div>
-                     <p>На фото не должно быть людей, животных,
-                         алкоголя, табака, оружия. Не добавляйте
-                         чужие фото, картинки с водяными знаками
-                         и рекламу.
-                     </p>
-                 </div>
-                 <div class="choose-picture">
-                     <button @click.prevent='change'  style="background-color:rgba(15,72,157,.1); color:#0468ff;" class="btn w-100  fw-bold font-monospace">Выберите файлы</button>
-                     <input type="file" accept="*png" multiple style="display:none;" id="">
-                 </div>
-             </div>
+             <Pictures />
 
              <div class="video-link-container">
                  <div style="margin-top:24px;">
@@ -202,10 +186,7 @@ onMounted(()=>{
  }
 })
 
-function change(){
- const file =  document.querySelector('.choose-picture > input')
- file.click()
-}
+
 </script>
 
 <style scoped>
@@ -300,29 +281,7 @@ margin: 0;
      font-size: 10px;
  }
 
- .picture-room-container{
-     display: flex;
-     width: 100%;
-     flex-direction: column;
- }
- .picture-room-container > span{
-     font-size: 16px;
-     font-family: lato, sans-serif;
-     letter-spacing: -0.2;
-     font-weight: 700;
-     line-height: 24px;
- }
- .picture-room{
-     display: flex;
-     align-items: center;
- }
- .picture-room > p {
-     margin-top: 10px;
-     width: 35%;
-     margin-left: 15px;
-     font-size: 12px;
-     height: max-content;
- }
+ 
  .video-link-container{
      display: flex;
      min-width: 100%;
@@ -464,29 +423,7 @@ margin: 0;
      font-size: 10px;
  }
 
- .picture-room-container{
-     display: flex;
-     width: 100%;
-     flex-direction: column;
- }
- .picture-room-container > span{
-     font-size: 16px;
-     font-family: lato, sans-serif;
-     letter-spacing: -0.2;
-     font-weight: 700;
-     line-height: 24px;
- }
- .picture-room{
-     display: flex;
-     align-items: center;
- }
- .picture-room > p {
-     margin-top: 10px;
-     width: 35%;
-     margin-left: 15px;
-     font-size: 12px;
-     height: max-content;
- }
+ 
  .video-link-container{
      display: flex;
      min-width: 100%;
