@@ -10,7 +10,7 @@ class CreateOwnerController extends Controller
 {
     public function createOwner(Request $request){
         
-        Owner::create(['phone_number'=> $request->phone]);
+        Owner::firstOrCreate(['phone_number'=> $request->phone]);
         
             $owners = Owner::find(1);
             $get_user = $owners->where('phone_number',$request->phone);

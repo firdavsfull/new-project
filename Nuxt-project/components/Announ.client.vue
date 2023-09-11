@@ -2,9 +2,8 @@
 
 <script setup>
         const isRent = ref("")
-        const AnnounOgj = ref({});
         const AnnounOgj2 = ref({})
-        const {announData} = getData()
+        const {announData,AnnounOgj} = getData()
         
         
         const typeObject = ref(JSON.parse(localStorage.getItem('announ')) || {})
@@ -17,7 +16,9 @@
         AnnounOgj.value.rent = btn.textContent
         AnnounOgj2.value.rent = btn.textContent
 
-        
+        if (AnnounOgj.rent == 'Продажа') {
+            AnnounOgj.value.typeRent = 'Длительно'
+        }
     }
 
 
@@ -31,9 +32,6 @@
             AnnounOgj.value.Estate = 'Жилая'
             AnnounOgj2.value.objects = 'Квартира'
             AnnounOgj2.value.Estate = 'Жилая'
-        }
-        if (isRent.value == 'Продажа') {
-            
         }
         console.log(AnnounOgj.value);
     }
@@ -49,14 +47,15 @@
             AnnounOgj2.value.objects = 'Не выбранно'
             AnnounOgj2.value.Estate = 'Жилая'
         }
+        
         console.log(AnnounOgj.value);
     }
 
     function selectObject(event){
         const btn = document.querySelector('.object')
             isRent.value = btn.textContent;
-            AnnounOgj.value.objects = event.target.textContent
-            AnnounOgj2.value.objects = event.target.textContent
+            AnnounOgj.value.objects = event.target.textContent.trim()
+            AnnounOgj2.value.objects = event.target.textContent.trim()
             btn.textContent = event.target.textContent.trim()
             announData.value[0] = AnnounOgj.value
             localStorage.setItem('announ', JSON.stringify(announData.value))
@@ -70,6 +69,10 @@
         announData.value[0] = AnnounOgj.value
         localStorage.setItem('announ', JSON.stringify(announData.value))
          navigateTo('/map')
+
+        if (event.target.dataset.name == 'Офис') {
+            navigateTo('/office')
+         }
     }
     
 
@@ -148,14 +151,14 @@
                                     <div class="field__name fs-7">Тип недвижимости</div>
                                 <div class="btn-group">
                                     <button class="field_name real_estate btn btn-light border btn-sm dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                        {{ AnnounOgj.typeRent == 'Посуточно' ? 'Жилая' :'Не выбранно' && AnnounOgj.Estate ? AnnounOgj.Estate: 'Не выбранно' }}
+                                        {{ AnnounOgj.typeRent == 'Посуточно' ? 'Жилая' :'Не выбранно' }}
                                     </button>
                                 
                                     <ul class="dropdown-menu">
-                                        <li :style="AnnounOgj.Estate =='Жилая' ? `background-color: #0468FF; color:white; font-weight:bold;`:''" @click="selectEstate" class="dropdown-item">
+                                        <li :style="AnnounOgj.Estate =='Жилая' ? `background-color: #0468FF; color:white; font-weight:bold;`:''" @click="selectEstate" class="dropdown-item cursor-pointer">
                                             Жилая
                                         </li>
-                                        <li :style="AnnounOgj.Estate == 'Коммерческая' ? `background-color:#0468FF; color:white; font-weight:bold;`:''" @click="selectEstate" v-if="AnnounOgj.typeRent !== 'Посуточно'" class="dropdown-item">
+                                        <li :style="AnnounOgj.Estate == 'Коммерческая' ? `background-color:#0468FF; color:white; font-weight:bold;`:''" @click="selectEstate" v-if="AnnounOgj.typeRent !== 'Посуточно'" class="dropdown-item cursor-pointer">
                                             Коммерческая
                                         </li>
                                     </ul>

@@ -31,8 +31,8 @@
                                                  
                                              </button>
                                              <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
-                                                 <li @click="isBalcon" class="dropdown-item">есть</li>
-                                                 <li @click="isBalcon" class="dropdown-item">нет</li>
+                                                 <li :style="aprtFeatures.balcon == 1 ? 'color:white; background-color:#0468FF;':''" @click="isBalcon" class="dropdown-item">есть</li>
+                                                 <li :style="aprtFeatures.balcon == 0 ? 'color:white; background-color:#0468FF;':''" @click="isBalcon" class="dropdown-item">нет</li>
                                              </ul>
                                          </div>
                                      
@@ -40,24 +40,6 @@
                              </div>
                          </div>
 
-                          <!-- <div class="row mt-2">
-                             <div class="preview-window">
-                                 <div class="balcon w-25 mt-3" >
-                                     <span for="#balcon" class="mb-2 fw-bold text-nowrap" style="font-family:lato, sans-seif">Вид из окно</span>
-                                     <div class="d-flex text-nowrap mt-2" style="font-family:lato, sans-serif;">
-                                         <label for="checkbox-1" class="me-3">
-                                             <input @change="chooseWindowSide" data-name="Во двор" type="checkbox" id="checkbox-1" class="d-none">
-                                             <span  class="form-control">Во двор</span>
-                                         </label>
-
-                                         <label for="checkbox2">
-                                             <input @change="chooseWindowSide" data-name="На улица" type="checkbox" id="checkbox2" class="d-none">
-                                             <span  class="form-control">На улица</span>
-                                         </label>
-                                     </div>   
-                                 </div>
-                             </div>
-                         </div> -->
 
                          <div class="row mt-2">
                              <div class="contrainer-balconies">
@@ -91,8 +73,8 @@
                                                 {{ aprtFeatures.elevator ? 'есть' : 'нет' }}
                                              </button>
                                              <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
-                                                 <li :style="elevator ? 'background-color:0468FF;':'' " @click="withElevator" class="dropdown-item">есть</li>
-                                                 <li :style="elevator ? 'background-color:0468FF;':'' " @click="withElevator" class="dropdown-item">нет</li>
+                                                 <li :style="aprtFeatures.elevator == 1 ? 'color:white; background-color:#0468FF;':''" @click="withElevator" class="dropdown-item">есть</li>
+                                                 <li :style="aprtFeatures.elevator == 0 ? 'color:white; background-color:#0468FF;':'' " @click="withElevator" class="dropdown-item">нет</li>
                                              </ul>
                                          </div>
                                  </div>
@@ -189,6 +171,7 @@ function next(){
 }
 
 onMounted(() => {
+    announData.value[3] = JSON.parse(localStorage.getItem('announ'))[3]
     if (JSON.parse(localStorage.getItem('announ'))[3]) {
         aprtFeatures.value = JSON.parse(localStorage.getItem('announ'))[3]
     }else{
@@ -319,7 +302,7 @@ label > span{
 }
 label > input:checked + span{
  background-color: rgb(230, 230, 230);
- border: 2px solid #152242;
+ border: 1px solid #152242;
 }
 
 .container-repair{
@@ -334,7 +317,7 @@ label > input:checked + span{
 
 .container-repair input:checked + .form-control{
   background-color: rgb(230, 230, 230);
- border: 2px solid #152242;
+ border: 1px solid #152242;
 }
 
 
