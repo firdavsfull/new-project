@@ -15,12 +15,11 @@
                  </div>
              </div>
 
-         <div class="mx-[20px] mt-[10px] h-[auto]">
-             <div class="text-container">
+         <div  class="mx-[20px] mt-[10px] h-[auto]">
+             <div v-if="announData[0].objects == 'Квартира' || announData[0].objects == 'Комната'" class="text-container">
                  <span>Параметры Квартиры </span>
              </div>
-
-             <div class="quantity-room-container">
+             <div v-if="announData[0].objects == 'Квартира' || announData[0].objects == 'Комната'" class="quantity-room-container">
                  <p>Количество Комнат</p>
                  <div class="quantity-room">
                      <label class="quantity-room-item" for="1">
@@ -46,10 +45,10 @@
                  </div>
              </div>
 
-             <div class="area-room-container">
+             <div v-if="announData[0].objects == 'Квартира' || announData[0].objects == 'Комната'" class="area-room-container">
                  <div class="area-room">
                     <div class="room">
-                     <p>Общая площадь</p>
+                     <p>  Общая площадь</p>
                      <div style="flex-direction:column;" class="relative">
 
                      <div :style="!apartmentParams.generalArea ?'border:1px solid red;':''" class="input-area form-control">
@@ -69,7 +68,7 @@
                     </div> 
                      
 
-                    <div  class="room">
+                    <div v-if="announData[0].objects == 'Квартира' || announData[0].objects == 'Комната'" class="room">
                      
                      <p>Жилая площадь</p>
                      <div :style="!apartmentParams.liveArea ?'border:1px solid red;':''" class="input-area form-control">
@@ -79,7 +78,7 @@
                     </div>
                  </div>
              </div>
-             <div  class="area-room-container mt-5">
+             <div v-if="announData[0].objects == 'Квартира' || announData[0].objects == 'Комната'" class="area-room-container mt-5">
                  <div class="area-room">
                      <div class="room">
                      <p>Кухня</p>
@@ -91,7 +90,7 @@
                  </div>
              </div>
 
-             <div class="picture-room-container">
+             <div class="picture-room-container" :style="announData[0].objects == 'Квартира' || announData[0].objects !== 'Комната'? 'margin-top: 80px;' : ''">
                  <span>Фото и планировка - от 5 и больше</span>
                  <div class="picture-room">
                      <div>
@@ -195,11 +194,14 @@ function prew(){
 
 
 onMounted(()=>{
+    announData.value[0] = JSON.parse(localStorage.getItem('announ'))[0]
  if (JSON.parse(localStorage.getItem('announ'))[2]) {
      apartmentParams.value = JSON.parse(localStorage.getItem('announ'))[2];
  }else{
      apartmentParams.value = apartmentParams1.value
  }
+
+ console.log(announData);
 })
 
 function change(){

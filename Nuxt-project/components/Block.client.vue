@@ -1,4 +1,5 @@
 <script setup>
+
 const { announData, responce } = getData();
 const floorObj = ref({
   floor: "",
@@ -55,35 +56,30 @@ function next(event) {
   // }
 }
 function move() {
-  if (
-    mapObj.value.city &&
-    mapObj.value.floor &&
-    mapObj.value.apartmentNumber &&
-    mapObj.value.year &&
-    mapObj.value.selectType
-  ) {
-    announData.value[0] = JSON.parse(localStorage.getItem("announ"))[0];
+  
     announData.value[1] = mapObj.value;
     localStorage.setItem("announ", JSON.stringify(announData.value));
     navigateTo("/pictures");
-
-    if (parseInt(mapObj.value.floor) > parseInt(mapObj.value.floorHouse)) {
+  
+    if (announData.value[0].objects == 'Квартира' && announData.value[0].objects == 'Комнат' || parseInt(mapObj.value.floor) > parseInt(mapObj.value.floorHouse)) {
       navigateTo("/map");
       announData.value[1] = "";
       localStorage.setItem("announ", JSON.stringify(announData.value));
     }
-  }
+  
 }
 
 onMounted(() => {
+  announData.value[0] = JSON.parse(localStorage.getItem("announ"))[0];
   if (JSON.parse(localStorage.getItem("announ"))[1]) {
     mapObj.value = JSON.parse(localStorage.getItem("announ"))[1];
   } else {
     mapObj.value = mapObj1.value;
   }
   const inputs = document.querySelectorAll("input");
+  
+  console.log(announData.value[0].objects);
 
-  console.log(inputs);
 });
 </script>
 <template>
@@ -158,11 +154,14 @@ onMounted(() => {
         src="https://geoawesomeness.com/wp-content/uploads/2022/03/maps-broadcom.png"
       />
     </div>
-    <div class="flex mt-4" id="floor">
+    <div class="flex mt-4" id="floor"
+    >
       <div class="content">
-        <div class="rows">
+        <div 
+        class="rows" v-if="announData[0].objects == 'Квартира' || announData[0].objects =='Комната'">
           <span>Этаж</span>
           <input
+            
             :style="moreThen || !mapObj.floor ? `border:1px solid red; ` : ''"
             @input="isFloor"
             type="number"
@@ -187,8 +186,8 @@ onMounted(() => {
             равен количеству этажей
           </p>
         </div>
-        <div class="rows sm:ml-[50px]">
-          <span>Этаж в доме</span>
+        <div class="rows">
+          <span>{{ announData[0].objects == 'Квартира' || announData[0].objects =='Комната' ? 'Этаж в дома': 'Количество этажей' }}</span>
           <input
             :style="!mapObj.floorHouse ? `border:1px solid red; ` : ''"
             @input="isFloor"
@@ -202,7 +201,7 @@ onMounted(() => {
       </div>
     </div>
 
-    <div class="flex mt-4" id="number_apartament">
+    <div v-if="announData.objects == 'Квартира'" class="flex mt-4" id="number_apartament">
       <div class="rows">
         <span>Номер квартиры</span>
         <input
@@ -216,9 +215,9 @@ onMounted(() => {
       </div>
     </div>
 
-    <div class="flex mt-4" id="year">
+    <div v-if="announData[0].objects == 'Квартира' || announData[0].objects =='Комната'" class="flex mt-4" id="year">
       <div class="rows">
-        <p>О здании</p>
+        <p> О здании</p>
       </div>
     </div>
     <div class="flex mt-2">
@@ -239,7 +238,7 @@ onMounted(() => {
 
     <div class="flex" id="type-home">
       <div class="type-home mt-4">
-        <p>Тип дома</p>
+        <p>{{ announData[0].objects !== 'Квартира' || announData[0].objects !=='Комната' ? 'Материал дома':'Тип дома' }}</p>
         <slot />
         <div class="rows">
           <label for="1">

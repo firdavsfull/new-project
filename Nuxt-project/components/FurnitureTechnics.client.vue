@@ -1,9 +1,9 @@
 <template>
-    <form class="layouts" v-if="AnnounOgj.objects == 'Квартира'">
+    <form class="layouts" >
          <div  class="container-xl mt-4">
              <div class="progress-container container">
                  <div class="d-flex justify-content-between mb-2 mt-3">
-                     <span class="fw-bold pt-1 2">Мебель и техника</span>
+                     <span class="fw-bold pt-1 2">{{ announData[0].objects !== 'Квартира' || announData[0].objects !== 'Комната'?'О дома и участка':'Мебель и техника' }}</span>
                      <button class="btn btn-none fs-5 p-0 m-0 text-primary me-2">
                          <font-awesome-icon :icon="['fas', 'circle-question']" />
                      </button>
@@ -14,12 +14,12 @@
                  </div>
              </div>
 
-             <div class="container-sm">
+             <div class="container-sm" >
                  <div class="text-container" style="font-weight:normal; color:#152242;">
-                     <span>В квартире есть </span>
+                     <span>{{ announData[0].objects !== 'Квартира' || announData[0].objects !== 'Комната'?'О дома и участка':'В квартире есть' }}</span>
                  </div>
                  <div class="container w-100">
-                     <div class="col mt-4" style="color:#152242;">
+                     <div class="col mt-4" v-if="announData[0].objects == 'Квартира' || announData[0].objects == 'Комната'" style="color:#152242;">
 
                            <div class="row mt-2">
                              <div class="preview-window">
@@ -87,18 +87,123 @@
                              </div>
                          </div>
                      </div>
-                 </div>
 
+                     <div class="mt-[40px]" v-else>
+                        <div class="overflow-hidden rounded max-w-xlg mx-[auto] ">
+
+                            <div class="block ]">
+                                
+
+                                    
+                                    <div class="flex flex-col w-[300px] ">
+                                    <label class="text-[14px] font-normal mt-[10px] text-[#152242]" for="area-plot">
+                                        Площадь участка
+                                    </label>
+
+                                    <div class="h-[40px] w-[250px] flex rounded-1 border bg-[white] overflow-hidden">
+                                        <input v-maska data-maska="# ### ### ###" class="border-[0] outline-0 px-[10px] h-full w-[85%]" type="text" id="area-plot">
+                                        <select style="-webkit-appearance: none; text-align: center;" class="flex border-0 outline-0 items-center justify-center bg-[white] w-[30%]" name="name" id="">
+                                                <option value="">сот.</option>
+                                                <option value="">га</option>
+                                            </select>
+                                    </div>
+                                
+                                </div>
+
+                                <div class="flex bg-[green]w-full mt-[5px]">
+                                    <div class="flex flex-col">
+                                        <label class="text-[14px] font-normal mt-[10px] text-[#152242]" for="some-texts">
+                                        Категория земель
+                                        </label>
+
+                                        <div class="flex flex-wrap w-full">
+                                            <label class="mr-[5px] " for="1">
+                                                <input class="d-none check" type="radio" name="radio1" id="1">
+                                                <span class="form-control rounded-1 border mt-[5px] ">Земли населённых пунктов</span>
+                                            </label>
+                                            <label class="mr-[5px] " for="2">
+                                                <input class="d-none check" type="radio" name="radio1" id="2">
+                                                <span class="form-control rounded-1 border mt-[5px] ">Земли сельхозназначения</span>
+                                            </label>
+                                            <label class="mr-[5px] " for="3">
+                                                <input class="d-none check" type="radio" name="radio1" id="3">
+                                                <span class="form-control rounded-1 border mt-[5px] ">Другое</span>
+                                            </label>
+                                            
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <div class="mt-[20px] flex flex-col w-[300px] ">
+                                        <label class="text-[14px] font-normal mt-[10px] text-[#152242]" for="area-home">
+                                            Площадь дома
+                                        </label>
+    
+                                        <div class="h-[40px] w-[200px] flex rounded-1 border bg-[white] overflow-hidden">
+                                            <input v-maska data-maska="####" class="border-[0] outline-0 px-[10px] h-full w-[85%]" type="text" id="area-home">
+                                            <span class="flex items-center justify-center bg-[white] w-[15%]">м<sup class="text-[10px]">2</sup></span>
+                                            
+                                        </div>
+                                    </div>
+
+                                <div class="flex flex-col w-[300px] mt-[5px]">
+                                    <label class="text-[14px] font-normal mt-[10px] text-[#152242]" for="quantity-bedroom">
+                                        Количество спален
+                                    </label>
+
+                                    <div class="h-[40px] w-[200px] flex rounded-1 border bg-[white] overflow-hidden">
+                                        <input v-maska data-maska="##" class="border-[0] outline-0 px-[10px] h-full w-full" type="text" id="quantity-bedroom">
+                                        <!-- <span class="flex items-center justify-center bg-[white] w-[15%]">м<sup class="text-[10px]">2</sup></span> -->
+                                    </div>
+                                </div>
+
+                                <div class="flex bg-[green]w-full mt-[5px]">
+                                    <div class="flex flex-col">
+                                        <label class="text-[14px] font-normal mt-[10px] text-[#152242]" for="some-text">
+                                        Состояние дома
+                                        </label>
+
+                                        <div class="flex flex-wrap w-full">
+                                            <label class="mr-[5px] " for="4">
+                                                <input class="d-none" type="radio" name="radio" id="4">
+                                                <span class="form-control text-[green] rounded-1 border mt-[5px] ">Можно жить</span>
+                                            </label>
+                                            <label class="mr-[5px] " for="5">
+                                                <input class="d-none" type="radio" name="radio" id="5">
+                                                <span class="form-control rounded-1 border mt-[5px] ">Нужен ремонт</span>
+                                            </label>
+                                            <label class="mr-[5px] " for="6">
+                                                <input class="d-none" type="radio" name="radio" id="6">
+                                                <span class="form-control rounded-1 border mt-[5px] ">Нужно достроит</span>
+                                            </label>
+                                            <label class="mr-[5px] " for="7">
+                                                <input class="d-none" type="radio" name="radio" id="7">
+                                                <span class="form-control rounded-1 border mt-[5px] ">Нужен капремонт или под снос</span>
+                                            </label>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                            </div>
+                                
+                            </div>
+                        </div>  
+                 </div>
+    
                  <div class="container mt-4 mb-2 d-flex justify-content-end mx-1 ">
                      <next-btn class="px-4 mx-4 btn btn-light mx-4 text-primary" @click.prevent="prew">Назад</next-btn>
                      <next-btn class="px-4 btn  btn-primary" @click.prevent="next">Далее</next-btn>
                  </div>
              </div>
+
+             
          </div>
 
          
      </form>
      
+
+   
 </template>
 <script setup>
 
@@ -115,7 +220,7 @@ const c = ref()
 
 
 
-onMounted( ()=>{
+onMounted(()=>{
         
             setTimeout(()=>{
                 let inputs = document.querySelectorAll('.d-none');
@@ -131,13 +236,13 @@ onMounted( ()=>{
 
         
 
-        if (JSON.parse(localStorage.getItem('announ'))[4]) {
+if (JSON.parse(localStorage.getItem('announ'))[4]) {
      facilities.value = JSON.parse(localStorage.getItem('announ'))[4]
  }else{
      facilities.value = facilities1.value
  }
  AnnounOgj.value = JSON.parse(localStorage.getItem('announ'))[0]
-
+ announData.value[0] = JSON.parse(localStorage.getItem('announ'))[0]
 })
 function selecTechnics(event){
  if (event.target.checked) {
@@ -230,6 +335,14 @@ function change(){
 </script>
 
 <style scoped>
+
+*{
+    font-family: Lato,Arial,sans-serif;
+}
+.check:checked + span{
+    border-radius: 3px;
+    border: 1px solid #152242;
+}
 @media screen and (min-width:320px) {
  .progress{
      height: 7px;

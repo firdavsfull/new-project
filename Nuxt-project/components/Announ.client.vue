@@ -16,7 +16,9 @@
         AnnounOgj.value.rent = btn.textContent
         AnnounOgj2.value.rent = btn.textContent
 
-        
+        if (AnnounOgj.rent == 'Продажа') {
+            AnnounOgj.value.typeRent = 'Длительно'
+        }
     }
 
 
@@ -30,9 +32,6 @@
             AnnounOgj.value.Estate = 'Жилая'
             AnnounOgj2.value.objects = 'Квартира'
             AnnounOgj2.value.Estate = 'Жилая'
-        }
-        if (isRent.value == 'Продажа') {
-            
         }
         console.log(AnnounOgj.value);
     }
@@ -48,6 +47,7 @@
             AnnounOgj2.value.objects = 'Не выбранно'
             AnnounOgj2.value.Estate = 'Жилая'
         }
+        
         console.log(AnnounOgj.value);
     }
 
@@ -147,7 +147,7 @@
                                     <div class="field__name fs-7">Тип недвижимости</div>
                                 <div class="btn-group">
                                     <button class="field_name real_estate btn btn-light border btn-sm dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                        {{ AnnounOgj.typeRent == 'Посуточно' ? 'Жилая' :'Не выбранно' && AnnounOgj.Estate ? AnnounOgj.Estate: 'Не выбранно' }}
+                                        {{ AnnounOgj.typeRent == 'Посуточно' ? 'Жилая' :'Не выбранно' }}
                                     </button>
                                 
                                     <ul class="dropdown-menu">

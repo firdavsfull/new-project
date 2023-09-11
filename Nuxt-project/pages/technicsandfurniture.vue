@@ -1,3 +1,3 @@
 <template>
-    <furniture-technics/>
+    <FurnitureTechnics/>
 </template>

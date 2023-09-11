@@ -171,6 +171,7 @@ function next(){
 }
 
 onMounted(() => {
+    announData.value[3] = JSON.parse(localStorage.getItem('announ'))[3]
     if (JSON.parse(localStorage.getItem('announ'))[3]) {
         aprtFeatures.value = JSON.parse(localStorage.getItem('announ'))[3]
     }else{

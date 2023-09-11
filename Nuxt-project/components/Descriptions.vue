@@ -27,9 +27,9 @@
                                 
                               <div 
                               class="border-1 bg-red-500 rounded flex w-full h-[40px] overflow-hidden"
-                              :style="!message.title ? 'border-color:red;':''"
+                              :style="!message.title || message.title.length < 12 ? 'border-color:red;':''"
                               >
-                                <input @input="writeMessages" v-model="message.title" class="w-full px-[10px] outline-0 border-0" type="text" id="exampleFormControlInput1" placeholder="Просторная видовая двушка у парка">
+                                <input v-model="message.title" class="w-full px-[10px] outline-0 border-0" type="text" id="exampleFormControlInput1" placeholder="Просторная видовая двушка у парка">
                                 <span style="border-left: none;border-radius: 8px; border-top-left-radius: 0; border-bottom-left-radius: 0;"
                                 class="relative  px-[3px] flex text-[gray] items-center bg-[white]">
                             </span>
@@ -68,14 +68,14 @@ function change(){
     file.click()
 }
 
-function writeMessages(){
-    console.log(message.value.title, message.value.description);
-}
+// function writeMessages(){
+//     message.value.title, message.value.description
+// }
 
 const route = useRoute()
 
 function next(){
-    if (!message.value.title || message.value.title == '' && !message.value.description  || message.value.description.length < 15 ) {
+    if (!message.value.title || message.value.title < 12 && !message.value.description  || message.value.description.length < 15 ) {
         navigateTo('/description')
     }else{
     navigateTo('/price')
@@ -86,7 +86,7 @@ function next(){
     announData.value[4] = JSON.parse(localStorage.getItem('announ'))[4]
     announData.value[5] = message.value
     localStorage.setItem('announ', JSON.stringify(announData.value))
-    message.value = message1.value
+    message1.value = message.value
     }
     
     

@@ -1,5 +1,5 @@
 <template>
-        <button >
+        <button class=" rounded-1">
             <slot/>
             
             </button>
