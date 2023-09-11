@@ -48,13 +48,11 @@
                             style="resize:none; height:300px">
 
                                 </textarea>
-                        <p v-if="!message.description || message.description.length < 15"
-                            :class="!message.description || message.description.length < 15 ? 'mt-[6px] text-[12px] text-[red]' : ''">
-                            Ваш текст не должен быть меньше 15 символов. В вашем тексте {{ message.description.length }}
-                            символ
-                        </p>
+                                <p v-if="!message.description || message.description.length < 15" :class="!message.description || message.description.length < 15 ? 'mt-[6px] text-[12px] text-[red]':''">
+                                  Напишите хотя бы пару предложений: от 15 до 3 000 букв  
+                                </p>
+                            </div>
                     </div>
-                </div>
 
                 <div class="container mt-4 mb-2 d-flex justify-content-end mx-1 ">
                     <next-btn class="px-4 mx-4 btn btn-light mx-4 text-primary"
@@ -83,20 +81,19 @@ function writeMessages(){
 
 const route = useRoute()
 
-function next() {
-    if (message.value.title == '' || message.value.title.length < 15 && !message.value.description || message.value.description.length < 15) {
-        // navigateTo('/description')
-        return
-    } else {
-        navigateTo('/price')
-        announData.value[0] = JSON.parse(localStorage.getItem('announ'))[0]
-        announData.value[1] = JSON.parse(localStorage.getItem('announ'))[1]
-        announData.value[2] = JSON.parse(localStorage.getItem('announ'))[2]
-        announData.value[3] = JSON.parse(localStorage.getItem('announ'))[3]
-        announData.value[4] = JSON.parse(localStorage.getItem('announ'))[4]
-        announData.value[5] = message.value
-        localStorage.setItem('announ', JSON.stringify(announData.value))
-        message1.value = message.value
+function next(){
+    if (message.value.title == '' && !message.description ) {
+        navigateTo('/description')
+    }else{
+    navigateTo('/price')
+    announData.value[0] = JSON.parse(localStorage.getItem('announ'))[0]
+    announData.value[1] = JSON.parse(localStorage.getItem('announ'))[1]
+    announData.value[2] = JSON.parse(localStorage.getItem('announ'))[2]
+    announData.value[3] = JSON.parse(localStorage.getItem('announ'))[3]
+    announData.value[4] = JSON.parse(localStorage.getItem('announ'))[4]
+    announData.value[5] = message.value
+    localStorage.setItem('announ', JSON.stringify(announData.value))
+    message.value = message1.value
     }
 
 
