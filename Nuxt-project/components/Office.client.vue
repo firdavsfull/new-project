@@ -34,8 +34,8 @@
                     style="height: 300px; overflow: auto"
                     class="dropdown-menu form-control"
                   >
-                    <li>
-                      <a class="dropdown-item" href="#">Город</a>
+                    <li v-for="c of city" :key="c.id">
+                      <a class="dropdown-item" href="#">{{c.name}}</a>
                     </li>
                   </ul>
                 </div>
@@ -257,7 +257,11 @@
             </div>
          </div>
       </div>
-      <Pictures />
+      <div class="p-[10px] mt-[5px] rounded-[10px] border-primary" style=" border:2px dashed;">
+        <div >
+            <Pictures />
+        </div>
+      </div>
     </div>
   </div>
 </template>
@@ -268,6 +272,10 @@ const  data =  fetch('http://192.168.0.114:8000/api/infrastructure');
 
 const firstData =  ref(d.filter(item => item.id < 14 )) 
 const secondData = ref(d.filter(item=>item.id > 14))
+
+const getInfo = fetch('http://192.168.0.114:8000/api/city')
+const getCity = await getInfo
+const city = await getCity.json()
     
 </script>
 <style scoped>
