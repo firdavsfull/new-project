@@ -74,7 +74,7 @@
 
             <div class="p-[10px]">
                 <div class="flex flex-col">
-                    <div class="mb-[8px] shrink-[0] pt-[6px] w=[180px] text-[14px] leading-[16px]">
+                    <div class="mb-[8px] shrink-[0] pt-[6px] w-[180px] text-[14px] leading-[16px]">
                         Общая площадь
                     </div>
 
@@ -85,7 +85,7 @@
                 </div>
 
                 <div class="flex flex-col mt-[20px]">
-                    <div class="mb-[8px] shrink-[0] pt-[6px] w=[180px] text-[14px] leading-[16px]">
+                    <div class="mb-[8px] shrink-[0] pt-[6px] w-[180px] text-[14px] leading-[16px]">
                         Этаж
                     </div>
 
@@ -95,7 +95,7 @@
                 </div>
 
                 <div class="flex flex-col">
-                    <div class="mb-[8px] shrink-[0] pt-[6px] w=[180px] text-[14px] leading-[16px]">
+                    <div class="mb-[8px] shrink-[0] pt-[6px] w-[180px] text-[14px] leading-[16px]">
                         Из
                     </div>
 
@@ -105,7 +105,7 @@
                 </div>
 
                 <div class="flex flex-col mt-[10px]">
-                    <div class="mb-[8px] shrink-[0] pt-[6px] w=[180px] text-[14px] leading-[16px]">
+                    <div class="mb-[8px] shrink-[0] pt-[6px] w-[180px] text-[14px] leading-[16px]">
                         Высота потолков
                     </div>
 
