@@ -597,7 +597,9 @@ margin: 0;
  .quantity-room-item{
      margin-left: 0;
  }
+ 
 }
+
 
 
 </style>
