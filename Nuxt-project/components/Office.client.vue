@@ -513,7 +513,34 @@ onMounted( async () => {
     "Абдурахмони Джоми",
     "Айни",
     "Ашт",
-    "",
+    "Бальджувон",
+    "Бободжон Гафуров",
+    "Бохтар (Курган-Тюбе)",
+    "Бустон (Чкаловск)",
+    "Вандж",
+    "Варзоб",
+    "Вахдат",
+    "Вахш",
+    "Восе",
+    "Гиссар",
+    "Горная Матча",
+    "Гулистон",
+    "Дангара",
+    "Дарваз",
+    "Деваштич (Ганчи)",
+    "Джаббор Расулов",
+    "Джайхун (Кумсангир)",
+    "Джалолиддини Балхи (Руми)",
+    "Джами",
+    "Дусти",
+    "Зафарабад",
+    "Истаравшан",
+    "Исфара",
+    "Ишкашим",
+    "Кубодиён",
+    "Канибадам",
+    "Куляб",
+    "Кушониён",
     
    ]
     
@@ -523,6 +550,15 @@ onMounted( async () => {
            "Content-type":"application/json"
          },
          body: JSON.stringify({send: infrastructure})
+        }).then(res=>res.json())
+        .then(res=> res)
+
+        await fetch('http://192.168.0.114:8000/api/create/city',{
+         method:'post',
+         headers:{
+           "Content-type":"application/json"
+         },
+         body: JSON.stringify({city: cityData})
         }).then(res=>res.json())
         .then(res=> console.log(res))
       

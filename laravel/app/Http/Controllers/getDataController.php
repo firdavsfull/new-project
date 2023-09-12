@@ -24,6 +24,10 @@ class getDataController extends Controller
             
     }
 
+    public function createCity(Request $request){
+        
+        $cities = City::firstOrCreate(['name'=>$request->city]);
+    }
     public function getConditions(){
         $conditions =  Conditions::all();
         
