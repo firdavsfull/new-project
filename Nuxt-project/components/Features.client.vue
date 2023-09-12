@@ -99,6 +99,9 @@
 
                                          <input :checked="aprtFeatures.parking == 'На крыше'" @change="selecetParking" data-parking="На крыше" type="checkbox" class="btn-check" name="options" id="sel4" autocomplete="off">
                                          <label :style="!aprtFeatures.parking?'border:1px solid red; border-radius:8px;':''" class="form-control my-1" for="sel4">На крыше</label>
+
+                                         <input v-if="announData[0].objects == 'Дом/Дача'" :checked="aprtFeatures.parking == 'На крыше'" @change="selecetParking" data-parking="Нет" type="checkbox" class="btn-check" name="options" id="sel5" autocomplete="off">
+                                         <label v-if="announData[0].objects == 'Дом/Дача'" :style="!aprtFeatures.parking?'border:1px solid red; border-radius:8px;':''" class="form-control my-1" for="sel5">Нет</label>
                                      </div>
                                  </div>
                              </div>
@@ -171,6 +174,7 @@ function next(){
 }
 
 onMounted(() => {
+    announData.value[0] = JSON.parse(localStorage.getItem('announ'))[0]
     announData.value[3] = JSON.parse(localStorage.getItem('announ'))[3]
     if (JSON.parse(localStorage.getItem('announ'))[3]) {
         aprtFeatures.value = JSON.parse(localStorage.getItem('announ'))[3]
