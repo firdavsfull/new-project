@@ -166,21 +166,17 @@ function verfied(){
     }
 
 function next(){
-//  apartmentParams.value.generalArea = parseInt(generalArea.value)
-//  apartmentParams.value.liveArea = parseInt(liveArea.value)
-//  apartmentParams.value.kitchenArea = parseInt(kitchenArea.value)
-//  apartmentParams.value.linkvideo = videoLink.value
-
-//  apartmentParams1.value.generalArea = parseInt(generalArea.value)
-//  apartmentParams1.value.liveArea = parseInt(liveArea.value)
-//  apartmentParams1.value.kitchenArea = parseInt(kitchenArea.value)
-//  apartmentParams1.value.linkvideo = videoLink.value
-
  announData.value[0] = JSON.parse(localStorage.getItem('announ'))[0]
  announData.value[1] = JSON.parse(localStorage.getItem('announ'))[1]
  announData.value[2] = apartmentParams.value
  localStorage.setItem('announ', JSON.stringify(announData.value))
- navigateTo('/feature')
+ 
+
+ if (announData.value[0].objects == 'Участок') {
+    navigateTo('/technicsandfurniture')
+ }else{
+    navigateTo('/feature')
+ }
 
  if (parseInt(apartmentParams.value.liveArea) + parseInt(apartmentParams.value.kitchenArea) > parseInt(apartmentParams.value.generalArea)) {
     navigateTo('/pictures')
