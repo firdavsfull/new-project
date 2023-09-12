@@ -236,7 +236,7 @@
                 <div style="flex: 1 1 flex-col;">
                     <label class="flex mt-[14px] " :for="data1.id" v-for="data1 of firstData" :key="data1.id">
                         <input :data-name="data1.name" type="checkbox"  :id="data1.id">
-                        <span style="font-family: Lato,Arial,sans-serif;" class="text-[14px] ml-[10px]">{{data1.name}}</span>
+                        <span style="font-family: Lato,Arial,sans-serif;" class="text-[14px] ml-[10px] media">{{data1.name}}</span>
                     </label>
                 </div>
                 <div class="ml-[15px] flex flex-col">
@@ -273,5 +273,32 @@ const city = await getCity.json()
 <style scoped>
 *{
     font-family: Lato,Arial,sans-serif;
+}
+
+@media screen and (min-width:640px) {
+  .media{
+    overflow: hidden;
+    width: 200px;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+}
+@media screen and (min-width: 768px) {
+  .media{
+    min-width: 200px;
+    text-overflow: none;
+    white-space: wrap;
+    overflow: auto;
+
+  }
+}
+
+@media screen and (min-width: 320px) {
+  .media{
+    overflow: hidden;
+    width: 100px;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
 }
 </style>
