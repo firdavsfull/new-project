@@ -82,15 +82,13 @@
           </div>
         </div>
 
-        <div class="p-[10px]">
-          <div class="flex flex-col">
-            <div
-              class="mb-[8px] shrink-[0] pt-[6px] w-[180px] text-[14px] leading-[16px]"
-            >
-              Общая площадь
-            </div>
+            <div class="p-[10px]">
+                <div class="flex flex-col">
+                    <div class="mb-[8px] shrink-[0] pt-[6px] w=[180px] text-[14px] leading-[16px]">
+                        Общая площадь
+                    </div>
 
-            <div class="flex rounded-1 border px-[4px] w-[85px]">
+            <div class="flex h-[30px] rounded-1 border px-[4px] w-[90px]">
               <input
                 class="border-0 outline-0 w-[100%] text-[14px] font-[450] text-[gray]"
                 v-maska
@@ -101,14 +99,12 @@
             </div>
           </div>
 
-          <div class="flex flex-col mt-[20px]">
-            <div
-              class="mb-[8px] shrink-[0] pt-[6px] w=[180px] text-[14px] leading-[16px]"
-            >
-              Этаж
-            </div>
+                <div class="flex flex-col mt-[20px]">
+                    <div class="mb-[8px] shrink-[0] pt-[6px] w=[180px] text-[14px] leading-[16px]">
+                        Этаж
+                    </div>
 
-            <div class="flex rounded-1 border px-[4px] w-[85px]">
+            <div class="flex h-[30px]  rounded-1 border px-[4px] w-[90px]">
               <input
                 class="border-0 h-[24px] outline-0 w-[100%] text-[14px] font-[450] text-[gray]"
                 v-maska
@@ -118,14 +114,12 @@
             </div>
           </div>
 
-          <div class="flex flex-col">
-            <div
-              class="mb-[8px] shrink-[0] pt-[6px] w-[180px] text-[14px] leading-[16px]"
-            >
-              из
-            </div>
+                <div class="flex flex-col">
+                    <div class="mb-[8px] shrink-[0] pt-[6px] w=[180px] text-[14px] leading-[16px]">
+                        Из
+                    </div>
 
-            <div class="flex rounded-1 border px-[4px] w-[85px]">
+            <div class="flex rounded-1 h-[30px] border px-[4px] w-[90px]">
               <input
                 class="border-0 h-[24px] outline-0 w-[100%] text-[14px] font-[450] text-[gray]"
                 v-maska
@@ -135,14 +129,12 @@
             </div>
           </div>
 
-          <div class="flex flex-col mt-[10px]">
-            <div
-              class="mb-[8px] shrink-[0] pt-[6px] w-[180px] text-[14px] leading-[16px]"
-            >
-              Высота потолков
-            </div>
+                <div class="flex flex-col mt-[10px]">
+                    <div class="mb-[8px] shrink-[0] pt-[6px] w=[180px] text-[14px] leading-[16px]">
+                        Высота потолков
+                    </div>
 
-            <div class="flex rounded-1 border px-[4px] w-[85px]">
+            <div class="flex rounded-1 h-[30px] items-center border px-[4px] w-[90px]">
               <input
                 class="border-0 outline-0 w-[100%] text-[14px] font-[450] text-[gray]"
                 v-maska
@@ -159,7 +151,7 @@
                 </div>
 
                 <div class="flex rounded-1 w-[85px]">
-                <select style="-webkit-appearance: none" class="border-1 rounded-1 outline-0 px-[10px] py-[1px] text-[14px]" name="plan">
+                <select style="-webkit-appearance: none" class="border-1 h-[30px] rounded-1 outline-0 px-[10px] py-[1px] text-[14px]" name="plan">
                     <option class="text-[14px]" selected>Не выбранно</option>
                     <option class="text-[14px]">Кабинетная</option>
                     <option class="text-[14px]">Открытая</option>
@@ -173,7 +165,7 @@
                 </div>
 
                 <div class="flex rounded-1 w-[85px]">
-                <select style="-webkit-appearance: none;" class="border-1 rounded-1 outline-0 px-[10px] py-[1px] text-[14px]" name="plan">
+                <select style="-webkit-appearance: none;" class="border-1 h-[30px] rounded-1 outline-0 px-[10px] py-[1px] text-[14px]" name="plan">
                     <option class="text-[14px]" selected>Не выбранно</option>
                     <option class="text-[14px]">Офисная отделка</option>
                     <option class="text-[14px]">Под чистовую отделку</option>
@@ -187,7 +179,7 @@
                 </div>
 
                 <div class="flex rounded-1 w-[85px]">
-                <select style="-webkit-appearance: none" class="border-1 rounded-1 outline-0 px-[10px] py-[1px] text-[14px]" name="plan">
+                <select style="-webkit-appearance: none" class="border-1 h-[30px] rounded-1 outline-0 px-[10px] py-[1px] text-[14px]" name="plan">
                     <option class="text-[14px]" selected>Не выбранно</option>
                     <option class="text-[14px]">Есть</option>
                     <option class="text-[14px]">Нет</option>
@@ -200,7 +192,7 @@
                 </div>
 
                 <div class="flex rounded-1 w-[85px]">
-                <select style="-webkit-appearance: none" class="border-1 rounded-1 outline-0 px-[10px] py-[1px] text-[14px]" name="plan">
+                <select style="-webkit-appearance: none" class="border-1 rounded-1 h-[30px] outline-0 px-[10px] py-[1px] text-[14px]" name="plan">
                     <option class="text-[14px]" selected>Не выбранно</option>
                     <option class="text-[14px]">Наземная</option>
                     <option class="text-[14px]">Многоуровневая</option>
@@ -216,7 +208,7 @@
               Количество мест
             </div>
 
-            <div class="flex rounded-1 border px-[4px] w-[85px]">
+            <div class="flex rounded-1 h-[30px] border px-[4px] w-[100px]">
               <input
                 class="border-0 outline-0 w-[100%] text-[14px] font-[450] text-[gray]"
                 v-maska
@@ -248,7 +240,7 @@
                     </label>
                 </div>
                 <div class="ml-[15px] flex flex-col">
-                    <label class="flex mt-[14px] " :for="data2.id" v-for="data2 of secondData" :key="data2.id">
+                    <label class="flex mt-[14px]" :for="data2.id" v-for="data2 of secondData" :key="data2.id">
                         <input :data-name="data2.name" type="checkbox"  :id="data2.id">
                         <span style="font-family: Lato,Arial,sans-serif;" class="text-[14px] ml-[10px]">{{data2.name}}</span>
                     </label>

@@ -15,12 +15,11 @@
                  </div>
              </div>
 
-         <div class="mx-[20px] mt-[10px] h-[auto]">
-             <div class="text-container">
+         <div  class="mx-[20px] mt-[10px] h-[auto]">
+             <div v-if="announData[0].objects == 'Квартира' || announData[0].objects == 'Комната'" class="text-container">
                  <span>Параметры Квартиры </span>
              </div>
-
-             <div class="quantity-room-container">
+             <div v-if="announData[0].objects == 'Квартира' || announData[0].objects == 'Комната'" class="quantity-room-container">
                  <p>Количество Комнат</p>
                  <div class="quantity-room">
                      <label class="quantity-room-item" for="1">
@@ -46,14 +45,14 @@
                  </div>
              </div>
 
-             <div class="area-room-container">
+             <div v-if="announData[0].objects == 'Квартира' || announData[0].objects == 'Комната'" class="area-room-container">
                  <div class="area-room">
                     <div class="room">
-                     <p>Общая площадь</p>
+                     <p>  Общая площадь</p>
                      <div style="flex-direction:column;" class="relative">
 
                      <div :style="!apartmentParams.generalArea ?'border:1px solid red;':''" class="input-area form-control">
-                         <input @input="verfied" v-model="apartmentParams.generalArea" type="number" v-maska
+                         <input @input="verfied" v-model="apartmentParams.generalArea" type="text" v-maska
           data-maska="####">
                          <div>м<sup class="text-[10px]">2</sup></div>
                      </div>
@@ -69,29 +68,45 @@
                     </div> 
                      
 
-                    <div  class="room">
+                    <div v-if="announData[0].objects == 'Квартира' || announData[0].objects == 'Комната'" class="room">
                      
                      <p>Жилая площадь</p>
                      <div :style="!apartmentParams.liveArea ?'border:1px solid red;':''" class="input-area form-control">
-                         <input @input="verfied" v-model="apartmentParams.liveArea" type="number" v-maska data-maska="####">
+                         <input @input="verfied" v-model="apartmentParams.liveArea" type="text" v-maska data-maska="####">
                          <div>м<sup class="text-[10px]">2</sup></div>
                      </div>
                     </div>
                  </div>
              </div>
-             <div  class="area-room-container mt-5">
+             <div v-if="announData[0].objects == 'Квартира' || announData[0].objects == 'Комната'" class="area-room-container mt-5">
                  <div class="area-room">
                      <div class="room">
                      <p>Кухня</p>
                      <div :style="!apartmentParams.kitchenArea ?'border:1px solid red;':''" class="input-area form-control">
-                         <input @input="verfied" v-model="apartmentParams.kitchenArea" type="number" v-maska data-maska="####">
+                         <input @input="verfied" v-model="apartmentParams.kitchenArea" type="text" v-maska data-maska="####">
                          <div>м<sup class="text-[10px]">2</sup></div>
                      </div>
                     </div>
                  </div>
              </div>
 
-             <Pictures />
+             <div class="picture-room-container" :style="announData[0].objects == 'Квартира' || announData[0].objects !== 'Комната'? 'margin-top: 80px;' : ''">
+                 <span>Фото и планировка - от 5 и больше</span>
+                 <div class="picture-room">
+                     <div>
+                         <font-awesome-icon style="color:darkgray;" :icon="['fas', 'camera']" />
+                     </div>
+                     <p>На фото не должно быть людей, животных,
+                         алкоголя, табака, оружия. Не добавляйте
+                         чужие фото, картинки с водяными знаками
+                         и рекламу.
+                     </p>
+                 </div>
+                 <div class="choose-picture">
+                     <button @click.prevent='change'  style="background-color:rgba(15,72,157,.1); color:#0468ff;" class="btn w-100  fw-bold font-monospace">Выберите файлы</button>
+                     <input type="file" accept="*png" multiple style="display:none;" id="">
+                 </div>
+             </div>
 
              <div class="video-link-container">
                  <div style="margin-top:24px;">
@@ -179,14 +194,20 @@ function prew(){
 
 
 onMounted(()=>{
+    announData.value[0] = JSON.parse(localStorage.getItem('announ'))[0]
  if (JSON.parse(localStorage.getItem('announ'))[2]) {
      apartmentParams.value = JSON.parse(localStorage.getItem('announ'))[2];
  }else{
      apartmentParams.value = apartmentParams1.value
  }
+
+ console.log(announData);
 })
 
-
+function change(){
+ const file =  document.querySelector('.choose-picture > input')
+ file.click()
+}
 </script>
 
 <style scoped>
@@ -281,7 +302,29 @@ margin: 0;
      font-size: 10px;
  }
 
- 
+ .picture-room-container{
+     display: flex;
+     width: 100%;
+     flex-direction: column;
+ }
+ .picture-room-container > span{
+     font-size: 16px;
+     font-family: lato, sans-serif;
+     letter-spacing: -0.2;
+     font-weight: 700;
+     line-height: 24px;
+ }
+ .picture-room{
+     display: flex;
+     align-items: center;
+ }
+ .picture-room > p {
+     margin-top: 10px;
+     width: 35%;
+     margin-left: 15px;
+     font-size: 12px;
+     height: max-content;
+ }
  .video-link-container{
      display: flex;
      min-width: 100%;
@@ -423,7 +466,29 @@ margin: 0;
      font-size: 10px;
  }
 
- 
+ .picture-room-container{
+     display: flex;
+     width: 100%;
+     flex-direction: column;
+ }
+ .picture-room-container > span{
+     font-size: 16px;
+     font-family: lato, sans-serif;
+     letter-spacing: -0.2;
+     font-weight: 700;
+     line-height: 24px;
+ }
+ .picture-room{
+     display: flex;
+     align-items: center;
+ }
+ .picture-room > p {
+     margin-top: 10px;
+     width: 35%;
+     margin-left: 15px;
+     font-size: 12px;
+     height: max-content;
+ }
  .video-link-container{
      display: flex;
      min-width: 100%;
@@ -532,7 +597,9 @@ margin: 0;
  .quantity-room-item{
      margin-left: 0;
  }
+ 
 }
+
 
 
 </style>
