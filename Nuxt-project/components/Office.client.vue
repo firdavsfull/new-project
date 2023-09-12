@@ -27,15 +27,15 @@
                     role="button"
                     data-bs-toggle="dropdown"
                   >
-                    <span class="me-5">Укажите город</span>
+                    <span class="me-5 city">Укажите город</span>
                   </a>
 
                   <ul
                     style="height: 300px; overflow: auto"
                     class="dropdown-menu form-control"
                   >
-                    <li v-for="c of city" :key="c.id">
-                      <a class="dropdown-item" href="#">{{c.name}}</a>
+                    <li @click="selectCity"  v-for="c of city" :key="c.id">
+                      <a class="dropdown-item" :data-name="c.name" href="#">{{c.name}}</a>
                     </li>
                   </ul>
                 </div>
@@ -88,7 +88,7 @@
                         Общая площадь
                     </div>
 
-            <div class="flex rounded-1 border px-[4px] w-[85px]">
+            <div class="flex h-[30px] rounded-1 border px-[4px] w-[85px]">
               <input
                 class="border-0 outline-0 w-[100%] text-[14px] font-[450] text-[gray]"
                 v-maska
@@ -104,7 +104,7 @@
                         Этаж
                     </div>
 
-            <div class="flex rounded-1 border px-[4px] w-[85px]">
+            <div class="flex rounded-1 items-center h-[30px] border px-[4px] w-[85px]">
               <input
                 class="border-0 h-[24px] outline-0 w-[100%] text-[14px] font-[450] text-[gray]"
                 v-maska
@@ -119,7 +119,7 @@
                         Из
                     </div>
 
-            <div class="flex rounded-1 border px-[4px] w-[85px]">
+            <div class="flex items-center h-[30px] rounded-1 border px-[4px] w-[85px]">
               <input
                 class="border-0 h-[24px] outline-0 w-[100%] text-[14px] font-[450] text-[gray]"
                 v-maska
@@ -134,12 +134,11 @@
                         Высота потолков
                     </div>
 
-            <div class="flex rounded-1 border px-[4px] w-[85px]">
+            <div class="flex rounded-1 border px-[4px] h-[30px] w-[85px]">
               <input
                 class="border-0 outline-0 w-[100%] text-[14px] font-[450] text-[gray]"
-                v-maska
-                data-maska="####"
-                type="text"
+                
+                type="number"
               />
               <span>м</span>
             </div>
@@ -151,7 +150,7 @@
                 </div>
 
                 <div class="flex rounded-1 w-[85px]">
-                <select style="-webkit-appearance: none" class="border-1 rounded-1 outline-0 px-[10px] py-[1px] text-[14px]" name="plan">
+                <select style="-webkit-appearance: none" class="border-1 h-[35px] rounded-1 outline-0 px-[10px] py-[1px] text-[14px]" name="plan">
                     <option class="text-[14px]" selected>Не выбранно</option>
                     <option class="text-[14px]">Кабинетная</option>
                     <option class="text-[14px]">Открытая</option>
@@ -165,7 +164,7 @@
                 </div>
 
                 <div class="flex rounded-1 w-[85px]">
-                <select style="-webkit-appearance: none;" class="border-1 rounded-1 outline-0 px-[10px] py-[1px] text-[14px]" name="plan">
+                <select style="-webkit-appearance: none;" class="border-1 h-[35px] rounded-1 outline-0 px-[10px] py-[1px] text-[14px]" name="plan">
                     <option class="text-[14px]" selected>Не выбранно</option>
                     <option class="text-[14px]">Офисная отделка</option>
                     <option class="text-[14px]">Под чистовую отделку</option>
@@ -179,7 +178,7 @@
                 </div>
 
                 <div class="flex rounded-1 w-[85px]">
-                <select style="-webkit-appearance: none" class="border-1 rounded-1 outline-0 px-[10px] py-[1px] text-[14px]" name="plan">
+                <select style="-webkit-appearance: none" class="border-1 rounded-1 h-[35px] outline-0 px-[10px] py-[1px] text-[14px]" name="plan">
                     <option class="text-[14px]" selected>Не выбранно</option>
                     <option class="text-[14px]">Есть</option>
                     <option class="text-[14px]">Нет</option>
@@ -192,7 +191,7 @@
                 </div>
 
                 <div class="flex rounded-1 w-[85px]">
-                <select style="-webkit-appearance: none" class="border-1 rounded-1 outline-0 px-[10px] py-[1px] text-[14px]" name="plan">
+                <select style="-webkit-appearance: none" class="border-1 rounded-1 h-[35px] outline-0 px-[10px] py-[1px] text-[14px]" name="plan">
                     <option class="text-[14px]" selected>Не выбранно</option>
                     <option class="text-[14px]">Наземная</option>
                     <option class="text-[14px]">Многоуровневая</option>
@@ -208,7 +207,7 @@
               Количество мест
             </div>
 
-            <div class="flex rounded-1 border px-[4px] w-[85px]">
+            <div class="flex rounded-1 h-[30px] border px-[6px] w-[90px]">
               <input
                 class="border-0 outline-0 w-[100%] text-[14px] font-[450] text-[gray]"
                 v-maska
@@ -268,7 +267,12 @@ const secondData = ref(d.filter(item=>item.id > 14))
 const getInfo = fetch('http://127.0.0.1:8000/api/city')
 const getCity = await getInfo
 const city = await getCity.json()
-    
+
+
+function selectCity(event){
+  const cityName = document.querySelector('.city')
+  cityName.textContent =event.target.dataset.name;
+}
 </script>
 <style scoped>
 *{
