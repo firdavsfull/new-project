@@ -19,6 +19,7 @@ Route::post('/create_user', [CreateOwnerController::class, 'createOwner']);
 Route::get('/city',[getDataController::class, 'getCities']);
 Route::get('/conditions', [getDataController::class, 'getConditions']);
 Route::get('/infrastructure', [getDataController::class,'getInfrastrucures']);
+Route::post('/create/infrastructure', [getDataController::class,'createInfrastrucures']);
 
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();

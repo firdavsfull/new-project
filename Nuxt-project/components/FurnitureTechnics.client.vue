@@ -40,7 +40,7 @@
                              <div class="contrainer-balconies">
                                  <div class="balcon">
                                      <p for="#balcon" class="mb-1 mt-2 fw-bold" style="font-family:lato, sans-seif">Ванная комната</p>
-                                     
+                                        
 
                                      <div class="d-flex text-nowrap mt-2" style="font-family:lato, sans-serif;">
                                          <label v-for="bathroom of bath" :key="bathroom.id" :for="bathroom.id" class="me-2">
@@ -183,7 +183,26 @@
                                         </div>
                                     </div>
                                 </div>
-                                
+                                <div class="flex bg-[green]w-full mt-[5px]">
+                                    <div class="flex flex-col">
+                                        <label class="text-[14px] font-normal mt-[10px] text-[#152242]" for="some-texts">
+                                        Электричество
+                                        </label>
+
+                                        <div class="flex flex-wrap w-full">
+                                            <label class="mr-[5px] flex w-[80px] text-center" for="electric1">
+                                                <input class="d-none check" type="radio" name="radio2" id="electric1">
+                                                <span class="form-control rounded-1 border mt-[5px] ">Есть</span>
+                                            </label>
+                                            <label class="mr-[5px] flex w-[80px] text-center" for="electric2">
+                                                <input class="d-none check" type="radio" name="radio2" id="electric2">
+                                                <span class="form-control rounded-1 border mt-[5px] ">Нет</span>
+                                            </label>
+                                           
+                                            
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
                                 
                             </div>
@@ -221,6 +240,7 @@ const c = ref()
 
 
 onMounted(()=>{
+    
         
             setTimeout(()=>{
                 let inputs = document.querySelectorAll('.d-none');

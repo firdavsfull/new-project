@@ -15,6 +15,15 @@ class getDataController extends Controller
         return $city;
     }
 
+    public function createInfrastrucures(Request $request){
+        
+        for ($i=0; $i < count($request->send) ; $i++) { 
+            $info = Infrastructure::firstOrCreate(['name'=>$request->send[$i]]);
+            return [$info];
+        }
+            
+    }
+
     public function getConditions(){
         $conditions =  Conditions::all();
         

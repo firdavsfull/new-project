@@ -28,7 +28,13 @@ return new class extends Migration
             $table->boolean('elevator')->default(1);
             $table->boolean('Balcony')->default(0);
             $table->integer('number_of_rent')->nullable();
-            $table->string('rental period')->nullable();
+            $table->integer('land_area')->nullable();
+            $table->string('Land category')->nullable();
+            $table->integer('house_area')->nullable();
+            $table->integer('quantity_bedrooms')->nullable();
+            $table->string('condition_of_the_home')->nullable();//состояние дома
+            $table->boolean('electricity')->default(1);
+            $table->string('rental_period')->nullable(); //срок аренды
             $table->string('repair')->nullable();
             $table->string('title')->nullable();
             $table->text('description')->nullable();
@@ -36,7 +42,6 @@ return new class extends Migration
             $table->string('rental_type')->nullable();
             $table->string('house_type')->nullable();
             $table->string('type_object')->nullable();
-            $table->string('layout')->nullable();
             $table->integer('owner_id');
             $table->timestamps();
         });
