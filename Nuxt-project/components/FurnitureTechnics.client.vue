@@ -27,7 +27,7 @@
                                      <span for="#balcon" class="mb-2 fw-bold text-nowrap" style="font-family:lato, sans-seif">мебель</span>
                                      <div class="d-flex text-nowrap mt-2" style="font-family:lato, sans-serif;">
 
-                                         <label v-for="pos of furniture" :for="`${pos.id}`" class="me-2">
+                                         <label v-for="pos of furniture" :key="pos.id" :for="`${pos.id}`" class="me-2">
                                              <input :data-name="pos.id" @change="selecTechnics" type="checkbox" :id="`${pos.id}`" class="d-none">
                                              <span class="form-control">{{ pos.name }}</span>
                                          </label>
@@ -43,7 +43,7 @@
                                      
 
                                      <div class="d-flex text-nowrap mt-2" style="font-family:lato, sans-serif;">
-                                         <label v-for="bathroom of bath" :for="bathroom.id" class="me-2">
+                                         <label v-for="bathroom of bath" :key="bathroom.id" :for="bathroom.id" class="me-2">
                                              <input  @change="selecTechnics" :data-name="bathroom.id" type="checkbox" :id="bathroom.id" class="d-none">
                                              <span class="form-control">{{ bathroom.name }}</span>
                                          </label>
@@ -75,7 +75,7 @@
                                      
 
                                      <div class="container-repair  flex-wrap d-flex text-nowrap">
-                                         <label v-for="tel of contact" class="me-2 my-1" :for="`option${tel.id}`">
+                                         <label v-for="tel of contact" :key="tel.id" class="me-2 my-1" :for="`option${tel.id}`">
                                              <input @change="selecTechnics" :data-name="tel.id" type="checkbox" class="btn-check d-none" name="options" :id="`option${tel.id}`" autocomplete="off">
                                             <span class="form-control">{{ tel.name }}</span>
                                             </label>
