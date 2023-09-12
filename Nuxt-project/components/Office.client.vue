@@ -201,12 +201,10 @@
                 </select>
                 </div>
 
-                <div class="flex flex-col mt-[10px]">
-            <div
-              class="mb-[8px] shrink-[0] pt-[6px] w-[180px] text-[14px] leading-[16px]"
-            >
-              Количество мест
-            </div>
+          <div class="flex flex-col mt-[10px]">
+                <div class="mb-[8px] shrink-[0] pt-[6px] w-[180px] text-[14px] leading-[16px]">
+                  Количество мест
+                </div>
 
             <div class="flex rounded-1 h-[30px] border px-[4px] w-[100px]">
               <input
@@ -217,14 +215,71 @@
               />
             </div>
           </div>
-            <div>
+          <div>
 
                 
                 
             </div>
           </div>
         </div>
-         <div class="px-[10px] border-y-[2px] mt-[10px]  min-h-[100vh] ">
+        <!-- ///////////// -->
+        <div class="mx-[2px] border-top bg-[white] min-h-[10vh] mt-[13px]">
+          <div class="px-[10px]">
+            <div class="mt-[24px] font-bold text-[16px] leading-[16px]">О здании</div>
+
+            <div>
+              <div class="flex flex-col mb-[10px] mt-[10px]">
+                <div class="mb-[8px] shrink-[0] pt-[6px] w-[180px] text-[14px] leading-[16px]">
+                  Год постройки
+                </div>
+
+                <div class="flex rounded-1 h-[30px] border px-[4px] w-[100px]">
+                  <input
+                    class="border-0 outline-0 w-[100%] text-[14px] font-[450] text-[gray]"
+                    v-maska
+                    data-maska="####"
+                    type="text"
+                  />
+                </div>
+              </div>
+            </div>
+            <div>
+              
+              
+              <div class="flex flex-col mt-[10px]">
+                    <div class="mb-[8px] shrink-[0] pt-[6px] w=[180px] text-[14px] leading-[16px]">
+                        Площадь здания
+                    </div>
+
+                    <div class="flex rounded-1 h-[30px] items-center border px-[4px] w-[90px]">
+                      <input
+                        class="border-0 outline-0 w-[100%] text-[14px] font-[450] text-[gray]"
+                        v-maska
+                        data-maska="####"
+                        type="text"
+                      />
+                      <span>м</span>
+                    </div>
+              </div>
+              <div class="flex flex-col mb-[10px] mt-[10px]">
+                    <div class="mb-[8px] shrink-[0] pt-[6px] w=[180px] text-[14px] leading-[16px]">
+                        Усачток
+                    </div>
+
+                    <div class="flex rounded-1 h-[30px] items-center border px-[4px] w-[90px]">
+                      <input
+                        class="border-0 outline-0 w-[100%] text-[14px] font-[450] text-[gray]"
+                        v-maska
+                        data-maska="####"
+                        type="text"
+                      />
+                      <span>га</span>
+                    </div>
+              </div>
+            </div>
+          </div>
+        </div>
+         <div class="px-[10px] border-y-[2px] min-h-[100vh] ">
             <div >
                 <div class="mt-[24px] font-bold text-[16px] leading-[16px]">Инфраструктура</div>
             </div>
@@ -248,11 +303,80 @@
                 </div>
             </div>
          </div>
+
+        
       </div>
+      
+
       <div class="p-[10px] mt-[5px] rounded-[10px] border-primary" style=" border:2px dashed;">
         <div >
             <Pictures />
         </div>
+      </div>
+      <div class="p-[10px] mt-[5px] bg-white" >
+        <div >
+
+          <div >
+                <div class="mt-[24px] font-bold text-[16px] leading-[16px]">Видео</div>
+            </div>
+
+            <div class="mt-[15px] border rounded-1 h-[30px]">
+              <input type="text" class="w-full h-full border-0 outline-0 px-[10px]" placeholder="Ссылка на youtube">
+            </div>
+        </div>
+
+        <div>
+          <div>
+                <div class="mt-[24px] font-bold text-[16px] leading-[16px]">Заголовок объявления</div>
+            </div>
+
+            <div class="mt-[15px] border rounded-1 h-[30px]">
+              <input type="text" class="w-full h-full border-0 outline-0 px-[10px]" >
+            </div>
+        </div>
+
+        <div >
+
+            <div>
+                <div class="mt-[24px] font-bold text-[16px] leading-[16px]">Описание</div>
+            </div>
+
+            <div class="mt-[15px] border rounded-1 h-[200px]">
+              <textarea style="resize:none;" type="text" class="w-full h-full border-0 outline-0 px-[10px]" ></textarea>
+            </div>
+        </div>
+      </div>
+
+      <div class="p-[10px] mt-[5px] bg-white" >
+            <div>
+                <div class="mt-[4px] font-bold text-[16px] leading-[16px]">Цена</div>
+            </div>
+            <div>
+              <div>
+                <div class="mb-[8px] shrink-[0] pt-[6px] w=[180px] text-[14px] leading-[16px]">
+                        арендная плата
+                </div>
+              </div>
+
+                    <div class="flex rounded-1 h-[30px] items-center border px-[4px] w-[120px]">
+                      <input
+                        class="border-0 outline-0 w-[100%] text-[14px] font-[450] text-[gray]"
+                        v-maska
+                        data-maska="####"
+                        type="text"
+                      />
+                      <span>с</span>
+                    </div>
+              </div>
+
+              <div class=" mt-[10px]">
+                <div class="flex">
+                <next-btn class="btn btn-primary w-full font-bold">Разместить</next-btn>
+                </div>
+                <div class="flex mt-[5px]">
+                  <next-btn class="btn btn-light w-full text-primary">Сохранить черновик</next-btn>
+                </div>
+              </div>
       </div>
     </div>
   </div>
