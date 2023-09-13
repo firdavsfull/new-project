@@ -22,10 +22,10 @@
                     <div class="container w-100">
                         <div class="group-container d-flex f-wrap flex-column mt-3">
                             <label for="price" style="font-size:14px;" class="mb-2">Аренда в месяц</label>
-                            <div class="price-container d-flex align-items-center  form-control" style="width:250px; height:40px">
+                            <div class="price-container d-flex align-items-center overflow-hidden form-control" style="width:250px; height:40px">
                                 <input v-maska data-maska="# ### ###" @input="enterPrice" v-model="price" type="text" id="price"  style="border:none; outline:none;">
-                                <div class="bg-[green]  fs-6 d-flex justify-content-center align-items-center w-[60%] " >
-                                    <span class="h-full">c</span>
+                                <div class="text-[20px] d-flex justify-center bg-[white] top-[-1px] items-center w-[15%] relative right-[-30px]"  >
+                                    <span class="h-full flex leading-[40px]">c</span>
                                 </div>
                             </div>
 
