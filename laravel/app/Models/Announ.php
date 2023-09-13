@@ -12,7 +12,7 @@ class Announ extends Model
     protected $fillable = [
         'deal_type',
         'type_real_estate',
-        'city_id',
+        'city',
         'floor',
 'floor_in_house',
 'year_of_construction',
@@ -26,6 +26,7 @@ class Announ extends Model
 'Balcony',
 'number_of_rent',
 'land_area',
+'Rent',
 'Land_category',
 'house_area',
 'quantity_bedrooms',
@@ -39,6 +40,7 @@ class Announ extends Model
 'rental_type',
 'house_type',
 'type_object',
-'owner_id'
+'owner_id',
+'type_home'
 ];
 }
