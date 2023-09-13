@@ -234,7 +234,7 @@ let checkStyle = false
 
 const c = ref()
         
-        const conditions = fetch('http://http://192.168.0.114:8000/api/conditions')
+        const conditions = fetch('http://192.168.0.114:8000/api/conditions')
         const condition = await conditions
         c.value = await condition.json() 
 
@@ -288,7 +288,7 @@ onMounted(async ()=>{
     ]
     
 
-    await fetch('http://http://192.168.0.114:8000/api/create/furniture',{
+    await fetch('http://192.168.0.114:8000/api/create/furniture',{
          method:'post',
          headers:{
            "Content-type":"application/json"

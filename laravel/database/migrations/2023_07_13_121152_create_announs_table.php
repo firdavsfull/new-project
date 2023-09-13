@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->string('deal_type')->nullable();
             $table->string('type_real_estate')->nullable();
-            $table->integer('city_id')->nullable();
+            $table->string('city')->nullable();
             $table->integer('floor')->nullable();
             $table->integer('floor_in_house')->nullable();
             $table->string('year_of_construction')->nullable();
@@ -29,7 +29,8 @@ return new class extends Migration
             $table->boolean('Balcony')->default(0);
             $table->integer('number_of_rent')->nullable();
             $table->integer('land_area')->nullable();
-            $table->string('Land category')->nullable();
+            $table->string('Rent')->nullable();
+            $table->string('Land_category')->nullable();
             $table->integer('house_area')->nullable();
             $table->integer('quantity_bedrooms')->nullable();
             $table->string('condition_of_the_home')->nullable();//состояние дома
@@ -43,6 +44,7 @@ return new class extends Migration
             $table->string('house_type')->nullable();
             $table->string('type_object')->nullable();
             $table->integer('owner_id');
+            $table->string('type_home')->nullable();
             $table->timestamps();
         });
     }

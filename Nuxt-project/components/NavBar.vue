@@ -91,7 +91,7 @@
 <script setup>
     const route = useRoute()
     const router = useRouter()
-    const {isShow,toggleShow, active,showMadoal} = useSwitch();
+    const {isShow, toggleShow, active,showMadoal} = useSwitch();
     const {responce} = getData()
 
     responce.value = JSON.parse(localStorage.getItem('owner'))
@@ -101,6 +101,7 @@
         } else {
             localStorage.removeItem('announ')
             navigateTo('/announ')
+            showMadoal.value = false
             isShow.value = false
         }
     }       

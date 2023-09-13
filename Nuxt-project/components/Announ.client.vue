@@ -62,6 +62,8 @@
             navigateTo('/map')
     }
 
+    const {isShow} = useSwitch()
+
     function selectObjectFromSale(event){
         typeObject.value = event.target.dataset.name
         AnnounOgj.value.objects = event.target.dataset.name;

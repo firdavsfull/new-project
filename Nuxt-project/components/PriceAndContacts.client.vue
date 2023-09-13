@@ -33,14 +33,9 @@
                                             <span for="#balcon" class="mb-2  text-nowrap" style="font-family:lato, sans-seif">Условия проживания</span>
                                             <div class="d-flex text-nowrap mt-2" style="font-family:lato, sans-serif;">
                                                 <label v-for="items of cond" :key="items.id" :for="items.id" class="me-2 ">
-                                                    <input type="checkbox" :id="items.id" class="d-none">
+                                                    <input @change="chooseConditions" :data-name="items.id" type="checkbox" :id="items.id" class="d-none">
                                                     <span class="form-control">{{ items.name }}</span>
                                                 </label>
-
-                                                <!-- <label for="checkbox2">
-                                                    <input type="checkbox" id="checkbox2" class="d-none">
-                                                    <span class="form-control">Можно с животными</span>
-                                                </label> -->
                                             </div>   
                                         </div>
 
@@ -49,10 +44,10 @@
                                         
 
                                         <div class="container-repair  flex-wrap d-flex text-nowrap">
-                                            <input type="radio" class="btn-check" name="options" id="option5" autocomplete="off">
+                                            <input @change="choosePeriod" type="radio" class="btn-check" data-name="От года" name="options" id="option5" autocomplete="off">
                                             <label class="form-control me-2 my-1" for="option5">От года</label>
 
-                                            <input type="radio" class="btn-check" name="options" id="option6" autocomplete="off">
+                                            <input @change="choosePeriod" type="radio" data-name="Несколько месяцев" class="btn-check" name="options" id="option6" autocomplete="off">
                                             <label class="form-control me-2 my-1" for="option6">Несколько месяцев</label>
                                         </div>
                                     </div>
@@ -83,19 +78,67 @@ function change(){
 }
 
 function enterPrice(){
-    priceObj.price = price.value
+    priceObj.value.price = price.value
 }
 
-function place(){
+async function place(){
     const progress = document.querySelector('.progress > .progress-bar')
     progress.style.width = '100%'
+    announData.value[0] = JSON.parse(localStorage.getItem('announ'))[0]
+    announData.value[1] = JSON.parse(localStorage.getItem('announ'))[1]
+    announData.value[2] = JSON.parse(localStorage.getItem('announ'))[2]
+    announData.value[3] = JSON.parse(localStorage.getItem('announ'))[3]
+    announData.value[4] = JSON.parse(localStorage.getItem('announ'))[4]
+    announData.value[5] = JSON.parse(localStorage.getItem('announ'))[5]
+    announData.value[6] = priceObj.value
+    localStorage.setItem('announ', JSON.stringify(announData.value))
+
+    await fetch('http://192.168.0.114:8000/api/create/announ',{
+        method:'post',
+        headers:{
+            "Content-Type":"application/json"
+        },
+        body: JSON.stringify(JSON.parse(localStorage.getItem('announ')))
+    })
+    .then(res=>res.json())
+    .then(res=>console.log(res))
 }
 
-const conditions = fetch('http://http://192.168.0.114:8000/api/conditions')
+const arr = []
+
+function chooseConditions(event){
+    if (event.target.checked) {
+        
+        arr.push(parseInt(event.target.dataset.name))
+    }
+    
+    arr.forEach((item) => {
+        if (!event.target.checked && parseInt(event.target.dataset.name) == parseInt(item)) {
+          arr.splice(arr.indexOf(item), 1)
+        }    
+    })
+    priceObj.value.condition = arr
+
+}
+
+function choosePeriod(event){
+    priceObj.value.period = event.target.dataset.name
+}
+
+    const elems = document.querySelectorAll('.d-none');
+ elems.forEach(elem=>{
+         arr.value.forEach(val =>{
+         if (parseInt(elem.dataset.name) == val) {
+             elem.checked = true
+         }
+        })
+ })
+
+
+const conditions = fetch('http://192.168.0.114:8000/api/conditions')
     const condition = await conditions
    const c = ref(await condition.json())  
 const cond = ref(c.value.filter(item=>item.name == 'Можно с детьми' || item.name == 'Можно с животными'));
-    console.log(cond.value);
 </script>
 
 <style scoped>

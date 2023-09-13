@@ -42,7 +42,7 @@
 </template>
 <script setup>
 const route = useRoute()
-const {isShow, showMadoal, toggleShow, active} = useSwitch()
+const {isShow,showMadoal, toggleShow, active} = useSwitch()
 const {responce} = getData()
 
 
@@ -52,9 +52,11 @@ function Announ(){
         active.value = false
         localStorage.removeItem('announ')
         document.body.style.overflow = 'auto'
+        isShow.value = true
         if (responce.value) {
             navigateTo('/announ')
             showMadoal.value = false
+            isShow.value = false
         }else{
             showMadoal.value = true            
         }
