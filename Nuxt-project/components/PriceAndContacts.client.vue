@@ -23,24 +23,24 @@
                         <div class="group-container d-flex f-wrap flex-column mt-3">
                             <label for="price" style="font-size:14px;" class="mb-2">Аренда в месяц</label>
                             <div class="price-container d-flex align-items-center  form-control" style="width:250px; height:40px">
-                                <input type="number" id="price" placeholder="Например, 3200" style="border:none; outline:none;">
-                                <div class="fs-6 d-flex justify-content-center align-items-center w-100 " >
-                                    <span>c</span>
+                                <input v-maska data-maska="# ### ###" @input="enterPrice" v-model="price" type="text" id="price"  style="border:none; outline:none;">
+                                <div class="bg-[green]  fs-6 d-flex justify-content-center align-items-center w-[60%] " >
+                                    <span class="h-full">c</span>
                                 </div>
                             </div>
 
                                         <div class="balcon w-25 mt-3" >
                                             <span for="#balcon" class="mb-2  text-nowrap" style="font-family:lato, sans-seif">Условия проживания</span>
                                             <div class="d-flex text-nowrap mt-2" style="font-family:lato, sans-serif;">
-                                                <label for="checkbox-1" class="me-2 ">
-                                                    <input type="checkbox" id="checkbox-1" class="d-none">
-                                                    <span class="form-control">Можно с детьми</span>
+                                                <label v-for="items of cond" :key="items.id" :for="items.id" class="me-2 ">
+                                                    <input type="checkbox" :id="items.id" class="d-none">
+                                                    <span class="form-control">{{ items.name }}</span>
                                                 </label>
 
-                                                <label for="checkbox2">
+                                                <!-- <label for="checkbox2">
                                                     <input type="checkbox" id="checkbox2" class="d-none">
                                                     <span class="form-control">Можно с животными</span>
-                                                </label>
+                                                </label> -->
                                             </div>   
                                         </div>
 
@@ -71,15 +71,31 @@
 </template>
 <script setup>
 
+const {announData}= getData()
+
+const priceObj = ref({})
+const priceObj1 = ref({})
+const price = ref()
+
 function change(){
     const file =  document.querySelector('.choose-picture > input')
     file.click()
+}
+
+function enterPrice(){
+    priceObj.price = price.value
 }
 
 function place(){
     const progress = document.querySelector('.progress > .progress-bar')
     progress.style.width = '100%'
 }
+
+const conditions = fetch('http://127.0.0.1:8000/api/conditions')
+    const condition = await conditions
+   const c = ref(await condition.json())  
+const cond = ref(c.value.filter(item=>item.name == 'Можно с детьми' || item.name == 'Можно с животными'));
+    console.log(cond.value);
 </script>
 
 <style scoped>

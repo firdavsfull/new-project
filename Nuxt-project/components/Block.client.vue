@@ -225,13 +225,14 @@ onMounted(() => {
         <div class="rows">
           <p>Год постройки</p>
           <input
-            :style="`${!mapObj.year ? 'border:1px solid red;' : ''}`"
+            :style="`${!mapObj.year || mapObj.year < 1950 ? 'border:1px solid red;' : ''}`"
             v-model="mapObj.year"
             type="number"
             v-maska
             data-maska="####"
             class="form-control"
           />
+          <p v-if="mapObj.year < 1950" class="text-[red] mt-[4px] text-[13px]">Укажите год позднее 1950</p>
         </div>
       </div>
     </div>
