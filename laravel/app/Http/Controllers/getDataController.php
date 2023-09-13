@@ -44,14 +44,12 @@ class getDataController extends Controller
     }
 
     public function createFurniture(Request $request){
-        // $furnitures = $request->json()->all();
-        // $d = [];
-        // foreach ($furnitures as $furniture) {
-        //     $d[] = Conditions::firstOrCreate(['name'=>$furniture]);
-        // }
-        // return response()->json($d);
-    
-            return [$request->info];
+        $furnitures = $request->json()->all();
+        $d = [];
+        foreach ($furnitures as $furniture) {
+            $d[] = Conditions::firstOrCreate(['name'=>$furniture]);
+        }
+        return response()->json($d);
     }
 
     
