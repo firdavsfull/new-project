@@ -83,7 +83,7 @@ const tel = ref({
 async function createUser() {
   loader.value = true;
   if (tel.value.phone && tel.value.phone.length >= 9) {
-    await fetch("http://192.168.0.114:8000/api/create_user", {
+    await fetch("http://192.168.89.169:8000/api/create_user", {
       method: "post",
       headers: {
         "Content-type": "application/json",
@@ -98,6 +98,8 @@ async function createUser() {
       .then((res) => {
         const { responce } = getData();
         const { showMadoal } = useSwitch();
+
+        console.log(res);
         showMadoal.value = false;
         responce.value = res;
         localStorage.setItem("owner", JSON.stringify(responce.value));
