@@ -544,7 +544,7 @@ onMounted( async () => {
     
    ]
     
-        await fetch('http://127.0.0.1:8000/api/create/infrastructure',{
+        await fetch('http://192.168.0.114:8000/api/create/infrastructure',{
          method:'post',
          headers:{
            "Content-type":"application/json"
@@ -553,28 +553,28 @@ onMounted( async () => {
         }).then(res=>res.json())
         .then(res=> res)
 
-        await fetch('http://127.0.0.1:8000/api/create/city',{
+        await fetch('http://192.168.0.114:8000/api/create/city',{
          method:'post',
          headers:{
            "Content-type":"application/json"
          },
          body: JSON.stringify(cityData)
         }).then(res=>res.json())
-        .then(res=> console.log(res))
+        .then(res=> res)
       
       
     
   
 });
 
-const data = fetch("http://127.0.0.1:8000/api/infrastructure");
+const data = fetch("http://192.168.0.114:8000/api/infrastructure");
 const dataFetch = await data;
 const d = await  dataFetch.json();
 
 const firstData = ref(d.filter((item) => item.id < 14));
 const secondData = ref(d.filter((item) => item.id > 14));
 
-const getInfo = fetch("http://127.0.0.1:8000/api/city");
+const getInfo = fetch("http://192.168.0.114:8000/api/city");
 const getCity = await getInfo;
 const city = await getCity.json();
 </script>

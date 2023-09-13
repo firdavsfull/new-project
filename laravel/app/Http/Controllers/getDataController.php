@@ -35,14 +35,14 @@ class getDataController extends Controller
     public function createCity(Request $request){
 
         $cities = $request->json()->all();
-        $savedCities = [];
+        $saveCities = [];
         foreach ($cities as $city) {
             $c = City::firstOrCreate(['name' => $city]);
             $saveCities[] = $c;
             
         }
 
-        return response()->json($savedCities);
+        return response()->json($saveCities);
     }
 
     public function createFurniture(Request $request){
