@@ -478,7 +478,7 @@
 <script setup>
 
 
-onMounted( async () => {
+onMounted( () => {
   const infrastructure = ["автомойка",
    "автосервис",
    "аптека",
@@ -544,24 +544,27 @@ onMounted( async () => {
     
    ]
     
-        await fetch('http://192.168.89.169:8000/api/create/infrastructure',{
+        fetch('http://192.168.89.169:8000/api/create/infrastructure',{
          method:'post',
          headers:{
            "Content-type":"application/json"
          },
-         body: JSON.stringify(infrastructure)
-        })
+         body: JSON.stringify({info:infrastructure})
+        }).then(res=>res).then(res=>console.log(res))
+        
         
           
         
 
-        await fetch('http://192.168.89.169:8000/api/create/city', {
-         method:'post',
-         headers:{
-           "Content-type": "application/json"
-         },
-         body: JSON.stringify(cityData)
-        })
+        // await fetch('http://192.168.89.169:8000/api/create/city', {
+        //  method:'post',
+        //  headers:{
+        //    "Content-type": "application/json"
+        //  },
+        //  body: JSON.stringify(cityData)
+        // }).then(res=>res)
+        // .then(res=> console.log(res))
+      
       
     
   
