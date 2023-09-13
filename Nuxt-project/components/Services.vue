@@ -7,7 +7,7 @@
             </div>
             <a href="#">Новый поиск</a>
         </li>
-        <li class="service" @click="Announ()">
+        <li class="service" @click="Announ">
             <div >
                 <!-- <font-awesome-icon class="fas" :icon="['fas', 'circle-plus']" /> -->
                 <Icon class="font-awe" name="uil:plus-circle" color="#152242"/>
@@ -42,17 +42,25 @@
 </template>
 <script setup>
 const route = useRoute()
-const {isShow, toggleShow, active} = useSwitch()
+const {isShow, showMadoal, toggleShow, active} = useSwitch()
+const {responce} = getData()
+
+
+
 function Announ(){
     if (navigator.maxTouchPoints) {
-        navigateTo('/announ')
-        isShow.value = false
         active.value = false
         localStorage.removeItem('announ')
-        document.body.style.overflow='auto'
-    }else{
-            isShow.value = true
+        document.body.style.overflow = 'auto'
+        if (responce.value) {
+            navigateTo('/announ')
+            showMadoal.value = false
+        }else{
+            showMadoal.value = true            
         }
+
+    }
+    
     
 }
 

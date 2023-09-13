@@ -122,7 +122,7 @@ input::-webkit-inner-spin-button {
 @media screen and (min-width:640px){
     .container-btn{
             display: flex;
-            justify-content: end;
+            justify-content: flex-end;
         }
     .layouts{
         display: flex;

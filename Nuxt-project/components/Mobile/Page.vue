@@ -428,7 +428,7 @@ useHead({title:'Аренда и Продажа Квартир'})
     grid-gap: 8px;
     display: flex;
     flex-direction: row;
-    justify-content: start;
+    justify-content: flex-start;
     align-items: center;
     border-radius: 7px;
     border: 1px solid silver;

@@ -27,7 +27,7 @@
                     role="button"
                     data-bs-toggle="dropdown"
                   >
-                    <span class="me-5 city">Укажите город</span>
+                    <span class="me-5">Укажите город</span>
                   </a>
 
                   <ul
@@ -35,7 +35,7 @@
                     class="dropdown-menu form-control"
                   >
                     <li v-for="c of city" :key="c.id">
-                      <a class="dropdown-item" href="#">{{c.name}}</a>
+                      <a class="dropdown-item" href="#">{{ c.name }}</a>
                     </li>
                   </ul>
                 </div>
@@ -90,7 +90,7 @@
               Общая площадь
             </div>
 
-            <div class="flex rounded-1 border px-[4px] w-[85px]">
+            <div class="flex h-[30px] rounded-1 border px-[4px] w-[90px]">
               <input
                 class="border-0 outline-0 w-[100%] text-[14px] font-[450] text-[gray]"
                 v-maska
@@ -108,7 +108,7 @@
               Этаж
             </div>
 
-            <div class="flex rounded-1 border px-[4px] w-[85px]">
+            <div class="flex h-[30px] rounded-1 border px-[4px] w-[90px]">
               <input
                 class="border-0 h-[24px] outline-0 w-[100%] text-[14px] font-[450] text-[gray]"
                 v-maska
@@ -125,7 +125,7 @@
               Из
             </div>
 
-            <div class="flex rounded-1 border px-[4px] w-[85px]">
+            <div class="flex rounded-1 h-[30px] border px-[4px] w-[90px]">
               <input
                 class="border-0 h-[24px] outline-0 w-[100%] text-[14px] font-[450] text-[gray]"
                 v-maska
@@ -142,11 +142,14 @@
               Высота потолков
             </div>
 
-            <div class="flex rounded-1 border px-[4px] w-[85px]">
+            <div
+              class="flex rounded-1 h-[30px] items-center border px-[4px] w-[90px]"
+            >
               <input
                 class="border-0 outline-0 w-[100%] text-[14px] font-[450] text-[gray]"
-                
-                type="number"
+                v-maska
+                data-maska="####"
+                type="text"
               />
               <span>м</span>
             </div>
@@ -159,15 +162,19 @@
               Планировка
             </div>
 
-                <div class="flex rounded-1 w-[85px]">
-                <select style="-webkit-appearance: none" class="border-1 rounded-1 outline-0 px-[10px] py-[1px] text-[14px]" name="plan">
-                    <option class="text-[14px]" selected>Не выбранно</option>
-                    <option class="text-[14px]">Кабинетная</option>
-                    <option class="text-[14px]">Открытая</option>
-                    <option class="text-[14px]">Коридорная</option>
-                    <option class="text-[14px]">Смешанная</option>
-                </select>
-                </div>
+            <div class="flex rounded-1 w-[85px]">
+              <select
+                style="-webkit-appearance: none"
+                class="border-1 h-[30px] rounded-1 outline-0 px-[10px] py-[1px] text-[14px]"
+                name="plan"
+              >
+                <option class="text-[14px]" selected>Не выбранно</option>
+                <option class="text-[14px]">Кабинетная</option>
+                <option class="text-[14px]">Открытая</option>
+                <option class="text-[14px]">Коридорная</option>
+                <option class="text-[14px]">Смешанная</option>
+              </select>
+            </div>
 
             <div
               class="mb-[8px] shrink-[0] pt-[6px] mt-[15px] w-[180px] text-[14px] leading-[16px]"
@@ -175,15 +182,23 @@
               Состояние
             </div>
 
-                <div class="flex rounded-1 w-[85px]">
-                <select style="-webkit-appearance: none;" class="border-1 rounded-1 outline-0 px-[10px] py-[1px] text-[14px]" name="plan">
-                    <option class="text-[14px]" selected>Не выбранно</option>
-                    <option class="text-[14px]">Офисная отделка</option>
-                    <option class="text-[14px]">Под чистовую отделку</option>
-                    <option class="text-[14px]">Требуется капитальный ремонт</option>
-                    <option class="text-[14px]">Требуется косметический ремонт</option>
-                </select>
-                </div>
+            <div class="flex rounded-1 w-[85px]">
+              <select
+                style="-webkit-appearance: none"
+                class="border-1 h-[30px] rounded-1 outline-0 px-[10px] py-[1px] text-[14px]"
+                name="plan"
+              >
+                <option class="text-[14px]" selected>Не выбранно</option>
+                <option class="text-[14px]">Офисная отделка</option>
+                <option class="text-[14px]">Под чистовую отделку</option>
+                <option class="text-[14px]">
+                  Требуется капитальный ремонт
+                </option>
+                <option class="text-[14px]">
+                  Требуется косметический ремонт
+                </option>
+              </select>
+            </div>
 
             <div
               class="mb-[8px] shrink-[0] pt-[6px] mt-[15px] w-[180px] text-[14px] leading-[16px]"
@@ -191,14 +206,17 @@
               Мебель
             </div>
 
-                <div class="flex rounded-1 w-[85px]">
-                <select style="-webkit-appearance: none" class="border-1 rounded-1 outline-0 px-[10px] py-[1px] text-[14px]" name="plan">
-                    <option class="text-[14px]" selected>Не выбранно</option>
-                    <option class="text-[14px]">Есть</option>
-                    <option class="text-[14px]">Нет</option>
-                    
-                </select>
-                </div>
+            <div class="flex rounded-1 w-[85px]">
+              <select
+                style="-webkit-appearance: none"
+                class="border-1 h-[30px] rounded-1 outline-0 px-[10px] py-[1px] text-[14px]"
+                name="plan"
+              >
+                <option class="text-[14px]" selected>Не выбранно</option>
+                <option class="text-[14px]">Есть</option>
+                <option class="text-[14px]">Нет</option>
+              </select>
+            </div>
 
             <div
               class="mb-[8px] shrink-[0] pt-[6px] mt-[15px] w-[180px] text-[14px] leading-[16px]"
@@ -206,15 +224,19 @@
               Парковка
             </div>
 
-                <div class="flex rounded-1 w-[85px]">
-                <select style="-webkit-appearance: none" class="border-1 rounded-1 outline-0 px-[10px] py-[1px] text-[14px]" name="plan">
-                    <option class="text-[14px]" selected>Не выбранно</option>
-                    <option class="text-[14px]">Наземная</option>
-                    <option class="text-[14px]">Многоуровневая</option>
-                    <option class="text-[14px]">Подземная</option>
-                    <option class="text-[14px]">На крыше</option>
-                </select>
-                </div>
+            <div class="flex rounded-1 w-[85px]">
+              <select
+                style="-webkit-appearance: none"
+                class="border-1 rounded-1 h-[30px] outline-0 px-[10px] py-[1px] text-[14px]"
+                name="plan"
+              >
+                <option class="text-[14px]" selected>Не выбранно</option>
+                <option class="text-[14px]">Наземная</option>
+                <option class="text-[14px]">Многоуровневая</option>
+                <option class="text-[14px]">Подземная</option>
+                <option class="text-[14px]">На крыше</option>
+              </select>
+            </div>
 
             <div class="flex flex-col mt-[10px]">
               <div
@@ -223,15 +245,25 @@
                 Количество мест
               </div>
 
-            <div class="flex rounded-1 border px-[4px] w-[85px]">
-              <input
-                class="border-0 outline-0 w-[100%] text-[14px] font-[450] text-[gray]"
-                v-maska
-                data-maska="####"
-                type="text"
-              />
+              <div class="flex rounded-1 h-[30px] border px-[4px] w-[100px]">
+                <input
+                  class="border-0 outline-0 w-[100%] text-[14px] font-[450] text-[gray]"
+                  v-maska
+                  data-maska="####"
+                  type="text"
+                />
+              </div>
             </div>
+            <div></div>
           </div>
+        </div>
+        <!-- ///////////// -->
+        <div class="mx-[2px] border-top bg-[white] min-h-[10vh] mt-[13px]">
+          <div class="px-[10px]">
+            <div class="mt-[24px] font-bold text-[16px] leading-[16px]">
+              О здании
+            </div>
+
             <div>
               <div class="flex flex-col mb-[10px] mt-[10px]">
                 <div
@@ -444,17 +476,107 @@
   </div>
 </template>
 <script setup>
-const  data =  fetch('http://127.0.0.1:8000/api/infrastructure');
-    const dataFetch = await data
-    const d = await dataFetch.json()
 
-const firstData =  ref(d.filter(item => item.id < 14 )) 
-const secondData = ref(d.filter(item=>item.id > 14))
 
-const getInfo = fetch('http://127.0.0.1:8000/api/city')
-const getCity = await getInfo
-const city = await getCity.json()
+onMounted( async () => {
+  const infrastructure = ["автомойка",
+   "автосервис",
+   "аптека",
+   "ателье-одежды",
+   "банкомат",
+   "бассейн",
+   "автомойка",
+   "буфет",
+   "выставочно-складской комплекс",
+   "гостиница",
+   "кафе",
+   "кинотеатр",
+   "конференц-зал",
+   "медицинский-центр",
+   "минимаркет",
+   "нотариальная контора",
+   "отделение банка",
+   "парк",
+   "ресторан",
+   "салон красоты",
+   "складские помещения",
+   "столовой",
+   "супермаркет",
+   "торговая зона",
+   "фитнес-центр",
+   "фотосалон",
+   "центральная рецепция",
+   ];
+   const cityData = [
+    "Душанбе",
+    "Худжанд",
+    "Абдурахмони Джоми",
+    "Айни",
+    "Ашт",
+    "Бальджувон",
+    "Бободжон Гафуров",
+    "Бохтар (Курган-Тюбе)",
+    "Бустон (Чкаловск)",
+    "Вандж",
+    "Варзоб",
+    "Вахдат",
+    "Вахш",
+    "Восе",
+    "Гиссар",
+    "Горная Матча",
+    "Гулистон",
+    "Дангара",
+    "Дарваз",
+    "Деваштич (Ганчи)",
+    "Джаббор Расулов",
+    "Джайхун (Кумсангир)",
+    "Джалолиддини Балхи (Руми)",
+    "Джами",
+    "Дусти",
+    "Зафарабад",
+    "Истаравшан",
+    "Исфара",
+    "Ишкашим",
+    "Кубодиён",
+    "Канибадам",
+    "Куляб",
+    "Кушониён",
     
+   ]
+    
+        await fetch('http://127.0.0.1:8000/api/create/infrastructure',{
+         method:'post',
+         headers:{
+           "Content-type":"application/json"
+         },
+         body: JSON.stringify(infrastructure)
+        }).then(res=>res.json())
+        .then(res=> res)
+
+        await fetch('http://127.0.0.1:8000/api/create/city',{
+         method:'post',
+         headers:{
+           "Content-type":"application/json"
+         },
+         body: JSON.stringify(cityData)
+        }).then(res=>res.json())
+        .then(res=> console.log(res))
+      
+      
+    
+  
+});
+
+const data = fetch("http://127.0.0.1:8000/api/infrastructure");
+const dataFetch = await data;
+const d = await  dataFetch.json();
+
+const firstData = ref(d.filter((item) => item.id < 14));
+const secondData = ref(d.filter((item) => item.id > 14));
+
+const getInfo = fetch("http://127.0.0.1:8000/api/city");
+const getCity = await getInfo;
+const city = await getCity.json();
 </script>
 <style scoped>
 * {

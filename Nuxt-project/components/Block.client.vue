@@ -14,7 +14,7 @@ const showCities = ref();
 const cityName = ref("");
 
 async function selectCity() {
-  const cityUrl = fetch(`http://192.168.0.114:8000/api/city`);
+  const cityUrl = fetch(`http://127.0.0.1:8000/api/city`);
   const c = await cityUrl;
   const city = await c.json();
   showCities.value = city;
@@ -432,7 +432,7 @@ input::-webkit-inner-spin-button {
 @media screen and (min-width: 640px) {
   .container-btn {
     display: flex;
-    justify-content: end;
+    justify-content: flex-end;
   }
 
   .container-btn > .btn {
@@ -555,7 +555,7 @@ input::-webkit-inner-spin-button {
   .type-home > .rows {
     display: flex;
     flex-wrap: wrap;
-    justify-content: start;
+    justify-content: flex-start;
   }
 
   .type-home > .rows > label {
