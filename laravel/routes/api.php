@@ -15,8 +15,10 @@ use Illuminate\Support\Facades\Route;
 | be assigned to the "api" middleware group. Make something great!
 |
 */
+
 Route::post('/create_user', [CreateOwnerController::class, 'createOwner']);
-Route::get('/city',[getDataController::class, 'getCities']);
+Route::post('/create/announ',[CreateOwnerController::class, 'createAnnoun']);
+Route::get('/city', [getDataController::class, 'getCities']);
 Route::post('/create/city', [getDataController::class,'createCity']);
 Route::post('/create/furniture', [getDataController::class,'createFurniture']);
 

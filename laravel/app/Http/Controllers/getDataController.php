@@ -39,9 +39,7 @@ class getDataController extends Controller
         foreach ($cities as $city) {
             $c = City::firstOrCreate(['name' => $city]);
             $saveCities[] = $c;
-            
         }
-
         return response()->json($saveCities);
     }
 
@@ -50,7 +48,6 @@ class getDataController extends Controller
         $d = [];
         foreach ($furnitures as $furniture) {
             $d[] = Conditions::firstOrCreate(['name'=>$furniture]);
-            
         }
         return response()->json($d);
     }
