@@ -18,8 +18,9 @@ use Illuminate\Support\Facades\Route;
 Route::post('/create_user', [CreateOwnerController::class, 'createOwner']);
 Route::get('/city',[getDataController::class, 'getCities']);
 Route::post('/create/city', [getDataController::class,'createCity']);
+Route::post('/create/furniture', [getDataController::class,'createFurniture']);
 
-Route::get('/conditions', [getDataController::class, 'getConditions']);
+Route::get('/conditions',[getDataController::class ,'getCondition']);
 Route::get('/infrastructure', [getDataController::class,'getInfrastrucures']);
 Route::post('/create/infrastructure', [getDataController::class,'createInfrastrucures']);
 

@@ -15,24 +15,47 @@ class getDataController extends Controller
         return $city;
     }
 
+    public function getCondition(){
+        $condition = Conditions::all();
+        return $condition;
+    }
+
     public function createInfrastrucures(Request $request){
         
-        for ($i=0; $i < count($request->send) ; $i++) { 
-            $info = Infrastructure::firstOrCreate(['name'=>$request->send[$i]]);
-            return [$info];
-        }
+         $data = $request->json()->all();
+
+            foreach ($data as $value) {
+                 Infrastructure::firstOrCreate(['name'=>$value]);
+                
+            }
+         
             
     }
 
     public function createCity(Request $request){
-        
-        $cities = City::firstOrCreate(['name'=>$request->city]);
+
+        $cities = $request->json()->all();
+        $savedCities = [];
+        foreach ($cities as $city) {
+            $c = City::firstOrCreate(['name' => $city]);
+            $saveCities[] = $c;
+            
+        }
+
+        return response()->json($savedCities);
     }
-    public function getConditions(){
-        $conditions =  Conditions::all();
-        
-        return $conditions;
+
+    public function createFurniture(Request $request){
+        $furnitures = $request->json()->all();
+        $d = [];
+        foreach ($furnitures as $furniture) {
+            $d[] = Conditions::firstOrCreate(['name'=>$furniture]);
+            
+        }
+        return response()->json($d);
     }
+
+    
 
     public function getInfrastrucures(){
         $infrastructures = Infrastructure::all();
