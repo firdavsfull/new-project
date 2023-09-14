@@ -211,10 +211,6 @@
                                             <label for="label3">Комната</label>
                                             <input :checked="AnnounOgj.objects == `Комната`" name="house" data-name="Комната" type="radio" @change="selectObjectFromSale"  id="label3">
                                         </div>
-                                        <div v-if="AnnounOgj.rent == 'Продажа'" class="type-radio">
-                                            <label for="label5">Доля в Квартире</label>
-                                            <input :checked="AnnounOgj.objects == `Доля в Квартире`" name="house" data-name="Доля в Квартире" type="radio" @change="selectObjectFromSale" id="label5">
-                                        </div>
                                     </div>
 
                                 <div class="field__content">

@@ -90,7 +90,7 @@
                  </div>
              </div>
 
-             <form @submit.prevent="sendPictures()" enctype="multipart/form-data" class="picture-room-container" :style="announData[0].objects == 'Квартира' || announData[0].objects !== 'Комната'? 'margin-top: 80px;' : ''">
+             <form  enctype="multipart/form-data" class="picture-room-container" :style="announData[0].objects == 'Квартира' || announData[0].objects !== 'Комната'? 'margin-top: 80px;' : ''">
                  <span>Фото и планировка - от 5 и больше</span>
                  <div class="picture-room">
                      <div>
@@ -104,7 +104,7 @@
                  </div>
                  <div class="choose-picture">
                      <button @click.prevent='change'  style="background-color:rgba(15,72,157,.1); color:#0468ff;" class="btn w-100  fw-bold font-monospace">Выберите файлы</button>
-                     <input type="file" accept="*png" multiple style="display:none;" id="">
+                     <input @submit.prevent="sendPictures" type="file" accept="*png" multiple style="display:none;" id="">
                  </div>
                 </form>
 
@@ -134,6 +134,7 @@
 </template>
 
 <script setup>
+
 
 const {announData} = getData()
 const apartmentParams = ref({})
@@ -203,11 +204,11 @@ onMounted(()=>{
 function change(event){
  const file =  document.querySelector('.choose-picture > input')
  file.click()
- console.log(file.files);
+ const files = file.files[0]
+console.log(files);
 }
 function sendPictures(event){
  const file =  document.querySelector('.choose-picture > input')
-    console.log(event);
 }
 </script>
 
