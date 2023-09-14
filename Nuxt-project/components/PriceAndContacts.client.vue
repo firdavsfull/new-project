@@ -66,7 +66,7 @@
 </template>
 <script setup>
 
-const {announData}= getData()
+const {announData} = getData()
 
 const priceObj = ref({})
 const priceObj1 = ref({})
@@ -144,6 +144,11 @@ const conditions = fetch('http://192.168.0.114:8000/api/conditions')
     const condition = await conditions
    const c = ref(await condition.json())  
 const cond = ref(c.value.filter(item=>item.name == 'Можно с детьми' || item.name == 'Можно с животными'));
+
+onMountet(()=>{
+    
+})
+
 </script>
 
 <style scoped>

@@ -109,7 +109,10 @@
                  </div>
                  <div class="flex justify-center overflow-hidden mx-[auto] mt-[10px]  w-[100%] min-h-[50px] rounded-[13px] border">
                     <div class="w-full p-[10px] flex flex-wrap">
-                        <div v-for="img of pictures" :key="img.name" class="m-[10px] mx-[auto] w-[50%] h-[150px] sm:h-[170px] sm:w-[250px] sm:h-[170px] md:w-[200px] md:h-[120px] lg:min-w-[180px] lg:h-[120px]  overflow-hidden rounded">
+                        <div v-for="img of pictures" :key="img.name" class="relative m-[10px] mx-[auto] w-[50%] h-[150px] sm:h-[170px] sm:w-[250px] sm:h-[170px] md:w-[200px] md:h-[120px] lg:min-w-[180px] lg:h-[120px]  overflow-hidden rounded">
+                            <div 
+                            @click="removeImg"
+                            class="absolute right-[10px] top-[-10px]  text-[white] text-[30px]">&times;</div>
                             <img class="w-full h-full" :src="img.src" :alt="img.name">
                         </div>
                     </div>
@@ -232,10 +235,6 @@ function sendPictures(event){
  }
  reader.readAsDataURL(files[i])
  }
- console.log(pictures.value);
-
- 
- 
 }
 </script>
 
