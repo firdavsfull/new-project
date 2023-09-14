@@ -1,6 +1,6 @@
 
 <template>
-    <form class="layouts">
+    <main class="layouts">
          <div class="container-xl mt-4">
              <div class="progress-container">
                  <div class="d-flex justify-content-between mb-2 mt-3">
@@ -90,7 +90,7 @@
                  </div>
              </div>
 
-             <div class="picture-room-container" :style="announData[0].objects == 'Квартира' || announData[0].objects !== 'Комната'? 'margin-top: 80px;' : ''">
+             <form @submit.prevent="sendPictures()" enctype="multipart/form-data" class="picture-room-container" :style="announData[0].objects == 'Квартира' || announData[0].objects !== 'Комната'? 'margin-top: 80px;' : ''">
                  <span>Фото и планировка - от 5 и больше</span>
                  <div class="picture-room">
                      <div>
@@ -106,7 +106,7 @@
                      <button @click.prevent='change'  style="background-color:rgba(15,72,157,.1); color:#0468ff;" class="btn w-100  fw-bold font-monospace">Выберите файлы</button>
                      <input type="file" accept="*png" multiple style="display:none;" id="">
                  </div>
-             </div>
+                </form>
 
              <div class="video-link-container">
                  <div style="margin-top:24px;">
@@ -130,7 +130,7 @@
              
          </div>
          </div>
-     </form>
+        </main>
 </template>
 
 <script setup>
@@ -200,9 +200,14 @@ onMounted(()=>{
  console.log(announData);
 })
 
-function change(){
+function change(event){
  const file =  document.querySelector('.choose-picture > input')
  file.click()
+ console.log(file.files);
+}
+function sendPictures(event){
+ const file =  document.querySelector('.choose-picture > input')
+    console.log(event);
 }
 </script>
 

@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('facilities_announs', function (Blueprint $table) {
             $table->id();
             $table->integer('facilities_id');
-            $table->integer('ammouns_id');
+            $table->integer('announs_id');
             $table->timestamps();
         });
     }

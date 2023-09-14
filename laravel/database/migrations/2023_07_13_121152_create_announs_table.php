@@ -43,7 +43,7 @@ return new class extends Migration
             $table->string('rental_type')->nullable();
             $table->string('house_type')->nullable();
             $table->string('type_object')->nullable();
-            $table->integer('owner_id');
+            $table->integer('owner_id')->nullable();
             $table->string('type_home')->nullable();
             $table->timestamps();
         });
