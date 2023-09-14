@@ -14,11 +14,11 @@
                      <div class="progress-bar" role="progressbar" style="width:30%" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
                  </div>
              </div>
-
-         <div  class="mx-[20px] mt-[10px] h-[auto]">
-             <div v-if="announData[0].objects == 'Квартира' || announData[0].objects == 'Комната'" class="text-container">
-                 <span>Параметры Квартиры </span>
-             </div>
+        <div class="rounded-[15px] my-[10px]" style="box-shadow:0 0 10px gray;">
+            <div  class="mx-[20px] mt-[10px] h-[auto]">
+                <div style="margin-top:10px;" v-if="announData[0].objects == 'Квартира' || announData[0].objects == 'Комната'" class="text-container">
+                    <span>Параметры Квартиры </span>
+                </div>
              <div v-if="announData[0].objects == 'Квартира' || announData[0].objects == 'Комната'" class="quantity-room-container">
                  <p>Количество Комнат</p>
                  <div class="quantity-room">
@@ -53,7 +53,7 @@
 
                      <div :style="!apartmentParams.generalArea ?'border:1px solid red;':''" class="input-area form-control">
                          <input @input="verfied" v-model="apartmentParams.generalArea" type="text" v-maska
-          data-maska="####">
+                            data-maska="####">
                          <div>м<sup class="text-[10px]">2</sup></div>
                      </div>
                     <p style="font-size:11px;" 
@@ -90,7 +90,7 @@
                  </div>
              </div>
 
-             <form  enctype="multipart/form-data" class="picture-room-container" :style="announData[0].objects == 'Квартира' || announData[0].objects !== 'Комната'? 'margin-top: 80px;' : ''">
+             <form @submit.prevent="sendPictures()" enctype="multipart/form-data" class="picture-room-container" :style="announData[0].objects == 'Квартира' || announData[0].objects !== 'Комната'? 'margin-top: 80px;' : ''">
                  <span>Фото и планировка - от 5 и больше</span>
                  <div class="picture-room">
                      <div>
@@ -101,10 +101,11 @@
                          чужие фото, картинки с водяными знаками
                          и рекламу.
                      </p>
+                     
                  </div>
                  <div class="choose-picture">
                      <button @click.prevent='change'  style="background-color:rgba(15,72,157,.1); color:#0468ff;" class="btn w-100  fw-bold font-monospace">Выберите файлы</button>
-                     <input @submit.prevent="sendPictures" type="file" accept="*png" multiple style="display:none;" id="">
+                     <input type="file" accept="*png" multiple style="display:none;" id="">
                  </div>
                 </form>
 
@@ -130,6 +131,8 @@
              
          </div>
          </div>
+        </div>
+         
         </main>
 </template>
 
@@ -204,11 +207,12 @@ onMounted(()=>{
 function change(event){
  const file =  document.querySelector('.choose-picture > input')
  file.click()
- const files = file.files[0]
-console.log(files);
+ console.log(file.files);
 }
+    const pictures = ref([])
 function sendPictures(event){
  const file =  document.querySelector('.choose-picture > input')
+    console.log(event);
 }
 </script>
 

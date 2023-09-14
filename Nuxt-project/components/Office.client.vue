@@ -478,7 +478,7 @@
 <script setup>
 
 
-onMounted(async () => {
+onMounted( async () => {
   const infrastructure = ["автомойка",
    "автосервис",
    "аптека",
@@ -544,19 +544,19 @@ onMounted(async () => {
     
    ]
     
-        await fetch('http://127.0.0.1:8000/api/create/infrastructure',{
+        await fetch('http://192.168.0.114:8000/api/create/infrastructure',{
          method:'post',
          headers:{
            "Content-type":"application/json"
          },
          body: JSON.stringify(infrastructure)
-        }).then(res=>res).then(res=>console.log(res))
+        })
         
         
           
         
 
-        await fetch('http://127.0.0.1:8000/api/create/city', {
+        await fetch('http://192.168.0.114:8000/api/create/city', {
          method:'post',
          headers:{
            "Content-type": "application/json"

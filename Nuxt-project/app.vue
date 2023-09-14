@@ -14,7 +14,7 @@
   const {isShow, toggleShow, showMadoal,showNavBar} = useSwitch()
   const route = useRoute()
   const mobileOrDesktop = ref() 
-  onMounted(()=>{
+  onMounted(async ()=>{
     mobileOrDesktop.value = navigator.maxTouchPoints
     if (route.fullPath !== '/') {
       isShow.value = false
@@ -26,6 +26,7 @@
       navigateTo('/')
       isShow.value = true
     }
+    
   })
 </script>
 <style>

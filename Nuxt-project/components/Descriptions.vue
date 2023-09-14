@@ -28,8 +28,8 @@
                             <h6>Заголовок</h6>
 
                             <div class="border-1 bg-red-500 rounded flex w-full h-[40px] overflow-hidden"
-                                :style="message.title.length < 15 ? 'border-color:red;' : ''">
-                                <input @input="writeMessages" v-model="message.title" class="w-full px-[10px] outline-0 border-0" type="text"
+                                :style="mooreTitle ? 'border-color:red;' : ''">
+                                <input @input="writeTitle" v-model="message.title" class="w-full px-[10px] outline-0 border-0" type="text"
                                     id="exampleFormControlInput1" placeholder="Просторная видовая двушка у парка">
                                 <span
                                 style="border-left: none;border-radius: 8px; border-top-left-radius: 0; border-bottom-left-radius: 0;"
@@ -42,13 +42,13 @@
                         <label for="floatingTextarea2"
                             style="font-size:14px; margin-bottom:6px; color:#152242;">Описание</label>
                         <textarea
-                            :style="!message.description || message.description.length < 15 ? 'border:1px solid red;' : ''"
-                            @input="writeMessages" v-model="message.description" class="form-control" id="floatingTextarea2"
+                            :style="mooreDescription ? 'border:1px solid red;' : ''"
+                            @input="writeDescription" v-model="message.description" class="form-control" id="floatingTextarea2"
                             placeholder="Уютная светлая двушка в тихом спальном районе. Окна на красивые цветущие деревья. Свежий ремонт 2020 года делали для себя. Рядом есть детсад. Можно заезжать и жить!"
                             style="resize:none; height:300px">
-
+                            
                                 </textarea>
-                                <p v-if="!message.description || message.description.length < 15" :class="!message.description || message.description.length < 15 ? 'mt-[6px] text-[12px] text-[red]':''">
+                                <p v-if="mooreDescription" :class="mooreDescription ? 'mt-[6px] text-[12px] text-[red]':''">
                                   Напишите хотя бы пару предложений: от 15 до 3 000 букв  
                                 </p>
                             </div>
@@ -65,26 +65,37 @@
 </template>
 <script setup>
 const { announData } = getData()
-const message = ref({
-    title: '',
-    description: ''
-})
+const message = ref({})
 const message1 = ref({})
+const mooreTitle = ref(true)
+const  mooreDescription= ref(true);
+
 function change() {
     const file = document.querySelector('.choose-picture > input')
     file.click()
 }
 
-function writeMessages(){
-    message.value.title, message.value.description
+function writeTitle(){
+    if(message.value.title.length < 6){
+        mooreTitle.value = true
+    }else mooreTitle.value = false
+}
+
+function writeDescription(){
+    if(message.value.description.length < 15){
+        mooreDescription.value = true
+    }else{mooreDescription.value = false}
+     
 }
 
 const route = useRoute()
 
 function next(){
-    if (message.value.title == '' && !message.description ) {
+    console.log(message.value.title,message.value.description);
+    if (message.value.title == '' && !message.value.description ) {
         navigateTo('/description')
     }else{
+        
     navigateTo('/price')
     announData.value[0] = JSON.parse(localStorage.getItem('announ'))[0]
     announData.value[1] = JSON.parse(localStorage.getItem('announ'))[1]
