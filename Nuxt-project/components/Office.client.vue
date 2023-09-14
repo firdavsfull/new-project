@@ -479,21 +479,105 @@
 
 
 onMounted( async () => {
-  
+  const infrastructure = ["автомойка",
+   "автосервис",
+   "аптека",
+   "ателье-одежды",
+   "банкомат",
+   "бассейн",
+   "автомойка",
+   "буфет",
+   "выставочно-складской комплекс",
+   "гостиница",
+   "кафе",
+   "кинотеатр",
+   "конференц-зал",
+   "медицинский-центр",
+   "минимаркет",
+   "нотариальная контора",
+   "отделение банка",
+   "парк",
+   "ресторан",
+   "салон красоты",
+   "складские помещения",
+   "столовой",
+   "супермаркет",
+   "торговая зона",
+   "фитнес-центр",
+   "фотосалон",
+   "центральная рецепция",
+   ];
+   const cityData = [
+    "Душанбе",
+    "Худжанд",
+    "Абдурахмони Джоми",
+    "Айни",
+    "Ашт",
+    "Бальджувон",
+    "Бободжон Гафуров",
+    "Бохтар (Курган-Тюбе)",
+    "Бустон (Чкаловск)",
+    "Вандж",
+    "Варзоб",
+    "Вахдат",
+    "Вахш",
+    "Восе",
+    "Гиссар",
+    "Горная Матча",
+    "Гулистон",
+    "Дангара",
+    "Дарваз",
+    "Деваштич (Ганчи)",
+    "Джаббор Расулов",
+    "Джайхун (Кумсангир)",
+    "Джалолиддини Балхи (Руми)",
+    "Джами",
+    "Дусти",
+    "Зафарабад",
+    "Истаравшан",
+    "Исфара",
+    "Ишкашим",
+    "Кубодиён",
+    "Канибадам",
+    "Куляб",
+    "Кушониён",
+    
+   ]
+    
+        await fetch('http://192.168.0.114:8000/api/create/infrastructure',{
+         method:'post',
+         headers:{
+           "Content-type":"application/json"
+         },
+         body: JSON.stringify(infrastructure)
+        })
+        
+        
+          
+        
+
+        await fetch('http://192.168.0.114:8000/api/create/city', {
+         method:'post',
+         headers:{
+           "Content-type": "application/json"
+         },
+         body: JSON.stringify(cityData)
+        }).then(res=>res)
+        .then(res=> console.log(res))
       
       
     
   
 });
 
-const data = fetch("http://192.168.0.114:8000/api/infrastructure");
+const data = fetch("http://127.0.0.1:8000/api/infrastructure");
 const dataFetch = await data;
 const d = await  dataFetch.json();
 
 const firstData = ref(d.filter((item) => item.id < 14));
 const secondData = ref(d.filter((item) => item.id > 14));
 
-const getInfo = fetch("http://192.168.0.114:8000/api/city");
+const getInfo = fetch("http://127.0.0.1:8000/api/city");
 const getCity = await getInfo;
 const city = await getCity.json();
 

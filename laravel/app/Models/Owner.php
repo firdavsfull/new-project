@@ -6,9 +6,9 @@ use GuzzleHttp\Psr7\Request;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Owner extends Model
+class Owner extends User
 {
     use HasFactory;
 
-    protected $fillable =['phone_number'];
+    protected $fillable = ['phone_number'];
 }

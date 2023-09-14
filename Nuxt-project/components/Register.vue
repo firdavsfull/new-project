@@ -98,6 +98,8 @@ async function createUser() {
       .then((res) => {
         const { responce } = getData();
         const { showMadoal } = useSwitch();
+
+        console.log(res);
         showMadoal.value = false;
         responce.value = res;
         localStorage.setItem("owner", JSON.stringify(responce.value));
