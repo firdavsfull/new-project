@@ -8,4 +8,5 @@ use Illuminate\Database\Eloquent\Model;
 class FacilitiesAnnoun extends Model
 {
     use HasFactory;
+    
 }

@@ -8,4 +8,5 @@ use Illuminate\Database\Eloquent\Model;
 class ConditionAnnoun extends Model
 {
     use HasFactory;
+    protected $fillable=['condition_id','announ_id'];
 }

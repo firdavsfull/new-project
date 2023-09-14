@@ -23,7 +23,7 @@
                         <div class="group-container d-flex f-wrap flex-column mt-3">
                             <label for="price" style="font-size:14px;" class="mb-2">Аренда в месяц</label>
                             <div class="price-container d-flex align-items-center overflow-hidden form-control" style="width:250px; height:40px">
-                                <input v-maska data-maska="# ### ###" @input="enterPrice" v-model="price" type="text" id="price"  style="border:none; outline:none;">
+                                <input @input="enterPrice" v-model="price" type="tel" maxlength="9" id="price"  style="border:none; outline:none;">
                                 <div class="text-[20px] d-flex justify-center bg-[white] top-[-1px] items-center w-[15%] relative right-[-30px]"  >
                                     <span class="h-full flex leading-[40px]">c</span>
                                 </div>
@@ -78,7 +78,7 @@ function change(){
 }
 
 function enterPrice(){
-    priceObj.value.price = price.value
+    priceObj.value.price = parseInt(price.value.trim())
 }
 
 async function place(){
@@ -101,7 +101,12 @@ async function place(){
         body: JSON.stringify(JSON.parse(localStorage.getItem('announ')))
     })
     .then(res=>res.json())
-    .then(res=>console.log(res))
+    .then(res=>{
+        if (res) {
+            navigateTo('/')
+        }
+        return res
+    })
 }
 
 const arr = []

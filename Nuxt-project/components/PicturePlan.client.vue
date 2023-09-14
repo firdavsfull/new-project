@@ -1,6 +1,6 @@
 
 <template>
-    <form class="layouts">
+    <main class="layouts">
          <div class="container-xl mt-4">
              <div class="progress-container">
                  <div class="d-flex justify-content-between mb-2 mt-3">
@@ -14,11 +14,11 @@
                      <div class="progress-bar" role="progressbar" style="width:30%" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
                  </div>
              </div>
-
-         <div  class="mx-[20px] mt-[10px] h-[auto]">
-             <div v-if="announData[0].objects == 'Квартира' || announData[0].objects == 'Комната'" class="text-container">
-                 <span>Параметры Квартиры </span>
-             </div>
+        <div class="rounded-[15px] my-[10px]" style="box-shadow:0 0 10px gray;">
+            <div  class="mx-[20px] mt-[10px] h-[auto]">
+                <div style="margin-top:10px;" v-if="announData[0].objects == 'Квартира' || announData[0].objects == 'Комната'" class="text-container">
+                    <span>Параметры Квартиры </span>
+                </div>
              <div v-if="announData[0].objects == 'Квартира' || announData[0].objects == 'Комната'" class="quantity-room-container">
                  <p>Количество Комнат</p>
                  <div class="quantity-room">
@@ -53,7 +53,7 @@
 
                      <div :style="!apartmentParams.generalArea ?'border:1px solid red;':''" class="input-area form-control">
                          <input @input="verfied" v-model="apartmentParams.generalArea" type="text" v-maska
-          data-maska="####">
+                            data-maska="####">
                          <div>м<sup class="text-[10px]">2</sup></div>
                      </div>
                     <p style="font-size:11px;" 
@@ -90,7 +90,7 @@
                  </div>
              </div>
 
-             <div class="picture-room-container" :style="announData[0].objects == 'Квартира' || announData[0].objects !== 'Комната'? 'margin-top: 80px;' : ''">
+             <form id="forms" name="fileinfo" enctype="multipart/form-data" class="picture-room-container" :style="announData[0].objects == 'Квартира' || announData[0].objects !== 'Комната'? 'margin-top: 80px;' : ''">
                  <span>Фото и планировка - от 5 и больше</span>
                  <div class="picture-room">
                      <div>
@@ -101,12 +101,20 @@
                          чужие фото, картинки с водяными знаками
                          и рекламу.
                      </p>
+                     
                  </div>
                  <div class="choose-picture">
                      <button @click.prevent='change'  style="background-color:rgba(15,72,157,.1); color:#0468ff;" class="btn w-100  fw-bold font-monospace">Выберите файлы</button>
-                     <input type="file" accept="*png" multiple style="display:none;" id="">
+                     <input @change="sendPictures" type="file" accept="*png" multiple style="display:none;" id="">
                  </div>
-             </div>
+                 <div class="flex justify-center overflow-hidden mx-[auto] mt-[10px]  w-[100%] min-h-[50px] rounded-[13px] border">
+                    <div class="w-full p-[10px] flex flex-wrap">
+                        <div v-for="img of pictures" :key="img.name" class="m-[10px] mx-[auto] w-[50%] h-[150px] sm:h-[170px] sm:w-[250px] sm:h-[170px] md:w-[200px] md:h-[120px] lg:min-w-[180px] lg:h-[120px]  overflow-hidden rounded">
+                            <img class="w-full h-full" :src="img.src" :alt="img.name">
+                        </div>
+                    </div>
+                 </div>
+                </form>
 
              <div class="video-link-container">
                  <div style="margin-top:24px;">
@@ -130,7 +138,9 @@
              
          </div>
          </div>
-     </form>
+        </div>
+         
+        </main>
 </template>
 
 <script setup>
@@ -200,9 +210,32 @@ onMounted(()=>{
  console.log(announData);
 })
 
-function change(){
+function change(event){
  const file =  document.querySelector('.choose-picture > input')
  file.click()
+}
+    const pictures = ref([])
+function sendPictures(event){
+ const file =  document.querySelector('.choose-picture > input')
+ const files = Array.from(file.files)
+ const form = document.querySelector('#forms')
+ const FormD = new FormData(form);
+ for (let i = 0; i < files.length; i++) {
+    FormD.append(`images[]${i + 1}`,files[i])
+ const reader = new FileReader()
+ reader.onload = (e) =>{
+    let image = {
+        src: e.target.result,
+        name: files[i].name
+    }
+    pictures.value.push(image)
+ }
+ reader.readAsDataURL(files[i])
+ }
+ console.log(pictures.value);
+
+ 
+ 
 }
 </script>
 

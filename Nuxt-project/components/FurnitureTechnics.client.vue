@@ -266,36 +266,8 @@ const c = ref()
         })
 
 
-onMounted(async ()=>{
-    const furn = [
-        'Можно с детьми',
-        'Можно с животными',
-        'Холодильник',
-        'Посудамоечная машина',
-        'Стиральная машина',
-        'В комнатах',
-        'На кухне',
-        'Кондиционер',
-        'Телевизор',
-        'Интернет',
-        'Телефон',
-        'Ванна',
-        'Душевая кабина',
-        'Баня',
-        'Гараж',
-        'Бассейн',
-
-    ]
+onMounted(()=>{
     
-
-    await fetch('http://192.168.0.114:8000/api/create/furniture',{
-         method:'post',
-         headers:{
-           "Content-type":"application/json"
-         },
-         body: JSON.stringify(furn)
-        }).then(res=>res.json())
-        .then(res=> res)
         
             setTimeout(()=>{
                 let inputs = document.querySelectorAll('.d-none');
