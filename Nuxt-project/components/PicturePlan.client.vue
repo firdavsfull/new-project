@@ -111,7 +111,7 @@
                     <div class="w-full p-[10px] flex flex-wrap">
                         <div v-for="img of pictures" :key="img.name" class="relative m-[10px] mx-[auto] w-[50%] h-[150px] sm:h-[170px] sm:w-[250px] sm:h-[170px] md:w-[200px] md:h-[120px] lg:min-w-[180px] lg:h-[120px]  overflow-hidden rounded">
                             <div 
-                            @click="removeImg"
+                            @click="removeImg(img)"
                             class="absolute right-[10px] top-[-10px]  text-[white] text-[30px]">&times;</div>
                             <img class="w-full h-full" :src="img.src" :alt="img.name">
                         </div>
@@ -235,6 +235,12 @@ function sendPictures(event){
  }
  reader.readAsDataURL(files[i])
  }
+}
+
+function removeImg(img){
+    const form = document.querySelector('#forms')
+    const FormD = new FormData(form);
+    console.log(FormD.getAll('images[]'));
 }
 </script>
 
