@@ -100,13 +100,7 @@ async function place(){
         },
         body: JSON.stringify(JSON.parse(localStorage.getItem('announ')))
     })
-    .then(res=>res.json())
-    .then(res=>{
-        if (res) {
-            navigateTo('/')
-        }
-        return res
-    })
+    .then(res =>{window.location.replace('/')})
 }
 
 console.log(typeof JSON.parse(localStorage.getItem('announ'))[4]);
