@@ -38,8 +38,11 @@
           style="font-family: Lato, Arial, sans-serif"
           class="text-primary btn mt-[10px] flex align-items-center"
         >
-          <span v-if="!loader">Получить код</span>
-          <span v-if="loader" class="spinner-border" style="color: white;"></span>
+          <span v-if="!loader">Получить код</span> 
+          <span v-if="loader" class="spinner-btn" style="color: white;">
+            <span class="spinner"></span>
+          </span>
+          
         </button>
         <button
           style="font-family: Lato, Arial, sans-serif"
@@ -67,6 +70,8 @@ input::-webkit-inner-spin-button {
   -webkit-appearance: none;
   margin: 0;
 }
+
+
 </style>
 <script setup>
 const loader = ref(false);
@@ -83,7 +88,7 @@ const tel = ref({
 async function createUser() {
   loader.value = true;
   if (tel.value.phone && tel.value.phone.length >= 9) {
-    await fetch("http://192.168.0.114:8000/api/create_user", {
+    await fetch("http://127.0.1:8000/api/create_user", {
       method: "post",
       headers: {
         "Content-type": "application/json",
@@ -110,83 +115,38 @@ async function createUser() {
 }
 </script>
 <style scoped>
-.lds-spinner {
-  color: official;
-  display: inline-block;
+.spinner-btn {
   position: relative;
-  /* width: 10px;
-  height: 10px; */
+  overflow: hidden;
+  background-color: #0468ff;
+  color: #fff;
+  font-size: 16px;
+  padding: 6px 20px;
+  border: none;
+  border-radius: 4px;
+  cursor: not-allowed;
 }
-.lds-spinner div {
-  position: relative;
-  transform-origin: 40px 40px;
-  animation: lds-spinner 1.2s linear infinite;
-}
-.lds-spinner div:after {
-  content: "";
-  display: block;
+
+.spinner {
   position: absolute;
-  top: 3px;
-  left: 37px;
-  width: 3px;
-  height: 13px;
-  border-radius: 20%;
-  background: #fff;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 30px;
+  height: 30px;
+  border: 1px solid transparent;
+  border-top-color: #fff;
+  border-radius: 50%;
+  animation: spinner-rotate 1s linear infinite;
 }
-.lds-spinner div:nth-child(1) {
-  transform: rotate(0deg);
-  animation-delay: -1.1s;
-}
-.lds-spinner div:nth-child(2) {
-  transform: rotate(30deg);
-  animation-delay: -1s;
-}
-.lds-spinner div:nth-child(3) {
-  transform: rotate(60deg);
-  animation-delay: -0.9s;
-}
-.lds-spinner div:nth-child(4) {
-  transform: rotate(90deg);
-  animation-delay: -0.8s;
-}
-.lds-spinner div:nth-child(5) {
-  transform: rotate(120deg);
-  animation-delay: -0.7s;
-}
-.lds-spinner div:nth-child(6) {
-  transform: rotate(150deg);
-  animation-delay: -0.6s;
-}
-.lds-spinner div:nth-child(7) {
-  transform: rotate(180deg);
-  animation-delay: -0.5s;
-}
-.lds-spinner div:nth-child(8) {
-  transform: rotate(210deg);
-  animation-delay: -0.4s;
-}
-.lds-spinner div:nth-child(9) {
-  transform: rotate(240deg);
-  animation-delay: -0.3s;
-}
-.lds-spinner div:nth-child(10) {
-  transform: rotate(270deg);
-  animation-delay: -0.2s;
-}
-.lds-spinner div:nth-child(11) {
-  transform: rotate(300deg);
-  animation-delay: -0.1s;
-}
-.lds-spinner div:nth-child(12) {
-  transform: rotate(330deg);
-  animation-delay: 0s;
-}
-@keyframes lds-spinner {
+
+@keyframes spinner-rotate {
   0% {
-    opacity: 1;
+    transform: translate(-50%, -50%) rotate(0deg);
   }
   100% {
-    opacity: 0;
+    transform: translate(-50%, -50%) rotate(360deg);
   }
 }
+
 </style>

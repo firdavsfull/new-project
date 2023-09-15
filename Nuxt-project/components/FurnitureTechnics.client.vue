@@ -3,7 +3,7 @@
          <div  class="container-xl mt-4">
              <div class="progress-container container">
                  <div class="d-flex justify-content-between mb-2 mt-3">
-                     <span class="fw-bold pt-1 2">{{ announData[0].objects !== 'Квартира' && announData[0].objects !== 'Комната'?'О дома и участка':'Мебель и техника' }}</span>
+                     <span class="fw-bold pt-1 2">{{ announData[0].objects !== 'Квартира' || announData[0].objects !== 'Комната'?'О дома и участка':'Мебель и техника' }}</span>
                      <button class="btn btn-none fs-5 p-0 m-0 text-primary me-2">
                          <font-awesome-icon :icon="['fas', 'circle-question']" />
                      </button>
@@ -16,7 +16,7 @@
 
              <div class="container-sm" >
                  <div class="text-container" style="font-weight:normal; color:#152242;">
-                     <span>{{ announData[0].objects !== 'Квартира' && announData[0].objects !== 'Комната'?'О дома и участка':'В квартире есть' }}</span>
+                     <span>{{ announData[0].objects !== 'Квартира' || announData[0].objects !== 'Комната'?'О дома и участка':'В квартире есть' }}</span>
                  </div>
                  <div class="container w-100">
                      <div class="col mt-4" v-if="announData[0].objects == 'Квартира' || announData[0].objects == 'Комната'" style="color:#152242;">
@@ -102,13 +102,12 @@
                                     </label>
 
                                     <div class="h-[40px] w-[250px] flex rounded-1 border bg-[white] overflow-hidden">
-                                        <input autocomplete="off" v-maska data-maska="# ### ### ###" class="border-[0] outline-0 px-[10px] h-full w-[85%]" type="text" id="area-plot">
-                                        <select style="-webkit-appearance: none; text-align: center;" class="flex border-0 outline-0 items-center justify-center bg-[white] w-[30%]" name="name" id="">
-                                                <option value="">сот.</option>
-                                                <option value="">га</option>
-                                            </select>
+                                        <input @input="inputLandArera" v-model="landArea" autocomplete="off" v-maska data-maska="##########" class="border-[0] outline-0 px-[10px] h-full w-[85%]" type="text" id="area-plot">
+                                        <select style="-webkit-appearance: none; text-align: center;" class="flex  border-l h-full outline-0 items-center justify-center bg-[white] w-[30%]" name="name" id="">
+                                                <option value="сот.">сот.</option>
+                                                <option value="га">га</option>
+                                        </select>
                                     </div>
-                                
                                 </div>
 
                                 <div class="flex bg-[green]w-full mt-[5px]">
@@ -119,15 +118,15 @@
 
                                         <div class="flex flex-wrap w-full">
                                             <label class="mr-[5px] " for="1">
-                                                <input class="d-none check" type="radio" name="radio1" id="1">
+                                                <input @change="selectLandCategory" data-category="Земли населённых пунктов" class="d-none check" type="radio" name="radio1" id="1">
                                                 <span class="form-control rounded-1 border mt-[5px] ">Земли населённых пунктов</span>
                                             </label>
                                             <label class="mr-[5px] " for="2">
-                                                <input class="d-none check" type="radio" name="radio1" id="2">
+                                                <input @change="selectLandCategory" data-category="Земли сельхозназначения" class="d-none check" type="radio" name="radio1" id="2">
                                                 <span class="form-control rounded-1 border mt-[5px] ">Земли сельхозназначения</span>
                                             </label>
                                             <label class="mr-[5px] " for="3">
-                                                <input class="d-none check" type="radio" name="radio1" id="3">
+                                                <input @change="selectLandCategory" data-category="Другое" class="d-none check" type="radio" name="radio1" id="3">
                                                 <span class="form-control rounded-1 border mt-[5px] ">Другое</span>
                                             </label>
                                             
@@ -141,7 +140,7 @@
                                         </label>
     
                                         <div class="h-[40px] w-[200px] flex rounded-1 border bg-[white] overflow-hidden">
-                                            <input autocomplete="off" v-maska data-maska="####" class="border-[0] outline-0 px-[10px] h-full w-[85%]" type="text" id="area-home">
+                                            <input @input="inputHomeArea" v-model="homeArea" autocomplete="off" v-maska data-maska="####" class="border-[0] outline-0 px-[10px] h-full w-[85%]" type="text" id="area-home">
                                             <span class="flex items-center justify-center bg-[white] w-[15%]">м<sup class="text-[10px]">2</sup></span>
                                             
                                         </div>
@@ -153,7 +152,7 @@
                                     </label>
 
                                     <div class="h-[40px] w-[200px] flex rounded-1 border bg-[white] overflow-hidden">
-                                        <input v-maska data-maska="##" class="border-[0] outline-0 px-[10px] h-full w-full" type="text" id="quantity-bedroom">
+                                        <input @input="chooseQuantityBedroom" v-model="quantityBedroom" v-maska data-maska="##" class="border-[0] outline-0 px-[10px] h-full w-full" type="text" id="quantity-bedroom">
                                         <!-- <span class="flex items-center justify-center bg-[white] w-[15%]">м<sup class="text-[10px]">2</sup></span> -->
                                     </div>
                                 </div>
@@ -166,19 +165,19 @@
 
                                         <div class="flex flex-wrap w-full">
                                             <label class="mr-[5px] " for="4">
-                                                <input class="d-none" type="radio" name="radio" id="4">
+                                                <input @change="selectConditionHome" data-name="Можно жить" class="d-none" type="radio" name="radio" id="4">
                                                 <span class="form-control text-[green] rounded-1 border mt-[5px] ">Можно жить</span>
                                             </label>
                                             <label class="mr-[5px] " for="5">
-                                                <input class="d-none" type="radio" name="radio" id="5">
+                                                <input @change="selectConditionHome" data-name="Нужен ремонт" class="d-none" type="radio" name="radio" id="5">
                                                 <span class="form-control rounded-1 border mt-[5px] ">Нужен ремонт</span>
                                             </label>
                                             <label class="mr-[5px] " for="6">
-                                                <input class="d-none" type="radio" name="radio" id="6">
+                                                <input @change="selectConditionHome" data-name="Нужно достроит" class="d-none" type="radio" name="radio" id="6">
                                                 <span class="form-control rounded-1 border mt-[5px] ">Нужно достроит</span>
                                             </label>
                                             <label class="mr-[5px] " for="7">
-                                                <input class="d-none" type="radio" name="radio" id="7">
+                                                <input @change="selectConditionHome" data-name="Нужен капремонт или под снос" class="d-none" type="radio" name="radio" id="7">
                                                 <span class="form-control rounded-1 border mt-[5px] ">Нужен капремонт или под снос</span>
                                             </label>
                                         </div>
@@ -192,14 +191,13 @@
 
                                         <div class="flex flex-wrap w-full">
                                             <label class="mr-[5px] flex w-[80px] text-center" for="electric1">
-                                                <input class="d-none check" type="radio" name="radio2" id="electric1">
+                                                <input @change="selectElectricity" data-name="Есть" v-model="facilities.electricity" class="d-none check" type="radio" name="radio2" id="electric1">
                                                 <span class="form-control rounded-1 border mt-[5px] ">Есть</span>
                                             </label>
                                             <label class="mr-[5px] flex w-[80px] text-center" for="electric2">
-                                                <input class="d-none check" type="radio" name="radio2" id="electric2">
+                                                <input @change="selectElectricity" data-name="Нет" v-model="facilities.electricity" class="d-none check" type="radio" name="radio2" id="electric2">
                                                 <span class="form-control rounded-1 border mt-[5px] ">Нет</span>
                                             </label>
-                                           
                                             
                                         </div>
                                     </div>
@@ -229,12 +227,40 @@
 
 const {announData,AnnounOgj} = getData()
 const facilities = ref([])
-const facilities1 = ref([])
+const facilitiesObj = ref({})
+const facilities1 = ref([]||{})
+const landArea = ref('')
+const homeArea = ref('')
+const quantityBedroom = ref('')
 let checkStyle = false
 
+
+function inputLandArera(){
+    facilitiesObj.value.landArea = parseInt(landArea.value);
+}
+
+function selectLandCategory(event){
+    facilitiesObj.value.landCategry=event.target.dataset.category.trim().toLowerCase()
+}
+
+function inputHomeArea(){
+    facilitiesObj.value.homeArea = parseInt(homeArea.value)
+}
+
+function selectConditionHome(event){
+    facilitiesObj.value.conditionHome = event.target.dataset.name.trim().toLowerCase()
+}
+
+function chooseQuantityBedroom(){
+    facilitiesObj.value.quantityBedroom = parseInt(quantityBedroom.value)
+}
+
+function selectElectricity(event){
+    console.log(event.target.dataset.name.trim().toLowerCase());
+}
 const c = ref()
         
-        const conditions = fetch('http://192.168.0.114:8000/api/conditions')
+        const conditions = fetch('http://127.0.0.1:8000/api/conditions')
         const condition = await conditions
         c.value = await condition.json() 
 
@@ -251,7 +277,6 @@ const c = ref()
             return item.name =='Интернет' || item.name == 'Телефон'
         }))
 
-        console.log(contact.value);
         const furniture = ref(c.value.filter(item=>{
             return item.name == 'На кухне' || item.name == 'В комнатах'
         }))
@@ -267,6 +292,7 @@ const c = ref()
 
 
 onMounted(async ()=>{
+    announData.value[0] = JSON.parse(localStorage.getItem('announ'))[0]
     const furn = [
         'Можно с детьми',
         'Можно с животными',
@@ -288,7 +314,7 @@ onMounted(async ()=>{
     ]
     
 
-    await fetch('http://192.168.0.114:8000/api/create/furniture',{
+    await fetch('http://127.0.0.1:8000/api/create/furniture',{
          method:'post',
          headers:{
            "Content-type":"application/json"
@@ -309,12 +335,6 @@ onMounted(async ()=>{
                     })
             })
 
-
-
-
-            
-
-            announData.value[0] = JSON.parse(localStorage.getItem('announ'))[0]
 
         if (JSON.parse(localStorage.getItem('announ'))[4]) {
             facilities.value = JSON.parse(localStorage.getItem('announ'))[4]
@@ -375,7 +395,15 @@ function next(){
  announData.value[1] = JSON.parse(localStorage.getItem('announ'))[1]
  announData.value[2] = JSON.parse(localStorage.getItem('announ'))[2]
  announData.value[3] = JSON.parse(localStorage.getItem('announ'))[3]
- announData.value[4] = facilities.value
+//  announData.value[4] = facilities.value
+    facilities.value.forEach(item=>{
+        if (!item || typeof item !== Number) {
+            announData.value[4] = facilitiesObj.value
+        }else{
+            announData.value[4] = facilities.value
+        }
+        console.log(facilities.value);
+    })
  localStorage.setItem('announ', JSON.stringify(announData.value))
  navigateTo('/description')
  facilities.value = facilities1.value
