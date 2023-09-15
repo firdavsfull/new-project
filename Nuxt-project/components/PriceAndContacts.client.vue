@@ -105,7 +105,6 @@ async function place(){
         if (res) {
             navigateTo('/')
         }
-        console.log(res);
         return res
     })
 }

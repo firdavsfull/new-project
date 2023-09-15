@@ -69,14 +69,15 @@ class CreateAnnounController extends Controller
         
 
         
-            // if(is_array($announs[4])){
-            //     foreach ($announs[4] as $value) {
-            //     ConditionAnnoun::firstOrCreate(['condition_id'=>$value,'announ_id'=>$announ->id]);
-            //     }
-            // }else{
-            //     return;
-            // }
+            if(array_values($announs[4]) === $announs[4]){
+                foreach ($announs[4] as $value) {
+                ConditionAnnoun::firstOrCreate(['condition_id'=>$value,'announ_id'=>$announ->id]);
+                }
+            }else{
+                return;
+            }
+
             $arr = $announs[4];
-        return[$arr['quantityBedroom']];
+        return[$arr];
     }
 }
