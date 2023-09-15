@@ -6,7 +6,10 @@
         const {announData,AnnounOgj} = getData()
         
         
-        const typeObject = ref(JSON.parse(localStorage.getItem('announ')) || {})
+        const typeObject = ref()
+        if (!JSON.parse(localStorage.getItem('announ'))) {
+            typeObject.value = JSON.parse(localStorage.getItem('announ'))
+        }else typeObject.value = {}
         
 
     function changeText(event){

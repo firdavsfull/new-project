@@ -40,7 +40,6 @@ class Announ extends Model
 'rental_type',
 'house_type',
 'type_object',
-'owner_id',
-'type_home'
+'owner_id'
 ];
 }

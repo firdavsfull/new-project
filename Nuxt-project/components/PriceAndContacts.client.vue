@@ -105,9 +105,12 @@ async function place(){
         if (res) {
             navigateTo('/')
         }
+        console.log(res);
         return res
     })
 }
+
+console.log(typeof JSON.parse(localStorage.getItem('announ'))[4]);
 
 const arr = []
 
@@ -145,9 +148,7 @@ const conditions = fetch('http://192.168.0.114:8000/api/conditions')
    const c = ref(await condition.json())  
 const cond = ref(c.value.filter(item=>item.name == 'Можно с детьми' || item.name == 'Можно с животными'));
 
-onMountet(()=>{
-    
-})
+
 
 </script>
 

@@ -256,11 +256,11 @@ function chooseQuantityBedroom(){
 }
 
 function selectElectricity(event){
-    console.log(event.target.dataset.name.trim().toLowerCase());
+    facilitiesObj.value.electricity = event.target.dataset.name.trim().toLowerCase()
 }
 const c = ref()
         
-        const conditions = fetch('http://127.0.0.1:8000/api/conditions')
+        const conditions = fetch('http://192.168.0.114:8000/api/conditions')
         const condition = await conditions
         c.value = await condition.json() 
 
@@ -314,7 +314,7 @@ onMounted(async ()=>{
     ]
     
 
-    await fetch('http://127.0.0.1:8000/api/create/furniture',{
+    await fetch('http://192.168.0.114:8000/api/create/furniture',{
          method:'post',
          headers:{
            "Content-type":"application/json"
@@ -336,7 +336,7 @@ onMounted(async ()=>{
             })
 
 
-        if (JSON.parse(localStorage.getItem('announ'))[4]) {
+        if (Array.isArray(JSON.parse(localStorage.getItem('announ'))[4])) {
             facilities.value = JSON.parse(localStorage.getItem('announ'))[4]
         }else{
             facilities.value = facilities1.value
@@ -345,7 +345,9 @@ onMounted(async ()=>{
         })
         function selecTechnics(event){
         if (event.target.checked) {
-            facilities.value.push(parseInt(event.target.dataset.name))
+            if (Array.isArray(facilities.value)) {
+                facilities.value.push(parseInt(event.target.dataset.name))
+            }
         }
         
             facilities.value.forEach(item => {
@@ -371,7 +373,7 @@ onMounted(async ()=>{
      });
 
  const elems = document.querySelectorAll('.d-none');
- elems.forEach(elem=>{
+ elems.forEach(elem => {
          facilities.value.forEach(val =>{
          if (parseInt(elem.dataset.name) == val) {
              elem.checked = true
@@ -396,14 +398,11 @@ function next(){
  announData.value[2] = JSON.parse(localStorage.getItem('announ'))[2]
  announData.value[3] = JSON.parse(localStorage.getItem('announ'))[3]
 //  announData.value[4] = facilities.value
-    facilities.value.forEach(item=>{
-        if (!item || typeof item !== Number) {
-            announData.value[4] = facilitiesObj.value
-        }else{
+        if (facilities.value.length) {
             announData.value[4] = facilities.value
+        }else{
+            announData.value[4] = facilitiesObj.value
         }
-        console.log(facilities.value);
-    })
  localStorage.setItem('announ', JSON.stringify(announData.value))
  navigateTo('/description')
  facilities.value = facilities1.value
