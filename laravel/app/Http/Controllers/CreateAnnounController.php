@@ -77,7 +77,5 @@ class CreateAnnounController extends Controller
                 return;
             }
 
-            $arr = $announs[4];
-        return[$arr];
     }
 }
