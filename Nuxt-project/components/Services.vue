@@ -46,24 +46,26 @@ const {isShow,showMadoal, toggleShow, active} = useSwitch()
 const {responce} = getData()
 
 
-
 function Announ(){
     if (navigator.maxTouchPoints) {
         active.value = false
         localStorage.removeItem('announ')
+        
         document.body.style.overflow = 'auto'
         isShow.value = true
         if (responce.value) {
-            navigateTo('/announ')
+            console.log(navigateTo('/announ'));   
             showMadoal.value = false
             isShow.value = false
         }else{
             showMadoal.value = true            
         }
+        
 
     }
-    
-    
+            
+                window.location.replace('/announ')
+            
 }
 
 

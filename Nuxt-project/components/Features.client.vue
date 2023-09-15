@@ -51,14 +51,17 @@
                                          <input :checked="aprtFeatures.repair =='Без ремонта'" @change="withRepair" data-name="Без ремонта" type="radio" class="btn-check" name="options" id="option1" autocomplete="off">
                                          <label :style="!aprtFeatures.repair?'border:1px solid red; border-radius:8px;':''" class="form-control me-2 my-1" for="option1">Без ремонта</label>
 
-                                         <input :checked="aprtFeatures.repair =='Косметический'" @change="withRepair" data-name="Косметический" type="radio" class="btn-check" name="options" id="option2" autocomplete="off">
-                                         <label :style="!aprtFeatures.repair?'border:1px solid red; border-radius:8px;':''" class="form-control me-2 my-1" for="option2">Косметический</label>
+                                         <input :checked="aprtFeatures.repair =='Обычный'" @change="withRepair" data-name="Обычный" type="radio" class="btn-check" name="options" id="option2" autocomplete="off">
+                                         <label :style="!aprtFeatures.repair?'border:1px solid red; border-radius:8px;':''" class="form-control me-2 my-1" for="option2">Обычный</label>
 
-                                         <input :checked="aprtFeatures.repair =='Евро'" @change="withRepair" data-name="Евро" type="radio" class="btn-check" name="options" id="option3" autocomplete="off" >
-                                         <label :style="!aprtFeatures.repair?'border:1px solid red; border-radius:8px;':''" class="form-control me-2 my-1" for="option3">Евро</label>
+                                         <input :checked="aprtFeatures.repair =='Косметический'" @change="withRepair" data-name="Косметический" type="radio" class="btn-check" name="options" id="option3" autocomplete="off">
+                                         <label :style="!aprtFeatures.repair?'border:1px solid red; border-radius:8px;':''" class="form-control me-2 my-1" for="option3">Косметический</label>
 
-                                         <input :checked="aprtFeatures.repair =='Дизайнерксий'" @change="withRepair" data-name="Дизайнерксий" type="radio" class="btn-check" name="options" id="option4" autocomplete="off">
-                                         <label :style="!aprtFeatures.repair?'border:1px solid red; border-radius:8px;':''" class="form-control my-1" for="option4">Дизайнерксий</label>
+                                         <input :checked="aprtFeatures.repair =='Евро'" @change="withRepair" data-name="Евро" type="radio" class="btn-check" name="options" id="option4" autocomplete="off" >
+                                         <label :style="!aprtFeatures.repair?'border:1px solid red; border-radius:8px;':''" class="form-control me-2 my-1" for="option4">Евро</label>
+
+                                         <input :checked="aprtFeatures.repair =='Дизайнерксий'" @change="withRepair" data-name="Дизайнерксий" type="radio" class="btn-check" name="options" id="option5" autocomplete="off">
+                                         <label :style="!aprtFeatures.repair?'border:1px solid red; border-radius:8px;':''" class="form-control my-1" for="option5">Дизайнерксий</label>
                                      </div>
                                  </div>
                              </div>

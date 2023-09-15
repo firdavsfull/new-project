@@ -90,22 +90,32 @@
                  </div>
              </div>
 
-             <form @submit.prevent="sendPictures()" enctype="multipart/form-data" class="picture-room-container" :style="announData[0].objects == 'Квартира' || announData[0].objects !== 'Комната'? 'margin-top: 80px;' : ''">
+                <form id="forms" enctype="multipart/form-data" class="picture-room-container" :style="announData[0].objects == 'Квартира' || announData[0].objects !== 'Комната'? 'margin-top: 80px;' : ''">
                  <span>Фото и планировка - от 5 и больше</span>
-                 <div class="picture-room">
-                     <div>
-                         <font-awesome-icon style="color:darkgray;" :icon="['fas', 'camera']" />
-                     </div>
-                     <p>На фото не должно быть людей, животных,
-                         алкоголя, табака, оружия. Не добавляйте
-                         чужие фото, картинки с водяными знаками
-                         и рекламу.
-                     </p>
-                     
-                 </div>
-                 <div class="choose-picture">
-                     <button @click.prevent='change'  style="background-color:rgba(15,72,157,.1); color:#0468ff;" class="btn w-100  fw-bold font-monospace">Выберите файлы</button>
-                     <input type="file" accept="*png" multiple style="display:none;" id="">
+                    <div class="picture-room">
+                        <div>
+                            <font-awesome-icon style="color:darkgray;" :icon="['fas', 'camera']" />
+                        </div>
+                            <p>На фото не должно быть людей, животных,
+                                алкоголя, табака, оружия. Не добавляйте
+                                чужие фото, картинки с водяными знаками
+                                и рекламу.
+                            </p>  
+                    </div>
+                    <div class="choose-picture">
+                        <button @click.prevent='change'  style="background-color:rgba(15,72,157,.1); color:#0468ff;" class="btn w-100  fw-bold font-monospace">Выберите файлы</button>
+                        <input @change.prevent="sendPictures" type="file" accept="*png" multiple style="display:none;" id="">
+                    </div>
+
+                    <div class="flex justify-center overflow-hidden mx-[auto] mt-[10px]  w-[100%] min-h-[50px] rounded-[13px] border">
+                    <div class="w-full p-[10px] flex flex-wrap">
+                        <div v-for="img of pictures" :key="img.name" class="relative m-[10px] mx-[auto] w-[50%] h-[150px] sm:h-[170px] sm:w-[250px] sm:h-[170px] md:w-[200px] md:h-[120px] lg:min-w-[180px] lg:h-[120px]  overflow-hidden rounded">
+                            <div 
+                            @click="removeImg(img,pictures)"
+                            class="absolute right-[10px] top-[-10px]  text-[white] text-[30px]">&times;</div>
+                            <img class="w-full h-full" :src="img.src" :alt="img.name">
+                        </div>
+                    </div>
                  </div>
                 </form>
 
@@ -201,18 +211,41 @@ onMounted(()=>{
      apartmentParams.value = apartmentParams1.value
  }
 
- console.log(announData);
 })
 
 function change(event){
  const file =  document.querySelector('.choose-picture > input')
  file.click()
- console.log(file.files);
 }
     const pictures = ref([])
-function sendPictures(event){
+    function sendPictures(event){
  const file =  document.querySelector('.choose-picture > input')
-    console.log(event);
+ const files = Array.from(file.files)
+ const form = document.querySelector('#forms')
+ const FormD = new FormData(form);
+ for (let i = 0; i < files.length; i++) {
+    FormD.append(`images[]${i + 1}`,files[i])
+ const reader = new FileReader()
+ reader.onload = (e) =>{
+    let image = {
+        src: e.target.result,
+        name: files[i].name
+    }
+    pictures.value.push(image)
+ }
+ reader.readAsDataURL(files[i])
+ }
+}
+
+function removeImg(img,pictures){
+    const form = document.querySelector('#forms')
+    const FormD = new FormData(form);
+    // event.target.parentNode.remove()
+    for (let i = 0; i < pictures.length; i++) {
+        
+        const dataImg = FormD.getAll(`images[]${1}`)
+        console.log(dataImg);
+    }
 }
 </script>
 

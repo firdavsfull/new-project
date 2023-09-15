@@ -6,7 +6,10 @@
         const {announData,AnnounOgj} = getData()
         
         
-        const typeObject = ref(JSON.parse(localStorage.getItem('announ')) || {})
+        const typeObject = ref()
+        if (!JSON.parse(localStorage.getItem('announ'))) {
+            typeObject.value = JSON.parse(localStorage.getItem('announ'))
+        }else typeObject.value = {}
         
 
     function changeText(event){
@@ -33,7 +36,6 @@
             AnnounOgj2.value.objects = 'Квартира'
             AnnounOgj2.value.Estate = 'Жилая'
         }
-        console.log(AnnounOgj.value);
     }
     function selectEstate(event){
         const btn = document.querySelector('.real_estate')
@@ -48,7 +50,6 @@
             AnnounOgj2.value.Estate = 'Жилая'
         }
         
-        console.log(AnnounOgj.value);
     }
 
     function selectObject(event){
@@ -153,7 +154,7 @@
     
    ]
     
-        await fetch('http://192.168.0.114:8000/api/create/infrastructure',{
+        await fetch('http://127.0.0.1:8000/api/create/infrastructure',{
          method:'post',
          headers:{
            "Content-type":"application/json"
@@ -161,14 +162,13 @@
          body: JSON.stringify(infrastructure)
         })
 
-        await fetch('http://192.168.0.114:8000/api/create/city', {
+        await fetch('http://127.0.0.1:8000/api/create/city', {
          method:'post',
          headers:{
            "Content-type": "application/json"
          },
          body: JSON.stringify(cityData)
-        }).then(res=>res)
-        .then(res=> console.log(res))
+        })
 
         const furn = [
         'Можно с детьми',
@@ -191,7 +191,7 @@
     ]
     
 
-    await fetch('http://192.168.0.114:8000/api/create/furniture',{
+    await fetch('http://127.0.0.1:8000/api/create/furniture',{
          method:'post',
          headers:{
            "Content-type":"application/json"
