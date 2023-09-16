@@ -93,7 +93,7 @@ async function place(){
  announData.value[6] = priceObj.value
  localStorage.setItem('announ', JSON.stringify(announData.value))
 
-    await fetch('http://192.168.0.114:8000/api/create/announ',{
+    await fetch('http://127.0.0.1:8000/api/create/announ',{
         method:'post',
         headers:{
             "Content-Type":"application/json"
