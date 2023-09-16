@@ -14,7 +14,7 @@
                      <div class="progress-bar" role="progressbar" style="width:30%" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
                  </div>
              </div>
-        <div class="rounded-[15px] my-[10px]" style="box-shadow:0 0 10px gray;">
+        <div class="rounded-[15px] mx-[auto] my-[10px] sm:max-w-[95%] max-w-[95%] lg:max-w-[70%] lg:shadow-2xl">
             <div  class="mx-[20px] mt-[10px] h-[auto]">
                 <div style="margin-top:10px;" v-if="announData[0].objects == 'Квартира' || announData[0].objects == 'Комната'" class="text-container">
                     <span>Параметры Квартиры </span>
@@ -104,18 +104,22 @@
                     </div>
                     <div class="choose-picture">
                         <button @click.prevent='change'  style="background-color:rgba(15,72,157,.1); color:#0468ff;" class="btn w-100  fw-bold font-monospace">Выберите файлы</button>
-                        <input @change.prevent="sendPictures" type="file" accept="*png" multiple style="display:none;" id="">
+                        <input @change.prevent="sendPictures" name="images[]" type="file" accept="*png" multiple style="display:none;" id="">
                     </div>
 
-                    <div class="flex justify-center overflow-hidden mx-[auto] mt-[10px]  w-[100%] min-h-[50px] rounded-[13px] border">
-                    <div class="w-full p-[10px] flex flex-wrap">
-                        <div v-for="img of pictures" :key="img.name" class="relative m-[10px] mx-[auto] w-[50%] h-[150px] sm:h-[170px] sm:w-[250px] sm:h-[170px] md:w-[200px] md:h-[120px] lg:min-w-[180px] lg:h-[120px]  overflow-hidden rounded">
-                            <div 
-                            @click="removeImg(img,pictures)"
-                            class="absolute right-[10px] top-[-10px]  text-[white] text-[30px]">&times;</div>
-                            <img class="w-full h-full" :src="img.src" :alt="img.name">
+                    <div class="flex justify-center overflow-hidden md:mx-[auto] mt-[10px]  w-[100%] min-h-[50px] rounded-[13px] border">
+                        <div class="w-full p-[10px] flex flex-wrap">
+                            <div v-for="img of images" :key="img" class="relative responsive m-[10px] mx-[auto] w-[48%] h-[150px] sm:h-[170px] sm:w-[250px] sm:h-[170px] md:w-[200px] md:h-[120px] lg:min-w-[180px] lg:h-[120px]  overflow-hidden rounded">
+                                <div 
+                                @click="removeImg(img, images)"
+                                class="absolute right-[10px] top-[-10px]  text-[white] text-shadow text-[30px]">&times;</div>
+                                
+                                <img class="w-full h-full" :src="`http://127.0.0.1:8000/api/image/${img.xsmall}`" :alt="img">
+                            </div>
+                            
+                            
                         </div>
-                    </div>
+                    
                  </div>
                 </form>
 
@@ -211,6 +215,7 @@ onMounted(()=>{
      apartmentParams.value = apartmentParams1.value
  }
 
+ 
 })
 
 function change(event){
@@ -218,34 +223,43 @@ function change(event){
  file.click()
 }
     const pictures = ref([])
-    function sendPictures(event){
+    const images = ref(JSON.parse(localStorage.getItem('images')) || []) 
+    const imageLoader = ref(false)
+async function sendPictures(event){
  const file =  document.querySelector('.choose-picture > input')
  const files = Array.from(file.files)
  const form = document.querySelector('#forms')
  const FormD = new FormData(form);
- for (let i = 0; i < files.length; i++) {
-    FormD.append(`images[]${i + 1}`,files[i])
- const reader = new FileReader()
- reader.onload = (e) =>{
-    let image = {
-        src: e.target.result,
-        name: files[i].name
+    FormD.append(`images[]`,files)
+
+    imageLoader.value = true
+   await fetch('http://127.0.0.1:8000/api/upload-image',{
+    method:'post',
+    body:FormD
+   }).then(res=>{
+    if (res.ok) {
+        console.log('Картинки успешно отправлены на сервер');
+    }else{
+        console.log('Произошла ошибка при отправке картинок');
     }
-    pictures.value.push(image)
- }
- reader.readAsDataURL(files[i])
- }
+    return res.json()
+   })
+   .then(r=>{
+    r.forEach(file => {
+       images.value.push(file)
+       localStorage.setItem('images',JSON.stringify(images.value))
+    });
+    imageLoader.value = false
+})
+
+   
+ 
 }
 
-function removeImg(img,pictures){
-    const form = document.querySelector('#forms')
-    const FormD = new FormData(form);
-    // event.target.parentNode.remove()
-    for (let i = 0; i < pictures.length; i++) {
-        
-        const dataImg = FormD.getAll(`images[]${1}`)
-        console.log(dataImg);
-    }
+
+function removeImg(img,picture){
+    picture.splice(picture.indexOf(img),1)
+    localStorage.setItem('images',JSON.stringify(picture))
 }
 </script>
 
@@ -255,7 +269,95 @@ input::-webkit-inner-spin-button {
 -webkit-appearance: none;
 margin: 0;
 }
+
+.lds-spinner {
+  color: official;
+  display: inline-block;
+  position: relative;
+  width: 80px;
+  height: 80px;
+}
+.lds-spinner div {
+  transform-origin: 40px 40px;
+  animation: lds-spinner 1.2s linear infinite;
+}
+.lds-spinner div:after {
+  content: " ";
+  display: block;
+  position: absolute;
+  top: 3px;
+  left: 37px;
+  width: 6px;
+  height: 18px;
+  border-radius: 20%;
+  background: #000;
+}
+.lds-spinner div:nth-child(1) {
+  transform: rotate(0deg);
+  animation-delay: -1.1s;
+}
+.lds-spinner div:nth-child(2) {
+  transform: rotate(30deg);
+  animation-delay: -1s;
+}
+.lds-spinner div:nth-child(3) {
+  transform: rotate(60deg);
+  animation-delay: -0.9s;
+}
+.lds-spinner div:nth-child(4) {
+  transform: rotate(90deg);
+  animation-delay: -0.8s;
+}
+.lds-spinner div:nth-child(5) {
+  transform: rotate(120deg);
+  animation-delay: -0.7s;
+}
+.lds-spinner div:nth-child(6) {
+  transform: rotate(150deg);
+  animation-delay: -0.6s;
+}
+.lds-spinner div:nth-child(7) {
+  transform: rotate(180deg);
+  animation-delay: -0.5s;
+}
+.lds-spinner div:nth-child(8) {
+  transform: rotate(210deg);
+  animation-delay: -0.4s;
+}
+.lds-spinner div:nth-child(9) {
+  transform: rotate(240deg);
+  animation-delay: -0.3s;
+}
+.lds-spinner div:nth-child(10) {
+  transform: rotate(270deg);
+  animation-delay: -0.2s;
+}
+.lds-spinner div:nth-child(11) {
+  transform: rotate(300deg);
+  animation-delay: -0.1s;
+}
+.lds-spinner div:nth-child(12) {
+  transform: rotate(330deg);
+  animation-delay: 0s;
+}
+@keyframes lds-spinner {
+  0% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+  }
+}
+
+
+@media screen and (max-width:420px) {
+    .responsive{
+        width: 100%;
+        height: 200px;
+    }
+}
 @media screen and (min-width:320px) {
+    
  .progress{
      height: 7px;
      background-color: rgba(138, 187, 218, 0.24);
