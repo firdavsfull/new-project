@@ -9,5 +9,8 @@ class FacilitiesAnnoun extends Model
 {
     use HasFactory;
     
-
+<<<<<<< HEAD
 }
+=======
+}
+>>>>>>> 3def8b8e1fceb24de6ff3a1b895fb480792fe1f4
