@@ -96,14 +96,9 @@
 
     responce.value = JSON.parse(localStorage.getItem('owner'))
     function showAndHide(){
-        // if (!responce.value) {
-        //     showMadoal.value = true
-        // } else {
-            window.location.replace('/announ')
+            navigateTo('/announ')
             localStorage.removeItem('announ')
-            // showMadoal.value = false
             isShow.value = false
-        // }
     }       
  function isActive(){
      if(!active.value){

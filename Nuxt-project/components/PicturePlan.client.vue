@@ -103,25 +103,23 @@
                             </p>  
                     </div>
                     <div class="choose-picture">
-                        <button @click.prevent='change'  style="background-color:rgba(15,72,157,.1); color:#0468ff;" class="btn w-100  fw-bold font-monospace">Выберите файлы</button>
+                        <button v-if="!images.length" @click.prevent='change'  style="background-color:rgba(15,72,157,.1); color:#0468ff;" class="btn w-100  fw-bold font-monospace">Выберите файлы</button>
                         <input @change.prevent="sendPictures" name="images[]" type="file" accept=".png, .jpeg, .jpg" multiple style="display:none;" id="">
                     </div>
 
                     <div class="flex justify-center overflow-hidden md:mx-[auto] mt-[10px]  w-[100%] min-h-[50px] rounded-[13px] border">
-                        <div class="w-full p-[10px] flex flex-wrap">
-                            <div draggable="true" v-for="img of images" :key="img" class="relative flex responsive m-[10px] mx-[auto] w-[48%] h-[150px] sm:h-[170px] sm:w-[250px] sm:h-[170px] md:w-[200px] md:h-[120px] lg:min-w-[180px] lg:h-[120px]  overflow-hidden rounded">
-                                <div 
-                                @click="removeImg(img, images)"
-                                class="absolute right-[10px] top-[-10px]  text-[white] text-shadow text-[30px]">&times;</div>
-                                
-                                <img class="w-full h-full" :src="`http://127.0.0.1:8000/api/image/${img.large}`" :alt="img">
-                                <div class="w-full mx-[auto]">
-                                    <div class="lds-spinner"><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div>
-                                    </div>
-                                    </div>
+                        <div class="w-full p-[10px] sm:mx-[auto] mx-[auto] flex flex-wrap justify-start " style="flex-basis: 100%;">
+                            <div draggable="true" v-for="img of images" :key="img" class="relative flex responsive m-[10px] w-[48%] h-[150px] sm:h-[170px] sm:w-[250px] sm:h-[170px] md:w-[200px] md:h-[120px] lg:min-w-[180px] lg:h-[120px]  overflow-hidden rounded">
+                                <div @click="removeImg(img, images)" class="absolute overflow-hidden right-[10px] top-[-10px]  text-[white] text-shadow text-[30px]">&times;</div>
+                                <img  class="left-[0] w-full h-full" :src="`http://127.0.0.1:8000/api/image/${img.large}`" :alt="img">
                                 </div>
-                            
-                            
+                                <div v-if="imageLoader" class="w-[100%] flex justify-center ">
+                                    <div class="lds-spinner"><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div>
+                                </div>
+                            </div>
+                            <div @click.prevent="change" v-if="images.length" class="border border-[blue] relative justify-center flex m-[10px] w-[48%] h-[150px] sm:h-[170px] sm:w-[125px] sm:h-[85px] md:w-[200px] md:h-[120px] lg:min-w-[180px] lg:h-[120px] rounded">
+                                
+                            </div>
                         </div>
                     
                  </div>
