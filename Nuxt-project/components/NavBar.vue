@@ -96,15 +96,14 @@
 
     responce.value = JSON.parse(localStorage.getItem('owner'))
     function showAndHide(){
-        if (!responce.value) {
-            showMadoal.value = true
-        } else {
+        // if (!responce.value) {
+        //     showMadoal.value = true
+        // } else {
             window.location.replace('/announ')
             localStorage.removeItem('announ')
-            navigateTo('/announ')
-            showMadoal.value = false
+            // showMadoal.value = false
             isShow.value = false
-        }
+        // }
     }       
  function isActive(){
      if(!active.value){
