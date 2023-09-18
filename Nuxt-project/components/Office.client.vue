@@ -27,19 +27,20 @@
                     role="button"
                     data-bs-toggle="dropdown"
                   >
-                    <span class="me-5">Укажите город</span>
+                    <span class="me-5">{{CommercialAnnoun.city ? CommercialAnnoun.city :'Укажите город'}}</span>
                   </a>
 
                   <ul
                     style="height: 300px; overflow: auto"
                     class="dropdown-menu form-control"
                   >
-                    <li v-for="c of city" :key="c.id">
-                      <a class="dropdown-item" href="#">{{ c.name }}</a>
+                    <li  :data-name="c.name" v-for="c of city" :key="c.id">
+                      <a @click="chooseCity" class="dropdown-item" href="#">{{ c.name }}</a>
                     </li>
                   </ul>
                 </div>
                 <p
+                v-if="!CommercialAnnoun.city"
                   style="
                     margin-top: -45px;
                     font-family: Lato, Arial, sans-serif;
@@ -92,6 +93,8 @@
 
             <div class="flex h-[30px] rounded-1 border px-[4px] w-[90px]">
               <input
+                v-model="totalArea"
+                @input="getTotalArea"
                 class="border-0 outline-0 w-[100%] text-[14px] font-[450] text-[gray]"
                 v-maska
                 data-maska="####"
@@ -110,6 +113,8 @@
 
             <div class="flex h-[30px] rounded-1 border px-[4px] w-[90px]">
               <input
+                v-model="floor"
+                @input="getFloor"
                 class="border-0 h-[24px] outline-0 w-[100%] text-[14px] font-[450] text-[gray]"
                 v-maska
                 data-maska="###"
@@ -127,6 +132,8 @@
 
             <div class="flex rounded-1 h-[30px] border px-[4px] w-[90px]">
               <input
+              @input="getFloorFrom"
+              v-model="floorFrom"
                 class="border-0 h-[24px] outline-0 w-[100%] text-[14px] font-[450] text-[gray]"
                 v-maska
                 data-maska="###"
@@ -146,8 +153,10 @@
               class="flex rounded-1 h-[30px] items-center border px-[4px] w-[90px]"
             >
               <input
+              v-model="CeilingHeight"
                 class="border-0 outline-0 w-[100%] text-[14px] font-[450] text-[gray]"
                 v-maska
+                @input="getCeilingHeight"
                 data-maska="####"
                 type="text"
               />
@@ -164,15 +173,16 @@
 
             <div class="flex rounded-1 w-[85px]">
               <select
+              @change="selectLayout"
                 style="-webkit-appearance: none"
                 class="border-1 h-[30px] rounded-1 outline-0 px-[10px] py-[1px] text-[14px]"
                 name="plan"
               >
-                <option class="text-[14px]" selected>Не выбранно</option>
-                <option class="text-[14px]">Кабинетная</option>
-                <option class="text-[14px]">Открытая</option>
-                <option class="text-[14px]">Коридорная</option>
-                <option class="text-[14px]">Смешанная</option>
+                <option  class="text-[14px]" >Не выбранно</option>
+                <option  class="text-[14px]">Кабинетная</option>
+                <option selected class="text-[14px]">Открытая</option>
+                <option  class="text-[14px]">Коридорная</option>
+                <option  class="text-[14px]">Смешанная</option>
               </select>
             </div>
 
@@ -184,6 +194,7 @@
 
             <div class="flex rounded-1 w-[85px]">
               <select
+              @change="selectState"
                 style="-webkit-appearance: none"
                 class="border-1 h-[30px] rounded-1 outline-0 px-[10px] py-[1px] text-[14px]"
                 name="plan"
@@ -208,6 +219,7 @@
 
             <div class="flex rounded-1 w-[85px]">
               <select
+              @change="selectFurniture"
                 style="-webkit-appearance: none"
                 class="border-1 h-[30px] rounded-1 outline-0 px-[10px] py-[1px] text-[14px]"
                 name="plan"
@@ -226,6 +238,7 @@
 
             <div class="flex rounded-1 w-[85px]">
               <select
+                @change="selectParking"
                 style="-webkit-appearance: none"
                 class="border-1 rounded-1 h-[30px] outline-0 px-[10px] py-[1px] text-[14px]"
                 name="plan"
@@ -247,6 +260,8 @@
 
               <div class="flex rounded-1 h-[30px] border px-[4px] w-[100px]">
                 <input
+                  @input="getQuantitiySeats"
+                  v-model="numberSeats"
                   class="border-0 outline-0 w-[100%] text-[14px] font-[450] text-[gray]"
                   v-maska
                   data-maska="####"
@@ -274,6 +289,8 @@
 
                 <div class="flex rounded-1 h-[30px] border px-[4px] w-[100px]">
                   <input
+                    @input="getYearConstruction"
+                    v-model="yearConstruction"
                     class="border-0 outline-0 w-[100%] text-[14px] font-[450] text-[gray]"
                     v-maska
                     data-maska="####"
@@ -294,7 +311,9 @@
                   class="flex rounded-1 h-[30px] items-center border px-[4px] w-[90px]"
                 >
                   <input
+                  @input="getBuildingArea"
                     class="border-0 outline-0 w-[100%] text-[14px] font-[450] text-[gray]"
+                    v-model="buildingArea"
                     v-maska
                     data-maska="####"
                     type="text"
@@ -313,7 +332,9 @@
                   class="flex rounded-1 h-[30px] items-center border px-[4px] w-[90px]"
                 >
                   <input
+                    @input="getPlot"
                     class="border-0 outline-0 w-[100%] text-[14px] font-[450] text-[gray]"
+                    v-model="plot"
                     v-maska
                     data-maska="####"
                     type="text"
@@ -341,7 +362,8 @@
                   :key="data1.id"
                 >
                   <input
-                    :data-name="data1.name"
+                  @change="selectInfrastructure"
+                    :data-name="data1.id"
                     type="checkbox"
                     :id="data1.id"
                   />
@@ -360,7 +382,8 @@
                   :key="data2.id"
                 >
                   <input
-                    :data-name="data2.name"
+                  @change="selectInfrastructure"
+                    :data-name="data2.id"
                     type="checkbox"
                     :id="data2.id"
                   />
@@ -394,7 +417,9 @@
 
           <div class="mt-[15px] border rounded-1 h-[30px]">
             <input
+            @input="getLinkVideo"
               type="text"
+              v-model="linkVideo"
               class="w-full h-full border-0 outline-0 px-[10px]"
               placeholder="Ссылка на youtube"
             />
@@ -410,6 +435,8 @@
 
           <div class="mt-[15px] border rounded-1 h-[30px]">
             <input
+              @input="writeTitle"
+              v-model="title"
               type="text"
               class="w-full h-full border-0 outline-0 px-[10px]"
             />
@@ -425,6 +452,8 @@
 
           <div class="mt-[15px] border rounded-1 h-[200px]">
             <textarea
+              @input="writeDescription"
+              v-model="description"
               style="resize: none"
               type="text"
               class="w-full h-full border-0 outline-0 px-[10px]"
@@ -450,6 +479,8 @@
             class="flex rounded-1 h-[30px] items-center border px-[4px] w-[120px]"
           >
             <input
+              @input="getPrice"
+              v-model="price"
               class="border-0 outline-0 w-[100%] text-[14px] font-[450] text-[gray]"
               v-maska
               data-maska="####"
@@ -476,26 +507,140 @@
   </div>
 </template>
 <script setup>
+const CommercialAnnoun = ref({});
+const totalArea = ref()
+const floor = ref()
+const floorFrom = ref()
+const CeilingHeight = ref()
+const numberSeats = ref()
+const yearConstruction = ref()
+const buildingArea = ref()
+const plot = ref()
+const linkVideo = ref()
+const title = ref()
+const description = ref()
+const price = ref()
 
-
-onMounted( () => {
-  
-      
-      
-    
-  
-});
-
-const data = fetch("http://127.0.0.1:8000/api/infrastructure");
+const data = fetch("http://192.168.0.114:8000/api/infrastructure");
 const dataFetch = await data;
 const d = await  dataFetch.json();
 
 const firstData = ref(d.filter((item) => item.id < 14));
 const secondData = ref(d.filter((item) => item.id > 14));
 
-const getInfo = fetch("http://127.0.0.1:8000/api/city");
+const getInfo = fetch("http://192.168.0.114:8000/api/city");
 const getCity = await getInfo;
 const city = await getCity.json();
+
+    function chooseCity(event){
+      CommercialAnnoun.value.city = event.target.textContent;
+    }
+
+
+    function getTotalArea(){
+      CommercialAnnoun.value.totalArea = parseInt(totalArea.value) 
+    }
+
+    function getFloor(){
+      CommercialAnnoun.value.floor = parseInt(floor.value)
+    }
+
+    function getFloorFrom(){
+      CommercialAnnoun.value.floorFrom = parseInt(floorFrom.value)
+    }
+
+    function getCeilingHeight(){
+    CommercialAnnoun.value.CeilingHeight = parseInt(CeilingHeight);
+    } 
+
+    function getLinkVideo(){
+      CommercialAnnoun.value.linkVideo = linkVideo.value
+    }
+    function selectLayout(event){
+      for (const item of event.target.children) {
+        if(item.selected){
+          CommercialAnnoun.value.CeilingHeight= item.value
+          console.log(CommercialAnnoun.value);
+        }
+      }
+    }
+
+    function selectState(event){
+      for (const item of event.target.children) {
+        if(item.selected){
+          CommercialAnnoun.value.State= item.value
+          console.log(CommercialAnnoun.value);
+        }
+      }
+    }
+
+    function selectFurniture(event){
+      for (const item of event.target.children) {
+        if(item.selected){
+          CommercialAnnoun.value.Furniture = item.value
+          console.log(CommercialAnnoun.value);
+        }
+      }
+    }
+    function selectParking(event){
+      for (const item of event.target.children) {
+        if(item.selected){
+          CommercialAnnoun.value.Parking = item.value
+          console.log(CommercialAnnoun.value);
+        }
+      }
+    }
+
+    function getQuantitiySeats(){
+      CommercialAnnoun.value.numberSeats = parseInt(numberSeats.value)
+    }
+
+    function getYearConstruction(){
+      CommercialAnnoun.value.yearConstruction = parseInt(yearConstruction.value)
+    }
+
+    function getBuildingArea(){
+      CommercialAnnoun.value.buildingArea = parseInt(buildingArea.value)
+    }
+    function getPlot(){
+      CommercialAnnoun.value.plot = parseInt(plot.value)
+    }
+
+    function writeTitle(){
+      CommercialAnnoun.value.title = title.value 
+    }
+
+    function writeDescription(){
+      CommercialAnnoun.value.description = description.value
+    }
+
+    function getPrice(){
+      CommercialAnnoun.value.price = parseInt(price.value)
+    }
+
+  const infrastructure = ref([]);
+  function selectInfrastructure(event){
+    if (event.target.checked) {
+        if (Array.isArray(infrastructure.value)) {
+            infrastructure.value.push(parseInt(event.target.dataset.name))
+        }
+    }
+
+    infrastructure.value.forEach(item => {
+        if (!event.target.checked && parseInt(event.target.dataset.name) === parseInt(item)) {
+            infrastructure.value.splice(infrastructure.value.indexOf(item),1)
+        }
+    });
+            
+    const elems = document.querySelectorAll('.d-none');
+    elems.forEach(elem => {
+        infrastructure.value.forEach(val =>{
+            if (parseInt(elem.dataset.name) == val) {
+                elem.checked = true
+            }
+        })
+    }) 
+  }
 
 </script>
 <style scoped>
