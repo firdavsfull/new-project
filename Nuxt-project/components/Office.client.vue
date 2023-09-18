@@ -490,14 +490,14 @@
           </div>
         </div>
 
-        <div class="mt-[10px]">
-          <div class="flex">
+        <div class="mt-[10px] flex flex-col sm:flex-col md:flex-row lg:flex-row justify-end">
+          <div class="flex md:mr-[10px]">
             <next-btn class="btn btn-primary w-full font-bold"
               >Разместить</next-btn
             >
           </div>
           <div class="flex mt-[5px]">
-            <next-btn class="btn btn-light w-full text-primary"
+            <next-btn class="btn btn-light  w-full text-primary"
               >Сохранить черновик</next-btn
             >
           </div>
@@ -521,14 +521,14 @@ const title = ref()
 const description = ref()
 const price = ref()
 
-const data = fetch("http://192.168.0.114:8000/api/infrastructure");
+const data = fetch("http://127.0.0.1:8000/api/infrastructure");
 const dataFetch = await data;
 const d = await  dataFetch.json();
 
 const firstData = ref(d.filter((item) => item.id < 14));
 const secondData = ref(d.filter((item) => item.id > 14));
 
-const getInfo = fetch("http://192.168.0.114:8000/api/city");
+const getInfo = fetch("http://127.0.0.1:8000/api/city");
 const getCity = await getInfo;
 const city = await getCity.json();
 
@@ -631,6 +631,7 @@ const city = await getCity.json();
             infrastructure.value.splice(infrastructure.value.indexOf(item),1)
         }
     });
+    console.log(infrastructure.value);
             
     const elems = document.querySelectorAll('.d-none');
     elems.forEach(elem => {
