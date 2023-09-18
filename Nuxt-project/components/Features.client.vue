@@ -8,7 +8,10 @@
                          <font-awesome-icon :icon="['fas', 'circle-question']" />
                      </button>
                  </div>
-
+                <img :src="'dsadasdasdas?formatImage=original_'" alt="">
+                <img :src="'dsadasdasdas?formatImage=lg_'" alt="">
+                <img :src="'dsadasdasdas?formatImage=md_'" alt="">
+                <img :src="'dsadasdasdas?formatImage=sm_'" alt="">
                  <div class="progress">
                      <div class="progress-bar" role="progressbar" style="width:50%" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
                  </div>

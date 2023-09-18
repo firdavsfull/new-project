@@ -343,7 +343,7 @@ onMounted(async ()=>{
         }
         AnnounOgj.value = JSON.parse(localStorage.getItem('announ'))[0]
         })
-        function selecTechnics(event){
+    function selecTechnics(event){
         if (event.target.checked) {
             if (Array.isArray(facilities.value)) {
                 facilities.value.push(parseInt(event.target.dataset.name))
@@ -372,14 +372,14 @@ onMounted(async ()=>{
         })
      });
 
- const elems = document.querySelectorAll('.d-none');
- elems.forEach(elem => {
-         facilities.value.forEach(val =>{
-         if (parseInt(elem.dataset.name) == val) {
-             elem.checked = true
-         }
-        })
- })
+            const elems = document.querySelectorAll('.d-none');
+            elems.forEach(elem => {
+                facilities.value.forEach(val =>{
+                    if (parseInt(elem.dataset.name) == val) {
+                        elem.checked = true
+                    }
+                })
+            })
 
  
 }
