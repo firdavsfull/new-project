@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\CreateAnnounController;
 use App\Http\Controllers\CreateOwnerController;
+use App\Http\Controllers\createPictureController;
 use App\Http\Controllers\getDataController;
 use App\Http\Controllers\getImageController;
 use Illuminate\Http\Request;

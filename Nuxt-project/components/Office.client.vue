@@ -27,7 +27,7 @@
                     role="button"
                     data-bs-toggle="dropdown"
                   >
-                    <span class="me-5">{{CommercialAnnoun.city ? CommercialAnnoun.city :'Укажите город'}}</span>
+                    <span class="me-5">{{ city ?  city :'Укажите город'}}</span>
                   </a>
 
                   <ul
@@ -40,7 +40,7 @@
                   </ul>
                 </div>
                 <p
-                v-if="!CommercialAnnoun.city"
+                v-if="!CommercialAnnoun.city && city"
                   style="
                     margin-top: -45px;
                     font-family: Lato, Arial, sans-serif;
@@ -507,19 +507,6 @@
   </div>
 </template>
 <script setup>
-const CommercialAnnoun = ref({});
-const totalArea = ref()
-const floor = ref()
-const floorFrom = ref()
-const CeilingHeight = ref()
-const numberSeats = ref()
-const yearConstruction = ref()
-const buildingArea = ref()
-const plot = ref()
-const linkVideo = ref()
-const title = ref()
-const description = ref()
-const price = ref()
 
 const data = fetch("http://127.0.0.1:8000/api/infrastructure");
 const dataFetch = await data;
@@ -531,117 +518,6 @@ const secondData = ref(d.filter((item) => item.id > 14));
 const getInfo = fetch("http://127.0.0.1:8000/api/city");
 const getCity = await getInfo;
 const city = await getCity.json();
-
-    function chooseCity(event){
-      CommercialAnnoun.value.city = event.target.textContent;
-    }
-
-
-    function getTotalArea(){
-      CommercialAnnoun.value.totalArea = parseInt(totalArea.value) 
-    }
-
-    function getFloor(){
-      CommercialAnnoun.value.floor = parseInt(floor.value)
-    }
-
-    function getFloorFrom(){
-      CommercialAnnoun.value.floorFrom = parseInt(floorFrom.value)
-    }
-
-    function getCeilingHeight(){
-    CommercialAnnoun.value.CeilingHeight = parseInt(CeilingHeight);
-    } 
-
-    function getLinkVideo(){
-      CommercialAnnoun.value.linkVideo = linkVideo.value
-    }
-    function selectLayout(event){
-      for (const item of event.target.children) {
-        if(item.selected){
-          CommercialAnnoun.value.CeilingHeight= item.value
-          console.log(CommercialAnnoun.value);
-        }
-      }
-    }
-
-    function selectState(event){
-      for (const item of event.target.children) {
-        if(item.selected){
-          CommercialAnnoun.value.State= item.value
-          console.log(CommercialAnnoun.value);
-        }
-      }
-    }
-
-    function selectFurniture(event){
-      for (const item of event.target.children) {
-        if(item.selected){
-          CommercialAnnoun.value.Furniture = item.value
-          console.log(CommercialAnnoun.value);
-        }
-      }
-    }
-    function selectParking(event){
-      for (const item of event.target.children) {
-        if(item.selected){
-          CommercialAnnoun.value.Parking = item.value
-          console.log(CommercialAnnoun.value);
-        }
-      }
-    }
-
-    function getQuantitiySeats(){
-      CommercialAnnoun.value.numberSeats = parseInt(numberSeats.value)
-    }
-
-    function getYearConstruction(){
-      CommercialAnnoun.value.yearConstruction = parseInt(yearConstruction.value)
-    }
-
-    function getBuildingArea(){
-      CommercialAnnoun.value.buildingArea = parseInt(buildingArea.value)
-    }
-    function getPlot(){
-      CommercialAnnoun.value.plot = parseInt(plot.value)
-    }
-
-    function writeTitle(){
-      CommercialAnnoun.value.title = title.value 
-    }
-
-    function writeDescription(){
-      CommercialAnnoun.value.description = description.value
-    }
-
-    function getPrice(){
-      CommercialAnnoun.value.price = parseInt(price.value)
-    }
-
-  const infrastructure = ref([]);
-  function selectInfrastructure(event){
-    if (event.target.checked) {
-        if (Array.isArray(infrastructure.value)) {
-            infrastructure.value.push(parseInt(event.target.dataset.name))
-        }
-    }
-
-    infrastructure.value.forEach(item => {
-        if (!event.target.checked && parseInt(event.target.dataset.name) === parseInt(item)) {
-            infrastructure.value.splice(infrastructure.value.indexOf(item),1)
-        }
-    });
-    console.log(infrastructure.value);
-            
-    const elems = document.querySelectorAll('.d-none');
-    elems.forEach(elem => {
-        infrastructure.value.forEach(val =>{
-            if (parseInt(elem.dataset.name) == val) {
-                elem.checked = true
-            }
-        })
-    }) 
-  }
 
 </script>
 <style scoped>
