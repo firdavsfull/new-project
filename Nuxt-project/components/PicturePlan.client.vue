@@ -110,7 +110,9 @@
                     <div class="flex justify-center overflow-hidden md:mx-[auto] mt-[10px]  w-[100%] min-h-[50px] rounded-[13px] border">
                         <div class="w-full p-[10px] sm:mx-[auto] mx-[auto] flex flex-wrap justify-start " style="flex-basis: 100%;">
                             <div draggable="true" v-for="img of images" :key="img" class="relative flex responsive m-[10px] w-[48%] h-[150px] sm:h-[170px] sm:w-[250px] sm:h-[170px] md:w-[200px] md:h-[120px] lg:min-w-[180px] lg:h-[120px]  overflow-hidden rounded">
+
                                 <div @click="removeImg(img, images)" class="absolute overflow-hidden right-[10px] top-[-10px] cursor-pointer text-[white] text-shadow text-[30px]">&times;</div>
+                                <div @click="removeImg(img, images)" class="absolute overflow-hidden right-[10px] top-[-10px]  text-[white] text-shadow text-[30px]">&times;</div>
                                 <img  class="left-[0] w-full h-full" :src="`http://127.0.0.1:8000/api/image/${img.large}`" :alt="img">
                                 </div>
                                 <div v-if="imageLoader" class="w-[100%] flex justify-center ">
@@ -238,7 +240,10 @@ async function sendPictures(event){
     FormD.append(`images[]`,files)
 
     imageLoader.value = true
+
    await fetch('http://127.0.0.1:8000/api/upload-image',{
+
+
     method:'post',
     body:FormD
    }).then(res=>{
@@ -253,6 +258,9 @@ async function sendPictures(event){
     r.forEach(file => {
        images.value.push(file)
        localStorage.setItem('images',JSON.stringify(images.value))
+
+
+       console.log(r);
     });
     imageLoader.value = false
 })
