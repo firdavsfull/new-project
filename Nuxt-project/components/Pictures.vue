@@ -1,10 +1,10 @@
 <!-- :style="announData[0].objects == 'Квартира' || announData[0].objects !== 'Комната'? 'margin-top: 80px;' : ''" -->
 <template>
-  <form id="forms" enctype="multipart/form-data" class="picture-room-container">
+            <form id="forms" enctype="multipart/form-data" class="picture-room-container">
                  <span>Фото и планировка - от 5 и больше</span>
                     <div class="picture-room">
                  <div>
-                            <font-awesome-icon style="color:darkgray;" :icon="['fas', 'camera']" />
+                <font-awesome-icon style="color:darkgray;" :icon="['fas', 'camera']" />
                     </div>
                             <p>На фото не должно быть людей, животных,
                                 алкоголя, табака, оружия. Не добавляйте
@@ -18,15 +18,15 @@
                     </div>
 
                     <div class="flex justify-center overflow-hidden md:mx-[auto] mt-[10px]  w-[100%] min-h-[50px] rounded-[13px] border">
-                        <div class="w-full p-[10px] sm:mx-[auto] mx-[auto] flex flex-wrap justify-start " style="flex-basis: 100%;">
-                            <div draggable="true" v-for="img of images" :key="img" class="relative flex responsive m-[10px] w-[48%] h-[150px] sm:h-[170px] sm:w-[250px] sm:h-[170px] md:w-[200px] md:h-[120px] lg:min-w-[180px] lg:h-[120px]  overflow-hidden rounded">
-                                <div @click="removeImg(img, images)" class="absolute overflow-hidden right-[10px] top-[-10px] cursor-pointer text-[white] text-shadow text-[30px]">&times;</div>
-                                <img  class="left-[0] w-full h-full" :src="`http://127.0.0.1:8000/api/image/${img.large}`" :alt="img">
-                                </div>
-                                <div v-if="imageLoader" class="w-[100%] flex justify-center ">
-                                    <div class="lds-spinner"><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div>
-                                </div>
-                            </div>
+                        <div @dragleave="handleDragLeave" @dragenter="handleDragEnter" class="w-full p-[10px] sm:mx-[auto] mx-[auto] flex flex-wrap justify-start " style="flex-basis: 100%;">
+                            <div id="images" @dragend="handleDrop"  @dragleave="handleDragLeave" @dragenter="handleDragEnter" @dragstart="handleDragStart"  draggable="true"  v-for="(img, index) of images" :key="img" class="relative flex responsive mx-[auto] m-[10px] w-[48%] h-[150px] sm:h-[170px] sm:w-[250px] sm:h-[170px] md:w-[200px] md:h-[120px] lg:min-w-[180px] lg:h-[120px]  overflow-hidden rounded">
+                                  <div :data-id="index" @click="removeImg(img, images)"  class="absolute overflow-hidden right-[10px] top-[-10px] cursor-pointer text-[white] text-shadow text-[30px]">&times;</div>
+                                  <img :data-id="index" class="left-[0] w-full h-full" :src="`http://192.168.0.114:8000/api/image/${img.medium}`" :alt="img">
+                                  </div>
+                                  <div v-if="imageLoader" class="w-[100%] flex justify-center ">
+                                      <div class="lds-spinner"><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div>
+                                  </div>
+                              </div>
                             <div @click.prevent="change" v-if="images.length" class="border border-[blue] relative justify-center flex m-[10px] w-[48%] h-[150px] sm:h-[170px] sm:w-[125px] sm:h-[85px] md:w-[200px] md:h-[120px] lg:min-w-[180px] lg:h-[120px] rounded">
                                 
                             </div>
@@ -41,7 +41,7 @@ function change(event){
  file.click()
 }
     const pictures = ref([])
-    const images = ref(JSON.parse(localStorage.getItem('images')) || []) 
+    let images = ref(JSON.parse(localStorage.getItem('images')) || []) 
     const imageLoader = ref(false)
 async function sendPictures(event){
  const file =  document.querySelector('.choose-picture > input')
@@ -54,7 +54,7 @@ async function sendPictures(event){
     FormD.append(`images[]`,files)
 
     imageLoader.value = true
-   await fetch('http://127.0.0.1:8000/api/upload-image',{
+   await fetch('http://192.168.0.114:8000/api/upload-image',{
     method:'post',
     body:FormD
    }).then(res=>{
@@ -76,8 +76,44 @@ async function sendPictures(event){
 
 function removeImg(img,picture){
     picture.splice(picture.indexOf(img),1)
-    localStorage.setItem('images',JSON.stringify(picture))
+    localStorage.setItem('images',JSON.stringify(images.value))
 }
+
+let currentIndex = null
+let enterIndex = null
+function handleDragStart(e) {
+  currentIndex = parseInt(e.target.dataset.id);
+  e.dataTransfer.dropEffect = 'move';
+  e.dataTransfer.effectAllowed = 'move';
+  e.dataTransfer.setData('itemId', e.target.dataset.id);
+}
+
+
+function handleDragEnter(e) {
+  enterIndex = parseInt(e.target.dataset.id)
+}
+
+function handleDragLeave(e) {
+  enterIndex = null
+}
+
+
+function handleDrop(e) {
+if (currentIndex !== null) {
+  const draggImage = images.value[currentIndex]
+  const index = parseInt(e.target.dataset.id)
+  images.value.splice(currentIndex, 1)
+  images.value.splice(index, 0, draggImage)
+  localStorage.setItem('images',JSON.stringify(images.value))
+  console.log(images.value);
+  currentIndex = null;
+  enterIndex = null
+}
+  e.dataTransfer.dropEffect = 'move'
+
+}
+
+
 </script>
 
 <style scoped>

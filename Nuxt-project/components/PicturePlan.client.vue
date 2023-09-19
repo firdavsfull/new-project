@@ -203,7 +203,7 @@ onMounted(()=>{
 //     FormD.append(`images[]`,files)
 
 //     imageLoader.value = true
-//    await fetch('http://127.0.0.1:8000/api/upload-image',{
+//    await fetch('http://192.168.0.114:8000/api/upload-image',{
 //         method:'post',
 //         body:FormD
 //    }).then(res=>{
