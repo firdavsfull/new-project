@@ -1,11 +1,6 @@
 <template>
     <div class="layouts">
-        
-        <!-- <Announ class="content"/> -->
-        <announ>
-
-        </announ>
-        <!-- <picture-plan/> -->
+        <announ/>
     </div>
 </template>
 
@@ -17,7 +12,7 @@
         flex-direction: column;
         position: relative;
         z-index: 92;
-        height: 100vv;
+        /* height: 100vh; */
     }
 
 

@@ -89,6 +89,26 @@
                     </div>
                  </div>
              </div>
+
+             <form @submit.prevent="sendPictures()" enctype="multipart/form-data" class="picture-room-container" :style="announData[0].objects == 'Квартира' || announData[0].objects !== 'Комната'? 'margin-top: 80px;' : ''">
+                 <span>Фото и планировка - от 5 и больше</span>
+                 <div class="picture-room">
+                     <div>
+                         <font-awesome-icon style="color:darkgray;" :icon="['fas', 'camera']" />
+                     </div>
+                     <p>На фото не должно быть людей, животных,
+                         алкоголя, табака, оружия. Не добавляйте
+                         чужие фото, картинки с водяными знаками
+                         и рекламу.
+                     </p>
+                     
+                 </div>
+                 <div class="choose-picture">
+                     <button @click.prevent='change'  style="background-color:rgba(15,72,157,.1); color:#0468ff;" class="btn w-100  fw-bold font-monospace">Выберите файлы</button>
+                     <input type="file" accept="*png" multiple style="display:none;" id="">
+                 </div>
+                </form>
+
              <div class="video-link-container">
                  <div style="margin-top:24px;">
                      <div style="display:inline;">
@@ -187,12 +207,49 @@ onMounted(()=>{
 function change(event){
  const file =  document.querySelector('.choose-picture > input')
  file.click()
- console.log(file.files);
 }
     const pictures = ref([])
-function sendPictures(event){
+    const images = ref(JSON.parse(localStorage.getItem('images')) || []) 
+    const imageLoader = ref(false)
+async function sendPictures(event){
  const file =  document.querySelector('.choose-picture > input')
-    console.log(event);
+ const files = Array.from(file.files)
+ if (!files.length) {
+    return
+ }
+ const form = document.querySelector('#forms')
+ const FormD = new FormData(form);
+    FormD.append(`images[]`,files)
+
+    imageLoader.value = true
+   await fetch('http://192.168.0.114:8000/api/upload-image',{
+    method:'post',
+    body:FormD
+   }).then(res=>{
+    if (res.ok) {
+        console.log('Картинки успешно отправлены на сервер');
+    }else{
+        console.log('Произошла ошибка при отправке картинок');
+    }
+    return res.json()
+   })
+   .then(r=>{
+    r.forEach(file => {
+       images.value.push(file)
+       localStorage.setItem('images',JSON.stringify(images.value))
+       console.log(r);
+    });
+    imageLoader.value = false
+})
+
+   
+ 
+}
+
+
+function removeImg(img,picture){
+    picture.splice(picture.indexOf(img),1)
+    localStorage.setItem('images',JSON.stringify(picture))
 }
 </script>
 
@@ -201,6 +258,93 @@ input::-webkit-outer-spin-button,
 input::-webkit-inner-spin-button {
 -webkit-appearance: none;
 margin: 0;
+}
+
+.lds-spinner {
+  color: official;
+  display: inline-block;
+  position: relative;
+  width: 80px;
+  height: 80px;
+}
+.lds-spinner div {
+  transform-origin: 40px 40px;
+  animation: lds-spinner 1.2s linear infinite;
+}
+.lds-spinner div:after {
+  content: " ";
+  display: block;
+  position: absolute;
+  top: 3px;
+  left: 37px;
+  width: 6px;
+  height: 18px;
+  border-radius: 20%;
+  background: #006cfd;
+}
+.lds-spinner div:nth-child(1) {
+  transform: rotate(0deg);
+  animation-delay: -1.1s;
+}
+.lds-spinner div:nth-child(2) {
+  transform: rotate(30deg);
+  animation-delay: -1s;
+}
+.lds-spinner div:nth-child(3) {
+  transform: rotate(60deg);
+  animation-delay: -0.9s;
+}
+.lds-spinner div:nth-child(4) {
+  transform: rotate(90deg);
+  animation-delay: -0.8s;
+}
+.lds-spinner div:nth-child(5) {
+  transform: rotate(120deg);
+  animation-delay: -0.7s;
+}
+.lds-spinner div:nth-child(6) {
+  transform: rotate(150deg);
+  animation-delay: -0.6s;
+}
+.lds-spinner div:nth-child(7) {
+  transform: rotate(180deg);
+  animation-delay: -0.5s;
+}
+.lds-spinner div:nth-child(8) {
+  transform: rotate(210deg);
+  animation-delay: -0.4s;
+}
+.lds-spinner div:nth-child(9) {
+  transform: rotate(240deg);
+  animation-delay: -0.3s;
+}
+.lds-spinner div:nth-child(10) {
+  transform: rotate(270deg);
+  animation-delay: -0.2s;
+}
+.lds-spinner div:nth-child(11) {
+  transform: rotate(300deg);
+  animation-delay: -0.1s;
+}
+.lds-spinner div:nth-child(12) {
+  transform: rotate(330deg);
+  animation-delay: 0s;
+}
+@keyframes lds-spinner {
+  0% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+  }
+}
+
+
+@media screen and (max-width:420px) {
+    .responsive{
+        width: 100%;
+        height: 200px;
+    }
 }
 @media screen and (min-width:320px) {
     
