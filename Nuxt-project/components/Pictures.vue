@@ -1,6 +1,11 @@
 <!-- :style="announData[0].objects == 'Квартира' || announData[0].objects !== 'Комната'? 'margin-top: 80px;' : ''" -->
 <template>
-  <form id="forms" enctype="multipart/form-data" class="picture-room-container">
+  <form
+    @change.prevent="saveImages"
+    id="forms"
+    enctype="multipart/form-data"
+    class="picture-room-container"
+  >
     <!-- <span>Фото и планировка - от 5 и больше</span> -->
     <div class="picture-room">
       <div>
@@ -16,46 +21,39 @@
       >
         Выберите файлы
       </button>
-      <input
-        @change.prevent="sendPictures"
-        name="images[]"
-        type="file"
-        multiple
-        style="display: none"
-        id=""
-      />
+      <input type="file" multiple style="display: none" id="input" />
     </div>
 
     <div
       class="flex justify-center overflow-hidden md:mx-[auto] mt-[10px] w-[100%] min-h-[50px] rounded-[13px] border"
     >
       <div
-        @dragleave="handleDragLeave"
-        @dragenter="handleDragEnter"
         class="w-full p-[10px] sm:mx-[auto] mx-[auto] flex flex-wrap justify-start"
         style="flex-basis: 100%"
       >
         <div
-          id="images"
-          @dragend="handleDrop"
-          @dragleave="handleDragLeave"
-          @dragenter="handleDragEnter"
+        v-for="(img, index) of pictures"
+        :key="img.url"
+          @dragend="handleDrop(img,pictures)"
+          @dragleave="handleDragLeave(pictures)"
+          @dragenter="handleDragEnter(pictures)"
           @dragstart="handleDragStart"
           draggable="true"
-          
+          id="images"
           class="relative flex responsive mx-[auto] m-[10px] w-[48%] h-[150px] sm:h-[170px] sm:w-[250px] sm:h-[170px] md:w-[200px] md:h-[120px] lg:min-w-[180px] lg:h-[120px] overflow-hidden rounded"
         >
-          <!-- <div
-            :data-id="index"
-            @click="removeImg(img, images)"
+          <div :data-id="index"
+            @click="removeImg(img, pictures)"
             class="absolute overflow-hidden right-[10px] top-[-10px] cursor-pointer text-[white] text-shadow text-[30px]"
           >
             &times;
-          </div> -->
-          <!-- <img
+          </div>
+          <img
+            :data-id="index"
             class="left-[0] w-full h-full"
+            :src="img.url"
             alt="img"
-          /> -->
+          />
         </div>
         <!-- <div v-if="imageLoader" class="w-[100%] flex justify-center">
           <div class="lds-spinner">
@@ -89,16 +87,36 @@ function change(event) {
 }
 const pictures = ref([]);
 const imageLoader = ref(false);
-function sendPictures(event) {
-  const files = event.target.files
-  const form = document.querySelector("#forms");
-  const FormD = new FormData(form);
-  console.log(FormD.getAll('images[]'));
+const formD = ref(new FormData());
+
+function saveImages(e) {
+  const files = e.target.files;
+  for (let i = 0; i < files.length; i++) {
+    formD.value.append("images[]", files[i]);
+    const reader = new FileReader();
+    reader.onload = (e) => {
+      pictures.value.push({
+        url: e.target.result,
+        position: pictures.value.length,
+        file: files[i],
+      });
+    };
+    reader.readAsDataURL(files[i]);
+  }
+  setTimeout(() => {
+    update_formdate();
+  }, 50);
 }
+
+const update_formdate = () => {
+  formD.value = new FormData()
+  for (let i = 0; i < pictures.value.length; i++) {
+    formD.value.append("images[]", pictures.value[i].file);
+  }
+};
 
 function removeImg(img, picture) {
   picture.splice(picture.indexOf(img), 1);
-  localStorage.setItem("images", JSON.stringify(images.value));
 }
 
 let currentIndex = null;
@@ -110,26 +128,29 @@ function handleDragStart(e) {
   e.dataTransfer.setData("itemId", e.target.dataset.id);
 }
 
-function handleDragEnter(e) {
-  enterIndex = parseInt(e.target.dataset.id);
+function handleDragEnter(picture) {
+  enterIndex = parseInt(event.target.dataset.id);
+}
+function handleDragLeave(picture) {
+  
 }
 
-function handleDragLeave(e) {
-  enterIndex = null;
-}
+function handleDrop(img,picture) {
+  
+  event.dataTransfer.dropEffect = "move";
+  const draggImage = picture[enterIndex];
+  const pos = picture[enterIndex].position;
 
-function handleDrop(e) {
   if (currentIndex !== null) {
-    const draggImage = images.value[currentIndex];
-    const index = parseInt(e.target.dataset.id);
-    console.log(index, draggImage);
-
-    images;
-    // console.log(draggImage);
+    // const index = parseInt(event.target.dataset.id);
+    picture[enterIndex] =  picture[currentIndex]
+    picture[currentIndex] = draggImage
+    picture[enterIndex].position =  img.position
+    picture[currentIndex].position = pos 
+    console.log(picture);
     currentIndex = null;
     enterIndex = null;
   }
-  e.dataTransfer.dropEffect = "move";
 }
 </script>
 
