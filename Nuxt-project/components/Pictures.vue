@@ -1,123 +1,139 @@
 <!-- :style="announData[0].objects == 'Квартира' || announData[0].objects !== 'Комната'? 'margin-top: 80px;' : ''" -->
 <template>
-            <form id="forms" enctype="multipart/form-data" class="picture-room-container">
-                 <span>Фото и планировка - от 5 и больше</span>
-                    <div class="picture-room">
-                 <div>
-                <font-awesome-icon style="color:darkgray;" :icon="['fas', 'camera']" />
-                    </div>
-                            <p>На фото не должно быть людей, животных,
-                                алкоголя, табака, оружия. Не добавляйте
-                                чужие фото, картинки с водяными знаками
-                                и рекламу.
-                            </p>  
-                    </div>
-                    <div class="choose-picture">
-                        <button v-if="!images.length" @click.prevent='change'  style="background-color:rgba(15,72,157,.1); color:#0468ff;" class="btn w-100  fw-bold font-monospace">Выберите файлы</button>
-                        <input @change.prevent="sendPictures" name="images[]" type="file" accept=".png, .jpeg, .jpg" multiple style="display:none;" id="">
-                    </div>
+  <form id="forms" enctype="multipart/form-data" class="picture-room-container">
+    <!-- <span>Фото и планировка - от 5 и больше</span> -->
+    <div class="picture-room">
+      <div>
+        <font-awesome-icon style="color: darkgray" :icon="['fas', 'camera']" />
+      </div>
+      <p>Не добавляйте чужие фото, картинки с водяными знаками и рекламу.</p>
+    </div>
+    <div class="choose-picture">
+      <button
+        @click.prevent="change"
+        style="background-color: rgba(15, 72, 157, 0.1); color: #0468ff"
+        class="btn w-100 fw-bold font-monospace"
+      >
+        Выберите файлы
+      </button>
+      <input
+        @change.prevent="sendPictures"
+        name="images[]"
+        type="file"
+        multiple
+        style="display: none"
+        id=""
+      />
+    </div>
 
-                    <div class="flex justify-center overflow-hidden md:mx-[auto] mt-[10px]  w-[100%] min-h-[50px] rounded-[13px] border">
-                        <div @dragleave="handleDragLeave" @dragenter="handleDragEnter" class="w-full p-[10px] sm:mx-[auto] mx-[auto] flex flex-wrap justify-start " style="flex-basis: 100%;">
-                            <div id="images" @dragend="handleDrop"  @dragleave="handleDragLeave" @dragenter="handleDragEnter" @dragstart="handleDragStart"  draggable="true"  v-for="(img, index) of images" :key="img" class="relative flex responsive mx-[auto] m-[10px] w-[48%] h-[150px] sm:h-[170px] sm:w-[250px] sm:h-[170px] md:w-[200px] md:h-[120px] lg:min-w-[180px] lg:h-[120px]  overflow-hidden rounded">
-                                  <div :data-id="index" @click="removeImg(img, images)"  class="absolute overflow-hidden right-[10px] top-[-10px] cursor-pointer text-[white] text-shadow text-[30px]">&times;</div>
-                                  <img :data-id="index" class="left-[0] w-full h-full" :src="`http://192.168.0.114:8000/api/image/${img.medium}`" :alt="img">
-                                  </div>
-                                  <div v-if="imageLoader" class="w-[100%] flex justify-center ">
-                                      <div class="lds-spinner"><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div>
-                                  </div>
-                              </div>
-                            <div @click.prevent="change" v-if="images.length" class="border border-[blue] relative justify-center flex m-[10px] w-[48%] h-[150px] sm:h-[170px] sm:w-[125px] sm:h-[85px] md:w-[200px] md:h-[120px] lg:min-w-[180px] lg:h-[120px] rounded">
-                                
-                            </div>
-                        </div>
-                    
-                 </div>
-                </form>
+    <div
+      class="flex justify-center overflow-hidden md:mx-[auto] mt-[10px] w-[100%] min-h-[50px] rounded-[13px] border"
+    >
+      <div
+        @dragleave="handleDragLeave"
+        @dragenter="handleDragEnter"
+        class="w-full p-[10px] sm:mx-[auto] mx-[auto] flex flex-wrap justify-start"
+        style="flex-basis: 100%"
+      >
+        <div
+          id="images"
+          @dragend="handleDrop"
+          @dragleave="handleDragLeave"
+          @dragenter="handleDragEnter"
+          @dragstart="handleDragStart"
+          draggable="true"
+          
+          class="relative flex responsive mx-[auto] m-[10px] w-[48%] h-[150px] sm:h-[170px] sm:w-[250px] sm:h-[170px] md:w-[200px] md:h-[120px] lg:min-w-[180px] lg:h-[120px] overflow-hidden rounded"
+        >
+          <!-- <div
+            :data-id="index"
+            @click="removeImg(img, images)"
+            class="absolute overflow-hidden right-[10px] top-[-10px] cursor-pointer text-[white] text-shadow text-[30px]"
+          >
+            &times;
+          </div> -->
+          <!-- <img
+            class="left-[0] w-full h-full"
+            alt="img"
+          /> -->
+        </div>
+        <!-- <div v-if="imageLoader" class="w-[100%] flex justify-center">
+          <div class="lds-spinner">
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+          </div>
+        </div> -->
+        <!-- <div
+          @click.prevent="change"
+          v-if="images.length"
+          class="border border-[blue] relative justify-center flex m-[10px] w-[48%] h-[150px] sm:h-[170px] sm:w-[125px] sm:h-[85px] md:w-[200px] md:h-[120px] lg:min-w-[180px] lg:h-[120px] rounded"
+        ></div> -->
+      </div>
+    </div>
+  </form>
 </template>
 <script setup>
-function change(event){
- const file =  document.querySelector('.choose-picture > input')
- file.click()
+function change(event) {
+  const file = document.querySelector(".choose-picture > input");
+  file.click();
 }
-    const pictures = ref([])
-    let images = ref(JSON.parse(localStorage.getItem('images')) || []) 
-    const imageLoader = ref(false)
-async function sendPictures(event){
- const file =  document.querySelector('.choose-picture > input')
- const files = Array.from(file.files)
- if (!files.length) {
-    return
- }
- const form = document.querySelector('#forms')
- const FormD = new FormData(form);
-    FormD.append(`images[]`,files)
-
-    imageLoader.value = true
-   await fetch('http://192.168.0.114:8000/api/upload-image',{
-    method:'post',
-    body:FormD
-   }).then(res=>{
-    if (res.ok) {
-        console.log('Картинки успешно отправлены на сервер');
-    }else{
-        console.log('Произошла ошибка при отправке картинок');
-    }
-    return res.json()
-   })
-   .then(r=>{
-    r.forEach(file => {
-       images.value.push(file)
-       localStorage.setItem('images',JSON.stringify(images.value))
-    });
-    imageLoader.value = false
-})
+const pictures = ref([]);
+const imageLoader = ref(false);
+function sendPictures(event) {
+  const files = event.target.files
+  const form = document.querySelector("#forms");
+  const FormD = new FormData(form);
+  console.log(FormD.getAll('images[]'));
 }
 
-function removeImg(img,picture){
-    picture.splice(picture.indexOf(img),1)
-    localStorage.setItem('images',JSON.stringify(images.value))
+function removeImg(img, picture) {
+  picture.splice(picture.indexOf(img), 1);
+  localStorage.setItem("images", JSON.stringify(images.value));
 }
 
-let currentIndex = null
-let enterIndex = null
+let currentIndex = null;
+let enterIndex = null;
 function handleDragStart(e) {
   currentIndex = parseInt(e.target.dataset.id);
-  e.dataTransfer.dropEffect = 'move';
-  e.dataTransfer.effectAllowed = 'move';
-  e.dataTransfer.setData('itemId', e.target.dataset.id);
+  e.dataTransfer.dropEffect = "move";
+  e.dataTransfer.effectAllowed = "move";
+  e.dataTransfer.setData("itemId", e.target.dataset.id);
 }
 
-
 function handleDragEnter(e) {
-  enterIndex = parseInt(e.target.dataset.id)
+  enterIndex = parseInt(e.target.dataset.id);
 }
 
 function handleDragLeave(e) {
-  enterIndex = null
+  enterIndex = null;
 }
-
 
 function handleDrop(e) {
-if (currentIndex !== null) {
-  const draggImage = images.value[currentIndex]
-  const index = parseInt(e.target.dataset.id)
-  images.value.splice(currentIndex, 1)
-  images.value.splice(index, 0, draggImage)
-  localStorage.setItem('images',JSON.stringify(images.value))
-  console.log(images.value);
-  currentIndex = null;
-  enterIndex = null
+  if (currentIndex !== null) {
+    const draggImage = images.value[currentIndex];
+    const index = parseInt(e.target.dataset.id);
+    console.log(index, draggImage);
+
+    images;
+    // console.log(draggImage);
+    currentIndex = null;
+    enterIndex = null;
+  }
+  e.dataTransfer.dropEffect = "move";
 }
-  e.dataTransfer.dropEffect = 'move'
-
-}
-
-
 </script>
 
 <style scoped>
-
 .lds-spinner {
   color: official;
   display: inline-block;
@@ -196,11 +212,11 @@ if (currentIndex !== null) {
     opacity: 0;
   }
 }
-@media screen and (max-width:420px) {
-    .responsive{
-        width: 100%;
-        height: 200px;
-    }
+@media screen and (max-width: 420px) {
+  .responsive {
+    width: 100%;
+    height: 200px;
+  }
 }
 @media screen and (min-width: 320px) {
   .picture-room-container {
