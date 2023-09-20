@@ -229,34 +229,7 @@ function change(event){
     const imageLoader = ref(false)
 async function sendPictures(event){
  const file =  document.querySelector('.choose-picture > input')
- const files = Array.from(file.files)
- if (!files.length) {
-    return
- }
- const form = document.querySelector('#forms')
- const FormD = new FormData(form);
-    FormD.append(`images[]`,files)
-
-    imageLoader.value = true
-   await fetch('http://192.168.0.114:8000/api/upload-image',{
-    method:'post',
-    body:FormD
-   }).then(res=>{
-    if (res.ok) {
-        console.log('Картинки успешно отправлены на сервер');
-    }else{
-        console.log('Произошла ошибка при отправке картинок');
-    }
-    return res.json()
-   })
-   .then(r=>{
-    r.forEach(file => {
-       images.value.push(file)
-       localStorage.setItem('images',JSON.stringify(images.value))
-       console.log(r);
-    });
-    imageLoader.value = false
-})
+ 
 
    
  
