@@ -13,7 +13,7 @@
       </div>
       <p>Не добавляйте чужие фото, картинки с водяными знаками и рекламу.</p>
     </div>
-    <div class="choose-picture">
+    <div class="choose-picture" v-if="pictures.length < 12">
       <button
         @click.prevent="change"
         style="background-color: rgba(15, 72, 157, 0.1); color: #0468ff"
@@ -25,6 +25,7 @@
     </div>
 
     <div
+      v-if="pictures.length"
       class="flex justify-center overflow-hidden md:mx-[auto] mt-[10px] w-[100%] min-h-[50px] rounded-[13px] border"
     >
       <div
@@ -33,27 +34,40 @@
       >
         <div
         v-for="(img, index) of pictures"
-        :key="img.url"
-          @dragend="handleDrop(img,pictures)"
+        :key="index"
+          @dragend="handleDrop(img, pictures)"
           @dragleave="handleDragLeave(pictures)"
-          @dragenter="handleDragEnter(pictures)"
+          @dragenter.prevent="handleDragEnter(pictures)"
           @dragstart="handleDragStart"
+          @dragover.prevent
+          @touchstart="handleTouchStart"
+          @touchend ="handleTouchEnd(img, pictures)"
           draggable="true"
           id="images"
-          class="relative flex responsive mx-[auto] m-[10px] w-[48%] h-[150px] sm:h-[170px] sm:w-[250px] sm:h-[170px] md:w-[200px] md:h-[120px] lg:min-w-[180px] lg:h-[120px] overflow-hidden rounded"
+           
+          class="bg-[black] relative flex responsive mx-[auto] m-[10px] w-[48%] h-[150px] sm:h-[170px] sm:w-[250px] sm:h-[170px] md:w-[200px] md:h-[120px] lg:min-w-[180px] lg:h-[120px] overflow-hidden rounded"
         >
-          <div :data-id="index"
-            @click="removeImg(img, pictures)"
-            class="absolute overflow-hidden right-[10px] top-[-10px] cursor-pointer text-[white] text-shadow text-[30px]"
-          >
-            &times;
+        <div class="cursor-grab">
+
+          <div class="cursor-default z-[2] absolute top-[0] w-full bg-[black]/40 h-[30px]">
+                <div :data-id="index"
+                    @click="removeImg(img, pictures)"
+                    class="cursor-pointer absolute overflow-hidden right-[10px] top-[4px] cursor-pointer text-[white] text-shadow text-[14px]"
+                      >
+                      <font-awesome-icon :icon="['fas', 'trash']" />
+                </div>
+            <div @click="rotate(img)" class="absolute left-[8px] cursor-pointer top-[2px] text-[white]">
+              <font-awesome-icon :icon="['fas', 'rotate-right']" />
+            </div>
           </div>
-          <img
-            :data-id="index"
-            class="left-[0] w-full h-full"
-            :src="img.url"
-            alt="img"
-          />
+            <img
+              :style="`transform: rotate(${img.rotation}deg);`"
+              :data-id="index"
+              class="picture left-[0] absolute z-[1] top-[0] w-full h-full"
+              :src="img.url"
+              alt="img"
+            />
+        </div>
         </div>
         <!-- <div v-if="imageLoader" class="w-[100%] flex justify-center">
           <div class="lds-spinner">
@@ -76,6 +90,7 @@
           v-if="images.length"
           class="border border-[blue] relative justify-center flex m-[10px] w-[48%] h-[150px] sm:h-[170px] sm:w-[125px] sm:h-[85px] md:w-[200px] md:h-[120px] lg:min-w-[180px] lg:h-[120px] rounded"
         ></div> -->
+        <div class="absolute bottom-[-14px] left-[50%]">{{ pictures.length }}</div>
       </div>
     </div>
   </form>
@@ -95,11 +110,14 @@ function saveImages(e) {
     formD.value.append("images[]", files[i]);
     const reader = new FileReader();
     reader.onload = (e) => {
-      pictures.value.push({
-        url: e.target.result,
-        position: pictures.value.length,
-        file: files[i],
-      });
+      if (pictures.value.length < 12) {
+        pictures.value.push({
+          url: e.target.result,
+          position: pictures.value.length,
+          rotation:0,
+          file: files[i],
+        });
+      }
     };
     reader.readAsDataURL(files[i]);
   }
@@ -123,9 +141,6 @@ let currentIndex = null;
 let enterIndex = null;
 function handleDragStart(e) {
   currentIndex = parseInt(e.target.dataset.id);
-  e.dataTransfer.dropEffect = "move";
-  e.dataTransfer.effectAllowed = "move";
-  e.dataTransfer.setData("itemId", e.target.dataset.id);
 }
 
 function handleDragEnter(picture) {
@@ -134,24 +149,66 @@ function handleDragEnter(picture) {
 function handleDragLeave(picture) {
   
 }
+let startIndex = null
+function handleTouchStart(e) {
+  document.body.style.overflow='hidden'
+  const touch = e.touches[0];
+  currentIndex = parseInt(touch.target.dataset.id);
+  const element = document.elementFromPoint(touch.clientX, touch.clientY);
+  const targetPhotoId1 = element.closest(".picture").dataset.id;
+  startIndex = targetPhotoId1 
+}
 
 function handleDrop(img,picture) {
-  
-  event.dataTransfer.dropEffect = "move";
+  const positions = picture[enterIndex].position
   const draggImage = picture[enterIndex];
-  const pos = picture[enterIndex].position;
 
   if (currentIndex !== null) {
-    // const index = parseInt(event.target.dataset.id);
     picture[enterIndex] =  picture[currentIndex]
     picture[currentIndex] = draggImage
-    picture[enterIndex].position =  img.position
-    picture[currentIndex].position = pos 
-    console.log(picture);
+    
+    picture.forEach((item,i)=>{
+      item.position = i
+    })
+    
+    console.log(currentIndex, enterIndex);
     currentIndex = null;
     enterIndex = null;
   }
 }
+
+function handleTouchEnd(img, picture) {
+  document.body.style.overflow = ''
+  const touches = event.changedTouches[0];
+  const element = document.elementFromPoint(touches.clientX, touches.clientY);
+  
+  const targetPhotoId = element.closest(".picture").dataset.id;
+  const saveElems = picture[startIndex]
+  picture[startIndex] = picture[targetPhotoId];
+  picture[targetPhotoId] = saveElems
+  startIndex = null
+  picture.forEach((item,index)=>{
+    item.position = index
+  })
+  console.log(picture);
+}
+
+
+function rotate(img){
+  img.rotation += 90
+  const images = document.querySelectorAll('img')
+  images.forEach(image=>{
+    if(image.src === img.url){
+      
+    }
+    
+  })
+  if (img.rotation >= 360) {
+    img.rotation = 0
+  }
+}
+
+
 </script>
 
 <style scoped>
