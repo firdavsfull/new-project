@@ -90,6 +90,44 @@
                  </div>
              </div>
 
+                <form id="forms" enctype="multipart/form-data" class="picture-room-container" :style="announData[0].objects == 'Квартира' || announData[0].objects !== 'Комната'? 'margin-top: 80px;' : ''">
+                 <span>Фото и планировка - от 5 и больше</span>
+                    <div class="picture-room">
+                        <div>
+                            <font-awesome-icon style="color:darkgray;" :icon="['fas', 'camera']" />
+                        </div>
+                            <p>На фото не должно быть людей, животных,
+                                алкоголя, табака, оружия. Не добавляйте
+                                чужие фото, картинки с водяными знаками
+                                и рекламу.
+                            </p>  
+                    </div>
+                    <div class="choose-picture">
+                        <button v-if="!images.length" @click.prevent='change'  style="background-color:rgba(15,72,157,.1); color:#0468ff;" class="btn w-100  fw-bold font-monospace">Выберите файлы</button>
+                        <input @change.prevent="sendPictures" name="images[]" type="file" accept=".png, .jpeg, .jpg" multiple style="display:none;" id="">
+                    </div>
+
+                    <div class="flex justify-center overflow-hidden md:mx-[auto] mt-[10px]  w-[100%] min-h-[50px] rounded-[13px] border">
+                        <div class="w-full p-[10px] sm:mx-[auto] mx-[auto] flex flex-wrap justify-start " style="flex-basis: 100%;">
+                            <div draggable="true" v-for="img of images" :key="img" class="relative flex responsive m-[10px] w-[48%] h-[150px] sm:h-[170px] sm:w-[250px] sm:h-[170px] md:w-[200px] md:h-[120px] lg:min-w-[180px] lg:h-[120px]  overflow-hidden rounded">
+<<<<<<<<< Temporary merge branch 1
+                                <div @click="removeImg(img, images)" class="absolute overflow-hidden right-[10px] top-[-10px] cursor-pointer text-[white] text-shadow text-[30px]">&times;</div>
+=========
+                                <div @click="removeImg(img, images)" class="absolute overflow-hidden right-[10px] top-[-10px]  text-[white] text-shadow text-[30px]">&times;</div>
+>>>>>>>>> Temporary merge branch 2
+                                <img  class="left-[0] w-full h-full" :src="`http://127.0.0.1:8000/api/image/${img.large}`" :alt="img">
+                                </div>
+                                <div v-if="imageLoader" class="w-[100%] flex justify-center ">
+                                    <div class="lds-spinner"><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div>
+                                </div>
+                            </div>
+                            <div @click.prevent="change" v-if="images.length" class="border border-[blue] relative justify-center flex m-[10px] w-[48%] h-[150px] sm:h-[170px] sm:w-[125px] sm:h-[85px] md:w-[200px] md:h-[120px] lg:min-w-[180px] lg:h-[120px] rounded">
+                                
+                            </div>
+                        </div>
+                    
+                 </div>
+                </form>
 
              <div class="video-link-container">
                  <div style="margin-top:24px;">
@@ -188,6 +226,61 @@ onMounted(()=>{
 
  
 })
+
+function change(event){
+ const file =  document.querySelector('.choose-picture > input')
+ file.click()
+}
+    const pictures = ref([])
+    const images = ref(JSON.parse(localStorage.getItem('images')) || []) 
+    const imageLoader = ref(false)
+async function sendPictures(event){
+ const file =  document.querySelector('.choose-picture > input')
+ const files = Array.from(file.files)
+ if (!files.length) {
+    return
+ }
+ const form = document.querySelector('#forms')
+ const FormD = new FormData(form);
+    FormD.append(`images[]`,files)
+
+    imageLoader.value = true
+<<<<<<<<< Temporary merge branch 1
+   await fetch('http://127.0.0.1:8000/api/upload-image',{
+=========
+   await fetch('http://192.168.0.114:8000/api/upload-image',{
+>>>>>>>>> Temporary merge branch 2
+    method:'post',
+    body:FormD
+   }).then(res=>{
+    if (res.ok) {
+        console.log('Картинки успешно отправлены на сервер');
+    }else{
+        console.log('Произошла ошибка при отправке картинок');
+    }
+    return res.json()
+   })
+   .then(r=>{
+    r.forEach(file => {
+       images.value.push(file)
+       localStorage.setItem('images',JSON.stringify(images.value))
+<<<<<<<<< Temporary merge branch 1
+=========
+       console.log(r);
+>>>>>>>>> Temporary merge branch 2
+    });
+    imageLoader.value = false
+})
+
+   
+ 
+}
+
+
+function removeImg(img,picture){
+    picture.splice(picture.indexOf(img),1)
+    localStorage.setItem('images',JSON.stringify(picture))
+}
 </script>
 
 <style scoped>

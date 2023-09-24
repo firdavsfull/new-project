@@ -1,152 +1,31 @@
 <!-- :style="announData[0].objects == 'Квартира' || announData[0].objects !== 'Комната'? 'margin-top: 80px;' : ''" -->
 <template>
-  <form
-    @change.prevent="saveImages"
-    id="forms"
-    enctype="multipart/form-data"
-    class="picture-room-container"
-  >
+  <div class="picture-room-container sm:justify-center ">
     <!-- <span>Фото и планировка - от 5 и больше</span> -->
-    <div class="picture-room">
+    <span>Фотографии</span>
+    <div class="picture-room sm:none">
       <div>
         <font-awesome-icon style="color: darkgray" :icon="['fas', 'camera']" />
       </div>
-      <p>Не добавляйте чужие фото, картинки с водяными знаками и рекламу.</p>
+      <p>
+        На фото не должно быть людей, животных, алкоголя, табака, оружия. Не
+        добавляйте чужие фото, картинки с водяными знаками и рекламу.
+      </p>
     </div>
-<<<<<<< HEAD
-    <div class="choose-picture" v-if="pictures.length < 12">
-=======
-    <div class="choose-picture">
->>>>>>> 79601068e8ad6c01570992d140ec60fb82d74afe
+    <div class="choose-picture sm:flex">
       <button
         @click.prevent="change"
         style="background-color: rgba(15, 72, 157, 0.1); color: #0468ff"
-        class="btn w-100 fw-bold font-monospace"
+        class="btn md:w-[150px] sm:w-full font-bold font-monospace "
       >
         Выберите файлы
       </button>
-      <input type="file" multiple style="display: none" id="input" />
+      <input type="file" accept="*png" multiple style="display: none" id="" />
     </div>
-
-    <div
-<<<<<<< HEAD
-      v-if="pictures.length"
-      class="flex overflow-hidden mt-[10px] w-[100%] min-h-[50px] rounded-[13px] border"
-    >
-      <div
-        id="areaBorder"
-        class="w-full p-[10px] sm:mx-[auto] mx-[auto] flex flex-wrap"
-=======
-      class="flex justify-center overflow-hidden md:mx-[auto] mt-[10px] w-[100%] min-h-[50px] rounded-[13px] border"
-    >
-      <div
-        class="w-full p-[10px] sm:mx-[auto] mx-[auto] flex flex-wrap justify-start"
->>>>>>> 79601068e8ad6c01570992d140ec60fb82d74afe
-        style="flex-basis: 100%"
-      >
-        <div
-        v-for="(img, index) of pictures"
-<<<<<<< HEAD
-        :key="index"
-          @dragend="handleDrop(img, pictures)"
-          @dragleave="handleDragLeave(pictures)"
-          @dragenter.prevent="handleDragEnter(pictures)"
-          @dragstart="handleDragStart"
-          @dragover.prevent
-          @touchstart="handleTouchStart"
-          @touchend ="handleTouchEnd(img, pictures)"
-          draggable="true"
-          id="images"
-           
-          class="bg-[black] relative flex responsive mx-[auto] m-[10px] w-[48%] h-[150px] sm:h-[170px] sm:w-[250px] sm:h-[170px] md:w-[200px] md:h-[120px] lg:min-w-[180px] lg:h-[120px] overflow-hidden rounded"
-        >
-        <div class="cursor-grab">
-
-          <div class="hover pointer-events-none transition duration-150 cursor-default z-[2] absolute top-[-30px] w-full bg-[black]/40 h-[30px]">
-                <div :data-id="index"
-                    @click="removeImg(img, pictures)"
-                    class="pointer-events-auto cursor-pointer absolute overflow-hidden right-[10px] top-[4px] cursor-pointer text-[white] text-shadow text-[14px]"
-                      >
-                      <font-awesome-icon :icon="['fas', 'trash']" />
-                </div>
-            <div @click="rotate(img)" class="pointer-events-auto absolute left-[8px] cursor-pointer top-[2px] text-[white]">
-              <font-awesome-icon :icon="['fas', 'rotate-right']" />
-            </div>
-          </div>
-            <img
-              :style="`transform: rotate(${img.rotation}deg);`"
-              :data-id="index"
-              class="picture left-[0] absolute z-[1] top-[0] w-full h-full"
-              :src="img.url"
-              alt="img"
-            />
-        </div>
-=======
-        :key="img.url"
-          @dragend="handleDrop(img,pictures)"
-          @dragleave="handleDragLeave(pictures)"
-          @dragenter="handleDragEnter(pictures)"
-          @dragstart="handleDragStart"
-          draggable="true"
-          id="images"
-          class="relative flex responsive mx-[auto] m-[10px] w-[48%] h-[150px] sm:h-[170px] sm:w-[250px] sm:h-[170px] md:w-[200px] md:h-[120px] lg:min-w-[180px] lg:h-[120px] overflow-hidden rounded"
-        >
-          <div :data-id="index"
-            @click="removeImg(img, pictures)"
-            class="absolute overflow-hidden right-[10px] top-[-10px] cursor-pointer text-[white] text-shadow text-[30px]"
-          >
-            &times;
-          </div>
-          <img
-            :data-id="index"
-            class="left-[0] w-full h-full"
-            :src="img.url"
-            alt="img"
-          />
->>>>>>> 79601068e8ad6c01570992d140ec60fb82d74afe
-        </div>
-        <!-- <div v-if="imageLoader" class="w-[100%] flex justify-center">
-          <div class="lds-spinner">
-            <div></div>
-            <div></div>
-            <div></div>
-            <div></div>
-            <div></div>
-            <div></div>
-            <div></div>
-            <div></div>
-            <div></div>
-            <div></div>
-            <div></div>
-            <div></div>
-          </div>
-        </div> -->
-        <!-- <div
-          @click.prevent="change"
-          v-if="images.length"
-          class="border border-[blue] relative justify-center flex m-[10px] w-[48%] h-[150px] sm:h-[170px] sm:w-[125px] sm:h-[85px] md:w-[200px] md:h-[120px] lg:min-w-[180px] lg:h-[120px] rounded"
-        ></div> -->
-<<<<<<< HEAD
-        
-=======
->>>>>>> 79601068e8ad6c01570992d140ec60fb82d74afe
-      </div>
-    </div>
-  </form>
+  </div>
 </template>
 <script setup>
-<<<<<<< HEAD
-
-function change(event) {
-  const file = document.querySelector(".choose-picture > input");
-  file.click();
-}
-const pictures = ref([]);
-const imageLoader = ref(false);
-const formD = ref(new FormData());
-const {images, isUpload} = getData()
-=======
-function change(event) {
+function change() {
   const file = document.querySelector(".choose-picture > input");
   file.click();
 }
@@ -345,91 +224,6 @@ function handleDrop(img,picture) {
 </script>
 
 <style scoped>
->>>>>>> 79601068e8ad6c01570992d140ec60fb82d74afe
-.lds-spinner {
-  color: official;
-  display: inline-block;
-  position: relative;
-  width: 80px;
-  height: 80px;
-}
-.lds-spinner div {
-  transform-origin: 40px 40px;
-  animation: lds-spinner 1.2s linear infinite;
-}
-.lds-spinner div:after {
-  content: " ";
-  display: block;
-  position: absolute;
-  top: 3px;
-  left: 37px;
-  width: 6px;
-  height: 18px;
-  border-radius: 20%;
-  background: #006cfd;
-}
-.lds-spinner div:nth-child(1) {
-  transform: rotate(0deg);
-  animation-delay: -1.1s;
-}
-.lds-spinner div:nth-child(2) {
-  transform: rotate(30deg);
-  animation-delay: -1s;
-}
-.lds-spinner div:nth-child(3) {
-  transform: rotate(60deg);
-  animation-delay: -0.9s;
-}
-.lds-spinner div:nth-child(4) {
-  transform: rotate(90deg);
-  animation-delay: -0.8s;
-}
-.lds-spinner div:nth-child(5) {
-  transform: rotate(120deg);
-  animation-delay: -0.7s;
-}
-.lds-spinner div:nth-child(6) {
-  transform: rotate(150deg);
-  animation-delay: -0.6s;
-}
-.lds-spinner div:nth-child(7) {
-  transform: rotate(180deg);
-  animation-delay: -0.5s;
-}
-.lds-spinner div:nth-child(8) {
-  transform: rotate(210deg);
-  animation-delay: -0.4s;
-}
-.lds-spinner div:nth-child(9) {
-  transform: rotate(240deg);
-  animation-delay: -0.3s;
-}
-.lds-spinner div:nth-child(10) {
-  transform: rotate(270deg);
-  animation-delay: -0.2s;
-}
-.lds-spinner div:nth-child(11) {
-  transform: rotate(300deg);
-  animation-delay: -0.1s;
-}
-.lds-spinner div:nth-child(12) {
-  transform: rotate(330deg);
-  animation-delay: 0s;
-}
-@keyframes lds-spinner {
-  0% {
-    opacity: 1;
-  }
-  100% {
-    opacity: 0;
-  }
-}
-@media screen and (max-width: 420px) {
-  .responsive {
-    width: 100%;
-    height: 200px;
-  }
-}
 @media screen and (min-width: 320px) {
   .picture-room-container {
     display: flex;

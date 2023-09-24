@@ -27,7 +27,7 @@
                     role="button"
                     data-bs-toggle="dropdown"
                   >
-                    <span class="me-5">{{ city ?  city :'Укажите город'}}</span>
+                    <span class="me-5">{{CommercialAnnoun.city ? CommercialAnnoun.city :'Укажите город'}}</span>
                   </a>
 
                   <ul
@@ -40,7 +40,7 @@
                   </ul>
                 </div>
                 <p
-                v-if="!CommercialAnnoun.city && city"
+                v-if="!CommercialAnnoun.city"
                   style="
                     margin-top: -45px;
                     font-family: Lato, Arial, sans-serif;
@@ -507,6 +507,19 @@
   </div>
 </template>
 <script setup>
+const CommercialAnnoun = ref({});
+const totalArea = ref()
+const floor = ref()
+const floorFrom = ref()
+const CeilingHeight = ref()
+const numberSeats = ref()
+const yearConstruction = ref()
+const buildingArea = ref()
+const plot = ref()
+const linkVideo = ref()
+const title = ref()
+const description = ref()
+const price = ref()
 
 const data = fetch("http://192.168.0.114:8000/api/infrastructure");
 const dataFetch = await data;
@@ -515,7 +528,7 @@ const d = await  dataFetch.json();
 const firstData = ref(d.filter((item) => item.id < 14));
 const secondData = ref(d.filter((item) => item.id > 14));
 
-const getInfo = fetch("http://192.168.0.114:8000/api/city");
+const getInfo = fetch("http://127.0.0.1:8000/api/city");
 const getCity = await getInfo;
 const city = await getCity.json();
 

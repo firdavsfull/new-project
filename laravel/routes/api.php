@@ -23,8 +23,10 @@ Route::post('/create_user', [CreateOwnerController::class, 'createOwner']);
 Route::get('/city', [getDataController::class, 'getCities']);
 Route::post('/create/city', [getDataController::class,'createCity']);
 Route::post('/create/furniture', [getDataController::class,'createFurniture']);
-
 Route::post('/upload-image',[getImageController::class,'createImageFiles']);
+
+
+Route::post('upload-image', [createPictureController::class,'createPicture']);
 
 Route::post('/create/announ',[CreateAnnounController::class, 'createAnnoun']);
 Route::get('/conditions',[getDataController::class ,'getCondition']);

@@ -1,29 +1,25 @@
 
 <template>
     <form class="layouts">
-        <div class="container-xl mt-4">
-            <div class="progress-container container">
-                <div class="d-flex justify-content-between mb-2 mt-3">
-                    <span class="fw-bold pt-1 2">Ценна и контакты</span>
-                    <button class="btn btn-none fs-5 p-0 m-0 text-primary me-2">
-                        <font-awesome-icon :icon="['fas', 'circle-question']" />
-                    </button>
-                </div>
-                
-                <div class="progress">
-                    <div class="progress-bar" role="progressbar" style="width:95%" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
-                </div>
-            </div>
-            
-            <div class="container-sm ">
-                <div class="text-container " style="font-weight:normal; color:#152242;">
-                    <span>
-                         
-                    {{ announData[0].rent =="Аренда"?'Ценна и условия сделки':'Цена' }}
-                    </span>
-                </div>
-                <div class="container w-100">
-                    <Pictures class="mt-[10px]"/>
+         <div class="container-xl mt-4">
+             <div class="progress-container container">
+                 <div class="d-flex justify-content-between mb-2 mt-3">
+                     <span class="fw-bold pt-1 2">Ценна и контакты</span>
+                     <button class="btn btn-none fs-5 p-0 m-0 text-primary me-2">
+                         <font-awesome-icon :icon="['fas', 'circle-question']" />
+                     </button>
+                 </div>
+
+                 <div class="progress">
+                     <div class="progress-bar" role="progressbar" style="width:95%" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
+                 </div>
+             </div>
+
+             <div class="container-sm ">
+                 <div class="text-container " style="font-weight:normal; color:#152242;">
+                     <span>Ценна и условия сделки </span>
+                 </div>
+                 <div class="container w-100">
                      <div class="group-container d-flex f-wrap flex-column mt-3">
                          <label for="price" style="font-size:14px;" class="mb-2">{{ announData[0].rent =="Аренда"?'Аренда в месяц':'Цена' }}</label>
                          <div class="price-container d-flex align-items-center overflow-hidden form-control" style="width:250px; height:40px">
@@ -42,7 +38,8 @@
                                              </label>
                                          </div>   
                                      </div>
-                                     <div class="balcon" v-if="announData[0].rent =='Аренда'">
+
+                                     <div class="balcon">
                                      <p for="#balcon" class="mb-1 mt-2 " style="font-family:lato, sans-seif">Срок аренды</p>
                                      
 
