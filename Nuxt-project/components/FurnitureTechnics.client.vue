@@ -260,7 +260,7 @@ function selectElectricity(event){
 }
 const c = ref()
         
-        const conditions = fetch('http://127.0.0.1:8000/api/conditions')
+        const conditions = fetch('http://192.168.0.114:8000/api/conditions')
         const condition = await conditions
         c.value = await condition.json() 
 
@@ -314,7 +314,7 @@ onMounted(async ()=>{
     ]
     
 
-    await fetch('http://127.0.0.1:8000/api/create/furniture',{
+    await fetch('http://192.168.0.114:8000/api/create/furniture',{
          method:'post',
          headers:{
            "Content-type":"application/json"

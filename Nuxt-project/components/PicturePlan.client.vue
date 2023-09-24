@@ -188,52 +188,6 @@ onMounted(()=>{
 
  
 })
-
-// function change(event){
-//  const file =  document.querySelector('.choose-picture > input')
-//  file.click()
-//  console.log(file.files);
-// }
-//     const pictures = ref([])
-// function sendPictures(event){
-//  const file =  document.querySelector('.choose-picture > input')
-//  const files = Array.from(file.files)
-//  if (!files.length) {
-//     return
-//  }
-//  const form = document.querySelector('#forms')
-//  const FormD = new FormData(form);
-//     FormD.append(`images[]`,files)
-
-//     imageLoader.value = true
-//    await fetch('http://127.0.0.1:8000/api/upload-image',{
-//         method:'post',
-//         body:FormD
-//    }).then(res=>{
-//     if (res.ok) {
-//         console.log('Картинки успешно отправлены на сервер');
-//     }else{
-//         console.log('Произошла ошибка при отправке картинок');
-//     }
-//     return res.json()
-//    })
-//    .then(r=>{
-//     r.forEach(file => {
-//        images.value.push(file)
-//        localStorage.setItem('images',JSON.stringify(images.value))
-//     });
-//     imageLoader.value = false
-// })
-
-   
- 
-// }
-
-
-function removeImg(img,picture){
-    picture.splice(picture.indexOf(img),1)
-    localStorage.setItem('images',JSON.stringify(picture))
-}
 </script>
 
 <style scoped>

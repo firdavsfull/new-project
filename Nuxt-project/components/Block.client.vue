@@ -14,7 +14,7 @@ const showCities = ref();
 const cityName = ref("");
 
 async function selectCity() {
-  const cityUrl = fetch(`http://127.0.0.1:8000/api/city`);
+  const cityUrl = fetch(`http://192.168.0.114:8000/api/city`);
   const c = await cityUrl;
   const city = await c.json();
   showCities.value = city;
@@ -68,6 +68,7 @@ function move() {
     }
   
 }
+<<<<<<< HEAD
 onMounted(() => {
   announData.value[0] = JSON.parse(localStorage.getItem("announ"))[0];
   if (JSON.parse(localStorage.getItem("announ"))[1]) {
@@ -76,13 +77,28 @@ onMounted(() => {
     mapObj.value = mapObj1.value;
   }
   const inputs = document.querySelectorAll("input");
-  
-  console.log(announData.value[0].objects);
+=======
 
+// onMounted(() => {
+//   announData.value[0] = JSON.parse(localStorage.getItem("announ"))[0];
+//   if (JSON.parse(localStorage.getItem("announ"))[1]) {
+//     mapObj.value = JSON.parse(localStorage.getItem("announ"))[1];
+//   } else {
+//     mapObj.value = mapObj1.value;
+//   }
+//   const inputs = document.querySelectorAll("input");
+>>>>>>> 79601068e8ad6c01570992d140ec60fb82d74afe
+  
+//   console.log(announData.value[0].objects);
+
+<<<<<<< HEAD
   if (!announData.value[0]) {
     router.push('/announ')
   }
 });
+=======
+// });
+>>>>>>> 79601068e8ad6c01570992d140ec60fb82d74afe
 </script>
 <template>
   <div class="container-sm">

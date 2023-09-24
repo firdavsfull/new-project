@@ -13,7 +13,11 @@
       </div>
       <p>Не добавляйте чужие фото, картинки с водяными знаками и рекламу.</p>
     </div>
+<<<<<<< HEAD
     <div class="choose-picture" v-if="pictures.length < 12">
+=======
+    <div class="choose-picture">
+>>>>>>> 79601068e8ad6c01570992d140ec60fb82d74afe
       <button
         @click.prevent="change"
         style="background-color: rgba(15, 72, 157, 0.1); color: #0468ff"
@@ -25,16 +29,24 @@
     </div>
 
     <div
+<<<<<<< HEAD
       v-if="pictures.length"
       class="flex overflow-hidden mt-[10px] w-[100%] min-h-[50px] rounded-[13px] border"
     >
       <div
         id="areaBorder"
         class="w-full p-[10px] sm:mx-[auto] mx-[auto] flex flex-wrap"
+=======
+      class="flex justify-center overflow-hidden md:mx-[auto] mt-[10px] w-[100%] min-h-[50px] rounded-[13px] border"
+    >
+      <div
+        class="w-full p-[10px] sm:mx-[auto] mx-[auto] flex flex-wrap justify-start"
+>>>>>>> 79601068e8ad6c01570992d140ec60fb82d74afe
         style="flex-basis: 100%"
       >
         <div
         v-for="(img, index) of pictures"
+<<<<<<< HEAD
         :key="index"
           @dragend="handleDrop(img, pictures)"
           @dragleave="handleDragLeave(pictures)"
@@ -69,6 +81,29 @@
               alt="img"
             />
         </div>
+=======
+        :key="img.url"
+          @dragend="handleDrop(img,pictures)"
+          @dragleave="handleDragLeave(pictures)"
+          @dragenter="handleDragEnter(pictures)"
+          @dragstart="handleDragStart"
+          draggable="true"
+          id="images"
+          class="relative flex responsive mx-[auto] m-[10px] w-[48%] h-[150px] sm:h-[170px] sm:w-[250px] sm:h-[170px] md:w-[200px] md:h-[120px] lg:min-w-[180px] lg:h-[120px] overflow-hidden rounded"
+        >
+          <div :data-id="index"
+            @click="removeImg(img, pictures)"
+            class="absolute overflow-hidden right-[10px] top-[-10px] cursor-pointer text-[white] text-shadow text-[30px]"
+          >
+            &times;
+          </div>
+          <img
+            :data-id="index"
+            class="left-[0] w-full h-full"
+            :src="img.url"
+            alt="img"
+          />
+>>>>>>> 79601068e8ad6c01570992d140ec60fb82d74afe
         </div>
         <!-- <div v-if="imageLoader" class="w-[100%] flex justify-center">
           <div class="lds-spinner">
@@ -91,12 +126,16 @@
           v-if="images.length"
           class="border border-[blue] relative justify-center flex m-[10px] w-[48%] h-[150px] sm:h-[170px] sm:w-[125px] sm:h-[85px] md:w-[200px] md:h-[120px] lg:min-w-[180px] lg:h-[120px] rounded"
         ></div> -->
+<<<<<<< HEAD
         
+=======
+>>>>>>> 79601068e8ad6c01570992d140ec60fb82d74afe
       </div>
     </div>
   </form>
 </template>
 <script setup>
+<<<<<<< HEAD
 
 function change(event) {
   const file = document.querySelector(".choose-picture > input");
@@ -106,12 +145,23 @@ const pictures = ref([]);
 const imageLoader = ref(false);
 const formD = ref(new FormData());
 const {images, isUpload} = getData()
+=======
+function change(event) {
+  const file = document.querySelector(".choose-picture > input");
+  file.click();
+}
+const pictures = ref([]);
+const imageLoader = ref(false);
+const formD = ref(new FormData());
+
+>>>>>>> 79601068e8ad6c01570992d140ec60fb82d74afe
 function saveImages(e) {
   const files = e.target.files;
   for (let i = 0; i < files.length; i++) {
     formD.value.append("images[]", files[i]);
     const reader = new FileReader();
     reader.onload = (e) => {
+<<<<<<< HEAD
       if (pictures.value.length < 12) {
         pictures.value.push({
           url: e.target.result,
@@ -123,11 +173,20 @@ function saveImages(e) {
       }
     };
     
+=======
+      pictures.value.push({
+        url: e.target.result,
+        position: pictures.value.length,
+        file: files[i],
+      });
+    };
+>>>>>>> 79601068e8ad6c01570992d140ec60fb82d74afe
     reader.readAsDataURL(files[i]);
   }
   setTimeout(() => {
     update_formdate();
   }, 50);
+<<<<<<< HEAD
 }
 
   
@@ -236,6 +295,57 @@ function rotate(img){
 #images:hover .hover{
   top: 0;
 }
+=======
+}
+
+const update_formdate = () => {
+  formD.value = new FormData()
+  for (let i = 0; i < pictures.value.length; i++) {
+    formD.value.append("images[]", pictures.value[i].file);
+  }
+};
+
+function removeImg(img, picture) {
+  picture.splice(picture.indexOf(img), 1);
+}
+
+let currentIndex = null;
+let enterIndex = null;
+function handleDragStart(e) {
+  currentIndex = parseInt(e.target.dataset.id);
+  e.dataTransfer.dropEffect = "move";
+  e.dataTransfer.effectAllowed = "move";
+  e.dataTransfer.setData("itemId", e.target.dataset.id);
+}
+
+function handleDragEnter(picture) {
+  enterIndex = parseInt(event.target.dataset.id);
+}
+function handleDragLeave(picture) {
+  
+}
+
+function handleDrop(img,picture) {
+  
+  event.dataTransfer.dropEffect = "move";
+  const draggImage = picture[enterIndex];
+  const pos = picture[enterIndex].position;
+
+  if (currentIndex !== null) {
+    // const index = parseInt(event.target.dataset.id);
+    picture[enterIndex] =  picture[currentIndex]
+    picture[currentIndex] = draggImage
+    picture[enterIndex].position =  img.position
+    picture[currentIndex].position = pos 
+    console.log(picture);
+    currentIndex = null;
+    enterIndex = null;
+  }
+}
+</script>
+
+<style scoped>
+>>>>>>> 79601068e8ad6c01570992d140ec60fb82d74afe
 .lds-spinner {
   color: official;
   display: inline-block;
