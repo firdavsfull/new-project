@@ -17,12 +17,15 @@
             
             <div class="container-sm ">
                 <div class="text-container " style="font-weight:normal; color:#152242;">
-                    <span>Ценна и условия сделки </span>
+                    <span>
+                         
+                    {{ announData[0].rent =="Аренда"?'Ценна и условия сделки':'Цена' }}
+                    </span>
                 </div>
                 <div class="container w-100">
                     <Pictures class="mt-[10px]"/>
                      <div class="group-container d-flex f-wrap flex-column mt-3">
-                         <label for="price" style="font-size:14px;" class="mb-2">Аренда в месяц</label>
+                         <label for="price" style="font-size:14px;" class="mb-2">{{ announData[0].rent =="Аренда"?'Аренда в месяц':'Цена' }}</label>
                          <div class="price-container d-flex align-items-center overflow-hidden form-control" style="width:250px; height:40px">
                              <input @input="enterPrice" v-model="price" type="tel" maxlength="9" id="price"  style="border:none; outline:none;">
                              <div class="text-[20px] d-flex justify-center bg-[white] top-[-1px] items-center w-[15%] relative right-[-30px]"  >
@@ -30,7 +33,7 @@
                              </div>
                          </div>
 
-                                     <div class="balcon w-25 mt-3" >
+                                     <div class="balcon w-25 mt-3" v-if="announData[0].rent =='Аренда'">
                                          <span for="#balcon" class="mb-2  text-nowrap" style="font-family:lato, sans-seif">Условия проживания</span>
                                          <div class="d-flex text-nowrap mt-2" style="font-family:lato, sans-serif;">
                                              <label v-for="items of cond" :key="items.id" :for="items.id" class="me-2 ">
@@ -39,7 +42,7 @@
                                              </label>
                                          </div>   
                                      </div>
-                                     <div class="balcon">
+                                     <div class="balcon" v-if="announData[0].rent =='Аренда'">
                                      <p for="#balcon" class="mb-1 mt-2 " style="font-family:lato, sans-seif">Срок аренды</p>
                                      
 
@@ -54,7 +57,9 @@
                      </div>
                          
                  </div>
-
+                 <!-- <div draggable="false" class="w-full border flex flex-wrap rounded-[24px] min-h-[100px]">
+                    <img class="w-[200px] h-[120px]" v-for="pic of image" :src="pic.url" alt="">
+                 </div> -->
                  <div class="container mt-4 mb-2 d-flex justify-content-end mx-1 ">
                      <next-btn class="px-4 mx-4 btn  btn-light text-primary" @click.prevent="navigateTo('/description')">Назад</next-btn>
                      <next-btn class="px-4 btn  btn-primary" @click.prevent="place">Разместить</next-btn>
@@ -71,16 +76,12 @@ const {announData} = getData()
 const priceObj = ref({})
 const priceObj1 = ref({})
 const price = ref()
-
-function change(){
- const file =  document.querySelector('.choose-picture > input')
- file.click()
-}
+const {images,isUpload,formData} = getData()
 
 function enterPrice(){
  priceObj.value.price = parseInt(price.value.trim())
 }
-
+const image = ref([])
 async function place(){
  const progress = document.querySelector('.progress > .progress-bar')
  progress.style.width = '100%'
@@ -107,9 +108,25 @@ async function place(){
         }
         return res
     })
+    
+    const formD = new FormData()
+       for (const item of images.value) {
+           formD.append('images[]',item.file)
+        }
+        console.log(formD.getAll('images[]'));
+    await fetch('http://127.0.0.1:8000/api/upload-image',{
+        method:'post',
+        body: formD
+    })
+    .then(res=>{
+        return res.json()
+    })
+    .then(res => {   
+       image.value = res
+       
+    })
 }
 
-console.log(typeof JSON.parse(localStorage.getItem('announ'))[4]);
 
 const arr = []
 
@@ -147,8 +164,12 @@ const conditions = fetch('http://127.0.0.1:8000/api/conditions')
 const c = ref(await condition.json())  
 const cond = ref(c.value.filter(item=>item.name == 'Можно с детьми' || item.name == 'Можно с животными'));
 
-
-
+const router = useRouter()
+onMounted(() => {
+    // if (!announData.value[5]) {
+    //     router.push('/announ')
+    // }  
+})
 </script>
 
 <style scoped>

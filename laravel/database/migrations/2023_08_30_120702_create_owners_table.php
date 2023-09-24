@@ -13,7 +13,12 @@ return new class extends Migration
     {
         Schema::create('owners', function (Blueprint $table) {
             $table->id();
-            $table->string('full_name')->nullable();
+            $table->string('name')->nullable();
+            $table->string('last_name')->nullable();
+            $table->string('avatar')->nullable();
+            $table->string('birth_date')->nullable();
+            $table->string('email')->nullable();
+            $table->string('pass')->nullable();
             $table->string('phone_number');
             $table->timestamps();
         });

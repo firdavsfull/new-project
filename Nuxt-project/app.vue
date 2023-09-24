@@ -23,8 +23,7 @@
     }
 
     if (navigator.maxTouchPoints < 1 && route.fullPath == '/announ') {
-      navigateTo('/')
-      isShow.value = true
+      // isShow.value = true
     }
   
   const infrastructure = ["автомойка",

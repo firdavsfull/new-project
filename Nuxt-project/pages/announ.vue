@@ -1,8 +1,5 @@
 <template>
-        
-
-                <Announs />
-        
+   <Announs />
 </template>
 <script>
 

@@ -6,9 +6,12 @@ export default defineNuxtConfig({
     "bootstrap/dist/css/bootstrap.min.css",
   ],
 
-
-  modules: ['nuxt-icon',
-  '@nuxtjs/tailwindcss'
+  plugins: [
+    { src: '~/plugins/maps', mode: 'client' },
+  ],
+  modules: [
+  'nuxt-icon',
+  '@nuxtjs/tailwindcss',
 ],
 build: {
   transpile: ['vue-remix-icons'],
@@ -20,7 +23,7 @@ build: {
       ],
       script: [
         {
-          src: "https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"
+          src: "https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js",
         } 
       ],
       link: [

@@ -14,7 +14,7 @@
                      <div class="progress-bar" role="progressbar" style="width:30%" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
                  </div>
              </div>
-        <div class="rounded-[15px] mx-[auto] my-[10px] sm:max-w-[95%] max-w-[95%] lg:max-w-[70%] lg:shadow-2xl">
+        <div class="rounded-[15px] mx-[auto] my-[10px] sm:max-w-[95%] min-w-[100%]  lg:max-w-[95%] lg:min-w-[70%] lg:shadow-2xl">
             <div  class="mx-[20px] mt-[10px] h-[auto]">
                 <div style="margin-top:10px;" v-if="announData[0].objects == 'Квартира' || announData[0].objects == 'Комната'" class="text-container">
                     <span>Параметры Квартиры </span>
@@ -174,8 +174,11 @@ function prew(){
  navigateTo('/map')
 }
 
-
+const router = useRouter()
 onMounted(()=>{
+    if (!announData.value[1]) {
+    router.push('/announ')
+    }
     announData.value[0] = JSON.parse(localStorage.getItem('announ'))[0]
  if (JSON.parse(localStorage.getItem('announ'))[2]) {
      apartmentParams.value = JSON.parse(localStorage.getItem('announ'))[2];

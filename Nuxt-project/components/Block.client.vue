@@ -68,7 +68,6 @@ function move() {
     }
   
 }
-
 onMounted(() => {
   announData.value[0] = JSON.parse(localStorage.getItem("announ"))[0];
   if (JSON.parse(localStorage.getItem("announ"))[1]) {
@@ -80,6 +79,9 @@ onMounted(() => {
   
   console.log(announData.value[0].objects);
 
+  if (!announData.value[0]) {
+    router.push('/announ')
+  }
 });
 </script>
 <template>
