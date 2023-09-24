@@ -71,10 +71,7 @@
                                 <li class="relateive rounded-[3px]">
                                     <a href="/" class="flex text-[#121212] text-[16px] font-bold" style="text-decoration: none; padding: 12px 10px 10px 5px;">
                                         <div class="text-[#475258]">
-                                            <img src="../public/s
-                                            
-                                            
-                                            earch-favorite-1.svg" class="w-[20px]" style="font-weight: bolder;" alt="">
+                                            <img src="../public/search-favorite-1.svg" class="w-[20px]" style="font-weight: bolder;" alt="">
                                         </div>
                                         <span class="text-[16px] absolute ml-[30px]">Сохранённые поиски</span>
                                     </a>
