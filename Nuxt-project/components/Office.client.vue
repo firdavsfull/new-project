@@ -20,7 +20,7 @@
 
             <div class="text-[#121212] font-[400] text-[14px] leading-[1.3]">
               <form class="mt-3">
-                <div class="dropdown mb-5">
+                <div class="dropdown mb-5" :style="!CommercialAnnoun.city ? 'border:1px solid red; border-radius:6px;':''">
                   <a
                     class="btn form-control border dropdown-toggle-none position-relative"
                     href="#"
@@ -91,7 +91,7 @@
               Общая площадь
             </div>
 
-            <div class="flex h-[30px] rounded-1 border px-[4px] w-[90px]">
+            <div :style="!CommercialAnnoun.totalArea ? 'border:1px solid red;':'border:1px solid silver'" class="flex h-[30px] rounded-1 px-[4px] w-[90px]">
               <input
                 v-model="totalArea"
                 @input="getTotalArea"
@@ -107,19 +107,22 @@
           <div class="flex flex-col mt-[20px]">
             <div
               class="mb-[8px] shrink-[0] pt-[6px] w=[180px] text-[14px] leading-[16px]"
+            
             >
               Этаж
             </div>
-
-            <div class="flex h-[30px] rounded-1 border px-[4px] w-[90px]">
-              <input
-                v-model="floor"
-                @input="getFloor"
-                class="border-0 h-[24px] outline-0 w-[100%] text-[14px] font-[450] text-[gray]"
-                v-maska
-                data-maska="###"
-                type="text"
-              />
+            <div class="flex ">
+              <div :style="!CommercialAnnoun.floor ? 'border:1px solid red;':'border:1px solid silver'" class="flex h-[30px] rounded-1 px-[4px] w-[90px]">
+                <input
+                  v-model="floor"
+                  @input="getFloor"
+                  class="border-0 h-[24px] outline-0 w-[100%] text-[14px] font-[450] text-[gray]"
+                  v-maska
+                  data-maska="###"
+                  type="text"
+                />
+              </div>
+              <p v-if="CommercialAnnoun.floor > CommercialAnnoun.floorFrom" class="text-[red] ml-[10px] leading-[14px] text-[11px]">этаж должен быть меньше <br> или равен количество этажей</p>
             </div>
           </div>
 
@@ -130,7 +133,7 @@
               Из
             </div>
 
-            <div class="flex rounded-1 h-[30px] border px-[4px] w-[90px]">
+            <div :style="!CommercialAnnoun.floorFrom ? 'border:1px solid red;':'border:1px solid silver'" class="flex rounded-1 h-[30px]  px-[4px] w-[90px]">
               <input
               @input="getFloorFrom"
               v-model="floorFrom"
@@ -148,9 +151,9 @@
             >
               Высота потолков
             </div>
-
             <div
-              class="flex rounded-1 h-[30px] items-center border px-[4px] w-[90px]"
+              class="flex rounded-1 h-[30px] items-center px-[4px] w-[90px]"
+            :style="!CommercialAnnoun.CeilingHeight ? 'border:1px solid red;':'border:1px solid silver'"
             >
               <input
               v-model="CeilingHeight"
@@ -171,16 +174,16 @@
               Планировка
             </div>
 
-            <div class="flex rounded-1 w-[85px]">
+            <div :style="!CommercialAnnoun.layout || CommercialAnnoun.layout == 'Не выбранно'  ? 'border:1px solid red;':'border:1px solid silver'" class="flex rounded-1 w-[max-content]">
               <select
               @change="selectLayout"
                 style="-webkit-appearance: none"
                 class="border-1 h-[30px] rounded-1 outline-0 px-[10px] py-[1px] text-[14px]"
                 name="plan"
               >
-                <option  class="text-[14px]" >Не выбранно</option>
+                <option selected class="text-[14px]" >Не выбранно</option>
                 <option  class="text-[14px]">Кабинетная</option>
-                <option selected class="text-[14px]">Открытая</option>
+                <option  class="text-[14px]">Открытая</option>
                 <option  class="text-[14px]">Коридорная</option>
                 <option  class="text-[14px]">Смешанная</option>
               </select>
@@ -192,11 +195,12 @@
               Состояние
             </div>
 
-            <div class="flex rounded-1 w-[85px]">
+            <div :style="!CommercialAnnoun.State || CommercialAnnoun.State == 'Не выбранно'  ? 'border:1px solid red;':'border:1px solid silver'" class="flex rounded-1 w-[max-content]">
               <select
               @change="selectState"
                 style="-webkit-appearance: none"
-                class="border-1 h-[30px] rounded-1 outline-0 px-[10px] py-[1px] text-[14px]"
+              
+                class="h-[30px] rounded-1 outline-0 px-[10px] py-[1px] text-[14px]"
                 name="plan"
               >
                 <option class="text-[14px]" selected>Не выбранно</option>
@@ -217,7 +221,7 @@
               Мебель
             </div>
 
-            <div class="flex rounded-1 w-[85px]">
+            <div :style="!CommercialAnnoun.Furniture || CommercialAnnoun.Furniture == 'Не выбранно'  ? 'border:1px solid red;':'border:1px solid silver'" class="flex rounded-1 w-[max-content]">
               <select
               @change="selectFurniture"
                 style="-webkit-appearance: none"
@@ -236,7 +240,7 @@
               Парковка
             </div>
 
-            <div class="flex rounded-1 w-[85px]">
+            <div :style="!CommercialAnnoun.Parking || CommercialAnnoun.Parking == 'Не выбранно'  ? 'border:1px solid red;':'border:1px solid silver'" class="flex rounded-1 w-[max-content]">
               <select
                 @change="selectParking"
                 style="-webkit-appearance: none"
@@ -258,7 +262,9 @@
                 Количество мест
               </div>
 
-              <div class="flex rounded-1 h-[30px] border px-[4px] w-[100px]">
+              <div
+               :style="!CommercialAnnoun.numberSeats ? 'border:1px solid red;':'border:1px solid silver'"
+               class="flex rounded-1 h-[30px] border px-[4px] w-[100px]">
                 <input
                   @input="getQuantitiySeats"
                   v-model="numberSeats"
@@ -516,6 +522,7 @@ const numberSeats = ref()
 const yearConstruction = ref()
 const buildingArea = ref()
 const plot = ref()
+const layout = ref()
 const linkVideo = ref()
 const title = ref()
 const description = ref()
@@ -550,7 +557,7 @@ const city = await getCity.json();
     }
 
     function getCeilingHeight(){
-    CommercialAnnoun.value.CeilingHeight = parseInt(CeilingHeight);
+    CommercialAnnoun.value.CeilingHeight = parseInt(CeilingHeight.value);
     } 
 
     function getLinkVideo(){
@@ -559,7 +566,7 @@ const city = await getCity.json();
     function selectLayout(event){
       for (const item of event.target.children) {
         if(item.selected){
-          CommercialAnnoun.value.CeilingHeight= item.value
+          CommercialAnnoun.value.layout= item.value
           console.log(CommercialAnnoun.value);
         }
       }
@@ -568,7 +575,7 @@ const city = await getCity.json();
     function selectState(event){
       for (const item of event.target.children) {
         if(item.selected){
-          CommercialAnnoun.value.State= item.value
+          CommercialAnnoun.value.State = item.value
           console.log(CommercialAnnoun.value);
         }
       }
