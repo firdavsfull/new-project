@@ -34,9 +34,9 @@ class CreateAnnounController extends Controller
                     'title'=>$announs[5]['title'],
                     'description'=>$announs[5]['description'],
                     'price'=>$announs[6]['price'],
-                    'rental_period'=>$announs[6]['period'],
                 ]);
             }
+            
             if ($announs[0]['objects'] == 'Дом/Дача' || $announs[0]['objects'] == 'Коттедж') {
                 $announ = Announ::firstOrCreate([
                     'deal_type'=>$announs[0]['rent'],
@@ -58,14 +58,15 @@ class CreateAnnounController extends Controller
                     'title'=>$announs[5]['title'],
                     'description'=>$announs[5]['description'],
                     'price'=>$announs[6]['price'],
-                    'rental_period'=>$announs[6]['period'],
                     'owner_id'=>$owner->id 
                 ]);
             }
             if ($announs[0]['rent'] == 'Аренда') {
                 $announ->update(['rental_type'=>$announs[0]['typeRent']]);
             }
-        
+            // if ($announ[0]['rent'] === 'Продажа' && $announs[6]['period']) {
+            //     $announ->update(['rental_period'=>$announs[6]['period']]);
+            // };
 
         
             if(array_values($announs[4]) === $announs[4]){

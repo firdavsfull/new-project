@@ -13,10 +13,7 @@ return new class extends Migration
     {
         Schema::create('pictures', function (Blueprint $table) {
             $table->id();
-            $table->string('xsmall');
-            $table->string('small');
-            $table->string('medium');
-            $table->string('large');
+            $table->string('pictures');
             $table->integer('position');
             $table->integer('rotation');
             $table->integer('announ_id');

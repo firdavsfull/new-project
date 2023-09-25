@@ -8,10 +8,6 @@
                          <font-awesome-icon :icon="['fas', 'circle-question']" />
                      </button>
                  </div>
-                <img :src="'dsadasdasdas?formatImage=original_'" alt="">
-                <img :src="'dsadasdasdas?formatImage=lg_'" alt="">
-                <img :src="'dsadasdasdas?formatImage=md_'" alt="">
-                <img :src="'dsadasdasdas?formatImage=sm_'" alt="">
                  <div class="progress">
                      <div class="progress-bar" role="progressbar" style="width:50%" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
                  </div>
@@ -54,8 +50,8 @@
                                          <input :checked="aprtFeatures.repair =='Без ремонта'" @change="withRepair" data-name="Без ремонта" type="radio" class="btn-check" name="options" id="option1" autocomplete="off">
                                          <label :style="!aprtFeatures.repair?'border:1px solid red; border-radius:8px;':''" class="form-control me-2 my-1" for="option1">Без ремонта</label>
 
-                                         <input :checked="aprtFeatures.repair =='Обычный'" @change="withRepair" data-name="Обычный" type="radio" class="btn-check" name="options" id="option2" autocomplete="off">
-                                         <label :style="!aprtFeatures.repair?'border:1px solid red; border-radius:8px;':''" class="form-control me-2 my-1" for="option2">Обычный</label>
+                                         <input :checked="aprtFeatures.repair =='Обичный'" @change="withRepair" data-name="Обичный" type="radio" class="btn-check" name="options" id="option2" autocomplete="off">
+                                         <label :style="!aprtFeatures.repair?'border:1px solid red; border-radius:8px;':''" class="form-control me-2 my-1" for="option2">Обичный</label>
 
                                          <input :checked="aprtFeatures.repair =='Косметический'" @change="withRepair" data-name="Косметический" type="radio" class="btn-check" name="options" id="option3" autocomplete="off">
                                          <label :style="!aprtFeatures.repair?'border:1px solid red; border-radius:8px;':''" class="form-control me-2 my-1" for="option3">Косметический</label>
@@ -104,9 +100,9 @@
                                          <label :style="!aprtFeatures.parking?'border:1px solid red; border-radius:8px;':''" class="form-control me-2 my-1" for="sel3">Подземная</label>
 
                                          <input :checked="aprtFeatures.parking == 'На крыше'" @change="selecetParking" data-parking="На крыше" type="checkbox" class="btn-check" name="options" id="sel4" autocomplete="off">
-                                         <label :style="!aprtFeatures.parking?'border:1px solid red; border-radius:8px;':''" class="form-control my-1" for="sel4">На крыше</label>
+                                         <label :style="!aprtFeatures.parking?'border:1px solid red; border-radius:8px;':''" class="form-control my-1 me-2" for="sel4">На крыше</label>
 
-                                         <input v-if="announData[0].objects == 'Дом/Дача'" :checked="aprtFeatures.parking == 'На крыше'" @change="selecetParking" data-parking="Нет" type="checkbox" class="btn-check" name="options" id="sel5" autocomplete="off">
+                                         <input v-if="announData[0].objects == 'Дом/Дача'" :checked="aprtFeatures.parking == 'Нет'" @change="selecetParking" data-parking="Нет" type="checkbox" class="btn-check" name="options" id="sel5" autocomplete="off">
                                          <label v-if="announData[0].objects == 'Дом/Дача'" :style="!aprtFeatures.parking?'border:1px solid red; border-radius:8px;':''" class="form-control my-1" for="sel5">Нет</label>
                                      </div>
                                  </div>
@@ -187,7 +183,9 @@ onMounted(() => {
     }else{
         aprtFeatures.value = aprtFeatures1.value
     }
-    // console.log(JSON.parse(localStorage.getItem('announ'))[3]);
+    if (!announData.value[2]) {
+        window.location.replace('/')
+  }
 })
 
 </script>
@@ -198,9 +196,7 @@ onMounted(() => {
      height: 7px;
      background-color: rgba(138, 187, 218, 0.24);
  }
- /* .progress-container{
-     padding: 0 20px;
- } */
+ 
  .progress-bar{
      background-image: linear-gradient(to right, #ffe1ff ,#006cfd 99.9%,#006cfd );
      border-top-right-radius: 5px;

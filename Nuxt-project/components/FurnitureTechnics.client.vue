@@ -3,7 +3,7 @@
          <div  class="container-xl mt-4">
              <div class="progress-container container">
                  <div class="d-flex justify-content-between mb-2 mt-3">
-                     <span class="fw-bold pt-1 2">{{ announData[0].objects !== 'Квартира' || announData[0].objects !== 'Комната'?'О дома и участка':'Мебель и техника' }}</span>
+                     <span class="fw-bold pt-1 2">{{ announData[0].objects !== 'Квартира' && announData[0].objects !== 'Комната'?'О дома и участка':'Мебель и техника' }}</span>
                      <button class="btn btn-none fs-5 p-0 m-0 text-primary me-2">
                          <font-awesome-icon :icon="['fas', 'circle-question']" />
                      </button>
@@ -16,7 +16,7 @@
 
              <div class="container-sm" >
                  <div class="text-container" style="font-weight:normal; color:#152242;">
-                     <span>{{ announData[0].objects !== 'Квартира' || announData[0].objects !== 'Комната'?'О дома и участка':'В квартире есть' }}</span>
+                     <span>{{ announData[0].objects !== 'Квартира' && announData[0].objects !== 'Комната'?'О дома и участка':'В квартире есть' }}</span>
                  </div>
                  <div class="container w-100">
                      <div class="col mt-4" v-if="announData[0].objects == 'Квартира' || announData[0].objects == 'Комната'" style="color:#152242;">
@@ -342,6 +342,9 @@ onMounted(async ()=>{
             facilities.value = facilities1.value
         }
         AnnounOgj.value = JSON.parse(localStorage.getItem('announ'))[0]
+        if (!announData.value[3]) {
+            window.location.replace('/')
+            }
         })
     function selecTechnics(event){
         if (event.target.checked) {
@@ -355,7 +358,7 @@ onMounted(async ()=>{
                     facilities.value.splice(facilities.value.indexOf(item),1)
                 }
 
-                
+                         
 
 
         c.value = c.value.sort((a, b)=>{
@@ -381,7 +384,7 @@ onMounted(async ()=>{
                 })
             })
 
- 
+             
 }
 
 

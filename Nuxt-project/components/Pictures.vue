@@ -97,6 +97,7 @@
   </form>
 </template>
 <script setup>
+
 function change(event) {
   const file = document.querySelector(".choose-picture > input");
   file.click();
@@ -104,7 +105,7 @@ function change(event) {
 const pictures = ref([]);
 const imageLoader = ref(false);
 const formD = ref(new FormData());
-
+const {images, isUpload} = getData()
 function saveImages(e) {
   const files = e.target.files;
   for (let i = 0; i < files.length; i++) {
@@ -118,8 +119,10 @@ function saveImages(e) {
           rotation:0,
           file: files[i],
         });
+        images.value = pictures.value
       }
     };
+    
     reader.readAsDataURL(files[i]);
   }
   setTimeout(() => {
@@ -127,12 +130,16 @@ function saveImages(e) {
   }, 50);
 }
 
+  
 const update_formdate = () => {
   formD.value = new FormData()
   for (let i = 0; i < pictures.value.length; i++) {
     formD.value.append("images[]", pictures.value[i].file);
   }
+
 };
+
+
 
 function removeImg(img, picture) {
   picture.splice(picture.indexOf(img), 1);
@@ -208,6 +215,11 @@ function rotate(img){
   }
 }
 
+  // if (isUpload.value) {
+  //   pictures.value = images.value
+  // }else{
+  //   images.value = pictures.value
+  // }
 
 </script>
 

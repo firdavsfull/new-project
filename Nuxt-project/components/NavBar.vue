@@ -11,7 +11,7 @@
                     
                 </div>
 
-                    <h4 class="name-page" style="text-transform:uppercase;">Logo</h4>
+                    <h4 @click="navigateTo('/')" class="name-page cursor-pointer" style="text-transform:uppercase;">Avera</h4>
                  
                 <div class="container-filters" v-if="desktopSize">
                     <ul class="lists">
@@ -96,7 +96,7 @@
 
     responce.value = JSON.parse(localStorage.getItem('owner'))
     function showAndHide(){
-            navigateTo('/announ')
+            window.location.replace('/announ')
             localStorage.removeItem('announ')
             isShow.value = false
     }       
@@ -149,9 +149,9 @@ onBeforeUnmount(()=>{
 
 
 function logOut(){
-    navigateTo('/')
+    navigateTo('/profiles/profile')
     document.body.style.overflow = 'auto'
-    isShow.value = true
+    isShow.value = false
 
 }
 
@@ -542,7 +542,7 @@ function showModalWindow(){
     .container-filters {
         position: relative;
         right: -4%;
-        margin-left: 10px;
+        margin-left: 40px;
         margin-right: 10px;
         height: 100%;
         display: flex;
@@ -560,7 +560,7 @@ function showModalWindow(){
     .container-filters > .lists > li{
         margin-left: 20px;
         font-size: 14px;
-        font-weight:449;
+        font-weight:500;
     }
     .container-filters > .lists > li >a{
         text-decoration: none;

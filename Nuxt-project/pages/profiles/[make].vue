@@ -1,0 +1,5 @@
+<template>
+    
+    <Profile />    
+    
+</template>
