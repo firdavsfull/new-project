@@ -20,7 +20,7 @@
 
             <div class="text-[#121212] font-[400] text-[14px] leading-[1.3]">
               <form class="mt-3">
-                <div class="dropdown mb-5" :style="!CommercialAnnoun.city ? 'border:1px solid red; border-radius:6px;':''">
+                <div class="dropdown mb-2" :style="!CommercialAnnoun.city ? 'border:1px solid red; border-radius:6px;':''">
                   <a
                     class="btn form-control border dropdown-toggle-none position-relative"
                     href="#"
@@ -65,7 +65,7 @@
                 "
               >
                 <img
-                  class="width:100%; height:350px"
+                  class="w-full h-[350px]"
                   src="https://geoawesomeness.com/wp-content/uploads/2022/03/maps-broadcom.png"
                 />
               </div>
@@ -261,7 +261,7 @@
               >
                 Количество мест
               </div>
-
+              {{CommercialAnnoun.numberSeats}}
               <div
                :style="!CommercialAnnoun.numberSeats ? 'border:1px solid red;':'border:1px solid silver'"
                class="flex rounded-1 h-[30px] border px-[4px] w-[100px]">
