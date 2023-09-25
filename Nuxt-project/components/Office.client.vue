@@ -428,9 +428,9 @@
           <div 
           class="mt-[15px] rounded-1 h-[30px]">
             <input
-            @input="getLinkVideo"
+            @input="CommercialAnnoun.linkVideo"
               type="text"
-              v-model="linkVideo"
+              v-model="CommercialAnnoun.linkVideo"
               class="w-full h-full outline-0 px-[10px]"
               placeholder="Ссылка на youtube"
             />
@@ -573,7 +573,7 @@ const city = await getCity.json();
     } 
 
     function getLinkVideo(){
-      CommercialAnnoun.value.linkVideo = linkVideo.value
+      console.log(CommercialAnnoun.value.linkVideo);
     }
     function selectLayout(event){
       for (const item of event.target.children) {
@@ -664,13 +664,14 @@ const city = await getCity.json();
 const {announData} = getData()
 
 function post(){
+  announData.value[0] = JSON.parse(localStorage.getItem('announ'))[0]
   announData.value[1] = CommercialAnnoun.value
   announData.value[2] = infrastructure.value
   localStorage.setItem('announ', JSON.stringify(announData.value))
 }
 
 onMounted(()=>{
-  if (!CommercialAnnoun.value || JSON.parse(localStorage.getItem('announ'))[1]) {
+  if (!CommercialAnnoun.value && JSON.parse(localStorage.getItem('announ'))[1]) {
     CommercialAnnoun.value = JSON.parse(localStorage.getItem('announ'))[1]
   }
 })
