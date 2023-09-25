@@ -1,6 +1,6 @@
 <template>
     <div class="border min-h-[100vh]">
-        <div class=" w-[100%] h-[100vh] bg-[#f4f4f4]" style="flex:1 1 auto;">
+        <div class=" w-[100%] min-h-[100vh] bg-[#f4f4f4]" style="flex:1 1 auto;">
             <div class="flex overflow-hidden">
                 <aside
                     class="flex flex-col px-[10px] py-[20px] w-[300px] h-[100%] overflow-hidden overflow-y-auto border-r ">

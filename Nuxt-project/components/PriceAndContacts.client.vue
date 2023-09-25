@@ -164,9 +164,9 @@ const cond = ref(c.value.filter(item=>item.name == 'Можно с детьми' 
 
 const router = useRouter()
 onMounted(() => {
-    // if (!announData.value[5]) {
-    //     router.push('/announ')
-    // }  
+        announData.value = JSON.parse(localStorage.getItem('announ'))
+        console.log(announData.value);
+    
 })
 </script>
 

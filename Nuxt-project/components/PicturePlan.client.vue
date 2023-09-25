@@ -4,7 +4,7 @@
          <div class="container-xl mt-4">
              <div class="progress-container">
                  <div class="d-flex justify-content-between mb-2 mt-3">
-                     <span class="fw-bold pt-1 2">Фотография и планировка</span>
+                     <span class="fw-bold pt-1 2">Ссылка Видео</span>
                      <button class="btn btn-none fs-5 p-0 m-0 text-primary me-2">
                          <font-awesome-icon :icon="['fas', 'circle-question']" />
                      </button>

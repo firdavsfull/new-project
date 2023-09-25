@@ -11,7 +11,7 @@
                     
                 </div>
 
-                    <h4 @click="navigateTo('/')" class="name-page cursor-pointer" style="text-transform:uppercase;">Avera</h4>
+                    <h4 @click="Home" class="name-page cursor-pointer" style="text-transform:uppercase;">Avera</h4>
                  
                 <div class="container-filters" v-if="desktopSize">
                     <ul class="lists">
@@ -159,6 +159,10 @@ function showModalWindow(){
     const {active,showMadoal} = useSwitch()
     document.body.style.overflow ='hidden';
     showMadoal.value = true
+}
+
+function Home(){
+    window.location.replace('/')
 }
 </script>
 

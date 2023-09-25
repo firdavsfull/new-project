@@ -112,9 +112,6 @@ function next(){
 
 const router = useRouter()
 onMounted(() => {
-    if (!announData.value[4]) {
-        router.push('/')
-    }
     if (JSON.parse(localStorage.getItem('announ'))[5]) {
         message.value = JSON.parse(localStorage.getItem('announ'))[5]
     } else {
