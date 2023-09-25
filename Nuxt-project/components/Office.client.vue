@@ -426,7 +426,6 @@
           </div>
 
           <div 
-          :style="!CommercialAnnoun.linkVideo ? 'border:1px solid red;' : 'border: 1px solid silver;'"
           class="mt-[15px] rounded-1 h-[30px]">
             <input
             @input="getLinkVideo"
@@ -511,7 +510,7 @@
 
         <div class="mt-[10px]">
           <div class="flex">
-            <next-btn class="btn btn-primary w-full font-bold"
+            <next-btn @click="post" class="btn btn-primary w-full font-bold"
               >Разместить</next-btn
             >
           </div>
@@ -662,6 +661,19 @@ const city = await getCity.json();
     }) 
   }
 
+const {announData} = getData()
+
+function post(){
+  announData.value[1] = CommercialAnnoun.value
+  announData.value[2] = infrastructure.value
+  localStorage.setItem('announ', JSON.stringify(announData.value))
+}
+
+onMounted(()=>{
+  if (!CommercialAnnoun.value || JSON.parse(localStorage.getItem('announ'))[1]) {
+    CommercialAnnoun.value = JSON.parse(localStorage.getItem('announ'))[1]
+  }
+})
 </script>
 <style scoped>
 * {
