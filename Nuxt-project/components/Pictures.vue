@@ -26,10 +26,11 @@
 
     <div
       v-if="pictures.length"
-      class="flex justify-center overflow-hidden md:mx-[auto] mt-[10px] w-[100%] min-h-[50px] rounded-[13px] border"
+      class="flex overflow-hidden mt-[10px] w-[100%] min-h-[50px] rounded-[13px] border"
     >
       <div
-        class="w-full p-[10px] sm:mx-[auto] mx-[auto] flex flex-wrap justify-start"
+        id="areaBorder"
+        class="w-full p-[10px] sm:mx-[auto] mx-[auto] flex flex-wrap"
         style="flex-basis: 100%"
       >
         <div
@@ -49,14 +50,14 @@
         >
         <div class="cursor-grab">
 
-          <div class="cursor-default z-[2] absolute top-[0] w-full bg-[black]/40 h-[30px]">
+          <div class="hover pointer-events-none transition duration-150 cursor-default z-[2] absolute top-[-30px] w-full bg-[black]/40 h-[30px]">
                 <div :data-id="index"
                     @click="removeImg(img, pictures)"
-                    class="cursor-pointer absolute overflow-hidden right-[10px] top-[4px] cursor-pointer text-[white] text-shadow text-[14px]"
+                    class="pointer-events-auto cursor-pointer absolute overflow-hidden right-[10px] top-[4px] cursor-pointer text-[white] text-shadow text-[14px]"
                       >
                       <font-awesome-icon :icon="['fas', 'trash']" />
                 </div>
-            <div @click="rotate(img)" class="absolute left-[8px] cursor-pointer top-[2px] text-[white]">
+            <div @click="rotate(img)" class="pointer-events-auto absolute left-[8px] cursor-pointer top-[2px] text-[white]">
               <font-awesome-icon :icon="['fas', 'rotate-right']" />
             </div>
           </div>
@@ -90,7 +91,7 @@
           v-if="images.length"
           class="border border-[blue] relative justify-center flex m-[10px] w-[48%] h-[150px] sm:h-[170px] sm:w-[125px] sm:h-[85px] md:w-[200px] md:h-[120px] lg:min-w-[180px] lg:h-[120px] rounded"
         ></div> -->
-        <div class="absolute bottom-[-14px] left-[50%]">{{ pictures.length }}</div>
+        
       </div>
     </div>
   </form>
@@ -141,14 +142,16 @@ let currentIndex = null;
 let enterIndex = null;
 function handleDragStart(e) {
   currentIndex = parseInt(e.target.dataset.id);
+  e.target.offsetParent.classList.add('dragging')
 }
 
 function handleDragEnter(picture) {
   enterIndex = parseInt(event.target.dataset.id);
-}
-function handleDragLeave(picture) {
   
 }
+// function handleDragLeave(picture) {
+  
+// }
 let startIndex = null
 function handleTouchStart(e) {
   document.body.style.overflow='hidden'
@@ -160,28 +163,26 @@ function handleTouchStart(e) {
 }
 
 function handleDrop(img,picture) {
-  const positions = picture[enterIndex].position
   const draggImage = picture[enterIndex];
-
   if (currentIndex !== null) {
     picture[enterIndex] =  picture[currentIndex]
     picture[currentIndex] = draggImage
-    
     picture.forEach((item,i)=>{
       item.position = i
     })
-    
-    console.log(currentIndex, enterIndex);
+    event.target.offsetParent.classList.remove('dragging')
     currentIndex = null;
     enterIndex = null;
   }
+}
+function handleDragLeave(){
+  return
 }
 
 function handleTouchEnd(img, picture) {
   document.body.style.overflow = ''
   const touches = event.changedTouches[0];
   const element = document.elementFromPoint(touches.clientX, touches.clientY);
-  
   const targetPhotoId = element.closest(".picture").dataset.id;
   const saveElems = picture[startIndex]
   picture[startIndex] = picture[targetPhotoId];
@@ -190,7 +191,6 @@ function handleTouchEnd(img, picture) {
   picture.forEach((item,index)=>{
     item.position = index
   })
-  console.log(picture);
 }
 
 
@@ -212,6 +212,16 @@ function rotate(img){
 </script>
 
 <style scoped>
+.hover {
+  transition: all .3s;
+}
+.dragging{
+  opacity: 0;
+  border-radius: 6px;
+}
+#images:hover .hover{
+  top: 0;
+}
 .lds-spinner {
   color: official;
   display: inline-block;

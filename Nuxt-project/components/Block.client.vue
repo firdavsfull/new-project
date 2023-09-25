@@ -69,18 +69,18 @@ function move() {
   
 }
 
-// onMounted(() => {
-//   announData.value[0] = JSON.parse(localStorage.getItem("announ"))[0];
-//   if (JSON.parse(localStorage.getItem("announ"))[1]) {
-//     mapObj.value = JSON.parse(localStorage.getItem("announ"))[1];
-//   } else {
-//     mapObj.value = mapObj1.value;
-//   }
-//   const inputs = document.querySelectorAll("input");
+onMounted(() => {
+  announData.value[0] = JSON.parse(localStorage.getItem("announ"))[0];
+  if (JSON.parse(localStorage.getItem("announ"))[1]) {
+    mapObj.value = JSON.parse(localStorage.getItem("announ"))[1];
+  } else {
+    mapObj.value = mapObj1.value;
+  }
+  const inputs = document.querySelectorAll("input");
   
-//   console.log(announData.value[0].objects);
+  console.log(announData.value[0].objects);
 
-// });
+});
 </script>
 <template>
   <div class="container-sm">
