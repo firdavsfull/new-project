@@ -20,7 +20,7 @@
 
             <div class="text-[#121212] font-[400] text-[14px] leading-[1.3]">
               <form class="mt-3">
-                <div class="dropdown mb-2" :style="!CommercialAnnoun.city ? 'border:1px solid red; border-radius:6px;':''">
+                <div class="dropdown mb-5 " :style="!CommercialAnnoun.city ? 'border:1px solid red; border-radius:6px;':''">
                   <a
                     class="btn form-control border dropdown-toggle-none position-relative"
                     href="#"
@@ -31,7 +31,7 @@
                   </a>
 
                   <ul
-                    style="height: 300px; overflow: auto"
+                    style="height:300px; overflow: auto"
                     class="dropdown-menu form-control"
                   >
                     <li  :data-name="c.name" v-for="c of city" :key="c.id">
@@ -156,7 +156,7 @@
             :style="!CommercialAnnoun.CeilingHeight ? 'border:1px solid red;':'border:1px solid silver'"
             >
               <input
-              v-model="CeilingHeight"
+                v-model="CeilingHeight"
                 class="border-0 outline-0 w-[100%] text-[14px] font-[450] text-[gray]"
                 v-maska
                 @input="getCeilingHeight"
@@ -261,10 +261,10 @@
               >
                 Количество мест
               </div>
-              {{CommercialAnnoun.numberSeats}}
+              
               <div
-               :style="!CommercialAnnoun.numberSeats ? 'border:1px solid red;':'border:1px solid silver'"
-               class="flex rounded-1 h-[30px] border px-[4px] w-[100px]">
+               :style="!CommercialAnnoun.numberSeats ? 'border:1px solid red;' : 'border: 1px solid silver;'"
+               class="flex rounded-1 h-[30px] px-[4px] w-[100px]">
                 <input
                   @input="getQuantitiySeats"
                   v-model="numberSeats"
@@ -293,7 +293,9 @@
                   Год постройки
                 </div>
 
-                <div class="flex rounded-1 h-[30px] border px-[4px] w-[100px]">
+                <div
+                :style="!CommercialAnnoun.yearConstruction ? 'border:1px solid red;' : 'border: 1px solid silver;'"
+                 class="flex rounded-1 h-[30px] px-[4px] w-[100px]">
                   <input
                     @input="getYearConstruction"
                     v-model="yearConstruction"
@@ -314,7 +316,8 @@
                 </div>
 
                 <div
-                  class="flex rounded-1 h-[30px] items-center border px-[4px] w-[90px]"
+                  :style="!CommercialAnnoun.buildingArea ? 'border:1px solid red;' : 'border: 1px solid silver;'"
+                  class="flex rounded-1 h-[30px] items-center px-[4px] w-[90px]"
                 >
                   <input
                   @input="getBuildingArea"
@@ -335,7 +338,8 @@
                 </div>
 
                 <div
-                  class="flex rounded-1 h-[30px] items-center border px-[4px] w-[90px]"
+                  :style="!CommercialAnnoun.plot ? 'border:1px solid red;' : 'border: 1px solid silver;'"
+                  class="flex rounded-1 h-[30px] items-center px-[4px] w-[90px]"
                 >
                   <input
                     @input="getPlot"
@@ -407,7 +411,7 @@
 
       <div
         class="p-[10px] mt-[5px] rounded-[10px] border-primary"
-        style="border: 2px dashed"
+        
       >
         <div>
           <Pictures />
@@ -421,12 +425,14 @@
             </div>
           </div>
 
-          <div class="mt-[15px] border rounded-1 h-[30px]">
+          <div 
+          :style="!CommercialAnnoun.linkVideo ? 'border:1px solid red;' : 'border: 1px solid silver;'"
+          class="mt-[15px] rounded-1 h-[30px]">
             <input
             @input="getLinkVideo"
               type="text"
               v-model="linkVideo"
-              class="w-full h-full border-0 outline-0 px-[10px]"
+              class="w-full h-full outline-0 px-[10px]"
               placeholder="Ссылка на youtube"
             />
           </div>
@@ -439,7 +445,9 @@
             </div>
           </div>
 
-          <div class="mt-[15px] border rounded-1 h-[30px]">
+          <div
+            :style="!CommercialAnnoun.title ? 'border:1px solid red;' : 'border: 1px solid silver;'"
+           class="mt-[15px] rounded-1 h-[30px]">
             <input
               @input="writeTitle"
               v-model="title"
@@ -456,7 +464,11 @@
             </div>
           </div>
 
-          <div class="mt-[15px] border rounded-1 h-[200px]">
+          <div 
+          class="mt-[15px] rounded-1 h-[200px]"
+          :style="!CommercialAnnoun.description || CommercialAnnoun.description.length < 15 ? 'border:1px solid red;' : 'border: 1px solid silver;'"
+          >
+          
             <textarea
               @input="writeDescription"
               v-model="description"
@@ -482,7 +494,8 @@
           </div>
 
           <div
-            class="flex rounded-1 h-[30px] items-center border px-[4px] w-[120px]"
+            :style="!CommercialAnnoun.price ? 'border:1px solid red;' : 'border: 1px solid silver;'"
+            class="flex rounded-1 h-[30px] items-center px-[4px] w-[120px]"
           >
             <input
               @input="getPrice"
@@ -518,7 +531,7 @@ const totalArea = ref()
 const floor = ref()
 const floorFrom = ref()
 const CeilingHeight = ref()
-const numberSeats = ref()
+const numberSeats = ref() 
 const yearConstruction = ref()
 const buildingArea = ref()
 const plot = ref()

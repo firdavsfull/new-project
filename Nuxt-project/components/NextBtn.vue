@@ -1,7 +1,6 @@
 <template>
         <button class=" rounded-1">
             <slot/>
-            
             </button>
 
 </template>

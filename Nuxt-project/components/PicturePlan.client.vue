@@ -106,9 +106,9 @@
                      <textarea v-model="apartmentParams.linkvideo" class="font-monospace"  id="link-video" rows="1" placeholder="https://"></textarea>
                  </div>
              </div>
-             <div class="container mt-4 mb-2 d-flex justify-content-end mx-1">
-             <next-btn class="btn btn-light text-primary px-4 mx-4" @click.prevent="prew">Назад</next-btn>    
-             <next-btn class="btn btn-primary px-4" @click.prevent="next" >Далее</next-btn>
+             <div class="container mt-4 mb-2 d-flex justify-content-end">
+                <next-btn class="btn btn-light text-primary px-4 mx-4" @click.prevent="prew">Назад</next-btn>    
+                <next-btn class="btn btn-primary px-4" @click.prevent="next" >Далее</next-btn>
              </div>
              
          </div>
