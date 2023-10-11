@@ -1,5 +1,12 @@
 <script setup>
-
+ymaps.ready(init);
+        function init(){
+            let myMap = new ymaps.Map("map-yandex", {
+                center: [38.576271, 68.779716],
+                zoom: 13
+            });
+            console.log(myMap);
+         }
 const { announData, responce } = getData();
 const floorObj = ref({
   floor: "",
@@ -96,7 +103,7 @@ onMounted(() => {
 });
 
 // });
-
+      
 </script>
 <template>
   <div class="container-sm">
@@ -164,11 +171,12 @@ onMounted(() => {
         width: 100%;
         height: 350px;
       "
+      id="map-yandex"
     >
-      <img
+      <!-- <div
         class="width:100%; height:350px"
-        src="https://geoawesomeness.com/wp-content/uploads/2022/03/maps-broadcom.png"
-      />
+        
+      ></div> -->
     </div>
     <div class="flex mt-4" id="floor"
     >
