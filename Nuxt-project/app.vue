@@ -10,6 +10,9 @@
   </div>
 </template>
 <script setup>
+useHead({
+  script:"https://api-maps.yandex.ru/2.1/?b63b3552-b483-4295-973e-47f4cb92f091&lang=ru_RU"
+})
   const {isShow, toggleShow, showMadoal,showNavBar} = useSwitch()
   const route = useRoute()
   const mobileOrDesktop = ref()

@@ -6,9 +6,7 @@ export default defineNuxtConfig({
     "bootstrap/dist/css/bootstrap.min.css",
   ],
 
-  plugins: [
-    { src: '~/plugins/maps', mode: 'client' },
-  ],
+  
   modules: [
   'nuxt-icon',
   '@nuxtjs/tailwindcss',
@@ -28,8 +26,7 @@ build: {
          
         // ./public/bootstrap.bundle.min.js
         ],
-      link: [
-      ],
+      link: [],
       style: [
       ],
       noscript: [

@@ -1,18 +1,27 @@
 <template>
         <div class="flex flex-col w-[100vw] h-[max-contetnt]">
             
-            <div class="h-[50px] flex md:flex responce">
-                <div class="h-full flex items-center justify-center w-[100%] mx-[2px]" style="border: 1px solid rgb(0, 119, 255);">
+            <div class="h-[50px] flex md:flex responce" style="border-bottom:1px solid silver">
+                <div class="h-full flex items-center justify-center w-[100%] mx-[2px]">
+                    <div>
+                        <font-awesome-icon class="text-primary mr-[2px]" :icon="['fas', 'filter']" />
+                    </div>
                     <button @click="filters" >
                         <span class="font-bold text-[14px] text-primary">Фильтры</span>
                     </button>
                 </div>
-                <div class="h-full w-[100%] flex items-center justify-center mx-[2px]" style="border: 1px solid rgb(0, 119, 255);">
+                <div class="h-full w-[100%] flex items-center justify-center mx-[2px]" style="border-right:1px solid silver;border-left:1px solid silver;">
+                    <div>
+                        <font-awesome-icon class="text-primary mr-[2px]" :icon="['fas', 'save']" />
+                    </div>
                     <button>
                         <span class="font-bold text-[14px] text-primary">Сохранить</span>
                     </button>
                 </div>
-                <div class="h-full w-[100%] flex items-center justify-center mx-[2px]" style="border: 1px solid rgb(0, 119, 255);">
+                <div class="h-full w-[100%] flex items-center justify-center mx-[2px]" style="">
+                    <div>
+                        <font-awesome-icon class="text-primary mr-[2px]" :icon="['fas', 'location-dot']" />
+                    </div>
                     <button>
                         <span class="font-bold text-[14px] text-primary">На карте</span>
                     </button>
@@ -21,7 +30,7 @@
             <div  class="box-border py-[0]">
                 <div class="flex flex-col w-full px-[20px]">
                     <article v-for="(item,i) of data"  :key="item.id" class="relative my-[10px] w-full h-[max-content] rounded mx-[0px]" style="box-shadow: 0 0 9px rgb(134, 134, 134);">
-                        <div class="flex lg:flex-row md:flex-row md:px-[10px] w-full flex-col  transition-all cursor-pointer rounded-[0] " style="padding:15px 15px;">
+                        <div class="flex  lg:flex-row md:flex-row md:px-[10px] w-full flex-col  transition-all cursor-pointer rounded-[0] " style="padding:15px 15px;">
                             <NuxtLink class="flex relative bg-[black]/10 h-[300px]">
                                 <div :id="`carouselExampleIndicators-${i}`" class="carousel slide" data-bs-ride="carousel" style="overflow: hidden; height: 100%;">
                                     <div class="carousel-indicators">
@@ -36,7 +45,7 @@
                                         <div v-for="(elem, index) in data[i].image" :key="`slide-${i}-${index}`"
                                         style="height: 100%;" 
                                             :class="{ 'carousel-item': true, 'active': index === 0 }">
-                                            <img :src="`http://127.0.0.1:8000/api/image/large/${elem.pictures}`" class="h-full" style="object-fit: cover;">
+                                            <img :src="`http://192.168.100.45:8000/api/image/large/${elem.pictures}`" class="h-full" style="object-fit: cover;">
                                         </div> 
                                     </div> 
                                     <button class="carousel-control-prev" type="button" :data-bs-target="`#carouselExampleIndicators-${i}`" data-bs-slide="prev">
@@ -52,7 +61,7 @@
 
                             <div class="flex lg:w-[100%] lg:justify-between flex-wrap sm:flex-col md:flex-row lg:flex-row">
 
-                                <div class="lg:mx-[10px]  sm:w-full lg:w-[max-content]">
+                                <div class="lg:mx-[10px] lg:ml-[15px] sm:w-full lg:w-[max-content]">
                                     <span class="block font-bold leading-[28px] text-[22px] tracking-normal text-[#0468ff]">
                                         <span class="font-bold leading-[28px] text-[22px] tracking-normal">
                                             {{item.title}}.
@@ -94,7 +103,7 @@
                                 <div class="w-[200px] regular-w bg-[silver] h-[max-content] md:d-none mr-[0] h-[100px]" >
                                     <div class="flex flex-col items-center mt-[10px] relative">
                                         <div class="overflow-hidden flex justify-center items-center w-[80px] avatar_image rounded-[5%] h-[80px] bg-[red]">
-                                            <img style="object-fit: cover;" class="w-full h-full bg-[lime]" :src="`http://127.0.0.1:8000/api/avatar/${item.owner.avatar}`" :alt="item.owner.name">
+                                            <img style="object-fit: cover;" class="w-full h-full bg-[lime]" :src="`http://192.168.100.45:8000/api/avatar/${item.owner.avatar}`" :alt="item.owner.name">
                                         </div>
                                         <div class="mt-[10px] avatar_image">
                                             <h5 class="text-[17px]">{{ item.owner.name?item.owner.name:item.owner.email }} {{ item.owner.last_name }}</h5>
@@ -169,7 +178,7 @@ function filters(){
 
 onMounted(async () =>{
     showNavBar.value = true
-    await fetch('http://127.0.0.1:8000/api/get_announs',{
+    await fetch('http://192.168.100.45:8000/api/get_announs',{
         method:'post',
         headers:{
             "Content-Type":'application/json'
@@ -191,7 +200,7 @@ onMounted(async () =>{
         ownerWithAd.push(data.value[i].owner_id);
         
     }
-    await fetch('http://127.0.0.1:8000/api/get_user_with_announ',{
+    await fetch('http://192.168.100.45:8000/api/get_user_with_announ',{
         method:'post',
         headers:{
             "Content-Type":'application/json'
@@ -247,5 +256,12 @@ onMounted(async () =>{
     .flex .flex-col .items-center{
         margin-top: 0;
     }
+    .regular-w{
+        display: none;
+    }
+}
+
+@media screen and (min-width: 1024px) {
+    
 }
 </style>

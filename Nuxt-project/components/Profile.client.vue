@@ -9,7 +9,7 @@
                                             <a style="flex: 0 0 56px; user-select: none; text-decoration: none;" class="mr-[15px] overflow-hidden rounded-[50%] flex justify-center items-center h-[56px] overflow-hidden"
                                                 >
                                                 <span  class="rounded-[50%] bg-[silver] w-[92%] h-[52px] ">
-                                                    <img v-if="avatar || id.avatar" :src="`http://127.0.0.1:8000/api/avatar/${avatar? avatar :id.avatar}`" class="w-full h-full rounded-[50%]">
+                                                    <img v-if="avatar || id.avatar" :src="`http://192.168.100.45:8000/api/avatar/${avatar? avatar :id.avatar}`" class="w-full h-full rounded-[50%]">
                                                 </span>
                                             </a>
                                             <div class="flex flex-col justify-center" style="flex: 1 1;">
@@ -151,7 +151,7 @@ async function addNewPicture(event){
     formData.append('phone', id.phone_number)
     // console.log(formData.get('phone'));
 
-    await fetch('http://127.0.0.1:8000/api/avatar',{
+    await fetch('http://192.168.100.45:8000/api/avatar',{
         method:'post',
         headers:{
             Authorization:'Bearer '+JSON.parse(localStorage.getItem('owner'))[0] 
@@ -167,7 +167,7 @@ async function addNewPicture(event){
 }
 
 async function sendData(){
-   await fetch('http://127.0.0.1:8000/api/update_user',{
+   await fetch('http://192.168.100.45:8000/api/update_user',{
         method:'post',
         headers:{
             "Content-Type":'application/json',
@@ -194,7 +194,7 @@ async function sendData(){
 }
 
 async function sendMessage(){
-    await fetch('http://127.0.0.1:8000/api/send_message',{
+    await fetch('http://192.168.100.45:8000/api/send_message',{
         method:'post',
         headers:{
             "Content-Type":'application/json',
@@ -216,7 +216,7 @@ function confirm(){
     console.log(password.value,confirm_password.value);
 }
 onMounted(async ()=>{
-    await fetch('http://127.0.0.1:8000/api/get_user',{
+    await fetch('http://192.168.100.45:8000/api/get_user',{
         method:'post',
         headers:{
             "Content-Type":'application/json',

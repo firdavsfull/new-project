@@ -176,7 +176,7 @@ async function place() {
   loading.value = true;
   // const data = localStorage.getItem('announ')
   // return console.log(data);
-  await fetch("http://127.0.0.1:8000/api/create/announ", {
+  await fetch("http://192.168.100.45:8000/api/create/announ", {
     method: "post",
     headers: {
       "Content-Type": "application/json",
@@ -197,7 +197,7 @@ async function place() {
     formD.append("images[]", item.file);
   }
 
-  await fetch("http://127.0.0.1:8000/api/upload-image", {
+  await fetch("http://192.168.100.45:8000/api/upload-image", {
     method: "post",
     headers:{
       Authorization:'Bearer '+JSON.parse(localStorage.getItem('owner'))[0] 
@@ -213,7 +213,7 @@ async function place() {
       }
     });
 
-  await fetch("http://127.0.0.1:8000/api/save-pictures", {
+  await fetch("http://192.168.100.45:8000/api/save-pictures", {
     method: "post",
     headers: {
       "content-Type": "application/json",
@@ -262,7 +262,7 @@ elems.forEach((elem) => {
   });
 });
 
-const conditions = fetch("http://127.0.0.1:8000/api/conditions");
+const conditions = fetch("http://192.168.100.45:8000/api/conditions");
 const condition = await conditions;
 const c = ref(await condition.json());
 const cond = ref(

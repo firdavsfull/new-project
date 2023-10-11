@@ -60,7 +60,7 @@
         <div class="px-[9px] mt-[16px]">
           <div class="flex w-[230px] justify-between flex-nowrap">
             <input
-              :checked="isCheck1 == 'buy'"
+              :checked="filters.dealType == 'Продажа'"
               data-route="buy"
               @change="check"
               name="btnradio"
@@ -80,7 +80,7 @@
               >
             </label>
             <input
-              :checked="isCheck1 == 'take_off'"
+              :checked="filters.dealType == 'Аренда'"
               data-route="take_off"
               @change="check"
               name="btnradio"
@@ -122,7 +122,7 @@
           </div>
         </div>
 
-        <div class="px-[8px] mt-[26px]" v-if="isCheck1 == 'buy' || filter.typeObject == 'Квартира'">
+        <div v-if="filters.dealType === 'Продажа'" class="px-[8px] mt-[26px]">
           <div class="flex w-[230px] justify-between flex-nowrap">
             <input
               @click="select"
@@ -183,7 +183,7 @@
 
         <MobileFilterUITypeHome :updateFilters="sessionFilter" :filter="filter"  :updateLoader="updateLoader" :uploadQuantityRoom="uploadQuantityRoom" :updateData="updateData"/>
         
-        <div class="mt-[40px] px-[8px]">
+        <div class="mt-[40px] px-[8px]" v-if="filter.dealType ==  'Аренда' || filters.dealType ==  'Аренда'">
           <div class="flex items-center">
             <div
               style="font-family: Lato, Arial, sans-serif"
@@ -524,6 +524,7 @@
         <div>
           <button
             class="py-[6px] px-[12px] h-[40px] rounded items-center bg-[rgba(4,104,255,.1)] flex flex-nowrap"
+            @click="navigateTo('/yandex-map')"
           >
             <span>
               <font-awesome-icon
@@ -590,7 +591,7 @@ function uploadQuantityRoom(value){
   showQuantityRoom.value = value
 }
 
-
+// const filters = ref(JSON.parse)
 const price = ref({
   from: "",
   to: "",
@@ -771,7 +772,7 @@ async function check(event) {
     
   }
   loader.value = true;
-  await fetch("http://127.0.0.1:8000/api/filter", {
+  await fetch("http://192.168.100.45:8000/api/filter", {
     method: "post",
     headers: {
       "Content-type": "application/json",
@@ -815,7 +816,7 @@ async function selectQuanitityRoom(event) {
   filter.value.quantityRoom = route.query.quantityRoom = qtRoom;
   sessionStorage.setItem("filter", JSON.stringify(filter.value));
   loader.value = true;
-  await fetch("http://127.0.0.1:8000/api/filter", {
+  await fetch("http://192.168.100.45:8000/api/filter", {
     method: "post",
     headers: {
       "Content-type": "application/json",
@@ -836,7 +837,7 @@ const isCheck1 = ref("");
 const cities = ref();
 
 const c = ref()
-const conditions = fetch('http://127.0.0.1:8000/api/conditions')
+const conditions = fetch('http://192.168.100.45:8000/api/conditions')
 const condition = await conditions
 c.value = await condition.json() 
 
@@ -859,9 +860,10 @@ const technics = [
         // c.value = c.value.filter(item=>{
         //     return item.name == 'На кухне' || item.name == 'В комнатах'
         // })
+        const filters = ref(JSON.parse(sessionStorage.getItem("filter")));
 onMounted(async () => {
         
-  sessionStorage.setItem('filter',JSON.stringify(filter.value))
+  // sessionStorage.setItem('filter',JSON.stringify(filter.value))
   if (navigator.maxTouchPoints < 1) {
     router.push("/");
   }
@@ -871,15 +873,15 @@ onMounted(async () => {
       isCheck1.value = item.dataset.route;
     }
   });
-  const filters = JSON.parse(sessionStorage.getItem("filter"));
+  
   showNavBar.value = false;
   loader.value = true;
-  await fetch("http://127.0.0.1:8000/api/filter", {
+  await fetch("http://192.168.100.45:8000/api/filter", {
     method: "post",
     headers: {
       "Content-Type": "application/json",
     },
-    body: JSON.stringify(filter.value),
+    body: JSON.stringify(filters.value),
   })
     .then((res) => res.json())
     .then((res) => {
@@ -888,7 +890,7 @@ onMounted(async () => {
     });
   loader.value = false;
 
-  const cityUrl = fetch(`http://127.0.0.1:8000/api/city`);
+  const cityUrl = fetch(`http://192.168.100.45:8000/api/city`);
   const c = await cityUrl;
   cities.value = await c.json();
 });

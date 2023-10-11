@@ -5,7 +5,7 @@
                 <li class="flex-wrap my-[15px] flex flex-col justify-center p-[8px] bg-[silver] w-[100%]" v-for="(announ,index) of myAnnoun" :key="index" >
                 <div class="flex m-0 p-0">
                     <div class="h-full m-[0] w-[200px]">
-                        <img class="w-[200px] h-full" :src="`http://127.0.0.1:8000/api/image/small/${announ.image}`">
+                        <img class="w-[200px] h-full" :src="`http://192.168.100.45:8000/api/image/small/${announ.image}`">
                     </div>
                     <div class="flex h-[100px] ml-[10px]">
                         <h3 class="flex text-[18px]">
@@ -45,7 +45,7 @@ function updateAnnoun(){
 const myAnnoun = ref()
 const user =  JSON.parse(localStorage.getItem('owner'))[1];
 onMounted(async()=>{
-    await fetch('http://127.0.0.1:8000/api/get_announs_by_user',{
+    await fetch('http://192.168.100.45:8000/api/get_announs_by_user',{
         method:'post',
         headers:{
             "Content-Type":"application/json",

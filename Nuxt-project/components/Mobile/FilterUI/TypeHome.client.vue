@@ -48,7 +48,7 @@
 const route = useRoute();
 const saveText = ref('');
 const items = ref([
-      { name: 'check1', label: 'Квартира', checked: false },
+      { name: 'check1', label: 'Квартира', checked: true },
       { name: 'check2', label: 'Комната', checked: false },
       { name: 'check3', label: 'Дом/дача', checked: false },
       { name: 'check4', label: 'Коттедж', checked: false },
@@ -66,7 +66,7 @@ const text = ref([]);
       text.value = selectedItems.slice();
 
       props.filter.typeObject = text.value;
-      sessionStorage.setItem('filter', JSON.stringify(props.filter));
+      // sessionStorage.setItem('filter', JSON.stringify(props.filter));
       if (props.filter.typeObject.length && props.filter.typeObject.indexOf('Квартира') !== -1) {
         props.uploadQuantityRoom(true)
       }else{
@@ -90,10 +90,17 @@ const props = defineProps({
         items.value.pop()
       }
     }
+    
     const choose = ref('')
+    items.value.forEach(item => {
+        if (item.checked) {
+          props.filter.typeObject = choose.value = item.label
+          sessionStorage.setItem('filter',JSON.stringify(props.filter))
+          }
+      })
     async function check(event) {
     if (event.target.name == "check") {
-      choose.value = event.target.dataset.name
+          choose.value = event.target.dataset.name
       props.filter.typeObject = choose.value;
       sessionStorage.setItem('filter', JSON.stringify(props.filter));
       console.log(props.filter);
@@ -104,7 +111,7 @@ const props = defineProps({
       }
     }
     props.updateLoader(true)
-  await fetch("http://127.0.0.1:8000/api/filter", {
+  await fetch("http://192.168.100.45:8000/api/filter", {
     method: "post",
     headers: {
       "Content-type": "application/json",

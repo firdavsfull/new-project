@@ -319,18 +319,23 @@
             required:true
         }
     })
+const sStorage = {}
 
 const {showNavBar,isShow} = useSwitch()
 const router = useRouter()
 function filter(event){
         showNavBar.value = isShow.value = false 
-        const items = document.querySelectorAll('.filters > .filter');
-        items.forEach(item =>{
-            item.children[1].dataset.name = item.dataset.name
-            if (item.dataset.name === event.target.dataset.name && navigator.maxTouchPoints > 0) {
-                router.push(`filters/${event.target.dataset.name}`)
-            }
-        })
+        if (event.target.textContent == 'Купить') {
+            sStorage.dealType = 'Продажа'
+            sStorage.typeObject = []
+            sessionStorage.setItem('filter', JSON.stringify(sStorage))
+        }
+        if (event.target.textContent == 'Снять') {
+            sStorage.dealType =  'Аренда'
+            sStorage.typeObject = []
+            sessionStorage.setItem('filter', JSON.stringify(sStorage))
+        }
+        router.push('/filters/buy')
     }
 
 useHead({title:'Аренда и Продажа Квартир'})
@@ -345,9 +350,9 @@ useHead({title:'Аренда и Продажа Квартир'})
     }
         const {announ} = getData()
         
-            // for (const item of props.pictures) {
-            //     console.log(item);
-            // }
+            onMounted(()=>{
+                console.log(sStorage);
+            })
 </script>
 
 <style scoped>
