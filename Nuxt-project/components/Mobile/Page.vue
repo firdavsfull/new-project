@@ -76,13 +76,13 @@
                     Могут подойти
                 </span>
                 <div class="list-addition">
-                    <a href="#" target="_blank" class="addition">
-                        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQQnEZ7edY6KKnt2NgvImi2PNmri8SDsKmvkA&usqp=CAU" alt="">
-                        <span class="price nowrap">130&nbsp;000$</span>
-                        <span class="description nowrap">casdbfckasdbfa;jbfasjbah;ljkbhaklj</span>
-                        <span class="description nowrap">Душанбе</span>    
+                    <a href="#" v-for="item of announ" :key="item.id" target="_blank" class="addition">
+                        <img :src="`http://192.168.0.114:8000/api/image/medium/${item.image}`">
+                        <span class="price nowrap">{{item.price}}$</span>
+                        <span class="description nowrap">{{item.description}}</span>
+                        <span class="description nowrap">{{item.city}}</span>    
                     </a>
-                    <a href="#" target="_blank" class="addition">
+                    <!-- <a href="#" target="_blank" class="addition">
                         <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSDD7aO2be4WMGJPPTmH57IbYu3-PiCVjAciA&usqp=CAU" alt="">
                         <span class="price nowrap">260&nbsp;000$</span>
                         <span class="description nowrap">This is the first apartament from Dushanbe city</span>
@@ -111,7 +111,7 @@
                         <span class="price nowrap">900&nbsp;000$</span>
                         <span class="description nowrap">fdsaf;asughlksjdfhalskjfahlskfja</span>
                         <span class="description nowrap">Вахдат</span>
-                    </a>
+                    </a> -->
                 </div>
             </section>
 
@@ -313,6 +313,13 @@
     </div>
 </template>
 <script setup>
+    const props = defineProps({
+        pictures:{
+            type: Array,
+            required:true
+        }
+    })
+
 const {showNavBar,isShow} = useSwitch()
 const router = useRouter()
 function filter(event){
@@ -336,8 +343,11 @@ useHead({title:'Аренда и Продажа Квартир'})
             active.value = false
         }
     }
-
-    
+        const {announ} = getData()
+        
+            // for (const item of props.pictures) {
+            //     console.log(item);
+            // }
 </script>
 
 <style scoped>

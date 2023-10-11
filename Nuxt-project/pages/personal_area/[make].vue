@@ -1,5 +1,5 @@
 <template>
     
-    <Profile />    
+    <PersonalArea />    
     
 </template>

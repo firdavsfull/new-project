@@ -3,6 +3,7 @@ export default function useSwitch(){
     const active = useState('isActive',() => false)
     const showMadoal = useState('showM', () => false)
     const showNavBar = useState('navBar',()=> true)
+    const showCity = useState('showCity',() => false)
     const toggleShow = () => isShow.value = !isShow.value
-    return {showNavBar, showMadoal, isShow, toggleShow, active }
+    return {showCity,showNavBar, showMadoal, isShow, toggleShow, active }
 }

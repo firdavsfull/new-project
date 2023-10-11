@@ -43,9 +43,9 @@
 <script setup>
 const route = useRoute()
 const {isShow,showMadoal, toggleShow, active} = useSwitch()
-const {responce} = getData()
-
-
+const {responce,direction} = getData()
+responce.value = JSON.parse(localStorage.getItem('owner')) || []
+const data = responce.value[1] || {}
 function Announ(){
     if (navigator.maxTouchPoints) {
         active.value = false
@@ -53,18 +53,18 @@ function Announ(){
         
         document.body.style.overflow = 'auto'
         isShow.value = true
-        if (responce.value) {
-            console.log(navigateTo('/announ'));   
+        if (data.phone_number) {
+            window.location.replace('/announ')   
             showMadoal.value = false
             isShow.value = false
         }else{
-            showMadoal.value = true            
+            showMadoal.value = true
+            direction.value = '/announ'            
         }
         
 
     }
             
-                window.location.replace('/announ')
             
 }
 

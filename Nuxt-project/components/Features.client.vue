@@ -133,11 +133,11 @@ const balcon = ref('')
 function isBalcon(event){
     balcon.value = event.target.textContent 
     if (balcon.value == 'есть') {
-        aprtFeatures.value.balcon = 1
-        aprtFeatures1.value.balcon = 1
+        aprtFeatures.value.balcon = 'есть'
+        aprtFeatures1.value.balcon = 'есть'
     } else{
-        aprtFeatures.value.balcon = 0
-        aprtFeatures1.value.balcon = 0
+        aprtFeatures.value.balcon = "нет"
+        aprtFeatures1.value.balcon = "нет"
     };
 }
 
@@ -150,11 +150,11 @@ function withRepair(event){
 const elevator = ref('')
 function withElevator(event){
     if (event.target.textContent == 'есть') {
-        elevator.value = aprtFeatures.value.elevator = 1
-        aprtFeatures1.value.elevator = 1
+        elevator.value = aprtFeatures.value.elevator = "есть"
+        aprtFeatures1.value.elevator = "есть"
     } else{
-        aprtFeatures.value.elevator = 0
-        aprtFeatures1.value.elevator = 0
+        aprtFeatures.value.elevator = "нет"
+        aprtFeatures1.value.elevator = "нет"
     }
 }
 

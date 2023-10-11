@@ -1,3 +1,4 @@
+
 <!-- :style="announData[0].objects == 'Квартира' || announData[0].objects !== 'Комната'? 'margin-top: 80px;' : ''" -->
 <template>
   <form

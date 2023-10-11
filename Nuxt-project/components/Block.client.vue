@@ -14,7 +14,7 @@ const showCities = ref();
 const cityName = ref("");
 
 async function selectCity() {
-  const cityUrl = fetch(`http://192.168.0.114:8000/api/city`);
+  const cityUrl = fetch(`http://127.0.0.1:8000/api/city`);
   const c = await cityUrl;
   const city = await c.json();
   showCities.value = city;
@@ -79,16 +79,6 @@ onMounted(() => {
   const inputs = document.querySelectorAll("input");
 
 
-
-onMounted(() => {
-  announData.value[0] = JSON.parse(localStorage.getItem("announ"))[0];
-  if (JSON.parse(localStorage.getItem("announ"))[1]) {
-    mapObj.value = JSON.parse(localStorage.getItem("announ"))[1];
-  } else {
-    mapObj.value = mapObj1.value;
-  }
-  const inputs = document.querySelectorAll("input");
-
 // onMounted(() => {
 //   announData.value[0] = JSON.parse(localStorage.getItem("announ"))[0];
 //   if (JSON.parse(localStorage.getItem("announ"))[1]) {
@@ -97,14 +87,8 @@ onMounted(() => {
 //     mapObj.value = mapObj1.value;
 //   }
 //   const inputs = document.querySelectorAll("input");
-
-
   
   console.log(announData.value[0].objects);
-
-
-});
-
 
   if (!announData.value[0]) {
     router.push('/announ')
@@ -112,6 +96,7 @@ onMounted(() => {
 });
 
 // });
+
 </script>
 <template>
   <div class="container-sm">
@@ -263,7 +248,7 @@ onMounted(() => {
             data-maska="####"
             class="form-control"
           />
-          <p v-if="mapObj.year < 1950" class="text-[red] mt-[4px] text-[13px]">Укажите год позднее 1950</p>
+          <p v-if="mapObj.year < 1950" class="text-[red] mt-[4px] text-[12px]">Укажите год позднее 1950</p>
         </div>
       </div>
     </div>

@@ -426,7 +426,7 @@
           </div>
 
           <div 
-          class="mt-[15px] rounded-1 h-[30px]">
+          class="mt-[15px] border rounded-1 h-[30px]">
             <input
             @input="CommercialAnnoun.linkVideo"
               type="text"
@@ -508,13 +508,13 @@
           </div>
         </div>
 
-        <div class="mt-[10px]">
+        <div class="mt-[10px] items-center flex flex-col md:flex-row-reverse justify-start">
           <div class="flex">
             <next-btn @click="post" class="btn btn-primary w-full font-bold"
               >Разместить</next-btn
             >
           </div>
-          <div class="flex mt-[5px]">
+          <div class="md:flex mt-[5px]  md:mt-[0] mx-[5px]">
             <next-btn class="btn btn-light w-full text-primary"
               >Сохранить черновик</next-btn
             >
@@ -540,14 +540,14 @@ const title = ref()
 const description = ref()
 const price = ref()
 
-const data = fetch("http://192.168.0.114:8000/api/infrastructure");
+const data = fetch("http://127.0.0.1:8000/api/infrastructure");
 const dataFetch = await data;
 const d = await  dataFetch.json();
 
 const firstData = ref(d.filter((item) => item.id < 14));
 const secondData = ref(d.filter((item) => item.id > 14));
 
-const getInfo = fetch("http://192.168.0.114:8000/api/city");
+const getInfo = fetch("http://127.0.0.1:8000/api/city");
 const getCity = await getInfo;
 const city = await getCity.json();
 
@@ -663,18 +663,35 @@ const city = await getCity.json();
 
 const {announData} = getData()
 
-function post(){
+async function post(){
   announData.value[0] = JSON.parse(localStorage.getItem('announ'))[0]
   announData.value[1] = CommercialAnnoun.value
   announData.value[2] = infrastructure.value
   localStorage.setItem('announ', JSON.stringify(announData.value))
+  await fetch('http://127.0.0.1:8000/api/create/announ/commercial',{
+    method:'post',
+    headers:{
+      "Content-Type":'application/json',
+      Authorization:'Bearer '+JSON.parse(localStorage.getItem('owner'))[0]
+    },
+    body:JSON.stringify({commercial: announData.value})
+  })
+  .then(responce=>{
+    if (responce.ok) {
+      navigateTo('/personal_area/my_announ')
+    }
+    return responce.json()
+    })
+  .then(res=>{
+    console.log(res);
+  })
 }
 
-onMounted(()=>{
-  if (!CommercialAnnoun.value && JSON.parse(localStorage.getItem('announ'))[1]) {
-    CommercialAnnoun.value = JSON.parse(localStorage.getItem('announ'))[1]
-  }
-})
+  onMounted(()=>{
+    if (!CommercialAnnoun.value && JSON.parse(localStorage.getItem('announ'))[1]) {
+      CommercialAnnoun.value = JSON.parse(localStorage.getItem('announ'))[1]
+    }
+  })
 </script>
 <style scoped>
 * {

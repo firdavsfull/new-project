@@ -41,17 +41,17 @@
                 <div class="containers-icons">
                     <div class="utilities" >
                         <div class="containers ">
-                            <a href="#" class="buttons">
+                            <button @click="message" class="buttons">
                                 <font-awesome-icon style="font-size:18px;" :icon="['far', 'comment']" />
-                            </a>
+                            </button>
                         </div>
-                        <a href="#" class="buttons">
+                        <button @click="favorite" class="buttons">
                             <font-awesome-icon style="font-size:18px;" :icon="['far', 'heart']" />
-                        </a> 
+                        </button> 
                         <div class="bell" v-if="desktopSize">
-                            <a href="#" class="buttons">
+                            <button @click="notification" class="buttons">
                             <font-awesome-icon style="font-size:18px;" :icon="['far', 'bell']" />
-                        </a>
+                            </button>
                         </div>
                     </div>
 
@@ -66,15 +66,15 @@
                     </NuxtLink>
                 </div>
                     <!-- Here will be button login -->
-                        <a  rel="noopener" v-if="mobileSize && !responce" href="#" class="login" @click="showModalWindow">
+                        <a  rel="noopener" v-if="!data.phone_number" href="#" class="login" @click="showModalWindow">
                             <span>
                                 Войти
                             </span>
                         </a>
-                    <div v-if="responce" class="user" @click="logOut" style="background-image: url('https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT-LrvIVmzeZeZD2B2ORYLqh4vSvvikDmvEueeOA3iPZrol4NCKI6u5ndItGrfs_wwLdWo&usqp=CAU');">
+                    <div v-if="data.phone_number" class="user" @click="logOut" :style="`background-image: url('http://127.0.0.1:8000/api/avatar/${data.avatar}');`">
                     </div>
             </div>
-
+            <!-- mobileSize &&  -->
         </div>
     </div>
     <div class="container-menu" v-if="!showModal" :class="!active ? `active`: 'no-active'">
@@ -92,14 +92,21 @@
     const route = useRoute()
     const router = useRouter()
     const {isShow, toggleShow, active,showMadoal} = useSwitch();
-    const {responce} = getData()
-
-    responce.value = JSON.parse(localStorage.getItem('owner'))
+    const {responce,direction} = getData()
+    responce.value = JSON.parse(localStorage.getItem('owner')) || []
+    const data = responce.value[1] || {}
+    
     function showAndHide(){
-            window.location.replace('/announ')
-            localStorage.removeItem('announ')
-            isShow.value = false
-    }       
+     if (data.phone_number) {
+         window.location.replace('/announ')
+         localStorage.removeItem('announ')
+         isShow.value = false
+     }else{
+        showMadoal.value = true
+        direction.value = '/announ'
+     }
+    
+        }       
  function isActive(){
      if(!active.value){
         active.value = true;
@@ -149,15 +156,47 @@ onBeforeUnmount(()=>{
 
 
 function logOut(){
-    navigateTo('/profiles/profile')
+    navigateTo('/personal_area/profile')
     document.body.style.overflow = 'auto'
     isShow.value = false
 
 }
 
+function message(){
+    if (data.phone_number) {
+        navigateTo(('/personal_area/message'))
+        document.body.style.overflow = 'auto'
+        isShow.value = false
+    }else{
+        showMadoal.value = true
+        direction.value = '/personal_area/message'
+    }
+}
+function favorite(){
+    if (data.phone_number) {
+        navigateTo('/personal_area/favorite')
+        document.body.style.overflow = 'auto'
+        isShow.value = false
+    }else{
+        showMadoal.value = true
+        direction.value = '/personal_area/favorite'
+    }
+}
+
+function notification(){
+    if (data.phone_number) {
+        navigateTo('/personal_area/notification') 
+        document.body.style.overflow = 'auto'
+        isShow.value = false
+    }else{
+        showMadoal.value = true
+        direction.value = '/personal_area/notification'
+    }
+}
 function showModalWindow(){
     const {active,showMadoal} = useSwitch()
     document.body.style.overflow ='hidden';
+    direction.value = '/personal_area/profile'
     showMadoal.value = true
 }
 
@@ -405,7 +444,7 @@ function Home(){
         height: 44px;
         border-radius: 50%;
         background-position: center;
-        background-size: 120%;
+        background-size: cover;
         background-repeat: no-repeat;
         outline: none;
         cursor: pointer;

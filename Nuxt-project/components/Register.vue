@@ -34,15 +34,19 @@
         />
         <button
           @click.prevent="createUser"
-          :class="tel.phone.length >= 19 ? 'btn-primary text-white' : 'bg-light'"
+          :class="tel.phone.length >= 19 ? 'bg-primary text-white py-[5px]' : 'bg-light'"
           style="font-family: Lato, Arial, sans-serif"
-          class="text-primary btn mt-[10px] flex align-items-center"
+          class="mt-[10px] rounded-1 flex justify-center h-[40px] text-[rgba(13,110,253,1)] py-[6px] items-center"
         >
           <span v-if="!loader">Получить код</span> 
-          <span v-if="loader" class="spinner-btn" style="color: white;">
+          <!-- <span v-if="loader" class="spinner-btn" style="color: white;">
             <span class="spinner"></span>
-          </span>
+          </span> -->
           
+          <div v-if="loader" class="spinner-border" role="status">
+            <span class="sr-only">Loading...</span>
+          </div>
+
         </button>
         <button
           style="font-family: Lato, Arial, sans-serif"
@@ -75,6 +79,8 @@ input::-webkit-inner-spin-button {
 </style>
 <script setup>
 const loader = ref(false);
+const { responce,direction } = getData();
+const { showMadoal,active } = useSwitch();
 function hideModal() {
   const { showMadoal, active } = useSwitch();
   document.body.style.overflow = "scroll";
@@ -87,8 +93,8 @@ const tel = ref({
 });
 async function createUser() {
   loader.value = true;
-  if (tel.value.phone && tel.value.phone.length >= 9) {
-    await fetch("http://192.168.0.114:8000/api/create_user", {
+  if (tel.value.phone.length >= 19) {
+    await fetch("http://127.0.0.1:8000/api/create_user", {
       method: "post",
       headers: {
         "Content-type": "application/json",
@@ -98,55 +104,78 @@ async function createUser() {
       }),
     })
       .then((res) => {
+        if (res.ok) {
+          window.location.replace(direction.value)
+          active.value = false
+        }
         return res.json();
       })
       .then((res) => {
-        const { responce } = getData();
-        const { showMadoal } = useSwitch();
-
-        console.log(res);
+        
         showMadoal.value = false;
         responce.value = res;
         localStorage.setItem("owner", JSON.stringify(responce.value));
       });
+  }else{
+    showMadoal.value = false
   }
   tel.value.phone = "";
   loader.value = false;
 }
 </script>
 <style scoped>
-.spinner-btn {
+.button {
   position: relative;
-  overflow: hidden;
-  background-color: #0468ff;
-  color: #fff;
-  font-size: 16px;
-  padding: 6px 20px;
+  padding: 8px 16px;
+  background: #009579;
   border: none;
-  border-radius: 4px;
-  cursor: not-allowed;
+  outline: none;
+  border-radius: 2px;
+  cursor: pointer;
 }
 
-.spinner {
+.button:active {
+  background: #007a63;
+}
+
+.button__text {
+  font: bold 20px "Quicksand", san-serif;
+  color: #ffffff;
+  transition: all 0.2s;
+}
+
+.button--loading .button__text {
+  visibility: hidden;
+  opacity: 0;
+}
+
+.button--loading::after {
+  content: "";
   position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  width: 30px;
-  height: 30px;
-  border: 1px solid transparent;
-  border-top-color: #fff;
+  width: 16px;
+  height: 16px;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  margin: auto;
+  border: 4px solid transparent;
+  border-top-color: #ffffff;
   border-radius: 50%;
-  animation: spinner-rotate 1s linear infinite;
+  animation: button-loading-spinner 1s ease infinite;
 }
 
-@keyframes spinner-rotate {
-  0% {
-    transform: translate(-50%, -50%) rotate(0deg);
+@keyframes button-loading-spinner {
+  from {
+    transform: rotate(0turn);
   }
-  100% {
-    transform: translate(-50%, -50%) rotate(360deg);
+
+  to {
+    transform: rotate(1turn);
   }
 }
+
+
+
 
 </style>

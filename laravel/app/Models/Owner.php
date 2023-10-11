@@ -10,5 +10,5 @@ class Owner extends User
 {
     use HasFactory;
 
-    protected $fillable = ['phone_number'];
+    protected $fillable = ['phone_number','name','last_name','birth_date','avatar','email'];
 }

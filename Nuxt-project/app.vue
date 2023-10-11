@@ -5,15 +5,16 @@
         </NuxtLayouts>
         <NuxtPage />
         <Register v-if="showMadoal" />
-        <MobilePage v-if="isShow && mobileOrDesktop  "/>
+        <MobilePage v-if="isShow && mobileOrDesktop" :pictures="pictures"/>
         <DesktopPage v-if="isShow && mobileOrDesktop < 1" />
-    
   </div>
 </template>
 <script setup>
   const {isShow, toggleShow, showMadoal,showNavBar} = useSwitch()
   const route = useRoute()
-  const mobileOrDesktop = ref() 
+  const mobileOrDesktop = ref()
+  const pictures = ref([]); 
+  
   onMounted(async ()=>{
     mobileOrDesktop.value = navigator.maxTouchPoints
     if (route.fullPath !== '/') {
@@ -25,7 +26,28 @@
     if (navigator.maxTouchPoints < 1 && route.fullPath == '/announ') {
       // isShow.value = true
     }
-  
+  const announId = ref([])
+  const {announ} = getData()
+  fetch('http://192.168.100.45:8000/api/get_data')
+  .then(res=>res.json())
+  .then(res=>{
+    for (const item of res) {
+      announId.value.push(item.id);
+    }
+  //  fetch('http://192.168.100.45:8000/api/get_picture',{
+  //   method:'post',
+  //   headers:{
+  //     "Content-Type":'application/json'
+  //   },
+  //   body:JSON.stringify(announId.value)
+  // })
+  // .then(res=> res.json())
+  // .then(res=>{
+  //   announ.value = res
+  //   console.log(res);
+  // })
+  })
+
   const infrastructure = ["автомойка",
    "автосервис",
    "аптека",
@@ -91,7 +113,7 @@
     
    ]
     
-        await fetch('http://192.168.0.114:8000/api/create/infrastructure',{
+        await fetch('http://192.168.100.45:8000/api/create/infrastructure',{
          method:'post',
          headers:{
            "Content-type":"application/json"
@@ -99,7 +121,7 @@
          body: JSON.stringify(infrastructure)
         })
         
-        await fetch('http://192.168.0.114:8000/api/create/city', {
+        await fetch('http://192.168.100.45:8000/api/create/city', {
          method:'post',
          headers:{
            "Content-type": "application/json"

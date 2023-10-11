@@ -9,4 +9,7 @@ class ConditionAnnoun extends Model
 {
     use HasFactory;
     protected $fillable=['condition_id','announ_id'];
+    // public function announ(){
+    //     return $this->hasOne(Announ::class, 'id', 'announ_id');
+    // }
 }

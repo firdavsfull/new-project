@@ -11,12 +11,10 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('pictures', function (Blueprint $table) {
+        Schema::create('infrastructure_announs', function (Blueprint $table) {
             $table->id();
-            $table->string('pictures')->nullable();
-            $table->integer('position')->default(0);
-            $table->integer('rotation')->default(0);
-            $table->integer('announ_id')->nullable();
+            $table->integer('infrastructure_id');
+            $table->integer('announ_id');
             $table->timestamps();
         });
     }
@@ -26,6 +24,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('pictures');
+        Schema::dropIfExists('infrastructure_announs');
     }
 };

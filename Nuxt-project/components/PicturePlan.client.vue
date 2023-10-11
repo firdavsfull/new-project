@@ -49,19 +49,19 @@
                  <div class="area-room">
                     <div class="room">
                      <p>  Общая площадь</p>
-                     <div style="flex-direction:column;" class="relative">
+                     <div style="flex-direction:column;" class="relative min-w-[200px]">
 
-                     <div :style="!apartmentParams.generalArea ?'border:1px solid red;':''" class="input-area form-control">
-                         <input @input="verfied" v-model="apartmentParams.generalArea" type="text" v-maska
-                            data-maska="####">
-                         <div>м<sup class="text-[10px]">2</sup></div>
-                     </div>
+                        <div :style="!apartmentParams.generalArea ?'border:1px solid red;':''" class="input-area form-control">
+                            <input @input="verfied" v-model="generalArea" type="text" v-maska
+                                data-maska="####">
+                            <div>м<sup class="text-[10px]">2</sup></div>
+                        </div>
                     <p style="font-size:11px;" 
                     v-if="mooreArea"
                     class="
                     overflow-hidden
                     whitespace-nowrap
-                    leading-[15px] text-[red] font-normal lg:relative md:relative md:left-0 absolute sm:relative sm:left-0 top-[4px] lg:left-0 left-[50%]">Общая площадь должна быть 
+                    leading-[15px] text-[red] font-normal lg:relative md:relative md:left-0 absolute sm:relative sm:left-0 top-[4px] lg:left-0 left-[130px]">Общая площадь должна быть 
                          <br>больше жилой + кухни
                      </p>
                      </div>
@@ -72,7 +72,7 @@
                      
                      <p>Жилая площадь</p>
                      <div :style="!apartmentParams.liveArea ?'border:1px solid red;':''" class="input-area form-control">
-                         <input @input="verfied" v-model="apartmentParams.liveArea" type="text" v-maska data-maska="####">
+                         <input @input="verfied" v-model="liveArea" type="text" v-maska data-maska="####">
                          <div>м<sup class="text-[10px]">2</sup></div>
                      </div>
                     </div>
@@ -83,7 +83,7 @@
                      <div class="room">
                      <p>Кухня</p>
                      <div :style="!apartmentParams.kitchenArea ?'border:1px solid red;':''" class="input-area form-control">
-                         <input @input="verfied" v-model="apartmentParams.kitchenArea" type="text" v-maska data-maska="####">
+                         <input @input="verfied" v-model="kitchenArea" type="text" v-maska data-maska="####">
                          <div>м<sup class="text-[10px]">2</sup></div>
                      </div>
                     </div>
@@ -136,7 +136,19 @@ function quantityRoom (event){
 }
 
 function verfied(){
-        if (
+    
+    if (liveArea.value.trim()) {
+        apartmentParams.value.liveArea = parseInt(liveArea.value);
+    }
+    if (generalArea.value.trim()) {
+        apartmentParams.value.generalArea = parseInt(generalArea.value);
+    }
+    if (kitchenArea.value.trim()) {
+        apartmentParams.value.kitchenArea = parseInt(kitchenArea.value);    
+    }
+    
+        
+    if (
             parseInt(apartmentParams.value.liveArea) 
             + parseInt(apartmentParams.value.kitchenArea) 
             > parseInt(apartmentParams.value.generalArea)
@@ -149,6 +161,8 @@ function verfied(){
         }else {
             mooreArea.value = false
         }
+         
+        console.log(apartmentParams.value.generalArea);
     }
 
 function next(){
@@ -189,51 +203,7 @@ onMounted(()=>{
  
 })
 
-// function change(event){
-//  const file =  document.querySelector('.choose-picture > input')
-//  file.click()
-//  console.log(file.files);
-// }
-//     const pictures = ref([])
-// function sendPictures(event){
-//  const file =  document.querySelector('.choose-picture > input')
-//  const files = Array.from(file.files)
-//  if (!files.length) {
-//     return
-//  }
-//  const form = document.querySelector('#forms')
-//  const FormD = new FormData(form);
-//     FormD.append(`images[]`,files)
 
-//     imageLoader.value = true
-//    await fetch('http://192.168.0.114:8000/api/upload-image',{
-//         method:'post',
-//         body:FormD
-//    }).then(res=>{
-//     if (res.ok) {
-//         console.log('Картинки успешно отправлены на сервер');
-//     }else{
-//         console.log('Произошла ошибка при отправке картинок');
-//     }
-//     return res.json()
-//    })
-//    .then(r=>{
-//     r.forEach(file => {
-//        images.value.push(file)
-//        localStorage.setItem('images',JSON.stringify(images.value))
-//     });
-//     imageLoader.value = false
-// })
-
-   
- 
-// }
-
-
-function removeImg(img,picture){
-    picture.splice(picture.indexOf(img),1)
-    localStorage.setItem('images',JSON.stringify(picture))
-}
 </script>
 
 <style scoped>
@@ -308,7 +278,9 @@ margin: 0;
 
 .input-area{
  display: flex;
- width: 45%;
+ max-width: 45%;
+ width: 120px;
+ min-width: 120px;
  justify-content: space-between;
 }
 

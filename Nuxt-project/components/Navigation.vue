@@ -1,17 +1,18 @@
 <template>
     <div class="navigations">
             <ul class="list" @click="show">
-                <li v-if="!responce" class="service" @click="logOut()">
+                <li v-if="!data.phone_number" class="service" @click="logOut()">
                     <div>
                         <font-awesome-icon style="font-size:1.15em;" :icon="['fas', 'right-to-bracket']" />   
                     </div>
                     <a >Войти</a>
                 </li>
-                <li class="flex w-[200px] items-center" @click="logOut">
-                    <div v-if="responce" class="user"  style="background-image: url('https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT-LrvIVmzeZeZD2B2ORYLqh4vSvvikDmvEueeOA3iPZrol4NCKI6u5ndItGrfs_wwLdWo&usqp=CAU');">
+                <li v-else class="flex w-[200px] ml-[5px] items-center" @click="logOut">
+                    <div  class="user"  :style="`background-image: url('http://127.0.0.1:8000/api/avatar/${data.avatar}');`">
+                        
                     </div>
-                    <span  class="ml-[10px] font-bold" v-for="resp of responce" :key="resp">
-                        <span style="font-family: Lato,Arial,sans-serif;" v-for="item of resp" :key="item">+992 {{item.phone_number}}</span>
+                    <span  class="ml-[10px] font-bold" >
+                        <span style="font-family: Lato,Arial,sans-serif;">{{data.name + data.last_name ? data.last_name +' '+ data.name: `+992 ${data.phone_number}`}}</span> 
                     </span>
                 </li>
                     <li class="bottom"></li>
@@ -23,20 +24,23 @@
 </template>
 <script setup>
 const {isShow,active,showMadoal} = useSwitch()
-const {responce} = getData()
+const {responce,direction} = getData()
+const data = responce.value[1] || {}
     const phone = ref()
-   
     function logOut(){
-        if (responce.value) {
+        if (data.phone_number) {
         active.value = false
         document.body.style.overflow ='auto';    
-            showMadoal.value = false
+        navigateTo('/personal_area/profile')
+        isShow.value = false
+        showMadoal.value = false
     } else  {
         showMadoal.value = true
-
+        direction.value = '/personal_area/profile'
         }
         
     }
+    console.log(data);
 </script>
 
 <style scoped>
@@ -94,7 +98,7 @@ const {responce} = getData()
         height: 44px;
         border-radius: 50%;
         background-position: center;
-        background-size: 120%;
+        background-size: cover;
         background-repeat: no-repeat;
         outline: none;
         cursor: pointer;
