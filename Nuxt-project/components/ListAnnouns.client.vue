@@ -64,11 +64,11 @@
 
                             <div class="flex lg:w-[100%] lg:justify-between flex-wrap sm:flex-col md:flex-row lg:flex-row">
 
-                                <div class="lg:mx-[10px] lg:ml-[15px] sm:w-full lg:w-[max-content]">
-                                    <span class="block font-bold leading-[28px] text-[22px] tracking-normal text-[#0468ff]">
-                                        <span class="font-bold leading-[28px] text-[22px] tracking-normal">
+                                <div class="lg:mx-[10px] truncate lg:ml-[15px] w-[max-content] inline sm:w-full lg:w-[max-content]">
+                                    <span class="font-bold  leading-[28px] text-[22px]  tracking-normal text-[#0468ff]">
                                             {{item.title}}.
-                                        </span>
+                                        <!-- <span class="font-bold leading-[28px]  w-[100px] text-[22px]">
+                                        </span> -->
                                     </span>
                                     <div class="mt-[4xp]">
                                         <span class="block font-bold leading-[28px] text-[16px] tracking-normal m-0 p-0">
@@ -92,9 +92,9 @@
                                             {{item.price}} cомон
                                         </span>
                                     </div>
-                                    <div class="mt-[16px] max-w-[66vw] flex flex-col min-h-[0] justify-start" >
-                                        <div  class="max-h-[100%] block">
-                                            <p class="block font-normal w-[90%] h-[max-content] max-w-[max-content] leading-[20px] text-[14px] tracking-normal text-[#152242]" style="white-space: wrap;">
+                                    <div class="mt-[16px]">
+                                        <div  class="h-[max-content] bg-[green]">
+                                            <p class="block font-normal bg-[yellow] max-w-[80%] h-[max-content] leading-[20px] text-[14px] tracking-normal text-[#152242]" style="white-space: wrap;">
                                                 {{item.description}}
                                             </p>
                                         </div>

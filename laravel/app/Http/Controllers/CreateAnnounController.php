@@ -16,7 +16,7 @@ class CreateAnnounController extends Controller
 
     public function createResidentAnnoun(Request $request){
             $announs = $request;
-            if ($announs[0]['objects'] == 'Квартира' || $announs[0]['objects'] == 'Комната'|| $announs[0]['objects'] == 'Квартира в Новостройке') {  
+            if ($announs[0]['objects'] == 'Квартира' || $announs[0]['objects'] == 'Комната') {  
                 $announ = Announ::firstOrCreate([
                     'deal_type'=>$announs[0]['rent'],
                     'type_real_estate'=>$announs[0]['Estate'],
@@ -45,12 +45,12 @@ class CreateAnnounController extends Controller
                 if ($announs[0]['rent'] == 'Аренда') {
                     $announ->update(['rental_type'=>$announs[0]['typeRent']]);
                 }
-                if(array_values($announs[4]) === $announs[4]){
-                    foreach ($announs[4] as $value) {
-                    ConditionAnnoun::firstOrCreate(['condition_id'=>$value,'announ_id'=>$announ->id]);
+                if ($announ[0]['rent'] === 'Аренда') {
+                    if(array_values($announs[4]) === $announs[4]){
+                        foreach ($announs[4] as $value) {
+                        ConditionAnnoun::firstOrCreate(['condition_id'=>$value,'announ_id'=>$announ->id]);
+                        }
                     }
-                }else{
-                    return;
                 }
                 return [$announ->id];
             }

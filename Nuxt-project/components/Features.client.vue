@@ -169,12 +169,17 @@ function next(){
     announData.value[1] = JSON.parse(localStorage.getItem('announ'))[1]
     announData.value[2] = JSON.parse(localStorage.getItem('announ'))[2]
     announData.value[3] = aprtFeatures.value
-    console.log(balcon.value,repair.value,elevator.value,parking.value);
+    console.log();
     if (!balcon.value || !repair.value || !elevator.value || !parking.value) {
         navigateTo('/feature')
     }else{
-        localStorage.setItem('announ', JSON.stringify(announData.value))   
+        if (announData.value[0].rent == 'Аренда') {
         navigateTo('/technicsandfurniture')
+    }else{
+        navigateTo('description')
+    }
+        localStorage.setItem('announ', JSON.stringify(announData.value))   
+        // navigateTo('/technicsandfurniture')
     }
 }
 
