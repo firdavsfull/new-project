@@ -47,7 +47,7 @@ setTimeout(() => {
                             <a style="background-image: linear-gradient(180deg, rgb(255, 0, 149),rgb(183, 0, 255)); flex: 0 0 56px; user-select: none; text-decoration: none;" class="mr-[15px] rounded-[50%] flex justify-center items-center h-[56px] overflow-hidden"
                                 >
                             <span  class="rounded-[50%] bg-[silver] w-[92%] h-[52px] ">
-                                <img v-if="avatar || id.avatar" :src="`http://192.168.100.45:8000/api/avatar/${avatar?avatar:id.avatar}`" class="w-full h-full rounded-[50%]">
+                                <img v-if="avatar || id.avatar" :src="`http://192.168.100.45:8000:8000/api/avatar/${avatar?avatar:id.avatar}`" class="w-full h-full rounded-[50%]">
                             </span>
                         </a>
                             <div class="flex flex-col justify-center" style="flex: 1 1;">

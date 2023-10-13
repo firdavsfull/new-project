@@ -71,7 +71,7 @@
                                 Войти
                             </span>
                         </a>
-                    <div v-if="data.phone_number" class="user" @click="logOut" :style="`background-image: url('http://192.168.100.45:8000/api/avatar/${data.avatar}');`">
+                    <div v-if="data.phone_number" class="user" @click="logOut" :style="`background-image: url('http://192.168.100.45:8000:8000/api/avatar/${data.avatar}');`">
                     </div>
             </div>
             <!-- mobileSize &&  -->

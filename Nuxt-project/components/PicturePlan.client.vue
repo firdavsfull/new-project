@@ -125,6 +125,7 @@ const {announData} = getData()
 const apartmentParams = ref({})
 const apartmentParams1 = ref({})
 const mooreArea = ref(false)
+const quantityRooms = ref(0)
 const generalArea = ref('')
 const liveArea = ref('')
 const kitchenArea = ref('')
@@ -132,7 +133,7 @@ const videoLink = ref('')
 
 
 function quantityRoom (event){
- apartmentParams.value.quantityRoom = parseInt(event.target.dataset.name)
+ quantityRooms.value = apartmentParams.value.quantityRoom = parseInt(event.target.dataset.name)
 }
 
 function verfied(){
@@ -161,15 +162,13 @@ function verfied(){
         }else {
             mooreArea.value = false
         }
-         
-        console.log(apartmentParams.value.generalArea);
     }
 
 function next(){
  announData.value[0] = JSON.parse(localStorage.getItem('announ'))[0]
  announData.value[1] = JSON.parse(localStorage.getItem('announ'))[1]
  announData.value[2] = apartmentParams.value
- localStorage.setItem('announ', JSON.stringify(announData.value))
+//  localStorage.setItem('announ', JSON.stringify(announData.value))
  
 
  if (announData.value[0].objects == 'Участок') {
@@ -177,11 +176,24 @@ function next(){
  }else{
     navigateTo('/feature')
  }
-
- if (parseInt(apartmentParams.value.liveArea) + parseInt(apartmentParams.value.kitchenArea) > parseInt(apartmentParams.value.generalArea)) {
-    navigateTo('/pictures')
-    announData.value[2] = ''
-    localStorage.setItem('announ', JSON.stringify(announData.value))
+ if (announData.value[0].objects == 'Квартира'||announData.value[0].objects == 'Комната') {
+    
+     if (
+        !liveArea.value 
+        ||
+        !kitchenArea.value
+        ||
+        !generalArea.value
+        ||
+        parseInt(liveArea.value) + parseInt(kitchenArea.value) > parseInt(generalArea.value)
+        || !quantityRooms.value
+           ) {
+        navigateTo('/pictures')
+        // announData.value[2] = ''
+     }else{
+        navigateTo('/feature')
+        localStorage.setItem('announ', JSON.stringify(announData.value))
+     }
  }
 }
 function prew(){
@@ -193,9 +205,16 @@ onMounted(()=>{
     if (!announData.value[1]) {
     router.push('/announ')
     }
+    console.log(announData.value[0].objects);
     announData.value[0] = JSON.parse(localStorage.getItem('announ'))[0]
  if (JSON.parse(localStorage.getItem('announ'))[2]) {
      apartmentParams.value = JSON.parse(localStorage.getItem('announ'))[2];
+     quantityRooms.value = apartmentParams.value.quantityRoom 
+     generalArea.value = apartmentParams.value.generalArea
+     liveArea.value = apartmentParams.value.liveArea
+     kitchenArea.value = apartmentParams.value.kitchenArea
+     videoLink.value = apartmentParams.value.linkVideo
+     console.group(quantityRooms.value,generalArea.value,liveArea.value,kitchenArea.value,videoLink.value);
  }else{
      apartmentParams.value = apartmentParams1.value
  }

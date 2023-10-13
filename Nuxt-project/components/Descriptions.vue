@@ -25,7 +25,7 @@
                         <label for="exampleFormControlInput1" style="font-size:14px; margin-bottom:6px; color:#152242;"
                             class="form-label w-full">
 
-                            <h6>Заголовок</h6>
+                            <h6 class="text-[14px] mb-[3px]">Заголовок</h6>
 
                             <div class="border-1 bg-red-500 rounded flex w-full h-[40px] overflow-hidden"
                                 :style="mooreTitle ? 'border-color:red;' : ''">
@@ -40,7 +40,7 @@
                     </div>
                     <div style="margin-top:24px">
                         <label for="floatingTextarea2"
-                            style="font-size:14px; margin-bottom:6px; color:#152242;">Описание</label>
+                            style="font-size:14px; margin-bottom:3px; color:#152242;">Описание</label>
                         <textarea
                             :style="mooreDescription ? 'border:1px solid red;' : ''"
                             @input="writeDescription" v-model="message.description" class="form-control" id="floatingTextarea2"
@@ -67,6 +67,8 @@
 const { announData } = getData()
 const message = ref({})
 const message1 = ref({})
+const title = ref('')
+const description = ref('')
 const mooreTitle = ref(true)
 const  mooreDescription= ref(true);
 
@@ -76,12 +78,14 @@ function change() {
 }
 
 function writeTitle(){
+    title.value = message.value.title
     if(message.value.title.length < 6){
         mooreTitle.value = true
     }else mooreTitle.value = false
 }
 
 function writeDescription(){
+    description.value = message.value.description 
     if(message.value.description.length < 15){
         mooreDescription.value = true
     }else{mooreDescription.value = false}
@@ -91,8 +95,7 @@ function writeDescription(){
 const route = useRoute()
 
 function next(){
-    console.log(message.value.title,message.value.description);
-    if (message.value.title == '' && !message.value.description ) {
+    if (title.value == '' || !description.value ||  description.value.length < 15) {
         navigateTo('/description')
     }else{
         

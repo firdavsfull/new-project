@@ -25,13 +25,12 @@
                                      <label for="#balcon" class="mb-2 fw-bold" style="font-family:lato, sans-seif">Балкон</label>
                                      
                                      <div class="dropdown">
-                                             <button class="w-[100px] form-select text-left" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
-                                                 {{  aprtFeatures.balcon  ? "есть" : 'нет' }}
-                                                 
+                                             <button style="font-size: 15px;" :style="!aprtFeatures.balcon || !balcon ? 'border-color:red;':''" class="w-[100px] form-select text-left" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
+                                                 {{  aprtFeatures.balcon?aprtFeatures.balcon:'Балкон' }}
                                              </button>
                                              <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
-                                                 <li :style="aprtFeatures.balcon == 1 ? 'color:white; background-color:#0468FF;':''" @click="isBalcon" class="dropdown-item">есть</li>
-                                                 <li :style="aprtFeatures.balcon == 0 ? 'color:white; background-color:#0468FF;':''" @click="isBalcon" class="dropdown-item">нет</li>
+                                                 <li :style="aprtFeatures.balcon == 'есть' ? 'color:white; background-color:#0468FF;':''" @click="isBalcon" class="dropdown-item">есть</li>
+                                                 <li :style="aprtFeatures.balcon == 'нет' ? 'color:white; background-color:#0468FF;':''" @click="isBalcon" class="dropdown-item">нет</li>
                                              </ul>
                                          </div>
                                      
@@ -71,12 +70,12 @@
                                  <div class="balcon w-25">
                                      <label for="#balcon" class="mb-2 fw-bold" style="font-family:lato, sans-seif">Лифт</label>
                                      <div class="dropdown">
-                                             <button class="w-[100px] form-select text-left" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
-                                                {{ aprtFeatures.elevator ? 'есть' : 'нет' }}
+                                             <button style="font-size: 15px;" :style="!aprtFeatures.elevator || !elevator ? 'border-color:red;':''" class="w-[100px] form-select text-left" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
+                                                {{ aprtFeatures.elevator?aprtFeatures.elevator:'Лифт'}}
                                              </button>
                                              <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
-                                                 <li :style="aprtFeatures.elevator == 1 ? 'color:white; background-color:#0468FF;':''" @click="withElevator" class="dropdown-item">есть</li>
-                                                 <li :style="aprtFeatures.elevator == 0 ? 'color:white; background-color:#0468FF;':'' " @click="withElevator" class="dropdown-item">нет</li>
+                                                 <li :style="aprtFeatures.elevator == 'есть' ? 'color:white; background-color:#0468FF;':''" @click="withElevator" class="dropdown-item">есть</li>
+                                                 <li :style="aprtFeatures.elevator == 'нет' ? 'color:white; background-color:#0468FF;':'' " @click="withElevator" class="dropdown-item">нет</li>
                                              </ul>
                                          </div>
                                  </div>
@@ -133,17 +132,17 @@ const balcon = ref('')
 function isBalcon(event){
     balcon.value = event.target.textContent 
     if (balcon.value == 'есть') {
-        aprtFeatures.value.balcon = 'есть'
-        aprtFeatures1.value.balcon = 'есть'
+       balcon.value = aprtFeatures.value.balcon = 'есть'
+       aprtFeatures1.value.balcon = 'есть'
     } else{
-        aprtFeatures.value.balcon = "нет"
+       balcon.value = aprtFeatures.value.balcon = "нет"
         aprtFeatures1.value.balcon = "нет"
     };
 }
 
 const repair = ref('')
 function withRepair(event){
-    aprtFeatures.value.repair = event.target.dataset.name
+   repair.value = aprtFeatures.value.repair = event.target.dataset.name
     aprtFeatures1.value.repair = event.target.dataset.name
 }
  
@@ -153,15 +152,15 @@ function withElevator(event){
         elevator.value = aprtFeatures.value.elevator = "есть"
         aprtFeatures1.value.elevator = "есть"
     } else{
-        aprtFeatures.value.elevator = "нет"
+       elevator.value = aprtFeatures.value.elevator = "нет"
         aprtFeatures1.value.elevator = "нет"
     }
 }
 
-const parking =ref('')
+const parking = ref('')
 
 function selecetParking(event){
-    aprtFeatures.value.parking = event.target.dataset.parking
+   parking.value = aprtFeatures.value.parking = event.target.dataset.parking
     aprtFeatures1.value.parking = event.target.dataset.parking
 }
 
@@ -170,9 +169,13 @@ function next(){
     announData.value[1] = JSON.parse(localStorage.getItem('announ'))[1]
     announData.value[2] = JSON.parse(localStorage.getItem('announ'))[2]
     announData.value[3] = aprtFeatures.value
-
-    localStorage.setItem('announ', JSON.stringify(announData.value))   
-    navigateTo('/technicsandfurniture')
+    console.log(balcon.value,repair.value,elevator.value,parking.value);
+    if (!balcon.value || !repair.value || !elevator.value || !parking.value) {
+        navigateTo('/feature')
+    }else{
+        localStorage.setItem('announ', JSON.stringify(announData.value))   
+        navigateTo('/technicsandfurniture')
+    }
 }
 
 onMounted(() => {
@@ -183,9 +186,9 @@ onMounted(() => {
     }else{
         aprtFeatures.value = aprtFeatures1.value
     }
-    if (!announData.value[2]) {
-        window.location.replace('/')
-  }
+    // if (!announData.value[2]) {
+    //     window.location.replace('/')
+    // }
 })
 
 </script>

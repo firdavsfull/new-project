@@ -45,7 +45,7 @@
                                         <div v-for="(elem, index) in data[i].image" :key="`slide-${i}-${index}`"
                                         style="height: 100%;" 
                                             :class="{ 'carousel-item': true, 'active': index === 0 }">
-                                            <img :src="`http://192.168.100.45:8000/api/image/large/${elem.pictures}`" class="h-full" style="object-fit: cover;">
+                                            <img :src="`http://192.168.100.45:8000:8000/api/image/large/${elem.pictures}`" class="h-full" style="object-fit: cover;">
                                         </div> 
                                     </div> 
                                     <button class="carousel-control-prev" type="button" :data-bs-target="`#carouselExampleIndicators-${i}`" data-bs-slide="prev">
@@ -103,7 +103,7 @@
                                 <div class="w-[200px] regular-w bg-[silver] h-[max-content] md:d-none mr-[0] h-[100px]" >
                                     <div class="flex flex-col items-center mt-[10px] relative">
                                         <div class="overflow-hidden flex justify-center items-center w-[80px] avatar_image rounded-[5%] h-[80px] bg-[red]">
-                                            <img style="object-fit: cover;" class="w-full h-full bg-[lime]" :src="`http://192.168.100.45:8000/api/avatar/${item.owner.avatar}`" :alt="item.owner.name">
+                                            <img style="object-fit: cover;" class="w-full h-full bg-[lime]" :src="`http://192.168.100.45:8000:8000/api/avatar/${item.owner.avatar}`" :alt="item.owner.name">
                                         </div>
                                         <div class="mt-[10px] avatar_image">
                                             <h5 class="text-[17px]">{{ item.owner.name?item.owner.name:item.owner.email }} {{ item.owner.last_name }}</h5>
@@ -178,7 +178,7 @@ function filters(){
 
 onMounted(async () =>{
     showNavBar.value = true
-    await fetch('http://192.168.100.45:8000/api/get_announs',{
+    await fetch('http://192.168.100.45:8000:8000/api/get_announs',{
         method:'post',
         headers:{
             "Content-Type":'application/json'
@@ -200,7 +200,7 @@ onMounted(async () =>{
         ownerWithAd.push(data.value[i].owner_id);
         
     }
-    await fetch('http://192.168.100.45:8000/api/get_user_with_announ',{
+    await fetch('http://192.168.100.45:8000:8000/api/get_user_with_announ',{
         method:'post',
         headers:{
             "Content-Type":'application/json'

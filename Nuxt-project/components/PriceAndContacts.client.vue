@@ -38,7 +38,8 @@
             }}</label>
             <div
               class="price-container d-flex align-items-center overflow-hidden form-control"
-              style="width: 250px; height: 40px"
+              style="width: 250px; height: 40px;"
+              :style="!price ? 'border-color:red;':''"
             >
               <input
                 @input="enterPrice"
@@ -54,6 +55,7 @@
                 <span class="h-full flex leading-[40px]">c</span>
               </div>
             </div>
+              <p v-if="!price || price < 100" class="text-[red] text-[14px]">Введите цена</p>
 
             <div class="balcon w-25 mt-3" v-if="announData[0].rent == 'Аренда'">
               <span
@@ -70,16 +72,16 @@
                   v-for="items of cond"
                   :key="items.id"
                   :for="items.id"
-                  class="me-2"
+                  class="me-2 "
                 >
                   <input
-                    @change="chooseConditions"
+                    @change="chooseConditions(items)"
                     :data-name="items.id"
                     type="checkbox"
                     :id="items.id"
                     class="d-none"
                   />
-                  <span class="form-control">{{ items.name }}</span>
+                  <span class="form-control border-1">{{ items.name }}</span>
                 </label>
               </div>
             </div>
@@ -102,7 +104,8 @@
                   id="option5"
                   autocomplete="off"
                 />
-                <label class="form-control me-2 my-1" for="option5"
+                <label class="form-control border-1 me-2 my-1" for="option5"
+                 :style="!period? 'border:1px solid  red;':''"
                   >От года</label
                 >
 
@@ -115,7 +118,7 @@
                   id="option6"
                   autocomplete="off"
                 />
-                <label class="form-control me-2 my-1" for="option6"
+                <label :style="!period? 'border:1px solid red;':''" class="form-control border-1 me-2 my-1" for="option6"
                   >Несколько месяцев</label
                 >
               </div>
@@ -156,13 +159,49 @@ const loading = ref(false);
 const priceObj = ref({});
 const priceObj1 = ref({});
 const price = ref();
-const { images, isUpload, formData } = getData();
-
+const { images, isUpload, responce } = getData();
+const minPrice = ref(0)
 function enterPrice() {
-  priceObj.value.price = parseInt(price.value.trim());
+  minPrice.value = priceObj.value.price = parseInt(price.value.trim());
+}
+
+const allowKids = ref('')
+const allowAnimals = ref('')
+function chooseConditions(el) {
+  if (event.target.checked) {
+    parseInt(event.target.dataset.name);
+    if (el.name == 'Можно с детьми') {
+      allowKids.value = el.name
+      // console.log(allowKids.value);
+    }else {allowKids.value =''}
+    if (el.name == 'Можно с животными') {
+      allowAnimals.value = el.name
+      // console.log(allowAnimals.value);
+    }else {allowAnimals.value=''}
+    console.log(images.value.length);
+  }
+
+  arr.forEach((item) => {
+    if (
+      !event.target.checked &&
+      parseInt(event.target.dataset.name) == parseInt(item)
+    ) {
+      arr.splice(arr.indexOf(item), 1);
+    }
+  });
+  priceObj.value.condition = arr;
+}
+const period = ref('')
+function choosePeriod(event) {
+  period.value = priceObj.value.period = event.target.dataset.name;
+  console.log(minPrice.value < 100);
 }
 const image = ref([]);
 async function place() {
+  if (!images.value.length || !minPrice.value || minPrice.value < 100) {
+    console.log(responce.value[1]);
+    return
+  }else{
   const progress = document.querySelector(".progress > .progress-bar");
   progress.style.width = "100%";
   announData.value[0] = JSON.parse(localStorage.getItem("announ"))[0];
@@ -176,7 +215,7 @@ async function place() {
   loading.value = true;
   // const data = localStorage.getItem('announ')
   // return console.log(data);
-  await fetch("http://192.168.100.45:8000/api/create/announ", {
+  await fetch("http://192.168.100.45:8000:8000/api/create/announ", {
     method: "post",
     headers: {
       "Content-Type": "application/json",
@@ -186,7 +225,6 @@ async function place() {
   })
     .then((res) => res.json())
     .then((id) => {
-    //   return console.log(id);
       for (const img of images.value) {
         img.id = id[0];
       }
@@ -195,9 +233,10 @@ async function place() {
   const formD = new FormData();
   for (const item of images.value) {
     formD.append("images[]", item.file);
+    console.log(formD.getAll('images[]'));
   }
 
-  await fetch("http://192.168.100.45:8000/api/upload-image", {
+  await fetch("http://192.168.100.45:8000:8000/api/upload-image", {
     method: "post",
     headers:{
       Authorization:'Bearer '+JSON.parse(localStorage.getItem('owner'))[0] 
@@ -213,7 +252,7 @@ async function place() {
       }
     });
 
-  await fetch("http://192.168.100.45:8000/api/save-pictures", {
+  await fetch("http://192.168.100.45:8000:8000/api/save-pictures", {
     method: "post",
     headers: {
       "content-Type": "application/json",
@@ -229,29 +268,11 @@ async function place() {
     })
     .then((res) => console.log(res));
   loading.value = false;
+  }
 }
 
 const arr = [];
 
-function chooseConditions(event) {
-  if (event.target.checked) {
-    arr.push(parseInt(event.target.dataset.name));
-  }
-
-  arr.forEach((item) => {
-    if (
-      !event.target.checked &&
-      parseInt(event.target.dataset.name) == parseInt(item)
-    ) {
-      arr.splice(arr.indexOf(item), 1);
-    }
-  });
-  priceObj.value.condition = arr;
-}
-
-function choosePeriod(event) {
-  priceObj.value.period = event.target.dataset.name;
-}
 
 const elems = document.querySelectorAll(".d-none");
 elems.forEach((elem) => {
@@ -262,7 +283,7 @@ elems.forEach((elem) => {
   });
 });
 
-const conditions = fetch("http://192.168.100.45:8000/api/conditions");
+const conditions = fetch("http://192.168.100.45:8000:8000/api/conditions");
 const condition = await conditions;
 const c = ref(await condition.json());
 const cond = ref(

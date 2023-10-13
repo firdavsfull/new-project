@@ -8,7 +8,7 @@
                             <!-- <font-awesome-icon class="fas" :icon="['fas', 'wallet']" /> -->
                             <Icon name="uil:wallet" size="20"/>
                         </div>
-                        <span @click="filter">Купить</span>
+                        <span >Купить</span>
                     </a>
                     <a data-name="take_off" class="filter" @click="filter">
                         <div>
@@ -16,7 +16,7 @@
                             <!-- <Icon name="uil:couch"/> -->
 
                         </div>
-                        <span @click="filter">Снять</span>
+                        <span >Снять</span>
                     </a>
                     
                     <a data-name="new_buildings" class="filter" @click="filter">
@@ -26,7 +26,7 @@
                             
                         </div>
                         
-                        <span @click="filter">Новостройки</span>
+                        <span >Новостройки</span>
                     </a>
                     
                     <a data-name="house" class="filter" @click="filter">
@@ -35,7 +35,7 @@
                             <Icon name="uil:home" size="20"/>
 
                         </div>
-                        <span @click="filter">Дом</span>
+                        <span >Дом</span>
                     </a>
                     
                     <a data-name="commercial" class="filter" @click="filter">
@@ -44,14 +44,14 @@
                             <!-- <IconCSS name="uil:"/> -->
 
                         </div>
-                        <span @click="filter">&nbsp;Коммерческая</span>
+                        <span >&nbsp;Коммерческая</span>
                     </a>  
 
                     <a data-name="daily" class="filter" @click="filter">
                         <div>
                             <font-awesome-icon class="fas" :icon="['fas', 'calendar-day']" />
                         </div>
-                        <span @click="filter">&nbsp;Посуточно</span>
+                        <span >&nbsp;Посуточно</span>
                     </a>  
                 </div>
                 
@@ -325,12 +325,12 @@ const {showNavBar,isShow} = useSwitch()
 const router = useRouter()
 function filter(event){
         showNavBar.value = isShow.value = false 
-        if (event.target.textContent == 'Купить') {
+        if (event.target.children[1].textContent.trim() == 'Купить') {
             sStorage.dealType = 'Продажа'
             sStorage.typeObject = []
             sessionStorage.setItem('filter', JSON.stringify(sStorage))
         }
-        if (event.target.textContent == 'Снять') {
+        if (event.target.children[1].textContent.trim() == 'Снять') {
             sStorage.dealType =  'Аренда'
             sStorage.typeObject = []
             sessionStorage.setItem('filter', JSON.stringify(sStorage))
@@ -351,7 +351,7 @@ useHead({title:'Аренда и Продажа Квартир'})
         const {announ} = getData()
         
             onMounted(()=>{
-                console.log(sStorage);
+                sessionStorage.setItem('filter',JSON.stringify(sStorage))
             })
 </script>
 

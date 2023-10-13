@@ -8,7 +8,7 @@
                     <a >Войти</a>
                 </li>
                 <li v-else class="flex w-[200px] ml-[5px] items-center" @click="logOut">
-                    <div  class="user"  :style="`background-image: url('http://192.168.100.45:8000/api/avatar/${data.avatar}');`">
+                    <div  class="user"  :style="`background-image: url('http://192.168.100.45:8000:8000/api/avatar/${data.avatar}');`">
                         
                     </div>
                     <span  class="ml-[10px] font-bold" >

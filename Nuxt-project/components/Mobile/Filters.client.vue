@@ -586,6 +586,9 @@ const loader = ref(false);
 const data = ref([]);
 const checks = ref(false);
 let dealType;
+useHead({
+  title:'Фильтры'
+})
 const showQuantityRoom = ref(false)
 function uploadQuantityRoom(value){
   showQuantityRoom.value = value
@@ -772,7 +775,7 @@ async function check(event) {
     
   }
   loader.value = true;
-  await fetch("http://192.168.100.45:8000/api/filter", {
+  await fetch("http://192.168.100.45:8000:8000/api/filter", {
     method: "post",
     headers: {
       "Content-type": "application/json",
@@ -816,7 +819,7 @@ async function selectQuanitityRoom(event) {
   filter.value.quantityRoom = route.query.quantityRoom = qtRoom;
   sessionStorage.setItem("filter", JSON.stringify(filter.value));
   loader.value = true;
-  await fetch("http://192.168.100.45:8000/api/filter", {
+  await fetch("http://192.168.100.45:8000:8000/api/filter", {
     method: "post",
     headers: {
       "Content-type": "application/json",
@@ -837,7 +840,7 @@ const isCheck1 = ref("");
 const cities = ref();
 
 const c = ref()
-const conditions = fetch('http://192.168.100.45:8000/api/conditions')
+const conditions = fetch('http://192.168.100.45:8000:8000/api/conditions')
 const condition = await conditions
 c.value = await condition.json() 
 
@@ -876,7 +879,7 @@ onMounted(async () => {
   
   showNavBar.value = false;
   loader.value = true;
-  await fetch("http://192.168.100.45:8000/api/filter", {
+  await fetch("http://192.168.100.45:8000:8000/api/filter", {
     method: "post",
     headers: {
       "Content-Type": "application/json",
@@ -890,7 +893,7 @@ onMounted(async () => {
     });
   loader.value = false;
 
-  const cityUrl = fetch(`http://192.168.100.45:8000/api/city`);
+  const cityUrl = fetch(`http://192.168.100.45:8000:8000/api/city`);
   const c = await cityUrl;
   cities.value = await c.json();
 });

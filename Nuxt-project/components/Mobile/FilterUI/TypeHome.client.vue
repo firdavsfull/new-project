@@ -52,7 +52,7 @@ const items = ref([
       { name: 'check2', label: 'Комната', checked: false },
       { name: 'check3', label: 'Дом/дача', checked: false },
       { name: 'check4', label: 'Коттедж', checked: false },
-      {name:'check5',label:'Участок',checked:false}
+      { name:'check5',label:'Участок',checked:false}
 ])
 
 
@@ -79,7 +79,6 @@ const props = defineProps({
   updateLoader:Function,
   uploadQuantityRoom:Function,
   updateFilters:Object
-
 });
 
   const filters = ref()
@@ -111,7 +110,7 @@ const props = defineProps({
       }
     }
     props.updateLoader(true)
-  await fetch("http://192.168.100.45:8000/api/filter", {
+  await fetch("http://192.168.100.45:8000:8000/api/filter", {
     method: "post",
     headers: {
       "Content-type": "application/json",

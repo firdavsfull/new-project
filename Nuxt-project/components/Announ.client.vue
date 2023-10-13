@@ -154,7 +154,7 @@
     
    ]
     
-        await fetch('http://192.168.100.45:8000/api/create/infrastructure',{
+        await fetch('http://192.168.100.45:8000:8000/api/create/infrastructure',{
          method:'post',
          headers:{
            "Content-type":"application/json"
@@ -162,7 +162,7 @@
          body: JSON.stringify(infrastructure)
         })
 
-        await fetch('http://192.168.100.45:8000/api/create/city', {
+        await fetch('http://192.168.100.45:8000:8000/api/create/city', {
          method:'post',
          headers:{
            "Content-type": "application/json"
@@ -191,7 +191,7 @@
     ]
     
 
-    await fetch('http://192.168.100.45:8000/api/create/furniture',{
+    await fetch('http://192.168.100.45:8000:8000/api/create/furniture',{
          method:'post',
          headers:{
            "Content-type":"application/json"

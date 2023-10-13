@@ -1,27 +1,29 @@
 <script setup>
-ymaps.ready(init);
-        function init(){
-            let myMap = new ymaps.Map("map-yandex", {
-                center: [38.576271, 68.779716],
-                zoom: 13
-            });
-            console.log(myMap);
-         }
+        // ymaps.ready(init);
+        // function init(){
+        //     let myMap = new ymaps.Map("map-yandex", {
+        //         center: [38.576271, 68.779716],
+        //         zoom: 13
+        //     });
+        //     console.log(myMap);
+        //  }
 const { announData, responce } = getData();
 const floorObj = ref({
   floor: "",
   floor_in_house: "",
 });
+const cityName = ref("");
+const typeHome = ref('')
+const year = ref(0)
 const mapObj = ref({});
 const mapObj1 = ref({});
-
 const moreThen = ref(false);
-
 const showCities = ref();
-const cityName = ref("");
+const date = new Date()
+const curentYear = ref(date.getFullYear())
 
 async function selectCity() {
-  const cityUrl = fetch(`http://192.168.100.45:8000/api/city`);
+  const cityUrl = fetch(`http://192.168.100.45:8000:8000/api/city`);
   const c = await cityUrl;
   const city = await c.json();
   showCities.value = city;
@@ -40,38 +42,40 @@ function isFloor() {
   } else {
     moreThen.value = false;
   }
-
-  // mapObj.value.floor = floorObj.value.floor
-  // mapObj.value.floorHouse = floorObj.value.floor_in_house
-  // mapObj1.value.floor = floorObj.value.floor
-  // mapObj1.value.floorHouse = floorObj.value.floor_in_house
+  floorObj.value.floor = mapObj.value.floor
+  floorObj.value.floor_in_house = mapObj.value.floorHouse
+  year.value = mapObj.value.year
 }
 
 function selectType(event) {
   mapObj.value.selectType = event.target.parentElement.textContent;
   mapObj1.value.selectType = event.target.parentElement.textContent;
+  typeHome.value = mapObj.value.selectType
 }
 
 const router = useRouter();
-function next(event) {
-  // if (!cityName.value || floorObj.value.floor == '' || floorObj.value.floor_in_house =='') {
-  //     router.push('/map')
-  // }else {
-  //     navigateTo('/pictures')
-  // }
-  // if (mapObj.value.city && mapObj.value.floor && mapObj.value.apartmentNumber && mapObj.value.year && mapObj.value.selectType) {
-  // }
-}
+
 function move() {
-  
     announData.value[1] = mapObj.value;
     localStorage.setItem("announ", JSON.stringify(announData.value));
     navigateTo("/pictures");
-  
-    if (announData.value[0].objects == 'Квартира' && announData.value[0].objects == 'Комнат' || parseInt(mapObj.value.floor) > parseInt(mapObj.value.floorHouse)) {
-      navigateTo("/map");
-      announData.value[1] = "";
-      localStorage.setItem("announ", JSON.stringify(announData.value));
+    
+    if (announData.value[0].objects == 'Квартира'||announData.value[0].objects == 'Комната') {
+      
+      if (
+         cityName.value == '' 
+      || !floorObj.value.floor 
+      || !floorObj.value.floor_in_house 
+      || parseInt(floorObj.value.floor) > parseInt(floorObj.value.floor_in_house)
+      || typeHome.value == ''
+      || !year.value
+      || year.value < 1950
+      || year.value > curentYear.value
+      ) {
+        navigateTo("/map");
+        // announData.value[1] = "";
+        localStorage.setItem("announ", JSON.stringify(announData.value));
+      }
     }
   
 }
@@ -80,6 +84,11 @@ onMounted(() => {
   announData.value[0] = JSON.parse(localStorage.getItem("announ"))[0];
   if (JSON.parse(localStorage.getItem("announ"))[1]) {
     mapObj.value = JSON.parse(localStorage.getItem("announ"))[1];
+    cityName.value = mapObj.value.city
+    floorObj.value.floor =  mapObj.value.floor
+    floorObj.value.floor_in_house = mapObj.value.floorHouse
+    year.value = mapObj.value.year
+    typeHome.value = mapObj.value.typeHome
   } else {
     mapObj.value = mapObj1.value;
   }
@@ -94,8 +103,6 @@ onMounted(() => {
 //     mapObj.value = mapObj1.value;
 //   }
 //   const inputs = document.querySelectorAll("input");
-  
-  console.log(announData.value[0].objects);
 
   if (!announData.value[0]) {
     router.push('/announ')
@@ -254,9 +261,11 @@ onMounted(() => {
             type="number"
             v-maska
             data-maska="####"
+            @input="isFloor"
             class="form-control"
           />
-          <p v-if="mapObj.year < 1950" class="text-[red] mt-[4px] text-[12px]">Укажите год позднее 1950</p>
+          <p v-if="mapObj.year <= 1950" class="text-[red] mt-[4px]" style="font-size:14px">Укажите год позднее 1950</p>
+          <p v-if="year > curentYear" class="text-[red] mt-[4px]" style="font-size:14px;">Укажите год до {{curentYear}}</p>
         </div>
       </div>
     </div>
