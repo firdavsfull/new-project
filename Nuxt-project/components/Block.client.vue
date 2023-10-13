@@ -23,7 +23,7 @@ const date = new Date()
 const curentYear = ref(date.getFullYear())
 
 async function selectCity() {
-  const cityUrl = fetch(`http://192.168.100.45:8000:8000/api/city`);
+  const cityUrl = fetch(`http://192.168.100.45:8000/api/city`);
   const c = await cityUrl;
   const city = await c.json();
   showCities.value = city;

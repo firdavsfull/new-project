@@ -540,14 +540,14 @@ const title = ref()
 const description = ref()
 const price = ref()
 
-const data = fetch("http://192.168.100.45:8000:8000/api/infrastructure");
+const data = fetch("http://192.168.100.45:8000/api/infrastructure");
 const dataFetch = await data;
 const d = await  dataFetch.json();
 
 const firstData = ref(d.filter((item) => item.id < 14));
 const secondData = ref(d.filter((item) => item.id > 14));
 
-const getInfo = fetch("http://192.168.100.45:8000:8000/api/city");
+const getInfo = fetch("http://192.168.100.45:8000/api/city");
 const getCity = await getInfo;
 const city = await getCity.json();
 
@@ -668,7 +668,7 @@ async function post(){
   announData.value[1] = CommercialAnnoun.value
   announData.value[2] = infrastructure.value
   localStorage.setItem('announ', JSON.stringify(announData.value))
-  await fetch('http://192.168.100.45:8000:8000/api/create/announ/commercial',{
+  await fetch('http://192.168.100.45:8000/api/create/announ/commercial',{
     method:'post',
     headers:{
       "Content-Type":'application/json',

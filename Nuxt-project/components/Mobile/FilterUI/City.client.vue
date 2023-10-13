@@ -59,7 +59,7 @@ async function selectCity(event) {
   }
     sessionStorage.setItem("filter", JSON.stringify(props.filter));
     props.updateLoader(true);
- await fetch("http://192.168.100.45:8000:8000/api/filter", {
+ await fetch("http://192.168.100.45:8000/api/filter", {
     method: "post",
     headers: {
       "Content-type": "application/json",

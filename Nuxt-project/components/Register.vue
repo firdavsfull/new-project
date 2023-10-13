@@ -94,7 +94,7 @@ const tel = ref({
 async function createUser() {
   loader.value = true;
   if (tel.value.phone.length >= 19) {
-    await fetch("http://192.168.100.45:8000:8000/api/create_user", {
+    await fetch("http://192.168.100.45:8000/api/create_user", {
       method: "post",
       headers: {
         "Content-type": "application/json",
