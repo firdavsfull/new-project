@@ -4,54 +4,54 @@
             <section class="container" style="margin-top: 16px;">
                 <div class="filters">
                     <a data-name="buy" class="filter" @click="filter">
-                        <div>
+                        <div style="pointer-events:none;">
                             <!-- <font-awesome-icon class="fas" :icon="['fas', 'wallet']" /> -->
                             <Icon name="uil:wallet" size="20"/>
                         </div>
-                        <span >Купить</span>
+                        <span style="pointer-events:none;">Купить</span>
                     </a>
                     <a data-name="take_off" class="filter" @click="filter">
-                        <div>
+                        <div style="pointer-events:none;">
                             <font-awesome-icon class="fas" :icon="['fas', 'couch']" />
                             <!-- <Icon name="uil:couch"/> -->
 
                         </div>
-                        <span >Снять</span>
+                        <span style="pointer-events:none;">Снять</span>
                     </a>
                     
                     <a data-name="new_buildings" class="filter" @click="filter">
-                        <div>
+                        <div style="pointer-events:none;">
                             <!-- <font-awesome-icon  class="fas" :icon="['far', 'building']" /> -->
                             <Icon name="uil:building" size="20"/>
                             
                         </div>
                         
-                        <span >Новостройки</span>
+                        <span style="pointer-events:none;">Новостройки</span>
                     </a>
                     
                     <a data-name="house" class="filter" @click="filter">
-                        <div >
+                        <div style="pointer-events:none;">
                             <!-- <font-awesome-icon class="fas" :icon="['fas', 'house-chimney']" /> -->
                             <Icon name="uil:home" size="20"/>
 
                         </div>
-                        <span >Дом</span>
+                        <span style="pointer-events:none;">Дом</span>
                     </a>
                     
                     <a data-name="commercial" class="filter" @click="filter">
-                        <div>
+                        <div style="pointer-events:none;">
                             <font-awesome-icon  class="fas" :icon="['fas', 'chair']" />
                             <!-- <IconCSS name="uil:"/> -->
 
                         </div>
-                        <span >&nbsp;Коммерческая</span>
+                        <span style="pointer-events:none;">&nbsp;Коммерческая</span>
                     </a>  
 
                     <a data-name="daily" class="filter" @click="filter">
-                        <div>
+                        <div style="pointer-events:none;">
                             <font-awesome-icon class="fas" :icon="['fas', 'calendar-day']" />
                         </div>
-                        <span >&nbsp;Посуточно</span>
+                        <span style="pointer-events:none;">&nbsp;Посуточно</span>
                     </a>  
                 </div>
                 
