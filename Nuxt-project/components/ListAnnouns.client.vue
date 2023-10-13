@@ -27,6 +27,9 @@
                     </button>
                 </div>
             </div>
+            <div v-if="announLoader" class="w-full flex justify-center">
+                <div class="lds-spinner"><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div></div>
+            </div>
             <div  class="box-border py-[0]">
                 <div class="flex flex-col w-full px-[20px]">
                     <article v-for="(item,i) of data"  :key="item.id" class="relative my-[10px] w-full h-[max-content] rounded mx-[0px]" style="box-shadow: 0 0 9px rgb(134, 134, 134);">
@@ -162,6 +165,7 @@ const images = ref([])
 const route = useRoute()
 const {responce,showAnnouns} = getData()
 const {showNavBar} = useSwitch()
+const announLoader = ref(false)
 const filteredData = JSON.parse(sessionStorage.getItem('filter')) 
 
 function showAnnoun(item){
@@ -178,6 +182,7 @@ function filters(){
 
 onMounted(async () =>{
     showNavBar.value = true
+    announLoader.value = true
     await fetch('http://192.168.100.45:8000/api/get_announs',{
         method:'post',
         headers:{
@@ -195,6 +200,7 @@ onMounted(async () =>{
         }
         data.value = res[0];
     })
+    announLoader.value =false
     let ownerWithAd = []
     for (let i = 0; i < data.value.length; i++) {
         ownerWithAd.push(data.value[i].owner_id);
@@ -261,7 +267,83 @@ onMounted(async () =>{
     }
 }
 
-@media screen and (min-width: 1024px) {
-    
+.lds-spinner {
+  color: official;
+  display: inline-block;
+  position: relative;
+  width: 80px;
+  height: 80px;
 }
+.lds-spinner div {
+  transform-origin: 40px 40px;
+  animation: lds-spinner 1.2s linear infinite;
+}
+.lds-spinner div:after {
+  content: " ";
+  display: block;
+  position: absolute;
+  top: 3px;
+  left: 37px;
+  width: 6px;
+  height: 18px;
+  border-radius: 20%;
+  background: #000;
+}
+.lds-spinner div:nth-child(1) {
+  transform: rotate(0deg);
+  animation-delay: -1.1s;
+}
+.lds-spinner div:nth-child(2) {
+  transform: rotate(30deg);
+  animation-delay: -1s;
+}
+.lds-spinner div:nth-child(3) {
+  transform: rotate(60deg);
+  animation-delay: -0.9s;
+}
+.lds-spinner div:nth-child(4) {
+  transform: rotate(90deg);
+  animation-delay: -0.8s;
+}
+.lds-spinner div:nth-child(5) {
+  transform: rotate(120deg);
+  animation-delay: -0.7s;
+}
+.lds-spinner div:nth-child(6) {
+  transform: rotate(150deg);
+  animation-delay: -0.6s;
+}
+.lds-spinner div:nth-child(7) {
+  transform: rotate(180deg);
+  animation-delay: -0.5s;
+}
+.lds-spinner div:nth-child(8) {
+  transform: rotate(210deg);
+  animation-delay: -0.4s;
+}
+.lds-spinner div:nth-child(9) {
+  transform: rotate(240deg);
+  animation-delay: -0.3s;
+}
+.lds-spinner div:nth-child(10) {
+  transform: rotate(270deg);
+  animation-delay: -0.2s;
+}
+.lds-spinner div:nth-child(11) {
+  transform: rotate(300deg);
+  animation-delay: -0.1s;
+}
+.lds-spinner div:nth-child(12) {
+  transform: rotate(330deg);
+  animation-delay: 0s;
+}
+@keyframes lds-spinner {
+  0% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+  }
+}
+
 </style>

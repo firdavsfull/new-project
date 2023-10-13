@@ -16,10 +16,10 @@
              </div>
         <div class="rounded-[15px] mx-[auto] my-[10px] sm:max-w-[95%] min-w-[100%]  lg:max-w-[95%] lg:min-w-[70%] lg:shadow-2xl">
             <div  class="mx-[20px] mt-[10px] h-[auto]">
-                <div style="margin-top:10px;" v-if="announData[0].objects == 'Квартира' || announData[0].objects == 'Комната'" class="text-container">
+                <div style="margin-top:10px;" v-if="announData[0].objects == 'Квартира' || announData[0].objects == 'Комната' || announData[0].objects =='Квартира в Новостройке'" class="text-container">
                     <span>Параметры Квартиры </span>
                 </div>
-             <div v-if="announData[0].objects == 'Квартира' || announData[0].objects == 'Комната'" class="quantity-room-container">
+             <div v-if="announData[0].objects == 'Квартира' || announData[0].objects == 'Комната' || announData[0].objects =='Квартира в Новостройке'" class="quantity-room-container">
                  <p>Количество Комнат</p>
                  <div class="quantity-room">
                      <label class="quantity-room-item" for="1">
@@ -45,7 +45,7 @@
                  </div>
              </div>
 
-             <div v-if="announData[0].objects == 'Квартира' || announData[0].objects == 'Комната'" class="area-room-container">
+             <div v-if="announData[0].objects == 'Квартира' || announData[0].objects == 'Комната' || announData[0].objects =='Квартира в Новостройке'" class="area-room-container">
                  <div class="area-room">
                     <div class="room">
                      <p>  Общая площадь</p>
@@ -68,7 +68,7 @@
                     </div> 
                      
 
-                    <div v-if="announData[0].objects == 'Квартира' || announData[0].objects == 'Комната'" class="room">
+                    <div v-if="announData[0].objects == 'Квартира' || announData[0].objects == 'Комната' || announData[0].objects =='Квартира в Новостройке'" class="room">
                      
                      <p>Жилая площадь</p>
                      <div :style="!apartmentParams.liveArea ?'border:1px solid red;':''" class="input-area form-control">
@@ -78,7 +78,7 @@
                     </div>
                  </div>
              </div>
-             <div v-if="announData[0].objects == 'Квартира' || announData[0].objects == 'Комната'" class="area-room-container mt-5">
+             <div v-if="announData[0].objects == 'Квартира' || announData[0].objects == 'Комната' || announData[0].objects =='Квартира в Новостройке'" class="area-room-container mt-5">
                  <div class="area-room">
                      <div class="room">
                      <p>Кухня</p>
@@ -165,9 +165,7 @@ function verfied(){
     }
 
 function next(){
- announData.value[0] = JSON.parse(localStorage.getItem('announ'))[0]
- announData.value[1] = JSON.parse(localStorage.getItem('announ'))[1]
- announData.value[2] = apartmentParams.value
+ 
 //  localStorage.setItem('announ', JSON.stringify(announData.value))
  
 
@@ -176,7 +174,7 @@ function next(){
  }else{
     navigateTo('/feature')
  }
- if (announData.value[0].objects == 'Квартира'||announData.value[0].objects == 'Комната') {
+ if (announData.value[0].objects == 'Квартира'||announData.value[0].objects == 'Комната'||announData.value[0].objects == 'Квартира в Новостройке') {
     
      if (
         !liveArea.value 
@@ -191,8 +189,11 @@ function next(){
         navigateTo('/pictures')
         // announData.value[2] = ''
      }else{
-        navigateTo('/feature')
+        announData.value[0] = JSON.parse(localStorage.getItem('announ'))[0]
+        announData.value[1] = JSON.parse(localStorage.getItem('announ'))[1]
+        announData.value[2] = apartmentParams.value
         localStorage.setItem('announ', JSON.stringify(announData.value))
+        navigateTo('/feature')
      }
  }
 }

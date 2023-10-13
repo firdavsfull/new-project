@@ -1,12 +1,12 @@
 <script setup>
-        // ymaps.ready(init);
-        // function init(){
-        //     let myMap = new ymaps.Map("map-yandex", {
-        //         center: [38.576271, 68.779716],
-        //         zoom: 13
-        //     });
-        //     console.log(myMap);
-        //  }
+        ymaps.ready(init);
+        function init(){
+            let myMap = new ymaps.Map("map-yandex", {
+                center: [38.576271, 68.779716],
+                zoom: 13
+            });
+            console.log(myMap);
+         }
 const { announData, responce } = getData();
 const floorObj = ref({
   floor: "",
@@ -189,10 +189,9 @@ onMounted(() => {
     >
       <div class="content">
         <div 
-        class="rows" v-if="announData[0].objects == 'Квартира' || announData[0].objects =='Комната'">
+        class="rows" v-if="announData[0].objects == 'Квартира' || announData[0].objects =='Комната'|| announData[0].objects =='Квартира в Новостройке'">
           <span>Этаж</span>
-          <input
-            
+          <input  
             :style="moreThen || !mapObj.floor ? `border:1px solid red; ` : ''"
             @input="isFloor"
             type="number"
@@ -218,7 +217,7 @@ onMounted(() => {
           </p>
         </div>
         <div class="rows">
-          <span>{{ announData[0].objects == 'Квартира' || announData[0].objects =='Комната' ? 'Этаж в дома': 'Количество этажей' }}</span>
+          <span>{{ announData[0].objects == 'Квартира' || announData[0].objects =='Комната' || announData[0].objects =='Квартира в Новостройке' ? 'Этаж в дома': 'Количество этажей' }}</span>
           <input
             :style="!mapObj.floorHouse ? `border:1px solid red; ` : ''"
             @input="isFloor"

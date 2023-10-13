@@ -16,10 +16,10 @@
 
              <div class="container-sm" >
                  <div class="text-container" style="font-weight:normal; color:#152242;">
-                     <span>{{ announData[0].objects !== 'Квартира' && announData[0].objects !== 'Комната'?'О дома и участка':'В квартире есть' }}</span>
+                     <span>{{ announData[0].objects !== 'Квартира' && announData[0].objects !== 'Комната' && announData[0].objects !=='Квартира в Новостройке' ?'О дома и участка':'В квартире есть' }}</span>
                  </div>
                  <div class="container w-100">
-                     <div class="col mt-4" v-if="announData[0].objects == 'Квартира' || announData[0].objects == 'Комната'" style="color:#152242;">
+                     <div class="col mt-4" v-if="announData[0].objects == 'Квартира' || announData[0].objects == 'Комната' || announData[0].objects =='Квартира в Новостройке'" style="color:#152242;">
 
                            <div class="row mt-2">
                              <div class="preview-window">

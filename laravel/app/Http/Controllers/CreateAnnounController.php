@@ -16,7 +16,7 @@ class CreateAnnounController extends Controller
 
     public function createResidentAnnoun(Request $request){
             $announs = $request;
-            if ($announs[0]['objects'] == 'Квартира' || $announs[0]['objects'] == 'Комната') {  
+            if ($announs[0]['objects'] == 'Квартира' || $announs[0]['objects'] == 'Комната'|| $announs[0]['objects'] == 'Квартира в Новостройке') {  
                 $announ = Announ::firstOrCreate([
                     'deal_type'=>$announs[0]['rent'],
                     'type_real_estate'=>$announs[0]['Estate'],
