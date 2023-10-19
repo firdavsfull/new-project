@@ -22,10 +22,10 @@
       >
         Выберите файлы
       </button>
-      <input type="file" max="12" multiple style="display: none" accept=".jpg, .jpeg, .png" id="input" />
+      <input type="file" max="12" multiple style="display: none" accept=".jpg, .jpeg, .png, .webp" id="input" />
     </div>
     <p v-for="(item,index) of size" :key="index" class="text-center text-[red] my-[1px] mx-[auto] text-[14px] mb-[0]">
-        Не получилось загрузить {{item.name}}: Минимальный размер изображения - {{item.width}}x{{item.height}}px.
+        Не получилось загрузить {{item.name}}: Минимальный размер изображения - 800x400px.
       </p>
     <div
       v-if="pictures.length"

@@ -192,7 +192,8 @@ onMounted(async () =>{
     })
     .then(res=>res.json())
     .then(res=>{
-        data.value = data.value.filter(item=>item.type_real_estate == 'Жилая');
+      let uniqueSet = new Set(res.map(JSON.stringify));
+      res = Array.from(uniqueSet).map(JSON.parse)
         for (let i = 0; i < res[0].length; i++) {
             if (res[1][i].length > 0) {
                 res[0][i]['image'] = res[1][i] 

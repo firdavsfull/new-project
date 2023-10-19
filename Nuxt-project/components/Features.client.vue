@@ -25,7 +25,7 @@
                                      <label for="#balcon" class="mb-2 fw-bold" style="font-family:lato, sans-seif">Балкон</label>
                                      
                                      <div class="dropdown">
-                                             <button style="font-size: 15px;" :style="!aprtFeatures.balcon || !balcon ? 'border-color:red;':''" class="w-[100px] form-select text-left" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
+                                             <button style="font-size: 15px; box-shadow: none;" :style="!aprtFeatures.balcon || !balcon ? 'border-color:red; color:red;':'border-color:green; color:green;'" class="w-[100px] form-select text-left" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
                                                  {{  aprtFeatures.balcon?aprtFeatures.balcon:'Балкон' }}
                                              </button>
                                              <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
@@ -47,19 +47,19 @@
 
                                      <div class="container-repair  flex-wrap d-flex text-nowrap">
                                          <input :checked="aprtFeatures.repair =='Без ремонта'" @change="withRepair" data-name="Без ремонта" type="radio" class="btn-check" name="options" id="option1" autocomplete="off">
-                                         <label :style="!aprtFeatures.repair?'border:1px solid red; border-radius:8px;':''" class="form-control me-2 my-1" for="option1">Без ремонта</label>
+                                         <label :style="!aprtFeatures.repair ?'border:1px solid red; border-radius:8px; color:red;':''" class="form-control me-2 my-1" for="option1">Без ремонта</label>
 
                                          <input :checked="aprtFeatures.repair =='Обичный'" @change="withRepair" data-name="Обичный" type="radio" class="btn-check" name="options" id="option2" autocomplete="off">
-                                         <label :style="!aprtFeatures.repair?'border:1px solid red; border-radius:8px;':''" class="form-control me-2 my-1" for="option2">Обичный</label>
+                                         <label :style="!aprtFeatures.repair ?'border:1px solid red; border-radius:8px; color:red;':''"  class="form-control me-2 my-1" for="option2">Обичный</label>
 
                                          <input :checked="aprtFeatures.repair =='Косметический'" @change="withRepair" data-name="Косметический" type="radio" class="btn-check" name="options" id="option3" autocomplete="off">
-                                         <label :style="!aprtFeatures.repair?'border:1px solid red; border-radius:8px;':''" class="form-control me-2 my-1" for="option3">Косметический</label>
+                                         <label :style="!aprtFeatures.repair ?'border:1px solid red; border-radius:8px; color:red;':''"  class="form-control me-2 my-1" for="option3">Косметический</label>
 
                                          <input :checked="aprtFeatures.repair =='Евро'" @change="withRepair" data-name="Евро" type="radio" class="btn-check" name="options" id="option4" autocomplete="off" >
-                                         <label :style="!aprtFeatures.repair?'border:1px solid red; border-radius:8px;':''" class="form-control me-2 my-1" for="option4">Евро</label>
+                                         <label :style="!aprtFeatures.repair ?'border:1px solid red; border-radius:8px; color:red;':''"  class="form-control me-2 my-1" for="option4">Евро</label>
 
                                          <input :checked="aprtFeatures.repair =='Дизайнерксий'" @change="withRepair" data-name="Дизайнерксий" type="radio" class="btn-check" name="options" id="option5" autocomplete="off">
-                                         <label :style="!aprtFeatures.repair?'border:1px solid red; border-radius:8px;':''" class="form-control my-1" for="option5">Дизайнерксий</label>
+                                         <label :style="!aprtFeatures.repair ?'border:1px solid red; border-radius:8px; color:red;':''"  class="form-control my-1" for="option5">Дизайнерксий</label>
                                      </div>
                                  </div>
                              </div>
@@ -70,7 +70,7 @@
                                  <div class="balcon w-25">
                                      <label for="#balcon" class="mb-2 fw-bold" style="font-family:lato, sans-seif">Лифт</label>
                                      <div class="dropdown">
-                                             <button style="font-size: 15px;" :style="!aprtFeatures.elevator || !elevator ? 'border-color:red;':''" class="w-[100px] form-select text-left" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
+                                             <button style="font-size: 15px; box-shadow: none;" :style="!aprtFeatures.elevator || !elevator ? 'border-color:red; color:red;':'border-color:green;color:green'" class="w-[100px] form-select text-left" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
                                                 {{ aprtFeatures.elevator?aprtFeatures.elevator:'Лифт'}}
                                              </button>
                                              <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
@@ -89,17 +89,17 @@
                                      
 
                                      <div class="container-repair  flex-wrap d-flex text-nowrap">
-                                         <input :checked="aprtFeatures.parking == 'Наземная'" @change="selecetParking" data-parking="Наземная" type="checkbox" class="btn-check" name="options" id="sel1" autocomplete="off">
-                                         <label :style="!aprtFeatures.parking?'border:1px solid red; border-radius:8px;':''" class="form-control me-2 my-1" for="sel1">Наземная</label>
+                                         <input :checked="aprtFeatures.parking == 'Наземная'" @change="selecetParking" data-parking="Наземная" type="checkbox" class="d-none " name="options" id="sel1" autocomplete="off">
+                                         <label :style="!aprtFeatures.parking?'border:1px solid red; border-radius:8px; color:red':''" class="form-control me-2 my-1" for="sel1">Наземная</label>
 
-                                         <input :checked="aprtFeatures.parking == 'Многоуровневая'" @change="selecetParking" data-parking="Многоуровневая" type="checkbox" class="btn-check" name="options" id="sel2" autocomplete="off">
-                                         <label :style="!aprtFeatures.parking?'border:1px solid red; border-radius:8px;':''" class="form-control me-2 my-1" for="sel2">Многоуровневая</label>
+                                         <input :checked="aprtFeatures.parking == 'Многоуровневая'" @change="selecetParking" data-parking="Многоуровневая" type="checkbox" class="d-none " name="options" id="sel2" autocomplete="off">
+                                         <label :style="!aprtFeatures.parking?'border:1px solid red; border-radius:8px; color:red':''" class="form-control me-2 my-1" for="sel2">Многоуровневая</label>
 
-                                         <input :checked="aprtFeatures.parking == 'Подземная'" @change="selecetParking" data-parking="Подземная" type="checkbox" class="btn-check" name="options" id="sel3" autocomplete="off" >
-                                         <label :style="!aprtFeatures.parking?'border:1px solid red; border-radius:8px;':''" class="form-control me-2 my-1" for="sel3">Подземная</label>
+                                         <input :checked="aprtFeatures.parking == 'Подземная'" @change="selecetParking" data-parking="Подземная" type="checkbox" class="d-none " name="options" id="sel3" autocomplete="off" >
+                                         <label :style="!aprtFeatures.parking?'border:1px solid red; border-radius:8px; color:red':''" class="form-control me-2 my-1" for="sel3">Подземная</label>
 
                                          <input :checked="aprtFeatures.parking == 'На крыше'" @change="selecetParking" data-parking="На крыше" type="checkbox" class="btn-check" name="options" id="sel4" autocomplete="off">
-                                         <label :style="!aprtFeatures.parking?'border:1px solid red; border-radius:8px;':''" class="form-control my-1 me-2" for="sel4">На крыше</label>
+                                         <label :style="!aprtFeatures.parking?'border:1px solid red; border-radius:8px; color:red':''" class="form-control my-1 me-2" for="sel4">На крыше</label>
 
                                          <input v-if="announData[0].objects == 'Дом/Дача'" :checked="aprtFeatures.parking == 'Нет'" @change="selecetParking" data-parking="Нет" type="checkbox" class="btn-check" name="options" id="sel5" autocomplete="off">
                                          <label v-if="announData[0].objects == 'Дом/Дача'" :style="!aprtFeatures.parking?'border:1px solid red; border-radius:8px;':''" class="form-control my-1" for="sel5">Нет</label>
@@ -173,11 +173,11 @@ function next(){
     if (!balcon.value || !repair.value || !elevator.value || !parking.value) {
         navigateTo('/feature')
     }else{
-        if (announData.value[0].rent == 'Аренда') {
+        if (announData.value[0].rent == 'Аренда' || announData.value[0].objects == 'Дом/Дача'||announData.value[0].objects == 'Коттедж') {
         navigateTo('/technicsandfurniture')
-    }else{
-        navigateTo('description')
-    }
+        }else{
+            navigateTo('description')
+        }
         localStorage.setItem('announ', JSON.stringify(announData.value))   
         // navigateTo('/technicsandfurniture')
     }
@@ -191,9 +191,6 @@ onMounted(() => {
     }else{
         aprtFeatures.value = aprtFeatures1.value
     }
-    // if (!announData.value[2]) {
-    //     window.location.replace('/')
-    // }
 })
 
 </script>

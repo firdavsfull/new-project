@@ -18,7 +18,7 @@
                  <div class="text-container" style="font-weight:normal; color:#152242;">
                      <span>{{ announData[0].objects !== 'Квартира' && announData[0].objects !== 'Комната' && announData[0].objects !=='Квартира в Новостройке' ?'О дома и участка':'В квартире есть' }}</span>
                  </div>
-                 <div class="container w-100" v-if="announData[0].rent == 'Аренда'">
+                 <div class="container w-100" v-if="announData[0].rent == 'Аренда'||announData[0].objects == 'Дом/Дача'||announData[0].objects == 'Коттедж'">
                      <div class="col mt-4" v-if="announData[0].objects == 'Квартира' || announData[0].objects == 'Комната' || announData[0].objects =='Квартира в Новостройке'" style="color:#152242;">
 
                            <div class="row mt-2">
@@ -89,7 +89,7 @@
                          </div>
                      </div>
 
-                     <div class="mt-[40px]" v-else>
+                    <div class="mt-[40px]" v-else>
                         <div class="overflow-hidden rounded max-w-xlg mx-[auto] ">
 
                             <div class="block ]">
@@ -101,9 +101,9 @@
                                         Площадь участка
                                     </label>
 
-                                    <div class="h-[40px] w-[250px] flex rounded-1 border bg-[white] overflow-hidden">
+                                    <div :class="!landArea ?'border-[red] text-[red]':'border-[green] text-[green]'" class="h-[40px] w-[250px] flex rounded-1 border-1 bg-[white] overflow-hidden">
                                         <input @input="inputLandArera" v-model="landArea" autocomplete="off" v-maska data-maska="##########" class="border-[0] outline-0 px-[10px] h-full w-[85%]" type="text" id="area-plot">
-                                        <select style="-webkit-appearance: none; text-align: center;" class="flex  border-l h-full outline-0 items-center justify-center bg-[white] w-[30%]" name="name" id="">
+                                        <select :class="!landArea ?'border-[red]':'border-[green]'" style="-webkit-appearance: none; text-align: center;" class="flex border-l h-full outline-0 items-center justify-center bg-[white] w-[30%]" name="name">
                                                 <option value="сот.">сот.</option>
                                                 <option value="га">га</option>
                                         </select>
@@ -112,22 +112,22 @@
 
                                 <div class="flex bg-[green]w-full mt-[5px]">
                                     <div class="flex flex-col">
-                                        <label class="text-[14px] font-normal mt-[10px] text-[#152242]" for="some-texts">
+                                        <div class="text-[14px] font-normal mt-[10px] text-[#152242]" for="some-texts">
                                         Категория земель
-                                        </label>
+                                        </div>
 
-                                        <div class="flex flex-wrap w-full">
-                                            <label class="mr-[5px] " for="1">
-                                                <input @change="selectLandCategory" data-category="Земли населённых пунктов" class="d-none check" type="radio" name="radio1" id="1">
-                                                <span class="form-control rounded-1 border mt-[5px] ">Земли населённых пунктов</span>
+                                        <div class="flex items-center flex-wrap w-full mt-[10px]">
+                                            <label class="flex mr-[5px] landArea" for="v1">
+                                                <input @change="selectLandCategory" data-category="Земли населённых пунктов" class="d-none check" type="radio" name="landArea" id="v1">
+                                                <span class="py-[9px] px-[5px] bg-white rounded-1 border mt-[5px] ">Земли населённых пунктов</span>
                                             </label>
-                                            <label class="mr-[5px] " for="2">
-                                                <input @change="selectLandCategory" data-category="Земли сельхозназначения" class="d-none check" type="radio" name="radio1" id="2">
-                                                <span class="form-control rounded-1 border mt-[5px] ">Земли сельхозназначения</span>
+                                            <label class="flex mr-[5px] landArea" for="v2">
+                                                <input @change="selectLandCategory" data-category="Земли сельхозназначения" class="d-none check" type="radio" name="landArea" id="v2">
+                                                <span class="py-[9px] px-[5px] bg-white rounded-1 border mt-[5px] ">Земли сельхозназначения</span>
                                             </label>
-                                            <label class="mr-[5px] " for="3">
-                                                <input @change="selectLandCategory" data-category="Другое" class="d-none check" type="radio" name="radio1" id="3">
-                                                <span class="form-control rounded-1 border mt-[5px] ">Другое</span>
+                                            <label class="flex mr-[5px] landArea" for="v3">
+                                                <input @change="selectLandCategory" data-category="Другое" class="d-none check" type="radio" name="landArea" id="v3">
+                                                <span class="py-[9px] px-[5px] bg-white rounded-1 border mt-[5px] ">Другое</span>
                                             </label>
                                             
                                         </div>
@@ -139,7 +139,7 @@
                                             Площадь дома
                                         </label>
     
-                                        <div class="h-[40px] w-[200px] flex rounded-1 border bg-[white] overflow-hidden">
+                                        <div :class="!homeArea?'border-[red] text-[red]':'border-[green] text-[green]'" class="h-[40px] w-[200px] flex rounded-1 border-1 bg-[white] overflow-hidden">
                                             <input @input="inputHomeArea" v-model="homeArea" autocomplete="off" v-maska data-maska="####" class="border-[0] outline-0 px-[10px] h-full w-[85%]" type="text" id="area-home">
                                             <span class="flex items-center justify-center bg-[white] w-[15%]">м<sup class="text-[10px]">2</sup></span>
                                             
@@ -151,7 +151,7 @@
                                         Количество спален
                                     </label>
 
-                                    <div class="h-[40px] w-[200px] flex rounded-1 border bg-[white] overflow-hidden">
+                                    <div :class="!quantityBedroom?'border-[red] text-[red]':'border-[green] text-[green]'" class="h-[40px] w-[200px] flex rounded-1 border-1 bg-[white] overflow-hidden">
                                         <input @input="chooseQuantityBedroom" v-model="quantityBedroom" v-maska data-maska="##" class="border-[0] outline-0 px-[10px] h-full w-full" type="text" id="quantity-bedroom">
                                         <!-- <span class="flex items-center justify-center bg-[white] w-[15%]">м<sup class="text-[10px]">2</sup></span> -->
                                     </div>
@@ -159,26 +159,26 @@
 
                                 <div class="flex bg-[green]w-full mt-[5px]">
                                     <div class="flex flex-col">
-                                        <label class="text-[14px] font-normal mt-[10px] text-[#152242]" for="some-text">
+                                        <div class="text-[14px] font-normal mt-[10px] text-[#152242]" for="some-text">
                                         Состояние дома
-                                        </label>
+                                        </div>
 
                                         <div class="flex flex-wrap w-full">
                                             <label class="mr-[5px] " for="4">
-                                                <input @change="selectConditionHome" data-name="Можно жить" class="d-none" type="radio" name="radio" id="4">
-                                                <span class="form-control text-[green] rounded-1 border mt-[5px] ">Можно жить</span>
+                                                <input @change="selectConditionHome" data-name="Можно жить" class="d-none check" type="radio" name="radio" id="4">
+                                                <span class="form-control bg-white text-[green] rounded-1 border mt-[5px] ">Можно жить</span>
                                             </label>
                                             <label class="mr-[5px] " for="5">
-                                                <input @change="selectConditionHome" data-name="Нужен ремонт" class="d-none" type="radio" name="radio" id="5">
-                                                <span class="form-control rounded-1 border mt-[5px] ">Нужен ремонт</span>
+                                                <input @change="selectConditionHome" data-name="Нужен ремонт" class="d-none check" type="radio" name="radio" id="5">
+                                                <span class="form-control bg-white rounded-1 border mt-[5px] ">Нужен ремонт</span>
                                             </label>
                                             <label class="mr-[5px] " for="6">
-                                                <input @change="selectConditionHome" data-name="Нужно достроит" class="d-none" type="radio" name="radio" id="6">
-                                                <span class="form-control rounded-1 border mt-[5px] ">Нужно достроит</span>
+                                                <input @change="selectConditionHome" data-name="Нужно достроит" class="d-none check" type="radio" name="radio" id="6">
+                                                <span class="form-control bg-white rounded-1 border mt-[5px] ">Нужно достроит</span>
                                             </label>
                                             <label class="mr-[5px] " for="7">
-                                                <input @change="selectConditionHome" data-name="Нужен капремонт или под снос" class="d-none" type="radio" name="radio" id="7">
-                                                <span class="form-control rounded-1 border mt-[5px] ">Нужен капремонт или под снос</span>
+                                                <input @change="selectConditionHome" data-name="Нужен капремонт или под снос" class="d-none check" type="radio" name="radio" id="7">
+                                                <span class="form-control bg-white rounded-1 border mt-[5px] ">Нужен капремонт или под снос</span>
                                             </label>
                                         </div>
                                     </div>
@@ -191,12 +191,12 @@
 
                                         <div class="flex flex-wrap w-full">
                                             <label class="mr-[5px] flex w-[80px] text-center" for="electric1">
-                                                <input @change="selectElectricity" data-name="Есть" v-model="facilities.electricity" class="d-none check" type="radio" name="radio2" id="electric1">
-                                                <span class="form-control rounded-1 border mt-[5px] ">Есть</span>
+                                                <input @change="selectElectricity" data-name="Есть" class="d-none check" type="radio" name="radio2" id="electric1">
+                                                <span class="form-control bg-white rounded-1 border mt-[5px]">Есть</span>
                                             </label>
                                             <label class="mr-[5px] flex w-[80px] text-center" for="electric2">
-                                                <input @change="selectElectricity" data-name="Нет" v-model="facilities.electricity" class="d-none check" type="radio" name="radio2" id="electric2">
-                                                <span class="form-control rounded-1 border mt-[5px] ">Нет</span>
+                                                <input @change="selectElectricity" data-name="Нет" class="d-none check" type="radio" name="radio2" id="electric2">
+                                                <span class="form-control bg-white rounded-1 border mt-[5px]">Нет</span>
                                             </label>
                                             
                                         </div>
@@ -324,15 +324,15 @@ onMounted(async ()=>{
         .then(res=> res)
         
             setTimeout(()=>{
-                let inputs = document.querySelectorAll('.d-none');
-                    inputs.forEach(elem  =>{
-                        let checks = elem.dataset.name
-                        facilities.value.forEach((item) => {
-                            if(parseInt(checks) === item){
-                                 elem.checked = true
-                            }
-                            })
-                    })
+            let inputs = document.querySelectorAll('.d-none');
+            inputs.forEach(elem  =>{
+            let checks = elem.dataset.name
+            facilities.value.forEach((item) => {
+            if(parseInt(checks) === item){
+                elem.checked = true
+            }
+            })
+            })
             })
 
 
@@ -426,10 +426,6 @@ function change(){
 *{
     font-family: Lato,Arial,sans-serif;
 }
-.check:checked + span{
-    border-radius: 3px;
-    border: 1px solid #152242;
-}
 @media screen and (min-width:320px) {
  .progress{
      height: 7px;
@@ -465,6 +461,7 @@ function change(){
 }
 
 @media screen and (min-width:640px){
+
  .container-btn{
          display: flex;
          justify-content: flex-end;
@@ -572,10 +569,14 @@ label > input:checked + span{
 }
 
 .container-repair input:checked + .form-control{
-  background-color: rgb(230, 230, 230);
- border: 1px solid #152242;
+background-color: rgb(230, 230, 230) !important;
+border: 1px solid #152242 !important;
 }
 
-
+.check:checked + .bg-white{
+    border-radius: 3px;
+    border: 1px solid #152242 !important;
+    background: rgb(235, 232, 232) !important;
+}
 
 </style>

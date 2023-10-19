@@ -37,7 +37,7 @@
 
               <div
                 class="border-1 bg-red-500 rounded flex w-full h-[40px] overflow-hidden"
-                :style="mooreTitle ? 'border-color:red;' : ''"
+                :style="mooreTitle ? 'border-color:red; color:red' : 'border-color:green; color:green'"
               >
                 <input
                   @input="writeTitle"
@@ -67,13 +67,13 @@
               >Описание</label
             >
             <textarea
-              :style="mooreDescription ? 'border:1px solid red;' : ''"
+              :style="mooreDescription ? 'border:1px solid red;color:red;' : 'border-color:green;color:green;'"
               @input="writeDescription"
               v-model="message.description"
               class="form-control"
               id="floatingTextarea2"
               placeholder="Уютная светлая двушка в тихом спальном районе. Окна на красивые цветущие деревья. Свежий ремонт 2020 года делали для себя. Рядом есть детсад. Можно заезжать и жить!"
-              style="resize: none; height: 300px"
+              style="resize: none; height: 300px;box-shadow: none;"
             >
             </textarea>
             <p
@@ -139,24 +139,26 @@ function next() {
   ) {
     navigateTo("/description");
   } else {
-    navigateTo("/price");
     announData.value[0] = JSON.parse(localStorage.getItem("announ"))[0];
     announData.value[1] = JSON.parse(localStorage.getItem("announ"))[1];
     announData.value[2] = JSON.parse(localStorage.getItem("announ"))[2];
     announData.value[3] = JSON.parse(localStorage.getItem("announ"))[3];
-    if (announData.value[0].rent == 'Аренда') {
+    if (announData.value[0].rent == 'Аренда'||announData.value[0].objects == 'Дом/Дача'||announData.value[0].objects=='Коттедж') {
         announData.value[4] = JSON.parse(localStorage.getItem("announ"))[4];
-    }else{
-    announData.value[4] = message.value;
-    }
-    // announData.value[5] = message.value;
-    localStorage.setItem("announ", JSON.stringify(announData.value));
+        announData.value[5] = message.value;
+        // localStorage.setItem("announ", JSON.stringify(announData.value));
+      }else{
+        announData.value[4] = message.value;
+      }
+  
+  localStorage.setItem("announ", JSON.stringify(announData.value));
     message.value = message1.value;
+    navigateTo("/price");
   }
 }
 
 function back() {
-  if (announData.value[0].rent == "Аренда") {
+  if (announData.value[0].rent == "Аренда" || announData.value[0].objects == 'Коттедж'|| announData.value[0].objects == 'Дом/Дача') {
     navigateTo("/technicsandfurniture");
   } else {
     navigateTo("/feature");

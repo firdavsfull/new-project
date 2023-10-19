@@ -1,19 +1,19 @@
 <template>
-  <div class="min-h-[100vh] bg-[#f4f4f4] p-[10px]">
+  <div class="min-h-[100vh]  bg-[#f4f4f4] p-[10px]">
     <div class="container-xlg lg:container-lg">
-      <div class="px-[30px] h-[50px] flex mt-[10px]">
-        <h1 class="text-[27px] mx-[8px] mt-[8px] font-bold">
+      <div class="h-[50px] flex mt-[10px]">
+        <h1 class="text-[27px] block md:mx-[0] lg:w-full lg:max-w-[1000px] lg:mx-[auto] mt-[8px] font-bold">
           Новое объявление
         </h1>
       </div>
 
-      <div class="min-h-[100vh] mt-[30px] bg-[white] max-w-full">
+      <div class="min-h-[100vh] mt-[30px] bg-[white] lg:max-w-[1000px] lg:mx-[auto]">
         <div class="relative z-1 mt-[10px] border-top-2 mb-[0]">
           <div
             class="text-[#121212] font-[400] text-[14px] leading-[1.3] py-[10px] px-[16px]"
           >
             <div class="relative my-[10px]">
-              <div class="mb-[10px] font-bold text-[16px] leading-[16px]">
+              <div class="mb-[10px] sm:font-[551] sm:text-[16px] text-[13px] leading-[16px]">
                 Адрес или название бизнес-центра
               </div>
             </div>
@@ -26,8 +26,9 @@
                     href="#"
                     role="button"
                     data-bs-toggle="dropdown"
+                    style="box-shadow:none;"
                   >
-                    <span class="me-5">{{CommercialAnnoun.city ? CommercialAnnoun.city :'Укажите город'}}</span>
+                    <span class="mx-[auto]">{{CommercialAnnoun.city ? CommercialAnnoun.city :'Укажите город'}}</span>
                   </a>
 
                   <ul
@@ -74,7 +75,7 @@
         </div>
       </div>
 
-      <div class="bg-[white] mt-[20px]">
+      <div class="bg-[white] mt-[20px] lg:max-w-[1000px] lg:mx-[auto]">
         <div class="p-[10px]">
           <div
             class="mb-[20px] text-[14px] leading-[20px] text-[rgba(21,34,66,.6)] font-weight"
@@ -86,12 +87,13 @@
         <div class="p-[10px]">
           <div class="flex flex-col">
             <div
+            v-if="announData[0].objects !== 'Коммерческая земля'"
               class="mb-[8px] shrink-[0] pt-[6px] w=[180px] text-[14px] leading-[16px]"
             >
-              Общая площадь
+              {{announData[0].objects == 'Здание'||announData[0].objects == 'Коммерческая земля'?'Площадь':'Общая площадь'}}
             </div>
 
-            <div :style="!CommercialAnnoun.totalArea ? 'border:1px solid red;':'border:1px solid silver'" class="flex h-[30px] rounded-1 px-[4px] w-[90px]">
+            <div v-if="announData[0].objects !== 'Коммерческая земля'" :style="!CommercialAnnoun.totalArea ? 'border:1px solid red;':'border:1px solid silver'" class="flex h-[30px] rounded-1 px-[4px] w-[90px]">
               <input
                 v-model="totalArea"
                 @input="getTotalArea"
@@ -104,12 +106,12 @@
             </div>
           </div>
 
-          <div class="flex flex-col mt-[20px]">
+          <div v-if="announData[0].objects !== 'Коммерческая земля'" class="flex flex-col mt-[20px]">
             <div
               class="mb-[8px] shrink-[0] pt-[6px] w=[180px] text-[14px] leading-[16px]"
             
             >
-              Этаж
+              {{announData[0].objects !== 'Здание'?'Этаж':'Этаж в здании'}}
             </div>
             <div class="flex ">
               <div :style="!CommercialAnnoun.floor ? 'border:1px solid red;':'border:1px solid silver'" class="flex h-[30px] rounded-1 px-[4px] w-[90px]">
@@ -126,7 +128,7 @@
             </div>
           </div>
 
-          <div class="flex flex-col">
+          <div v-if="announData[0].objects !== 'Здание' && announData[0].objects !== 'Коммерческая земля' " class="flex flex-col">
             <div
               class="mb-[8px] shrink-[0] pt-[6px] w=[180px] text-[14px] leading-[16px]"
             >
@@ -145,7 +147,7 @@
             </div>
           </div>
 
-          <div class="flex flex-col mt-[10px]">
+          <div v-if="announData[0].objects !== 'Коммерческая земля'" class="flex flex-col mt-[10px]">
             <div
               class="mb-[8px] shrink-[0] pt-[6px] w=[180px] text-[14px] leading-[16px]"
             >
@@ -167,14 +169,14 @@
             </div>
           </div>
 
-          <div class="flex flex-col mt-[10px]">
-            <div
+          <div  class="flex flex-col mt-[10px]">
+            <div v-if="announData[0].objects !== 'Здание' && announData[0].objects !== 'Коммерческая земля'"
               class="mb-[8px] shrink-[0] pt-[6px] w=[180px] text-[14px] leading-[16px]"
             >
               Планировка
             </div>
 
-            <div :style="!CommercialAnnoun.layout || CommercialAnnoun.layout == 'Не выбранно'  ? 'border:1px solid red;':'border:1px solid silver'" class="flex rounded-1 w-[max-content]">
+            <div v-if="announData[0].objects !== 'Здание' &&announData[0].objects !== 'Коммерческая земля'" :style="!CommercialAnnoun.layout || CommercialAnnoun.layout == 'Не выбранно'  ? 'border:1px solid red;':'border:1px solid silver'" class="flex rounded-1 w-[max-content]">
               <select
               @change="selectLayout"
                 style="-webkit-appearance: none"
@@ -190,12 +192,13 @@
             </div>
 
             <div
+            v-if="announData[0].objects !== 'Коммерческая земля'"
               class="mb-[8px] shrink-[0] pt-[6px] mt-[15px] w-[180px] text-[14px] leading-[16px]"
             >
-              Состояние
+              {{announData[0].objects == 'Здание'?'Ремонт':'Состояние'}}
             </div>
 
-            <div :style="!CommercialAnnoun.State || CommercialAnnoun.State == 'Не выбранно'  ? 'border:1px solid red;':'border:1px solid silver'" class="flex rounded-1 w-[max-content]">
+            <div v-if="announData[0].objects !== 'Коммерческая земля'" :style="!CommercialAnnoun.State || CommercialAnnoun.State == 'Не выбранно'  ? 'border:1px solid red;':'border:1px solid silver'" class="flex rounded-1 w-[max-content]">
               <select
               @change="selectState"
                 style="-webkit-appearance: none"
@@ -204,24 +207,51 @@
                 name="plan"
               >
                 <option class="text-[14px]" selected>Не выбранно</option>
-                <option class="text-[14px]">Офисная отделка</option>
-                <option class="text-[14px]">Под чистовую отделку</option>
-                <option class="text-[14px]">
+                <option v-if="announData[0].objects !== 'Здание'" class="text-[14px]">Офисная отделка</option>
+                <option v-if="announData[0].objects !== 'Здание'" class="text-[14px]">Под чистовую отделку</option>
+                <option v-if="announData[0].objects !== 'Здание'" class="text-[14px]">
                   Требуется капитальный ремонт
                 </option>
-                <option class="text-[14px]">
+                <option v-if="announData[0].objects !== 'Здание'" class="text-[14px]">
                   Требуется косметический ремонт
                 </option>
+                <option v-if="announData[0].objects == 'Здание'">Типовой</option>
+                <option v-if="announData[0].objects == 'Здание'">Дизайнерский</option>
+                <option v-if="announData[0].objects == 'Здание'">Под чистовую отделку</option>
+                <option v-if="announData[0].objects == 'Здание'">Нужен капистальный</option>
+                <option v-if="announData[0].objects == 'Здание'">Нужен Косметический</option>
               </select>
             </div>
 
             <div
+            v-if="announData[0].objects !== 'Коммерческая земля'"
               class="mb-[8px] shrink-[0] pt-[6px] mt-[15px] w-[180px] text-[14px] leading-[16px]"
             >
               Мебель
             </div>
 
-            <div :style="!CommercialAnnoun.Furniture || CommercialAnnoun.Furniture == 'Не выбранно'  ? 'border:1px solid red;':'border:1px solid silver'" class="flex rounded-1 w-[max-content]">
+            <div v-if="announData[0].objects !== 'Коммерческая земля'" :style="!CommercialAnnoun.Furniture || CommercialAnnoun.Furniture == 'Не выбранно'  ? 'border:1px solid red;':'border:1px solid silver'" class="flex rounded-1 w-[max-content]">
+              <select
+              @change="selectFurniture"
+                style="-webkit-appearance: none"
+                class="border-1 h-[30px] rounded-1 outline-0 px-[10px] py-[1px] text-[14px]"
+                name="plan"
+              >
+                <option class="text-[14px]" selected>Не выбранно</option>
+                <option class="text-[14px]">Есть</option>
+                <option class="text-[14px]">Нет</option>
+              </select>
+            </div>
+
+
+            <div
+            v-if="announData[0].objects == 'Здание' && announData[0].objects !== 'Коммерческая земля'"
+              class="mb-[8px] shrink-[0] pt-[6px] mt-[15px] w-[180px] text-[14px] leading-[16px]"
+            >
+              Лифт
+            </div>
+
+            <div v-if="announData[0].objects == 'Здание'" :style="!CommercialAnnoun.Furniture || CommercialAnnoun.Furniture == 'Не выбранно'  ? 'border:1px solid red;':'border:1px solid silver'" class="flex rounded-1 w-[max-content]">
               <select
               @change="selectFurniture"
                 style="-webkit-appearance: none"
@@ -235,12 +265,54 @@
             </div>
 
             <div
+            v-if="announData[0].objects == 'Здание'"
+              class="mb-[8px] shrink-[0] pt-[6px] mt-[15px] w-[180px] text-[14px] leading-[16px]"
+            >
+              Отопление
+            </div>
+
+            <div v-if="announData[0].objects == 'Здание'" :style="!CommercialAnnoun.Furniture || CommercialAnnoun.Furniture == 'Не выбранно'  ? 'border:1px solid red;':'border:1px solid silver'" class="flex rounded-1 w-[max-content]">
+              <select
+              @change="selectFurniture"
+                style="-webkit-appearance: none"
+                class="border-1 h-[30px] rounded-1 outline-0 px-[10px] py-[1px] text-[14px]"
+                name="plan"
+              >
+                <option class="text-[14px]" selected>Не выбранно</option>
+                <option class="text-[14px]">Есть</option>
+                <option class="text-[14px]">Нет</option>
+              </select>
+            </div>
+
+
+            <div
+            v-if="announData[0].objects == 'Здание'"
+              class="mb-[8px] shrink-[0] pt-[6px] mt-[15px] w-[180px] text-[14px] leading-[16px]"
+            >
+              Система пожаротушения
+            </div>
+
+            <div v-if="announData[0].objects == 'Здание'" :style="!CommercialAnnoun.Furniture || CommercialAnnoun.Furniture == 'Не выбранно'  ? 'border:1px solid red;':'border:1px solid silver'" class="flex rounded-1 w-[max-content]">
+              <select
+              @change="selectFurniture"
+                style="-webkit-appearance: none"
+                class="border-1 h-[30px] rounded-1 outline-0 px-[10px] py-[1px] text-[14px]"
+                name="plan"
+              >
+                <option class="text-[14px]" selected>Не выбранно</option>
+                <option class="text-[14px]">Есть</option>
+                <option class="text-[14px]">Нет</option>
+              </select>
+            </div>
+
+            <div
+              v-if="announData[0].objects !== 'Коммерческая земля'"
               class="mb-[8px] shrink-[0] pt-[6px] mt-[15px] w-[180px] text-[14px] leading-[16px]"
             >
               Парковка
             </div>
 
-            <div :style="!CommercialAnnoun.Parking || CommercialAnnoun.Parking == 'Не выбранно'  ? 'border:1px solid red;':'border:1px solid silver'" class="flex rounded-1 w-[max-content]">
+            <div v-if="announData[0].objects !== 'Коммерческая земля'" :style="!CommercialAnnoun.Parking || CommercialAnnoun.Parking == 'Не выбранно'  ? 'border:1px solid red;':'border:1px solid silver'" class="flex rounded-1 w-[max-content]">
               <select
                 @change="selectParking"
                 style="-webkit-appearance: none"
@@ -255,14 +327,16 @@
               </select>
             </div>
 
-            <div class="flex flex-col mt-[10px]">
+            <div class="flex flex-col mt-[10px]" v-if="announData[0].objects !== 'Коммерческая земля'">
               <div
+              v-if="announData[0].objects !== 'Здание'"
                 class="mb-[8px] shrink-[0] pt-[6px] w-[180px] text-[14px] leading-[16px]"
               >
                 Количество мест
               </div>
               
               <div
+              v-if="announData[0].objects !== 'Здание'"
                :style="!CommercialAnnoun.numberSeats ? 'border:1px solid red;' : 'border: 1px solid silver;'"
                class="flex rounded-1 h-[30px] px-[4px] w-[100px]">
                 <input
@@ -282,11 +356,12 @@
         <div class="mx-[2px] border-top bg-[white] min-h-[10vh] mt-[13px]">
           <div class="px-[10px]">
             <div class="mt-[24px] font-bold text-[16px] leading-[16px]">
-              О здании
+              
+              {{announData[0].objects !== 'Здание' && announData[0].objects !== 'Коммерческая земля'?'О здании':''}}
             </div>
 
             <div>
-              <div class="flex flex-col mb-[10px] mt-[10px]">
+              <div v-if="announData[0].objects !== 'Здание' && announData[0].objects !== 'Коммерческая земля'" class="flex flex-col mb-[10px] mt-[10px]">
                 <div
                   class="mb-[8px] shrink-[0] pt-[6px] w-[180px] text-[14px] leading-[16px]"
                 >
@@ -308,7 +383,7 @@
               </div>
             </div>
             <div>
-              <div class="flex flex-col mt-[10px]">
+              <div v-if="announData[0].objects !== 'Здание' && announData[0].objects !== 'Коммерческая земля'" class="flex flex-col mt-[10px]">
                 <div
                   class="mb-[8px] shrink-[0] pt-[6px] w=[180px] text-[14px] leading-[16px]"
                 >
@@ -334,12 +409,12 @@
                 <div
                   class="mb-[8px] shrink-[0] pt-[6px] w=[180px] text-[14px] leading-[16px]"
                 >
-                  Усачток
+                  {{announData[0].objects !== 'Коммерческая земля'?'Участок':'Площадь'}}
                 </div>
 
                 <div
                   :style="!CommercialAnnoun.plot ? 'border:1px solid red;' : 'border: 1px solid silver;'"
-                  class="flex rounded-1 h-[30px] items-center px-[4px] w-[90px]"
+                  class="flex rounded-1 h-[30px] mb-[18px] items-center px-[4px] w-[100px]"
                 >
                   <input
                     @input="getPlot"
@@ -349,13 +424,13 @@
                     data-maska="####"
                     type="text"
                   />
-                  <span>га</span>
+                  <span>сот</span>
                 </div>
               </div>
             </div>
           </div>
         </div>
-        <div class="px-[10px] border-y-[2px] min-h-[100vh]">
+        <div v-if="announData[0].objects !== 'Здание'&&announData[0].objects !== 'Коммерческая земля'" class="px-[10px] border-y-[2px] min-h-[100vh]">
           <div>
             <div class="mt-[24px] font-bold text-[16px] leading-[16px]">
               Инфраструктура
@@ -399,7 +474,7 @@
                   />
                   <span
                     style="font-family: Lato, Arial, sans-serif"
-                    class="text-[14px] ml-[10px]"
+                    class="text-[14px] ml-[10px] media"
                     >{{ data2.name }}</span
                   >
                 </label>
@@ -410,14 +485,14 @@
       </div>
 
       <div
-        class="p-[10px] mt-[5px] rounded-[10px] border-primary"
+        class="p-[10px] mt-[5px] rounded-[10px] border-primary lg:max-w-[1000px] lg:mx-[auto]"
         
       >
         <div>
           <Pictures />
         </div>
       </div>
-      <div class="p-[10px] mt-[5px] bg-white">
+      <div class="p-[10px] mt-[5px] bg-white lg:max-w-[1000px] lg:mx-[auto]">
         <div>
           <div>
             <div class="mt-[24px] font-bold text-[16px] leading-[16px]">
@@ -426,7 +501,7 @@
           </div>
 
           <div 
-          class="mt-[15px] border rounded-1 h-[30px]">
+          class="mt-[15px] border rounded-1 h-[30px] overflow-hidden" style="border:1px solid black;">
             <input
             @input="CommercialAnnoun.linkVideo"
               type="text"
@@ -446,7 +521,7 @@
 
           <div
             :style="!CommercialAnnoun.title ? 'border:1px solid red;' : 'border: 1px solid silver;'"
-           class="mt-[15px] rounded-1 h-[30px]">
+           class="mt-[15px] rounded-1 h-[30px] overflow-hidden">
             <input
               @input="writeTitle"
               v-model="title"
@@ -464,7 +539,7 @@
           </div>
 
           <div 
-          class="mt-[15px] rounded-1 h-[200px]"
+          class="mt-[15px] rounded-1 h-[200px] overflow-hidden"
           :style="!CommercialAnnoun.description || CommercialAnnoun.description.length < 15 ? 'border:1px solid red;' : 'border: 1px solid silver;'"
           >
           
@@ -479,7 +554,7 @@
         </div>
       </div>
 
-      <div class="p-[10px] mt-[5px] bg-white">
+      <div class="p-[10px] mt-[5px] bg-white lg:max-w-[1000px] lg:mx-[auto]">
         <div>
           <div class="mt-[4px] font-bold text-[16px] leading-[16px]">Цена</div>
         </div>
@@ -509,12 +584,12 @@
         </div>
 
         <div class="mt-[10px] items-center flex flex-col md:flex-row-reverse justify-start">
-          <div class="flex">
+          <div class="flex w-full">
             <next-btn @click="post" class="btn btn-primary w-full font-bold"
               >Разместить</next-btn
             >
           </div>
-          <div class="md:flex mt-[5px]  md:mt-[0] mx-[5px]">
+          <div class="md:flex mt-[5px] w-full md:mt-[0] mx-[5px]">
             <next-btn class="btn btn-light w-full text-primary"
               >Сохранить черновик</next-btn
             >

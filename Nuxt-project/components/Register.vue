@@ -51,6 +51,7 @@
         <button
           style="font-family: Lato, Arial, sans-serif"
           class="btn-light text-primary btn mt-[10px]"
+          @click.prevent
         >
           Другим способом
         </button>

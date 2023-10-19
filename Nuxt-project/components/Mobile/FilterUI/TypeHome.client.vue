@@ -45,7 +45,6 @@
   </div>
 </template>
 <script setup>
-const route = useRoute();
 const saveText = ref('');
 const items = ref([
       { name: 'check1', label: 'Квартира', checked: true },

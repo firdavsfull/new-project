@@ -1,12 +1,12 @@
 <script setup>
-        ymaps.ready(init);
-        function init(){
-            let myMap = new ymaps.Map("map-yandex", {
-                center: [38.576271, 68.779716],
-                zoom: 13
-            });
-            console.log(myMap);
-         }
+        // ymaps.ready(init);
+        // function init(){
+        //     let myMap = new ymaps.Map("map-yandex", {
+        //         center: [38.561433, 69.016602],
+        //         zoom: 13
+        //     });
+        //     console.log(myMap);
+        //  }
 const { announData, responce } = getData();
 const floorObj = ref({
   floor: "",
@@ -21,7 +21,7 @@ const moreThen = ref(false);
 const showCities = ref();
 const date = new Date()
 const curentYear = ref(date.getFullYear())
-
+const loaderMap = ref(false)
 async function selectCity() {
   const cityUrl = fetch(`http://192.168.100.45:8000/api/city`);
   const c = await cityUrl;
@@ -31,9 +31,11 @@ async function selectCity() {
 const selected = ref(false);
 
 function select(event) {
+  loaderMap.value = true
   cityName.value = event.target.textContent;
   mapObj.value.city = event.target.textContent;
   mapObj1.value.city = event.target.textContent;
+  loaderMap.value = false
 }
 
 function isFloor() {
@@ -121,17 +123,18 @@ onMounted(() => {
                             <input type="text" class="form-control border-none w-100" placeholder="Укажите город или улица">
                         </div> -->
       <div
-        :style="!mapObj.city ? `border-radius:8px; border:1px solid red` : ''"
-        class="dropdown mb-5"
+        :style="!mapObj.city ? `border-radius:8px; border:1px solid red;color:red;` : 'border:1px solid green; color:green;'"
+        class="dropdown rounded mb-5"
         @click="selectCity"
       >
         <a
-          class="btn form-control border dropdown-toggle-none position-relative"
+          class="btn form-control border dropdown-toggle-none relative"
+          style="box-shadow:none;"
           href="#"
           role="button"
           data-bs-toggle="dropdown"
         >
-          <span class="me-5">{{
+          <span :class="!mapObj.city ?'text-[red]':'text-[green]'" class="mx-[auto]">{{
             mapObj.city ? mapObj.city : "Укажите город"
           }}</span>
         </a>
@@ -170,6 +173,7 @@ onMounted(() => {
     </form>
 
     <div
+    class="relative"
       style="
         overflow: hidden;
         display: flex;
@@ -180,10 +184,10 @@ onMounted(() => {
       "
       id="map-yandex"
     >
-      <!-- <div
-        class="width:100%; height:350px"
-        
-      ></div> -->
+    <span v-if="loaderMap" style="pointer-events: none;"
+    class="w-full h-full bg-[black]/10 flex items-center justify-center top-[-10px] absolute z-[99999]">
+    <p class="w-[50px] h-[50px] bg-[red] rounded-[50%]"></p>
+  </span>
     </div>
     <div class="flex mt-4" id="floor"
     >
@@ -192,7 +196,7 @@ onMounted(() => {
         class="rows" v-if="announData[0].objects == 'Квартира' || announData[0].objects =='Комната'|| announData[0].objects =='Квартира в Новостройке'">
           <span>Этаж</span>
           <input  
-            :style="moreThen || !mapObj.floor ? `border:1px solid red; ` : ''"
+            :style="moreThen || !mapObj.floor || mapObj.floor > mapObj.floorHouse ? `border:1px solid red;color:red;` : 'border-color:green;color:green'"
             @input="isFloor"
             type="number"
             v-maska
@@ -219,13 +223,13 @@ onMounted(() => {
         <div class="rows">
           <span>{{ announData[0].objects == 'Квартира' || announData[0].objects =='Комната' || announData[0].objects =='Квартира в Новостройке' ? 'Этаж в дома': 'Количество этажей' }}</span>
           <input
-            :style="!mapObj.floorHouse ? `border:1px solid red; ` : ''"
+            :style="!mapObj.floorHouse || mapObj.floor > mapObj.floorHouse ? `border:1px solid red;color:red; ` : 'border-color:green; color:green'"
             @input="isFloor"
             type="number"
             v-maska
             data-maska="##"
             v-model="mapObj.floorHouse"
-            class="input form-control"
+            class="input focus:outline-none border-none form-control "
           />
         </div>
       </div>
@@ -255,15 +259,16 @@ onMounted(() => {
         <div class="rows">
           <p>Год постройки</p>
           <input
-            :style="`${!mapObj.year || mapObj.year < 1950 ? 'border:1px solid red;' : ''}`"
+            :style="`${!mapObj.year || mapObj.year < 1950 || mapObj.year > curentYear ? 'border:1px solid red; color:red;' : 'border-color:green; color:green'}`"
             v-model="mapObj.year"
             type="number"
             v-maska
             data-maska="####"
             @input="isFloor"
             class="form-control"
+            style="box-shadow:none;"
           />
-          <p v-if="mapObj.year <= 1950" class="text-[red] mt-[4px]" style="font-size:14px">Укажите год позднее 1950</p>
+          <p v-if="mapObj.year < 1950" class="text-[red] mt-[4px]" style="font-size:14px">Укажите год позднее 1950</p>
           <p v-if="year > curentYear" class="text-[red] mt-[4px]" style="font-size:14px;">Укажите год до {{curentYear}}</p>
         </div>
       </div>
@@ -283,7 +288,7 @@ onMounted(() => {
               id="1"
             />
             <span
-              :style="!mapObj.selectType ? 'border: 1px solid red' : ''"
+              :style="!mapObj.selectType ? 'border: 1px solid red; color:red;' : ''"
               class="form-control"
               >Кирпичный</span
             >
@@ -297,7 +302,7 @@ onMounted(() => {
               id="2"
             />
             <span
-              :style="!mapObj.selectType ? 'border: 1px solid red' : ''"
+              :style="!mapObj.selectType ? 'border: 1px solid red; color:red;' : ''"
               class="form-control"
               >Монолитный</span
             >
@@ -311,7 +316,7 @@ onMounted(() => {
               id="3"
             />
             <span
-              :style="!mapObj.selectType ? 'border: 1px solid red' : ''"
+              :style="!mapObj.selectType ? 'border: 1px solid red; color:red;' : ''"
               class="form-control"
               >Панельный</span
             >
@@ -325,7 +330,7 @@ onMounted(() => {
               id="4"
             />
             <span
-              :style="!mapObj.selectType ? 'border: 1px solid red' : ''"
+              :style="!mapObj.selectType ? 'border: 1px solid red; color:red;' : ''"
               class="form-control"
               >Блочный</span
             >
@@ -339,7 +344,7 @@ onMounted(() => {
               id="5"
             />
             <span
-              :style="!mapObj.selectType ? 'border: 1px solid red' : ''"
+              :style="!mapObj.selectType ? 'border: 1px solid red; color:red;' : ''"
               class="form-control"
               >Деревянный</span
             >
@@ -353,21 +358,21 @@ onMounted(() => {
               id="6"
             />
             <span
-              :style="!mapObj.selectType ? 'border: 1px solid red' : ''"
+              :style="!mapObj.selectType ? 'border: 1px solid red; color:red;' : ''"
               class="form-control"
               >Сталинский</span
             >
           </label>
           <label for="7">
             <input
-              :checked="mapObj.selectType == 'Монолитно-кирпичный'"
+              :checked="mapObj.selectType == 'Монолитно-кирпичный; color:red;'"
               @change="selectType"
               name="radioinp"
               type="radio"
               id="7"
             />
             <span
-              :style="!mapObj.selectType ? 'border: 1px solid red' : ''"
+              :style="!mapObj.selectType ? 'border: 1px solid red; color:red;' : ''"
               class="form-control"
               >Монолитно-кирпичный</span
             >
@@ -376,7 +381,7 @@ onMounted(() => {
       </div>
     </div>
     <div class="container mt-3 d-flex justify-content-end mx-1">
-      <a class="btn btn-primary px-4" @click="move"> Далее </a>
+      <next-btn class="btn btn-primary px-4" @click="move()"> Далее </next-btn>
     </div>
   </div>
   <!-- :href="!cityName ? '#selectcity'
@@ -403,6 +408,7 @@ input::-webkit-inner-spin-button {
   }
   .input {
     width: 200px;
+    box-shadow: none;
   }
   .content {
     display: flex;

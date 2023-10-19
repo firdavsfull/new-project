@@ -39,7 +39,7 @@
             <div
               class="price-container d-flex align-items-center overflow-hidden form-control"
               style="width: 250px; height: 40px;"
-              :style="!price ? 'border-color:red;':''"
+              :style="!price || price < 100 ? 'border-color:red;color:red;':'border-color:green;color:green'"
             >
               <input
                 @input="enterPrice"
@@ -139,13 +139,14 @@
             @click.prevent="place"
           >
             <div
+            style="pointer-events: none;"
               v-if="loading"
               class="text-[white] spinner-border"
               role="status"
             >
-              <span class="sr-only">Loading...</span>
+              <span style="pointer-events: none;" class="sr-only">Loading...</span>
             </div>
-            <span class="text-[white]" v-if="!loading">Разместить</span>
+            <span style="pointer-events: none;" class="text-[white]" v-if="!loading">Разместить</span>
           </next-btn>
         </div>
       </div>
@@ -197,7 +198,7 @@ function choosePeriod(event) {
   console.log(minPrice.value < 100);
 }
 const image = ref([]);
-async function place() {
+async function place(event) {
   if (!images.value.length || !minPrice.value || minPrice.value < 100) {
     console.log(responce.value[1]);
     return
@@ -209,12 +210,18 @@ async function place() {
   announData.value[2] = JSON.parse(localStorage.getItem("announ"))[2];
   announData.value[3] = JSON.parse(localStorage.getItem("announ"))[3];
   announData.value[4] = JSON.parse(localStorage.getItem("announ"))[4];
-  announData.value[5] = JSON.parse(localStorage.getItem("announ"))[5];
-  announData.value[6] = priceObj.value;
+  if (announData.value[0].rent =='Аренда'||announData.value[0].objects =='Дом/Дача'||announData.value[0].objects=='Коттедж') {
+    announData.value[5] = JSON.parse(localStorage.getItem("announ"))[5];
+    announData.value[6] = priceObj.value;
+  }else{
+    announData.value[5] = priceObj.value
+
+  }
   localStorage.setItem("announ", JSON.stringify(announData.value));
   loading.value = true;
   // const data = localStorage.getItem('announ')
   // return console.log(data);
+  event.target.disabled = true   
   await fetch("http://192.168.100.45:8000/api/create/announ", {
     method: "post",
     headers: {
@@ -223,7 +230,8 @@ async function place() {
     },
     body: JSON.stringify(JSON.parse(localStorage.getItem("announ"))),
   })
-    .then((res) => res.json())
+    .then((res) =>res.json()
+    )
     .then((id) => {
       for (const img of images.value) {
         img.id = id[0];
@@ -268,6 +276,7 @@ async function place() {
     })
     .then((res) => console.log(res));
   loading.value = false;
+  event.target.disabled = false
   }
 }
 

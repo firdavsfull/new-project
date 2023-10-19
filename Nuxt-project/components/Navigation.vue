@@ -40,7 +40,6 @@ const data = responce.value[1] || {}
         }
         
     }
-    console.log(data);
 </script>
 
 <style scoped>

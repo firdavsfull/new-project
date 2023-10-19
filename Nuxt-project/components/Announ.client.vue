@@ -1,6 +1,10 @@
 
 
 <script setup>
+
+useHead({
+    title:'Объявления'
+})
         const isRent = ref("")
         const AnnounOgj2 = ref({})
         const {announData,AnnounOgj} = getData()
@@ -73,7 +77,7 @@
         localStorage.setItem('announ', JSON.stringify(announData.value))
          navigateTo('/map')
 
-        if (event.target.dataset.name == 'Офис') {
+        if (AnnounOgj.value.Estate == 'Коммерческая') {
             navigateTo('/office')
          }
     }

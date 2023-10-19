@@ -24,23 +24,23 @@
                  <div class="quantity-room">
                      <label class="quantity-room-item" for="1">
                          <input :checked="apartmentParams.quantityRoom == 1" @change="quantityRoom" data-name="1" name="radioInput" type="radio" id="1">
-                         <span :style="!apartmentParams.quantityRoom ?'border:1px solid red;':''" class="form-control">1</span>
+                         <span :style="!apartmentParams.quantityRoom ?'border:1px solid red; color:red;':apartmentParams.quantityRoom == 1 ?'border-color:green;background:white;color:green;':''" class="form-control" >1</span>
                      </label>
                      <label class="quantity-room-item" for="2">
                          <input :checked="apartmentParams.quantityRoom == 2" @change="quantityRoom" data-name="2" name="radioInput" type="radio"  id="2">
-                         <span :style="!apartmentParams.quantityRoom ?'border:1px solid red;':''" class="form-control">2</span>
+                         <span :style="!apartmentParams.quantityRoom ?'border:1px solid red; color:red;':apartmentParams.quantityRoom == 2 ?'border-color:green;background:white;color:green;':''" class="form-control" >2</span>
                      </label>
                      <label class="quantity-room-item" for="3">
                          <input :checked="apartmentParams.quantityRoom == 3" @change="quantityRoom" data-name="3" name="radioInput" type="radio"  id="3">
-                         <span :style="!apartmentParams.quantityRoom ?'border:1px solid red;':''" class="form-control">3</span>
+                         <span :style="!apartmentParams.quantityRoom ?'border:1px solid red; color:red;':apartmentParams.quantityRoom == 3 ?'border-color:green;background:white;color:green;':''" class="form-control" >3</span>
                      </label>
                      <label class="quantity-room-item" for="4">
                          <input :checked="apartmentParams.quantityRoom == 4" @change="quantityRoom" data-name="4" name="radioInput" type="radio"  id="4">
-                         <span :style="!apartmentParams.quantityRoom ?'border:1px solid red;':''" class="form-control">4</span>
+                         <span :style="!apartmentParams.quantityRoom ?'border:1px solid red; color:red;':apartmentParams.quantityRoom == 4 ?'border-color:green;background:white;color:green;':''" class="form-control" >4</span>
                      </label>
                      <label class="quantity-room-item" for="5">
                          <input :checked="apartmentParams.quantityRoom == 5" @change="quantityRoom" data-name="5" name="radioInput" type="radio"  id="5">
-                         <span :style="!apartmentParams.quantityRoom ?'border:1px solid red;':''" class="form-control">5</span>
+                         <span :style="!apartmentParams.quantityRoom ?'border:1px solid red; color:red;':apartmentParams.quantityRoom == 5 ?'border-color:green;background:white;color:green;':''" class="form-control" >5</span>
                      </label>
                  </div>
              </div>
@@ -51,7 +51,7 @@
                      <p>  Общая площадь</p>
                      <div style="flex-direction:column;" class="relative min-w-[200px]">
 
-                        <div :style="!apartmentParams.generalArea ?'border:1px solid red;':''" class="input-area form-control">
+                        <div :style="!apartmentParams.generalArea || mooreArea?'border:1px solid red; color:red;':'border-color:green;color:green'" class="input-area form-control">
                             <input @input="verfied" v-model="generalArea" type="text" v-maska
                                 data-maska="####">
                             <div>м<sup class="text-[10px]">2</sup></div>
@@ -71,7 +71,7 @@
                     <div v-if="announData[0].objects == 'Квартира' || announData[0].objects == 'Комната' || announData[0].objects =='Квартира в Новостройке'" class="room">
                      
                      <p>Жилая площадь</p>
-                     <div :style="!apartmentParams.liveArea ?'border:1px solid red;':''" class="input-area form-control">
+                     <div :style="!apartmentParams.liveArea || mooreArea ?'border:1px solid red;color:red':'border-color:green;color:green'" class="input-area form-control">
                          <input @input="verfied" v-model="liveArea" type="text" v-maska data-maska="####">
                          <div>м<sup class="text-[10px]">2</sup></div>
                      </div>
@@ -82,7 +82,7 @@
                  <div class="area-room">
                      <div class="room">
                      <p>Кухня</p>
-                     <div :style="!apartmentParams.kitchenArea ?'border:1px solid red;':''" class="input-area form-control">
+                     <div :style="!apartmentParams.kitchenArea || mooreArea ?'border:1px solid red; color:red;':'border-color:green; color:green'" class="input-area form-control">
                          <input @input="verfied" v-model="kitchenArea" type="text" v-maska data-maska="####">
                          <div>м<sup class="text-[10px]">2</sup></div>
                      </div>
@@ -138,13 +138,13 @@ function quantityRoom (event){
 
 function verfied(){
     
-    if (liveArea.value.trim()) {
+    if (liveArea.value) {
         apartmentParams.value.liveArea = parseInt(liveArea.value);
     }
-    if (generalArea.value.trim()) {
+    if (generalArea.value) {
         apartmentParams.value.generalArea = parseInt(generalArea.value);
     }
-    if (kitchenArea.value.trim()) {
+    if (kitchenArea.value) {
         apartmentParams.value.kitchenArea = parseInt(kitchenArea.value);    
     }
     
@@ -203,9 +203,9 @@ function prew(){
 
 const router = useRouter()
 onMounted(()=>{
-    if (!announData.value[1]) {
-    router.push('/announ')
-    }
+    // if (!announData.value[1]) {
+    // router.push('/announ')
+    // }
     console.log(announData.value[0].objects);
     announData.value[0] = JSON.parse(localStorage.getItem('announ'))[0]
  if (JSON.parse(localStorage.getItem('announ'))[2]) {
