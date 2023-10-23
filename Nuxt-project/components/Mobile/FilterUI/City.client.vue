@@ -13,7 +13,7 @@
         <font-awesome-icon :icon="['fas', 'location-dot']" />
       </div>
       <div class="mx-[10px]">
-        {{ selectedCity ? `${selectedCity}` : "Все" }}
+        {{ filter.city ? `${filter.city}` : "Все" }}
       </div>
     </button>
 
@@ -53,6 +53,7 @@ const props = defineProps({
 async function selectCity(event) {
   route.query.city = props.filter.city = event.target.textContent;
   selectedCity.value = props.filter.city;
+  console.log();
   if (event.target.textContent == "Все") {
     route.query.city = props.filter.city = "";
     sessionStorage.setItem("filter", JSON.stringify(props.filter));
@@ -64,7 +65,7 @@ async function selectCity(event) {
     headers: {
       "Content-type": "application/json",
     },
-    body: JSON.stringify(route.query),
+    body: JSON.stringify(props.filter),
   })
     .then((res) => res.json())
     .then((res) => {

@@ -56,7 +56,6 @@ onMounted(async()=>{
     .then(res=>res.json())
     .then(res=>{
         myAnnoun.value = res
-        console.log(res);
     })
 })
 </script>

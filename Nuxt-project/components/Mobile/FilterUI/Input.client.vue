@@ -116,23 +116,37 @@ updateData:{
   type:Function,
   required:true
 },
-
+updateLandArea:{
+  type:Function,
+  required:true
+},
 })
 
 let timeout = null
 function writeFloor() {
-if(timeout){
-  clearTimeout(timeout)
-}
-  timeout =  setTimeout(async () => {
+    if(timeout){
+      clearTimeout(timeout)
+    }
+    if (price.value.from < 0) {
+    price.value.from = 0
+    }
+    if (price.value.to < 0) {
+      price.value.to = 0
+    }
+
+    timeout = setTimeout(async () => {
     if (p.title == 'Цена') {
       p.enterPrice(price.value.from,price.value.to);
     }
     
     if (p.title == 'Общая площадь') {
-      p.updateTotalArea(price.value.from,price.value.to)
+      p.updateTotalArea(price.value.from, price.value.to)
     }
-  
+
+    if (p.title == 'Площадь дома') {
+      p.updateTotalArea(price.value.from, price.value.to)
+    }
+
     if (p.title == 'Площадь') {
       p.updateArea(price.value.from,price.value.to)
     }
@@ -146,6 +160,9 @@ if(timeout){
     }
     if (p.title == 'Год постройки') {
       p.updateYear(price.value.from,price.value.to)
+    }
+    if (p.title == 'Площадь участка') {
+      p.updateLandArea(price.value.from, price.value.to)
     }
   const filter = JSON.parse(sessionStorage.getItem('filter'))
     p.updateLoader(true)
@@ -163,8 +180,8 @@ if(timeout){
     });
     p.updateLoader(false)
 }, 1000);
-
 }
+
 let filter = JSON.parse(sessionStorage.getItem('filter')) || []
   onMounted(() => {
     if (p.title == 'Цена') {
@@ -174,6 +191,14 @@ let filter = JSON.parse(sessionStorage.getItem('filter')) || []
     if (p.title == 'Общая площадь') {
       price.value.from = filter.totalAreaFrom
       price.value.to = filter.totalAreaTo
+    }
+    if (p.title == 'Этаж') {
+      price.value.from = filter.floorFrom
+      price.value.to = filter.FloorTo
+    }
+    if (p.title == 'Год постройки') {
+      price.value.from = filter.yearFrom
+      price.value.to = filter.yearTo
     }
   })
 </script>

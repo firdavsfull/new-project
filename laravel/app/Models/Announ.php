@@ -25,6 +25,8 @@ class Announ extends Model
         'building_area',
         'state',
         'CeilingHeight',
+        'allowKids',
+        'allowAnimal',
         'layout',
         'numberSeats',
         'parking',

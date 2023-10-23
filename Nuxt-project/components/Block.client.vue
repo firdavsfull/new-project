@@ -1,13 +1,14 @@
 <script setup>
-        // ymaps.ready(init);
-        // function init(){
-        //     let myMap = new ymaps.Map("map-yandex", {
-        //         center: [38.561433, 69.016602],
-        //         zoom: 13
-        //     });
-        //     console.log(myMap);
-        //  }
+    // ymaps.ready(init);
+    // function init(){
+    //     let myMap = new ymaps.Map("map-yandex", {
+    //         center: [38.561433, 69.016602],
+    //         zoom: 13
+    //     });
+    //     console.log(myMap);
+    //   }
 const { announData, responce } = getData();
+announData.value = JSON.parse(localStorage.getItem('announ'))||{}
 const floorObj = ref({
   floor: "",
   floor_in_house: "",
@@ -34,8 +35,9 @@ function select(event) {
   loaderMap.value = true
   cityName.value = event.target.textContent;
   mapObj.value.city = event.target.textContent;
-  mapObj1.value.city = event.target.textContent;
+  announData.value.city = event.target.textContent;
   loaderMap.value = false
+  localStorage.setItem('announ',JSON.stringify(announData.value))
 }
 
 function isFloor() {
@@ -44,56 +46,63 @@ function isFloor() {
   } else {
     moreThen.value = false;
   }
-  floorObj.value.floor = mapObj.value.floor
-  floorObj.value.floor_in_house = mapObj.value.floorHouse
-  year.value = mapObj.value.year
+  announData.value.floor 
+  //= floorObj.value.floor = mapObj.value.floor
+  announData.value.floorHouse 
+  //= floorObj.value.floor_in_house = mapObj.value.floorHouse
+  announData.value.year 
+  //= year.value = mapObj.value.year
+  localStorage.setItem('announ',JSON.stringify(announData.value))
+
 }
 
 function selectType(event) {
   mapObj.value.selectType = event.target.parentElement.textContent;
-  mapObj1.value.selectType = event.target.parentElement.textContent;
+  announData.value.selectType = event.target.parentElement.textContent;
   typeHome.value = mapObj.value.selectType
+  localStorage.setItem('announ',JSON.stringify(announData.value))
 }
 
 const router = useRouter();
 
 function move() {
-    announData.value[1] = mapObj.value;
+    // announData.value[1] = mapObj.value;
     localStorage.setItem("announ", JSON.stringify(announData.value));
     navigateTo("/pictures");
     
-    if (announData.value[0].objects == 'Квартира'||announData.value[0].objects == 'Комната') {
+    if (announData.value.objects == 'Квартира'||announData.value.objects == 'Комната') {
       
       if (
          cityName.value == '' 
-      || !floorObj.value.floor 
-      || !floorObj.value.floor_in_house 
-      || parseInt(floorObj.value.floor) > parseInt(floorObj.value.floor_in_house)
+      || !announData.value.floor 
+      || !announData.value.floorHouse 
+      || parseInt(announData.value.floor) > parseInt(announData.value.floorHouse)
       || typeHome.value == ''
-      || !year.value
-      || year.value < 1950
-      || year.value > curentYear.value
+      || !announData.value.year
+      || announData.value.year < 1950
+      || announData.value.year > curentYear.value
       ) {
         navigateTo("/map");
         // announData.value[1] = "";
         localStorage.setItem("announ", JSON.stringify(announData.value));
       }
     }
+
+    if (announData.value.objects == 'Участок') {
+      navigateTo('/technicsandfurniture')
+    }
   
 }
 
 onMounted(() => {
-  announData.value[0] = JSON.parse(localStorage.getItem("announ"))[0];
-  if (JSON.parse(localStorage.getItem("announ"))[1]) {
-    mapObj.value = JSON.parse(localStorage.getItem("announ"))[1];
+  announData.value = JSON.parse(localStorage.getItem("announ"));
+  
     cityName.value = mapObj.value.city
     floorObj.value.floor =  mapObj.value.floor
     floorObj.value.floor_in_house = mapObj.value.floorHouse
     year.value = mapObj.value.year
     typeHome.value = mapObj.value.typeHome
-  } else {
-    mapObj.value = mapObj1.value;
-  }
+
   const inputs = document.querySelectorAll("input");
 
 
@@ -106,9 +115,9 @@ onMounted(() => {
 //   }
 //   const inputs = document.querySelectorAll("input");
 
-  if (!announData.value[0]) {
-    router.push('/announ')
-  }
+  // if (!announData.value[0]) {
+  //   router.push('/announ')
+  // }
 });
 
 // });
@@ -123,7 +132,7 @@ onMounted(() => {
                             <input type="text" class="form-control border-none w-100" placeholder="Укажите город или улица">
                         </div> -->
       <div
-        :style="!mapObj.city ? `border-radius:8px; border:1px solid red;color:red;` : 'border:1px solid green; color:green;'"
+        :style="!announData.city ? `border-radius:8px; border:1px solid red;color:red;` : 'border:1px solid green; color:green;'"
         class="dropdown rounded mb-5"
         @click="selectCity"
       >
@@ -134,8 +143,8 @@ onMounted(() => {
           role="button"
           data-bs-toggle="dropdown"
         >
-          <span :class="!mapObj.city ?'text-[red]':'text-[green]'" class="mx-[auto]">{{
-            mapObj.city ? mapObj.city : "Укажите город"
+          <span :class="!announData.city ?'text-[red]':'text-[green]'" class="mx-[auto]">{{
+            announData.city ? announData.city : "Укажите город"
           }}</span>
         </a>
 
@@ -146,7 +155,7 @@ onMounted(() => {
           <li @click="select" v-for="city of showCities" :key="city">
             <a
               :style="
-                mapObj.city == city.name
+                announData.city == city.name
                   ? 'background-color:#0468FF; color:white; font-weight:bold;'
                   : ''
               "
@@ -158,7 +167,7 @@ onMounted(() => {
         </ul>
       </div>
       <p
-        v-if="!mapObj.city"
+        v-if="!announData.city"
         style="
           margin-top: -45px;
           font-family: Lato, Arial, sans-serif;
@@ -193,15 +202,15 @@ onMounted(() => {
     >
       <div class="content">
         <div 
-        class="rows" v-if="announData[0].objects == 'Квартира' || announData[0].objects =='Комната'|| announData[0].objects =='Квартира в Новостройке'">
+        class="rows" v-if="announData.objects == 'Квартира' || announData.objects =='Комната'|| announData.objects =='Квартира в Новостройке'">
           <span>Этаж</span>
           <input  
-            :style="moreThen || !mapObj.floor || mapObj.floor > mapObj.floorHouse ? `border:1px solid red;color:red;` : 'border-color:green;color:green'"
+            :style="moreThen || !announData.floor || announData.floor > announData.floorHouse ? `border:1px solid red;color:red;` : 'border-color:green;color:green'"
             @input="isFloor"
             type="number"
             v-maska
             data-maska="##"
-            v-model="mapObj.floor"
+            v-model="announData.floor"
             style="-moz-appearance: textfield"
             class="input form-control"
           />
@@ -220,26 +229,26 @@ onMounted(() => {
             равен количеству этажей
           </p>
         </div>
-        <div class="rows">
-          <span>{{ announData[0].objects == 'Квартира' || announData[0].objects =='Комната' || announData[0].objects =='Квартира в Новостройке' ? 'Этаж в дома': 'Количество этажей' }}</span>
+        <div class="rows" v-if="announData.objects !=='Участок'">
+          <span>{{ announData.objects == 'Квартира' || announData.objects =='Комната' || announData.objects =='Квартира в Новостройке' ? 'Этаж в дома': 'Количество этажей' }}</span>
           <input
-            :style="!mapObj.floorHouse || mapObj.floor > mapObj.floorHouse ? `border:1px solid red;color:red; ` : 'border-color:green; color:green'"
+            :style="!announData.floorHouse || announData.floor > announData.floorHouse ? `border:1px solid red;color:red; ` : 'border-color:green; color:green'"
             @input="isFloor"
             type="number"
             v-maska
             data-maska="##"
-            v-model="mapObj.floorHouse"
+            v-model="announData.floorHouse"
             class="input focus:outline-none border-none form-control "
           />
         </div>
       </div>
     </div>
 
-    <div v-if="announData.objects == 'Квартира'" class="flex mt-4" id="number_apartament">
+    <!-- <div v-if="announData.objects == 'Квартира'" class="flex mt-4" id="number_apartament">
       <div class="rows">
         <span>Номер квартиры</span>
         <input
-          :style="!mapObj.apartmentNumber ? 'border:1px solid red;' : ''"
+          :style="!announData.apartmentNumber ? 'border:1px solid red;' : ''"
           v-model="mapObj.apartmentNumber"
           type="number"
           v-maska
@@ -247,20 +256,20 @@ onMounted(() => {
           class="input form-control"
         />
       </div>
-    </div>
+    </div> -->
 
-    <div v-if="announData[0].objects == 'Квартира' || announData[0].objects =='Комната'" class="flex mt-4" id="year">
+    <div v-if="announData.objects == 'Квартира' || announData.objects =='Комната'" class="flex mt-4" id="year">
       <div class="rows">
         <p> О здании</p>
       </div>
     </div>
-    <div class="flex mt-2">
+    <div class="flex mt-2" v-if="announData.objects !=='Участок'">
       <div class="contents">
         <div class="rows">
           <p>Год постройки</p>
           <input
-            :style="`${!mapObj.year || mapObj.year < 1950 || mapObj.year > curentYear ? 'border:1px solid red; color:red;' : 'border-color:green; color:green'}`"
-            v-model="mapObj.year"
+            :style="`${!announData.year || announData.year < 1950 || announData.year > curentYear ? 'border:1px solid red; color:red;' : 'border-color:green; color:green'}`"
+            v-model="announData.year"
             type="number"
             v-maska
             data-maska="####"
@@ -268,111 +277,111 @@ onMounted(() => {
             class="form-control"
             style="box-shadow:none;"
           />
-          <p v-if="mapObj.year < 1950" class="text-[red] mt-[4px]" style="font-size:14px">Укажите год позднее 1950</p>
-          <p v-if="year > curentYear" class="text-[red] mt-[4px]" style="font-size:14px;">Укажите год до {{curentYear}}</p>
+          <p v-if="announData.year < 1950" class="text-[red] mt-[4px]" style="font-size:14px">Укажите год позднее 1950</p>
+          <p v-if="announData.year > curentYear" class="text-[red] mt-[4px]" style="font-size:14px;">Укажите год до {{curentYear}}</p>
         </div>
       </div>
     </div>
 
-    <div class="flex" id="type-home">
+    <div class="flex" id="type-home" v-if="announData.objects !=='Участок'">
       <div class="type-home mt-4">
-        <p>{{ announData[0].objects !== 'Квартира' || announData[0].objects !=='Комната' ? 'Материал дома':'Тип дома' }}</p>
+        <p>{{ announData.objects !== 'Квартира' || announData.objects !=='Комната' ? 'Материал дома':'Тип дома' }}</p>
         <slot />
         <div class="rows">
           <label for="1">
             <input
-              :checked="mapObj.selectType == 'Кирпичный'"
+              :checked="announData.selectType == 'Кирпичный'"
               @change="selectType"
               name="radioinp"
               type="radio"
               id="1"
             />
             <span
-              :style="!mapObj.selectType ? 'border: 1px solid red; color:red;' : ''"
+              :style="!announData.selectType ? 'border: 1px solid red; color:red;' : ''"
               class="form-control"
               >Кирпичный</span
             >
           </label>
           <label for="2">
             <input
-              :checked="mapObj.selectType == 'Монолитный'"
+              :checked="announData.selectType == 'Монолитный'"
               @change="selectType"
               name="radioinp"
               type="radio"
               id="2"
             />
             <span
-              :style="!mapObj.selectType ? 'border: 1px solid red; color:red;' : ''"
+              :style="!announData.selectType ? 'border: 1px solid red; color:red;' : ''"
               class="form-control"
               >Монолитный</span
             >
           </label>
           <label for="3">
             <input
-              :checked="mapObj.selectType == 'Панельный'"
+              :checked="announData.selectType == 'Панельный'"
               @change="selectType"
               name="radioinp"
               type="radio"
               id="3"
             />
             <span
-              :style="!mapObj.selectType ? 'border: 1px solid red; color:red;' : ''"
+              :style="!announData.selectType ? 'border: 1px solid red; color:red;' : ''"
               class="form-control"
               >Панельный</span
             >
           </label>
           <label for="4">
             <input
-              :checked="mapObj.selectType == 'Блочный'"
+              :checked="announData.selectType == 'Блочный'"
               @change="selectType"
               name="radioinp"
               type="radio"
               id="4"
             />
             <span
-              :style="!mapObj.selectType ? 'border: 1px solid red; color:red;' : ''"
+              :style="!announData.selectType ? 'border: 1px solid red; color:red;' : ''"
               class="form-control"
               >Блочный</span
             >
           </label>
           <label for="5">
             <input
-              :checked="mapObj.selectType == 'Деревянный'"
+              :checked="announData.selectType == 'Деревянный'"
               @change="selectType"
               name="radioinp"
               type="radio"
               id="5"
             />
             <span
-              :style="!mapObj.selectType ? 'border: 1px solid red; color:red;' : ''"
+              :style="!announData.selectType ? 'border: 1px solid red; color:red;' : ''"
               class="form-control"
               >Деревянный</span
             >
           </label>
           <label for="6">
             <input
-              :checked="mapObj.selectType == 'Сталинский'"
+              :checked="announData.selectType == 'Сталинский'"
               @change="selectType"
               name="radioinp"
               type="radio"
               id="6"
             />
             <span
-              :style="!mapObj.selectType ? 'border: 1px solid red; color:red;' : ''"
+              :style="!announData.selectType ? 'border: 1px solid red; color:red;' : ''"
               class="form-control"
               >Сталинский</span
             >
           </label>
           <label for="7">
             <input
-              :checked="mapObj.selectType == 'Монолитно-кирпичный; color:red;'"
+              :checked="announData.selectType == 'Монолитно-кирпичный; color:red;'"
               @change="selectType"
               name="radioinp"
               type="radio"
               id="7"
             />
             <span
-              :style="!mapObj.selectType ? 'border: 1px solid red; color:red;' : ''"
+              :style="!announData.selectType ? 'border: 1px solid red; color:red;' : ''"
               class="form-control"
               >Монолитно-кирпичный</span
             >

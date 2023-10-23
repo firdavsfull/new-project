@@ -1,7 +1,7 @@
 <template>
         <div class="flex flex-col w-[100vw] h-[max-contetnt]">
             
-            <div class="h-[50px] flex md:flex responce" style="border-bottom:1px solid silver">
+            <div class="z-[3] w-[100%] bg-[white] h-[50px] flex md:flex responce" style="border-bottom:1px solid silver">
                 <div class="h-full flex items-center justify-center w-[100%] mx-[2px]">
                     <div>
                         <font-awesome-icon class="text-primary mr-[2px]" :icon="['fas', 'filter']" />
@@ -48,7 +48,7 @@
                                         <div v-for="(elem, index) in data[i].image" :key="`slide-${i}-${index}`"
                                         style="height: 100%;" 
                                             :class="{ 'carousel-item': true, 'active': index === 0 }">
-                                            <img :src="`http://192.168.100.45:8000/api/image/large/${elem.pictures}`" class="h-full" style="object-fit: cover;">
+                                            <img :src="`http://192.168.100.45:8000/api/image/large/${elem.pictures}`" class="h-full" >
                                         </div> 
                                     </div> 
                                     <button class="carousel-control-prev" type="button" :data-bs-target="`#carouselExampleIndicators-${i}`" data-bs-slide="prev">
@@ -62,10 +62,10 @@
                                 </div>
                             </NuxtLink>
 
-                            <div class="flex lg:w-[100%] lg:justify-between flex-wrap sm:flex-col md:flex-row lg:flex-row">
+                            <div class="flex w-[100%] relative sm:flex-col justify-between md:flex-row lg:flex-row">
 
-                                <div class="lg:mx-[10px] truncate lg:ml-[15px] w-[max-content] inline sm:w-full lg:w-[max-content]">
-                                    <span class="font-bold  leading-[28px] text-[22px]  tracking-normal text-[#0468ff]">
+                                <div class="lg:mx-[10px] lg:max-w-[520px] md:max-w-[100%] truncate overflow-hidden ml-[0px] md:ml-[15px] block w-full ">
+                                    <span class="overflow-hidden sm:max-w-[300px] font-bold w-[200px] leading-[28px] text-[22px]  tracking-normal text-[#0468ff]">
                                             {{item.title}}.
                                         <!-- <span class="font-bold leading-[28px]  w-[100px] text-[22px]">
                                         </span> -->
@@ -92,11 +92,9 @@
                                             {{item.price}} cомон
                                         </span>
                                     </div>
-                                    <div class="mt-[16px]">
-                                        <div  class="h-[max-content] bg-[green]">
-                                            <p class="block font-normal bg-[yellow] max-w-[80%] h-[max-content] leading-[20px] text-[14px] tracking-normal text-[#152242]" style="white-space: wrap;">
-                                                {{item.description}}
-                                            </p>
+                                    <div class="border sm:max-w-[300px] mt-[16px] relative">
+                                        <div class="border max-w-[100%] sm:max-w-[300px] mt-[16px] relative" style="height: 100px; overflow: hidden;">
+                                            <p style="white-space: pre-wrap;">{{ item.description }}</p>
                                         </div>
                                     </div>
                                 </div>
@@ -106,10 +104,10 @@
                                 <div class="w-[200px] regular-w bg-[silver] h-[max-content] md:d-none mr-[0] h-[100px]" >
                                     <div class="flex flex-col items-center mt-[10px] relative">
                                         <div class="overflow-hidden flex justify-center items-center w-[80px] avatar_image rounded-[5%] h-[80px] bg-[red]">
-                                            <img style="object-fit: cover;" class="w-full h-full bg-[lime]" :src="`http://192.168.100.45:8000/api/avatar/${item.owner.avatar}`" :alt="item.owner.name">
+                                            <img style="object-fit: cover;" class="w-full h-full bg-[lime]" :src="`http://192.168.100.45:8000/api/avatar/${item.owner && item.owner.avatar ? item.owner.avatar : ''}`" :alt="item.owner && item.owner.name ? item.owner.name : ''">
                                         </div>
                                         <div class="mt-[10px] avatar_image">
-                                            <h5 class="text-[17px]">{{ item.owner.name?item.owner.name:item.owner.email }} {{ item.owner.last_name }}</h5>
+                                            <h5 class="text-[17px]">{{ item.owner && item.owner.name ? item.owner.name : '' }} {{ item.owner && item.owner.last_name ? item.owner.last_name : '' }}</h5>
                                         </div>
                                         <div class="w-[90%] flex flex-col items-center justify-around p-[15px]">
                                             <a type="tel" class="
@@ -127,7 +125,7 @@
                                             overflow-hidden
                                             "
                                             style="letter-spacing: 2px;text-decoration: none; text-overflow: ellipsis; white-space: nowrap;"
-                                            ><span class="mx-[10px] overflow-hidden" style="text-overflow: ellipsis; white-space: nowrap;">+992 {{ item.owner.phone_number }}</span></a>
+                                            ><span class="mx-[10px] overflow-hidden" style="text-overflow: ellipsis; white-space: nowrap;">+992 {{item.owner && item.owner.phone_number ? item.owner.phone_number : ''}}</span></a>
                                             <a type="tel" class="
                                             w-full 
                                             mx-[10px] text-[14px]
@@ -166,8 +164,6 @@ const route = useRoute()
 const {responce,showAnnouns} = getData()
 const {showNavBar} = useSwitch()
 const announLoader = ref(false)
-const filteredData = JSON.parse(sessionStorage.getItem('filter')) 
-
 function showAnnoun(item){
     navigateTo('/show_announ')
     showAnnouns.value[0] = item
@@ -180,7 +176,9 @@ function filters(){
     }
 }
 
+const filteredData = JSON.parse(sessionStorage.getItem('filter')) 
 onMounted(async () =>{
+    console.log(filteredData);
     showNavBar.value = true
     announLoader.value = true
     await fetch('http://192.168.100.45:8000/api/get_announs',{
@@ -192,8 +190,11 @@ onMounted(async () =>{
     })
     .then(res=>res.json())
     .then(res=>{
-      let uniqueSet = new Set(res.map(JSON.stringify));
-      res = Array.from(uniqueSet).map(JSON.parse)
+      let uniqueSet = new Set(res[0].map(JSON.stringify));
+      res[0] = Array.from(uniqueSet).map(JSON.parse)
+      let uniqPicture = new Set(res[1].map(JSON.stringify));
+      res[1]= Array.from(uniqPicture).map(JSON.parse)
+      console.log(res);
         for (let i = 0; i < res[0].length; i++) {
             if (res[1][i].length > 0) {
                 res[0][i]['image'] = res[1][i] 
@@ -229,9 +230,21 @@ onMounted(async () =>{
 
     }
 
-    console.log(data.value);
 
 })
+// onBeforeUnmount(()=>{
+    // })
+window.onscroll = function(event){
+    const filterEl = document.querySelector('.responce')
+    if(event.target.scrollingElement.scrollTop > 50){
+        filterEl.classList.add('sticky')
+        filterEl.classList.add('top-[0]')
+    }else{
+        filterEl.classList.remove('sticky')
+        filterEl.classList.remove('top-[0]')
+
+    }
+}
 </script>
 
 <style scoped>

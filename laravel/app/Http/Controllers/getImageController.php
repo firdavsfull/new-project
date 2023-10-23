@@ -40,8 +40,9 @@ class getImageController extends Controller
 
             $img->fit(350, 200)->save(public_path('xsmall/' . $name));
         }
-
-        return $filename;
+    
+        $dataImage = $request->dataImage;
+        return $dataImage;
     }
 
     public function saveImageFiles(Request $request)

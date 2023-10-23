@@ -49,6 +49,8 @@ return new class extends Migration
             $table->string('type_object')->nullable();
             $table->integer('building_area')->nullable();
             $table->string('state')->nullable();
+            $table->string('allowKids')->default('нет');
+            $table->string('allowAnimal')->default('нет');
             $table->integer('owner_id')->nullable();
             $table->timestamps();
         });

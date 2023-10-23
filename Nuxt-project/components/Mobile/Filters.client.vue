@@ -6,7 +6,7 @@
       >
         <div style="margin-right: 8px">
           <span style="margin-left: -12px">
-            <NuxtLink to="/" class="bg-white-500 text-[#0468ff]">
+            <NuxtLink to="http://192.168.100.45:3000/" class="bg-white-500 text-[#0468ff]">
               <font-awesome-icon
                 class="ml-[15px] font-light text-[25px] text-[gray]"
                 :icon="['fasl', 'chevron-left']"
@@ -122,12 +122,12 @@
           </div>
         </div>
           <MobileFilterUITypeHome :updateFilters="sessionFilter" :filter="filter"  :updateLoader="updateLoader" :uploadQuantityRoom="uploadQuantityRoom" :updateData="updateData"/>
-        <div v-if="filter.dealType === 'Продажа' && filter.typeObject == 'Квартира'" class="px-[8px] mt-[26px]">
+        <div v-if="filter.dealType == 'Продажа' && filter.typeObject == 'Квартира' || filter.typeObject == 'Квартира в Новостройке'||!filter.typeObject" class="px-[8px] mt-[26px]">
           <div class="flex w-[230px] justify-between flex-nowrap">
             <div v-for="(item,i) of typeApartment" :key="i">
               <input
-                  @change="select(item)"
-                  name="btnradio1"
+                  @change="check(item)"
+                  name="typeBuilding"
                   class="checked-5 hidden"
                   type="radio"
                   :id="i + 1"
@@ -149,7 +149,7 @@
         
         
 
-        <div class="mt-[40px] px-[8px]" v-if="filter.typeObject =='Квартира' || filter.typeObject =='Комната' && filter.dealType == 'Продажа'||filter.dealType == 'Аренда'">
+        <div class="mt-[40px] px-[8px]" v-if="filter.typeObject =='Квартира' || filter.typeObject =='Комната'">
           <div class="flex items-center">
             <div
               style="font-family: Lato, Arial, sans-serif"
@@ -176,7 +176,8 @@
           </div>
         </div>
 
-        <MobileFilterUIInput :tag="`span`" 
+        <MobileFilterUIInput 
+        :tag="`span`" 
         :innerText="`с`"
         title="Цена"
         placeholder1="от"
@@ -197,7 +198,7 @@
         placeholder2="до"
         :updateLoader="updateLoader"
         :updateData="updateData"
-        :updateArea="updateArea"
+        :updateTotalArea="updateTotalArea"
         />
 
         <MobileFilterUIInput
@@ -211,11 +212,11 @@
         placeholder2="до"
         :updateLoader="updateLoader"
         :updateData="updateData"
-        :updateArea="updateArea"
+        :updateLandArea="updateLandArea"
         />
 
         <MobileFilterUIInput 
-        v-if="filter.typeObject == 'Квартира'|| filter.typeObject == 'Комната'"
+        v-if="filter.dealType && filter.typeObject == 'Квартира' || filter.typeObject == 'Комната'"
         :tag="`span`" 
         :innerText="`м`" 
         :sup="`sup`"
@@ -291,7 +292,7 @@
         </div>
         
         <MobileFilterUIInput
-        v-if="filter.typeObject == 'Квартира'||filter.typeObject == 'Комната'"
+        v-if="filter.dealType && filter.typeObject == 'Квартира'||filter.typeObject == 'Комната'"
         :tag="`span`" 
         title="Площадь"
         :sup="`sup`"
@@ -305,7 +306,7 @@
         />
 
         <MobileFilterUIInput
-        v-if="filter.typeObject == 'Квартира'||filter.typeObject == 'Комната'"
+        v-if="filter.dealType && filter.typeObject == 'Квартира'||filter.typeObject == 'Комната'"
         :tag="`span`" 
         :sup="`sup`"
         innerText="м"
@@ -469,7 +470,9 @@
         <div class="ml-[8px] w-full">
           <button
             @click="navigate"
-            class="bg-[#0468ff] flex items-center justify-center text-white px-[5px] w-[100%] h-[40px] rounded"
+            class="bg-[#0468ff] flex items-center justify-center text-[white] px-[5px] w-[100%] h-[40px] rounded"
+            :class="!data.length?'bg-[rgb(123, 173, 249)]':''"
+            :disabled="!data.length"
           >
             <span
               style="font-family: Lato, Arial, sans-serif"
@@ -483,7 +486,7 @@
                   <span class="sr-only"></span>
                 </div>
               </div>
-              <div v-if="!loader">{{ data.length }} объявлений</div>
+              <div v-if="!loader">{{data.length ? `${data.length} объявлений`:'нет объявления'}} </div>
             </span>
           </button>
         </div>
@@ -570,6 +573,7 @@ const area = ref({
   to: "",
 });
 
+
 function updateArea(value1, value2){
   area.value.from = value1
   area.value.to = value2
@@ -577,6 +581,20 @@ function updateArea(value1, value2){
   filter.value.areaTo = area.value.to
   sessionStorage.setItem('filter',JSON.stringify(filter.value))
 }
+
+const landArea = ref({
+  from:"",
+  to:""
+})
+
+function updateLandArea(value1, value2){
+  landArea.value.from = value1
+  landArea.value.to = value2
+  filter.value.landAreaFrom = landArea.value.from
+  filter.value.landAreaTo = landArea.value.to
+  sessionStorage.setItem('filter',JSON.stringify(filter.value))
+}
+
 const kitchenArea = ref({
   from: "",
   to: "",
@@ -631,16 +649,6 @@ function homeBack() {
 }
 let group = []
 let types =''
-function select(item) {
-  if (item.value == 'Все') {
-    group = ['Квартира в Новостройке','Квартира']
-    types = ''
-  }else{
-    group = []
-    types = item.value
-  }
-  console.log(group,types);
-}
 
 const filter = ref({});
 
@@ -675,7 +683,7 @@ const repair = ref([
 const selectHome = ref([])
 let conds = JSON.parse(sessionStorage.getItem('filter')).condition || []
 let rep = JSON.parse(sessionStorage.getItem('filter')).repair || []
-async function check(event) {
+async function check(item) {
   if (event.target.name == 'home') {
       if (event.target.checked) {
         selectHome.value.push(event.target.nextSibling.textContent.trim())
@@ -689,26 +697,28 @@ async function check(event) {
   }
   
   if (event.target.name == 'btnradio') {
-    if (event.target.nextSibling.textContent == 'Купить') {
-      filter.value.dealType = "Продажа"
-    }
-    if (event.target.nextSibling.textContent == 'Снять') {
-      filter.value.dealType = "Аренда"
-    }
-    sessionStorage.setItem('filter',JSON.stringify(filter.value))
+  const buttonText = event.target.nextSibling.textContent;
+  filter.value.dealType = buttonText === 'Купить' ? 'Продажа' : buttonText === 'Снять' ? 'Аренда' : filter.value.dealType;
+  router.push(`/filters/${filter.value.dealType.toLowerCase()}`)
+  if (filter.value.typeObject == 'Квартира') {
+    filter.value.typeObject = 'Квартира';
+    filter.value.buildingType = buttonText === 'Снять' ? null : filter.value.buildingType;
+  }
+  sessionStorage.setItem('filter', JSON.stringify(filter.value));
+}
+
+  if (event.target.name === 'repair') {
+  const repairText = event.target.nextSibling.textContent.trim();
+
+  if (event.target.checked) {
+    rep.push(repairText);
+  } else {
+    rep = rep.filter(item => item !== repairText);
   }
 
-  if (event.target.name == 'repair') {
-    if (event.target.checked) {
-      rep.push(event.target.nextSibling.textContent.trim());
-    }
-    if (!event.target.checked) {
-      rep = rep.filter(item=>item !== event.target.nextSibling.textContent.trim())
-    }
-    filter.value.repair = rep
-    sessionStorage.setItem('filter',JSON.stringify(filter.value))
-    console.log(rep);
-  }
+  filter.value.repair = rep;
+  sessionStorage.setItem('filter', JSON.stringify(filter.value));
+}
   
   if (event.target.name == 'balcon') {
     filter.value.balcon = event.target.nextSibling.textContent 
@@ -729,6 +739,17 @@ async function check(event) {
     }
     sessionStorage.setItem('filter',JSON.stringify(filter.value))
   }
+if (event.target.name == 'typeBuilding') {
+  if (item.value == 'Все') {
+    group = ['Квартира в Новостройке','Квартира']
+    filter.value.buildingType = group
+    filter.value.typeObject = null
+  }else{
+    filter.value.buildingType = null
+    filter.value.typeObject = item.value
+  }
+  sessionStorage.setItem('filter',JSON.stringify(filter.value))
+}
   loader.value = true;
   await fetch("http://192.168.100.45:8000/api/filter", {
     method: "post",
@@ -886,11 +907,13 @@ function clearInput() {
 
 
 function navigate(){
+  loader.value = true
   if (data.value.length) {
     window.location.replace('/list')
   } 
    
 }
+
 </script>
 
 

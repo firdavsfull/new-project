@@ -22,10 +22,14 @@ class FilterController extends Controller
                 $dealType = $request->dealType;
                 $query->where('deal_type', $dealType);
             }
-        
-            if ($request->typeObject) {
+
+            if ($request->buildingType) {
+                $buildingType = $request->buildingType;
+                $query->WhereIn('type_object', $buildingType);
+            }else if ($request->typeObject) {
                 $query->where('type_object',$request->typeObject);
             }
+        
 
             if ($request->quantityRoom) {
                 $quantityRoom = $request->quantityRoom;
@@ -78,6 +82,14 @@ class FilterController extends Controller
                 $query->where('year_of_construction','<=',$request->yearTo);  
             }
 
+            if ($request->landAreaFrom) {
+                $query->where('land_area','>=',$request->landAreaFrom);  
+            }
+
+            if ($request->landAreaTo) {
+                $query->where('land_area','<=',$request->landAreaTo);  
+            }
+
             if ($request->typeHome) {
                 $query->WhereIn('house_type', $request->typeHome);
             }
@@ -94,8 +106,6 @@ class FilterController extends Controller
                 $query->WhereIn('repair',$request->repair);
             }
             return $query->get();
-        
-        
     }
 }
 

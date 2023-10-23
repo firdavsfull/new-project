@@ -25,12 +25,12 @@
                                      <label for="#balcon" class="mb-2 fw-bold" style="font-family:lato, sans-seif">Балкон</label>
                                      
                                      <div class="dropdown">
-                                             <button style="font-size: 15px; box-shadow: none;" :style="!aprtFeatures.balcon || !balcon ? 'border-color:red; color:red;':'border-color:green; color:green;'" class="w-[100px] form-select text-left" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
-                                                 {{  aprtFeatures.balcon?aprtFeatures.balcon:'Балкон' }}
+                                             <button style="font-size: 15px; box-shadow: none;" :style="!announData.balcon  ? 'border-color:red; color:red;':'border-color:green; color:green;'" class="w-[100px] form-select text-left" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
+                                                 {{  announData.balcon?announData.balcon:'Балкон' }}
                                              </button>
                                              <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
-                                                 <li :style="aprtFeatures.balcon == 'есть' ? 'color:white; background-color:#0468FF;':''" @click="isBalcon" class="dropdown-item">есть</li>
-                                                 <li :style="aprtFeatures.balcon == 'нет' ? 'color:white; background-color:#0468FF;':''" @click="isBalcon" class="dropdown-item">нет</li>
+                                                 <li :style="announData.balcon == 'есть' ? 'color:white; background-color:#0468FF;':''" @click="isBalcon" class="dropdown-item">есть</li>
+                                                 <li :style="announData.balcon == 'нет' ? 'color:white; background-color:#0468FF;':''" @click="isBalcon" class="dropdown-item">нет</li>
                                              </ul>
                                          </div>
                                      
@@ -46,20 +46,20 @@
                                      
 
                                      <div class="container-repair  flex-wrap d-flex text-nowrap">
-                                         <input :checked="aprtFeatures.repair =='Без ремонта'" @change="withRepair" data-name="Без ремонта" type="radio" class="btn-check" name="options" id="option1" autocomplete="off">
-                                         <label :style="!aprtFeatures.repair ?'border:1px solid red; border-radius:8px; color:red;':''" class="form-control me-2 my-1" for="option1">Без ремонта</label>
+                                         <input :checked="announData.repair =='Без ремонта'" @change="withRepair" data-name="Без ремонта" type="radio" class="btn-check" name="options" id="option1" autocomplete="off">
+                                         <label :style="!announData.repair ?'border:1px solid red; border-radius:8px; color:red;':''" class="form-control me-2 my-1" for="option1">Без ремонта</label>
 
-                                         <input :checked="aprtFeatures.repair =='Обичный'" @change="withRepair" data-name="Обичный" type="radio" class="btn-check" name="options" id="option2" autocomplete="off">
-                                         <label :style="!aprtFeatures.repair ?'border:1px solid red; border-radius:8px; color:red;':''"  class="form-control me-2 my-1" for="option2">Обичный</label>
+                                         <input :checked="announData.repair =='Обичный'" @change="withRepair" data-name="Обичный" type="radio" class="btn-check" name="options" id="option2" autocomplete="off">
+                                         <label :style="!announData.repair ?'border:1px solid red; border-radius:8px; color:red;':''"  class="form-control me-2 my-1" for="option2">Обичный</label>
 
-                                         <input :checked="aprtFeatures.repair =='Косметический'" @change="withRepair" data-name="Косметический" type="radio" class="btn-check" name="options" id="option3" autocomplete="off">
-                                         <label :style="!aprtFeatures.repair ?'border:1px solid red; border-radius:8px; color:red;':''"  class="form-control me-2 my-1" for="option3">Косметический</label>
+                                         <input :checked="announData.repair =='Косметический'" @change="withRepair" data-name="Косметический" type="radio" class="btn-check" name="options" id="option3" autocomplete="off">
+                                         <label :style="!announData.repair ?'border:1px solid red; border-radius:8px; color:red;':''"  class="form-control me-2 my-1" for="option3">Косметический</label>
 
-                                         <input :checked="aprtFeatures.repair =='Евро'" @change="withRepair" data-name="Евро" type="radio" class="btn-check" name="options" id="option4" autocomplete="off" >
-                                         <label :style="!aprtFeatures.repair ?'border:1px solid red; border-radius:8px; color:red;':''"  class="form-control me-2 my-1" for="option4">Евро</label>
+                                         <input :checked="announData.repair =='Евро'" @change="withRepair" data-name="Евро" type="radio" class="btn-check" name="options" id="option4" autocomplete="off" >
+                                         <label :style="!announData.repair ?'border:1px solid red; border-radius:8px; color:red;':''"  class="form-control me-2 my-1" for="option4">Евро</label>
 
-                                         <input :checked="aprtFeatures.repair =='Дизайнерксий'" @change="withRepair" data-name="Дизайнерксий" type="radio" class="btn-check" name="options" id="option5" autocomplete="off">
-                                         <label :style="!aprtFeatures.repair ?'border:1px solid red; border-radius:8px; color:red;':''"  class="form-control my-1" for="option5">Дизайнерксий</label>
+                                         <input :checked="announData.repair =='Дизайнерксий'" @change="withRepair" data-name="Дизайнерксий" type="radio" class="btn-check" name="options" id="option5" autocomplete="off">
+                                         <label :style="!announData.repair ?'border:1px solid red; border-radius:8px; color:red;':''"  class="form-control my-1" for="option5">Дизайнерксий</label>
                                      </div>
                                  </div>
                              </div>
@@ -70,12 +70,12 @@
                                  <div class="balcon w-25">
                                      <label for="#balcon" class="mb-2 fw-bold" style="font-family:lato, sans-seif">Лифт</label>
                                      <div class="dropdown">
-                                             <button style="font-size: 15px; box-shadow: none;" :style="!aprtFeatures.elevator || !elevator ? 'border-color:red; color:red;':'border-color:green;color:green'" class="w-[100px] form-select text-left" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
-                                                {{ aprtFeatures.elevator?aprtFeatures.elevator:'Лифт'}}
+                                             <button style="font-size: 15px; box-shadow: none;" :style="!announData.elevator ? 'border-color:red; color:red;':'border-color:green;color:green'" class="w-[100px] form-select text-left" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
+                                                {{ announData.elevator?announData.elevator:'Лифт'}}
                                              </button>
                                              <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
-                                                 <li :style="aprtFeatures.elevator == 'есть' ? 'color:white; background-color:#0468FF;':''" @click="withElevator" class="dropdown-item">есть</li>
-                                                 <li :style="aprtFeatures.elevator == 'нет' ? 'color:white; background-color:#0468FF;':'' " @click="withElevator" class="dropdown-item">нет</li>
+                                                 <li :style="announData.elevator == 'есть' ? 'color:white; background-color:#0468FF;':''" @click="withElevator" class="dropdown-item">есть</li>
+                                                 <li :style="announData.elevator == 'нет' ? 'color:white; background-color:#0468FF;':'' " @click="withElevator" class="dropdown-item">нет</li>
                                              </ul>
                                          </div>
                                  </div>
@@ -89,20 +89,20 @@
                                      
 
                                      <div class="container-repair  flex-wrap d-flex text-nowrap">
-                                         <input :checked="aprtFeatures.parking == 'Наземная'" @change="selecetParking" data-parking="Наземная" type="checkbox" class="d-none " name="options" id="sel1" autocomplete="off">
-                                         <label :style="!aprtFeatures.parking?'border:1px solid red; border-radius:8px; color:red':''" class="form-control me-2 my-1" for="sel1">Наземная</label>
+                                         <input :checked="announData.parking == 'Наземная'" @change="selecetParking" data-parking="Наземная" type="checkbox" class="d-none " name="options" id="sel1" autocomplete="off">
+                                         <label :style="!announData.parking?'border:1px solid red; border-radius:8px; color:red':''" class="form-control me-2 my-1" for="sel1">Наземная</label>
 
-                                         <input :checked="aprtFeatures.parking == 'Многоуровневая'" @change="selecetParking" data-parking="Многоуровневая" type="checkbox" class="d-none " name="options" id="sel2" autocomplete="off">
-                                         <label :style="!aprtFeatures.parking?'border:1px solid red; border-radius:8px; color:red':''" class="form-control me-2 my-1" for="sel2">Многоуровневая</label>
+                                         <input :checked="announData.parking == 'Многоуровневая'" @change="selecetParking" data-parking="Многоуровневая" type="checkbox" class="d-none " name="options" id="sel2" autocomplete="off">
+                                         <label :style="!announData.parking?'border:1px solid red; border-radius:8px; color:red':''" class="form-control me-2 my-1" for="sel2">Многоуровневая</label>
 
-                                         <input :checked="aprtFeatures.parking == 'Подземная'" @change="selecetParking" data-parking="Подземная" type="checkbox" class="d-none " name="options" id="sel3" autocomplete="off" >
-                                         <label :style="!aprtFeatures.parking?'border:1px solid red; border-radius:8px; color:red':''" class="form-control me-2 my-1" for="sel3">Подземная</label>
+                                         <input :checked="announData.parking == 'Подземная'" @change="selecetParking" data-parking="Подземная" type="checkbox" class="d-none " name="options" id="sel3" autocomplete="off" >
+                                         <label :style="!announData.parking?'border:1px solid red; border-radius:8px; color:red':''" class="form-control me-2 my-1" for="sel3">Подземная</label>
 
-                                         <input :checked="aprtFeatures.parking == 'На крыше'" @change="selecetParking" data-parking="На крыше" type="checkbox" class="btn-check" name="options" id="sel4" autocomplete="off">
-                                         <label :style="!aprtFeatures.parking?'border:1px solid red; border-radius:8px; color:red':''" class="form-control my-1 me-2" for="sel4">На крыше</label>
+                                         <input :checked="announData.parking == 'На крыше'" @change="selecetParking" data-parking="На крыше" type="checkbox" class="btn-check" name="options" id="sel4" autocomplete="off">
+                                         <label :style="!announData.parking?'border:1px solid red; border-radius:8px; color:red':''" class="form-control my-1 me-2" for="sel4">На крыше</label>
 
-                                         <input v-if="announData[0].objects == 'Дом/Дача'" :checked="aprtFeatures.parking == 'Нет'" @change="selecetParking" data-parking="Нет" type="checkbox" class="btn-check" name="options" id="sel5" autocomplete="off">
-                                         <label v-if="announData[0].objects == 'Дом/Дача'" :style="!aprtFeatures.parking?'border:1px solid red; border-radius:8px;':''" class="form-control my-1" for="sel5">Нет</label>
+                                         <input v-if="announData.objects == 'Дом/Дача'" :checked="announData.parking == 'Нет'" @change="selecetParking" data-parking="Нет" type="checkbox" class="btn-check" name="options" id="sel5" autocomplete="off">
+                                         <label v-if="announData.objects == 'Дом/Дача'" :style="!announData.parking?'border:1px solid red; border-radius:8px;':''" class="form-control my-1" for="sel5">Нет</label>
                                      </div>
                                  </div>
                              </div>
@@ -121,8 +121,7 @@
 </template>
 <script setup>
 const {announData} = getData()
-const aprtFeatures = ref({})
-const aprtFeatures1 = ref({})
+announData.value = JSON.parse(localStorage.getItem('announ'))||{}
 
 function change(){
  const file =  document.querySelector('.choose-picture > input')
@@ -132,48 +131,40 @@ const balcon = ref('')
 function isBalcon(event){
     balcon.value = event.target.textContent 
     if (balcon.value == 'есть') {
-       balcon.value = aprtFeatures.value.balcon = 'есть'
-       aprtFeatures1.value.balcon = 'есть'
+       balcon.value = announData.value.balcon = 'есть'
     } else{
-       balcon.value = aprtFeatures.value.balcon = "нет"
+       balcon.value = announData.value.balcon = "нет"
         aprtFeatures1.value.balcon = "нет"
     };
+    localStorage.setItem('announ',JSON.stringify(announData.value))
 }
 
-const repair = ref('')
 function withRepair(event){
-   repair.value = aprtFeatures.value.repair = event.target.dataset.name
-    aprtFeatures1.value.repair = event.target.dataset.name
+    announData.value.repair = event.target.dataset.name
+    localStorage.setItem('announ',JSON.stringify(announData.value))
+    
 }
  
 const elevator = ref('')
 function withElevator(event){
     if (event.target.textContent == 'есть') {
-        elevator.value = aprtFeatures.value.elevator = "есть"
-        aprtFeatures1.value.elevator = "есть"
+        announData.value.elevator = "есть"
     } else{
-       elevator.value = aprtFeatures.value.elevator = "нет"
-        aprtFeatures1.value.elevator = "нет"
+       announData.value.elevator = "нет"
     }
+    localStorage.setItem('announ',JSON.stringify(announData.value))
 }
 
-const parking = ref('')
-
 function selecetParking(event){
-   parking.value = aprtFeatures.value.parking = event.target.dataset.parking
-    aprtFeatures1.value.parking = event.target.dataset.parking
+   announData.value.parking = event.target.dataset.parking
+   localStorage.setItem('announ',JSON.stringify(announData.value))
 }
 
 function next(){
-    announData.value[0] = JSON.parse(localStorage.getItem('announ'))[0]
-    announData.value[1] = JSON.parse(localStorage.getItem('announ'))[1]
-    announData.value[2] = JSON.parse(localStorage.getItem('announ'))[2]
-    announData.value[3] = aprtFeatures.value
-    console.log();
-    if (!balcon.value || !repair.value || !elevator.value || !parking.value) {
+    if (!announData.value.balcon || !announData.value.repair || !announData.value.elevator || !announData.value.parking) {
         navigateTo('/feature')
     }else{
-        if (announData.value[0].rent == 'Аренда' || announData.value[0].objects == 'Дом/Дача'||announData.value[0].objects == 'Коттедж') {
+        if (announData.value.rent == 'Аренда' || announData.value.objects == 'Дом/Дача'||announData.value.objects == 'Коттедж'||announData.value.objects == 'Часть дома') {
         navigateTo('/technicsandfurniture')
         }else{
             navigateTo('description')
@@ -184,13 +175,7 @@ function next(){
 }
 
 onMounted(() => {
-    announData.value[0] = JSON.parse(localStorage.getItem('announ'))[0]
-    announData.value[3] = JSON.parse(localStorage.getItem('announ'))[3]
-    if (JSON.parse(localStorage.getItem('announ'))[3]) {
-        aprtFeatures.value = JSON.parse(localStorage.getItem('announ'))[3]
-    }else{
-        aprtFeatures.value = aprtFeatures1.value
-    }
+    
 })
 
 </script>

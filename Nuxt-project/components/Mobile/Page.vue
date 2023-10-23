@@ -299,13 +299,24 @@ function filter(event){
             sStorage.dealType = 'Продажа'
             sStorage.typeObject = 'Квартира'
             sStorage.buildingType = ['Квартира','Квартира в Новостройке']
-            sessionStorage.setItem('filter', JSON.stringify(sStorage))
+            
         }
         if (event.target.children[1].textContent.trim() == 'Снять') {
             sStorage.dealType =  'Аренда'
             sStorage.typeObject = []
-            sessionStorage.setItem('filter', JSON.stringify(sStorage))
+            
         }
+        if (event.target.children[1].textContent.trim() == 'Новостройки') {
+            sStorage.dealType =  'Продажа'
+            sStorage.buildingType = null
+            sStorage.typeObject = 'Квартира в Новостройке'
+        }
+        if (event.target.children[1].textContent.trim() == 'Дом') {
+            sStorage.dealType =  'Продажа'
+            sStorage.buildingType = null
+            sStorage.typeObject = 'Дом/дача'
+        }
+        sessionStorage.setItem('filter', JSON.stringify(sStorage))
         router.push('/filters/buy')
     }
 

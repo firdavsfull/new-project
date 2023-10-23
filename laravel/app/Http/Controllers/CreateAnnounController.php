@@ -9,130 +9,88 @@ use App\Models\FacilitiesAnnoun;
 use App\Models\Infrastructure;
 use App\Models\InfrastructureAnnoun;
 use App\Models\Owner;
+use Intervention\Image\Facades\Image;
 use App\Models\Pictures;
 use Illuminate\Http\Request;
 class CreateAnnounController extends Controller
 {
+public function createResidentAnnoun(Request $request){
+        $announs = json_decode($request->input('announs'),true);
+        $dataImage = json_decode($request->input('dataImage'),true);
+        // return $announs;
+        $announ = Announ::firstOrCreate([
+            'deal_type' => $announs['rent'] ?? null,
+            'type_real_estate' => $announs['Estate'] ?? null,
+            'type_object' => $announs['objects'] ?? null,
+            'rental_type' => $announs['typeRent'] ?? null,
+            'city' => $announs['city'] ?? null,
+            'floor' => $announs['floor'] ?? null,
+            'floor_in_house' => $announs['floorHouse'] ?? null,
+            'year_of_construction' => $announs['year'] ?? null,
+            'house_type' => $announs['selectType'] ?? null,
+            'total_area' => $announs['generalArea'] ?? null,
+            'kitchen_area' => $announs['kitchenArea'] ?? null,
+            'living_area' => $announs['liveArea'] ?? null,
+            'quantity_room' => $announs['quantityRoom'] ?? null,
+            'repair' => $announs['repair'] ?? null,
+            'elevator' => $announs['elevator'] ?? null,
+            'Balcony' => $announs['balcon'] ?? null,
+            'parking' => $announs['parking'] ?? null,
+            'quantity_bedrooms' => $announs['quantityBedroom'] ?? null,
+            'Land_category' => $announs['landCategry'] ?? null,
+            'condition_of_the_home' => $announs['conditionHome'] ?? null,
+            'electricity' => $announs['electricity'] ?? 'есть',
+            'title' => $announs['title'] ?? null,
+            'description' => $announs['description'] ?? null,
+            'price' => $announs['price'] ?? null,
+            'rental_period' => $announs['period'] ?? null,
+            'house_area' => $announs['homeArea'] ?? null,
+            'land_area' => $announs['landArea'] ?? null,
+            'allowKids' => $announs['allowKids'] ?? 'нет',
+            'allowAnimal' => $announs['allowAnimals'] ?? 'нет',
+            'owner_id' => $request->user()->id
+        ]);
 
-    public function createResidentAnnoun(Request $request){
-            $announs = $request;
-            if ($announs[0]['rent'] == 'Аренда' && $announs[0]['objects'] == 'Квартира' || $announs[0]['objects'] == 'Комната') {  
-                $announ = Announ::firstOrCreate([
-                    'deal_type'=>$announs[0]['rent'],
-                    'type_real_estate'=>$announs[0]['Estate'],
-                    'type_object'=>$announs[0]['objects'],
-                    'city'=>$announs[1]['city'],
-                    'floor'=>$announs[1]['floor'],
-                    'floor_in_house'=>$announs[1]['floorHouse'],
-                    'year_of_construction'=>$announs[1]['year'],
-                    'house_type'=>$announs[1]['selectType'],
-                    'total_area'=>$announs[2]['generalArea'],
-                    'kitchen_area'=>$announs[2]['kitchenArea'],
-                    'living_area'=>$announs[2]['liveArea'],
-                    'quantity_room'=>$announs[2]['quantityRoom'],
-                    'repair'=>$announs[3]['repair'],
-                    'elevator'=>$announs[3]['elevator'],
-                    'Balcony'=>$announs[3]['balcon'],
-                    'parking'=>$announs[3]['parking'],
-                    'title'=>$announs[5]['title'],
-                    'description'=>$announs[5]['description'],
-                    'price'=>$announs[6]['price'],
-                    'rental_period'=>$announs[6]['period'],
-                    'owner_id'=>$request->user()->id
-                ]);
-                if ($announs[0]['rent'] == 'Аренда') {
-                    $announ->update(['rental_type'=>$announs[0]['typeRent']]);
-                }
-                if(array_values($announs[4]) === $announs[4]){
-                    foreach ($announs[4] as $value) {
-                    ConditionAnnoun::firstOrCreate(['condition_id'=>$value,'announ_id'=>$announ->id]);
-                    }
-                }else{
-                    return;
-                }
-                return [$announ->id];
+            $images = $request->file('images');
+            $filename = [];
+            $names = [];
+            foreach ($images as $image) {
+                $names[] = $name = uniqid() . '.' . $image->getClientOriginalExtension();
+                $filename[] = [
+                    'name'=>$name,
+                    'xsmall' => 'xsmall/' . $name,
+                    'small' => 'small/' . $name,
+                    'medium' => 'medium/' . $name,
+                    'large' => 'large/' . $name,
+                ];
+    
+                $img = Image::make($image);
+                $img->fit(2250, 950)->save(public_path('large/' . $name));
+    
+                $img->fit(1400, 800)->save(public_path('medium/' . $name));
+    
+                $img->fit(700, 400)->save(public_path('small/' . $name));
+    
+                $img->fit(350, 200)->save(public_path('xsmall/' . $name));  
             }
 
-
-            if ($announs[0]['rent'] == 'Аренда' && $announs[0]['objects'] == 'Дом/Дача' || $announs[0]['objects'] == 'Коттедж') {
-                $announ = Announ::firstOrCreate([
-                    'deal_type'=>$announs[0]['rent'],
-                    'rental_type'=>$announs[0]['typeRent'],
-                    'type_real_estate'=>$announs[0]['Estate'],
-                    'type_object'=>$announs[0]['objects'],
-                    'city'=>$announs[1]['city'],
-                    'floor_in_house'=>$announs[1]['floorHouse'],
-                    'house_area'=>$announs[4]['homeArea'],
-                    'year_of_construction'=>$announs[1]['year'],
-                    'house_type'=>$announs[1]['selectType'],
-                    'land_area'=>$announs[4]['landArea'],
-                    'quantity_bedrooms'=>$announs[4]['quantityBedroom'],
-                    'repair'=>$announs[3]['repair'],
-                    'Balcony'=>$announs[3]['balcon'],
-                    'parking'=>$announs[3]['parking'],
-                    'Land_category'=>$announs[4]['landCategry'],
-                    'condition_of_the_home'=>$announs[4]['conditionHome'],
-                    'electricity'=>$announs[4]['electricity'],
-                    'title'=>$announs[5]['title'],
-                    'description'=>$announs[5]['description'],
-                    'price'=>$announs[6]['price'],
-                    'rental_period'=>$announs[6]['period'],
-                    'owner_id'=>$request->user()->id 
-                    ]);
-                    return[$announ->id];
+            for ($i=0; $i < count($dataImage); $i++) { 
+                Pictures::create([
+                'pictures'=>$names[$i],
+                'position'=>$dataImage[$i]['position'],
+                'rotation'=>$dataImage[$i]['rotation'],
+                'announ_id'=>$announ->id]);
+            }
+            
+            if (isset($announs['condition']) && is_array($announs['condition'])) {
+                foreach ($announs['condition'] as $value) {
+                    ConditionAnnoun::firstOrCreate(['condition_id' => $value, 'announ_id' => $announ->id]);
                 }
+                return ['success'];
 
-            if ($announs[0]['rent'] == 'Продажа' && $announs[0]['objects'] == 'Дом/Дача' || $announs[0]['objects'] == 'Коттедж') {
-                $announ = Announ::firstOrCreate([
-                    'deal_type'=>$announs[0]['rent'],
-                    'type_real_estate'=>$announs[0]['Estate'],
-                    'type_object'=>$announs[0]['objects'],
-                    'city'=>$announs[1]['city'],
-                    'floor_in_house'=>$announs[1]['floorHouse'],
-                    'house_area'=>$announs[4]['homeArea'],
-                    'year_of_construction'=>$announs[1]['year'],
-                    'house_type'=>$announs[1]['selectType'],
-                    'land_area'=>$announs[4]['landArea'],
-                    'quantity_bedrooms'=>$announs[4]['quantityBedroom'],
-                    'repair'=>$announs[3]['repair'],
-                    'Balcony'=>$announs[3]['balcon'],
-                    'parking'=>$announs[3]['parking'],
-                    'Land_category'=>$announs[4]['landCategry'],
-                    'condition_of_the_home'=>$announs[4]['conditionHome'],
-                    'electricity'=>$announs[4]['electricity'],
-                    'title'=>$announs[5]['title'],
-                    'description'=>$announs[5]['description'],
-                    'price'=>$announs[6]['price'],
-                    'owner_id'=>$request->user()->id 
-                ]);
-                return[$announ->id];
-            }
-            if ($announs[0]['rent'] == 'Продажа' && $announs[0]['objects'] == 'Квартира' || $announs[0]['objects'] == 'Комната'||$announs[0]['objects'] == 'Квартира в Новостройке') {  
-                $announ = Announ::firstOrCreate([
-                    'deal_type'=>$announs[0]['rent'],
-                    'type_real_estate'=>$announs[0]['Estate'],
-                    'type_object'=>$announs[0]['objects'],
-                    'city'=>$announs[1]['city'],
-                    'floor'=>$announs[1]['floor'],
-                    'floor_in_house'=>$announs[1]['floorHouse'],
-                    'year_of_construction'=>$announs[1]['year'],
-                    'house_type'=>$announs[1]['selectType'],
-                    'total_area'=>$announs[2]['generalArea'],
-                    'kitchen_area'=>$announs[2]['kitchenArea'],
-                    'living_area'=>$announs[2]['liveArea'],
-                    'quantity_room'=>$announs[2]['quantityRoom'],
-                    'repair'=>$announs[3]['repair'],
-                    'elevator'=>$announs[3]['elevator'],
-                    'Balcony'=>$announs[3]['balcon'],
-                    'parking'=>$announs[3]['parking'],
-                    'title'=>$announs[4]['title'],
-                    'description'=>$announs[4]['description'],
-                    'price'=>$announs[5]['price'],
-                    'owner_id'=>$request->user()->id
-                ]);
-                return [$announ->id];
-            }
-                    
+            } else {
+                return ['error'];
+            }   
     }
 
     public function createAnnoun(Request $request){
@@ -199,7 +157,10 @@ class CreateAnnounController extends Controller
             $query->where('deal_type', $dealType);
         }
     
-        if ($request->typeObject) {
+        if ($request->buildingType) {
+            $buildingType = $request->buildingType;
+            $query->WhereIn('type_object', $buildingType);
+        }else if ($request->typeObject) {
             $query->where('type_object',$request->typeObject);
         }
 
@@ -291,9 +252,9 @@ class CreateAnnounController extends Controller
             ->first();
         }
         $allData = [];
-        for ($i=0; $i < count($picture); $i++) { 
-            $data[$i]['image'] = $picture[$i]['pictures'];
-            $allData[] = $data[$i]; 
+        for ($x=0; $x < count($picture); $x++) { 
+            $data[$x]['image'] = $picture[$x]['pictures'];
+            $allData[] = $data[$x]; 
             //$picture[$i]['pictures'];
 
         }

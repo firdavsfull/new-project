@@ -47,7 +47,7 @@
 <script setup>
 const saveText = ref('');
 const items = ref([
-      { name: 'check1', label: 'Квартира', checked: true },
+      { name: 'check1', label: 'Квартира', checked: false },
       { name: 'check2', label: 'Комната', checked: false },
       { name: 'check3', label: 'Дом/дача', checked: false },
       { name: 'check4', label: 'Коттедж', checked: false },
@@ -59,12 +59,14 @@ const apartament = ref(items.value.filter(item=>item.label == 'Квартира'
 const house = ref(items.value.filter(item=>item.label == 'Дом/дача'|| item.label =='Коттедж'))
 const land = ref(items.value.filter(item=>item.label == 'Участок'))
 const text = ref([]);
+const typeObject = JSON.parse(sessionStorage.getItem('filter')).typeObject
     const selectedItems = items.value
         .filter((item) => item.checked)
         .map((item) => item.label);
       text.value = selectedItems.slice();
 
       props.filter.typeObject = text.value;
+      console.log(props.filter);
       // sessionStorage.setItem('filter', JSON.stringify(props.filter));
       if (props.filter.typeObject.length && props.filter.typeObject.indexOf('Квартира') !== -1) {
         props.uploadQuantityRoom(true)
@@ -89,19 +91,23 @@ const props = defineProps({
       }
     }
     
-    const choose = ref('')
-    items.value.forEach(item => {
-        if (item.checked) {
-          props.filter.typeObject = choose.value = item.label
-          sessionStorage.setItem('filter',JSON.stringify(props.filter))
+      const choose = ref('')
+      items.value.forEach(item => {
+          if (item.label == typeObject) {
+            item.checked = true
+            choose.value = item.label
           }
+            if (typeObject == 'Квартира в Новостройке') {
+              choose.value = 'Квартира'
+              item.label == 'Квартира'? item.checked = true:item.checked=false
+            }
       })
     async function check(event) {
     if (event.target.name == "check") {
-          choose.value = event.target.dataset.name
+      choose.value = event.target.dataset.name
       props.filter.typeObject = choose.value;
+      props.filter.buildingType = null
       sessionStorage.setItem('filter', JSON.stringify(props.filter));
-      console.log(props.filter);
       if (props.filter.typeObject.length && props.filter.typeObject.indexOf('Квартира') !== -1) {
         props.uploadQuantityRoom(true)
       }else{
