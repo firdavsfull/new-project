@@ -54,55 +54,23 @@
                     </div>
                     </div>
                 </div>
-                <div class="ml-[10px]">
-                    <div class="dropdown">
+                <div class="ml-[10px]" v-if="filteredData.typeObject == 'Квартира'||filteredData.typeObject == 'Комната'||filteredData.typeObject == 'Квартира в новостройке'">
+                    <div class="dropdown" >
                     <button class="btn border" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
                         Комнатность
                     </button>
-                    <ul class="dropdown-menu py-[10px] border-0 p-0 m-[0]" style="box-shadow:0 0 10px silver;">
-                        <li class="flex px-[10px] m-[0] items-center py-[8px]">
-                            <input class="mx-[5px] mr-[15px]" type="checkbox" name="" id="1">
-                            <label for="1" class="text-[black] ml-0" href="#" style="text-decoration:none">1-комнатная</label>
-                        </li>
-                        <li class="flex px-[10px] m-[0] items-center py-[8px]">
-                            <input class="mx-[5px] mr-[15px] active" type="checkbox" name="" id="2">
-                            <label for="2" class="text-[black] ml-0" href="#" style="text-decoration:none">2-комнатная</label>
-
-                        </li>
-                        <li class="flex px-[10px] m-[0] items-center py-[8px]">
-                            <input class="mx-[5px] mr-[15px]" type="checkbox" name="" id="3">
-                            <label for="3" class="text-[black] ml-0" href="#" style="text-decoration:none">3-комнатная</label>
-
-                        </li>
-                        <li class="flex px-[10px] m-[0] items-center py-[8px]">
-                            <input class="mx-[5px] mr-[15px]" type="checkbox" name="" id="4">
-                            <label for="4" class="text-[black] ml-0" href="#" style="text-decoration:none">4-комнатная</label>
-
-                        </li>
-                        <li class="flex px-[10px] m-[0] items-center py-[8px]">
-                            <input class="mx-[5px] mr-[15px]" type="checkbox" name="" id="5">
-                            <label for="5" class="text-[black] ml-0" href="#" style="text-decoration:none">5-комнатная</label>
-
-                        </li>
+                    <ul class="dropdown-menu py-[10px] border-0 ml-[20px] p-0 m-[0]" style="box-shadow:0 0 10px silver;">
+                    <DesktopQuantityRoom v-if="filteredData.typeObject == 'Квартира'||filteredData.typeObject == 'Комната'||filteredData.typeObject == 'Квартира в новостройке'" />
                     </ul>
                     </div>
                 </div>
                 <div>
                     <div class="dropdown ml-[10px]">
-                    <button class="border btn" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
+                    <button class="btn border" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
                         Цена
                     </button>
-                    <ul class="dropdown-menu w-[250px] border-0" aria-labelledby="dropdownMenuButton1" style="box-shadow:0 0 10px silver;">
-                        <div class="w-[100%] h-[40px] p-[5px] flex justify-between items-center">
-                            <div class=" pl-[5px] w-[49%] border rounded-[3px] ">
-                            <input class="w-[80%] outline-none " placeholder="от" type="text">
-                            <span class="text-center w-[15%] right-0">c.</span>
-                            </div>
-                            <div class=" pl-[5px] w-[49%] border rounded-[3px] ">
-                            <input class="w-[80%] outline-none " placeholder="до" type="text">
-                            <span class="text-center w-[15%] right-0">c.</span>
-                            </div>
-                        </div>
+                    <ul class="dropdown-menu border-0" aria-labelledby="dropdownMenuButton1">
+                        <DesktopPrice/>
                     </ul>
                     </div>
                 </div>
@@ -268,14 +236,14 @@
                     </article>
                 </div>
             </div>
-        </div>
         <MooreFilter v-if="showFIlterModal"/>
+        </div>
 </template>
 <script setup>
 const data = ref([])
 const images = ref([])
 const route = useRoute()
-const {responce,showAnnouns,typeObject} = getData()
+const {responce,showAnnouns,typeObject,quantityRoom,priceFrom,priceTo} = getData()
 const {showNavBar,showMadoal,showFIlterModal} = useSwitch()
 const announLoader = ref(false)
 const filteredData = JSON.parse(sessionStorage.getItem('filter'))
@@ -315,7 +283,6 @@ async function getAnnouns(filter){
             }
         }
         data.value = res[0];
-        console.log(res);
     })
     announLoader.value =false
     let ownerWithAd = []
@@ -364,6 +331,10 @@ function selectDealType(item){
 
 async function Search(){
     filteredData.typeObject = typeObject.value
+    filteredData.quantityRoom = quantityRoom.value
+    filteredData.priceFrom = priceFrom.value
+    filteredData.priceTo = priceTo.value
+
     getAnnouns(filteredData)
 }
 function isShowHideModal(){

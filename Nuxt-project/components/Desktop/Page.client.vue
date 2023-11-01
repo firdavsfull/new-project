@@ -44,42 +44,12 @@
 
                                 <div class="form-select quantity-room relative hover:bg-sky-100"  style="height:100%; border-right:1px solid #f4f4f4; min-width:140px; max-width:316px;">
                                     <button @click="showQuantity" class="text-btn">комнат</button>
-
-                                    <div class="drop-down ml-[-12px] mt-[1px]" v-if="showQuan">
-                                        <ul class="list-drop">
-                                            <li v-for="(room,index) of quantityRooms" :key="index">
-                                                <input @change="selectQuanitityRoom(room)" type="checkbox" class="d-none room" :id="`btn-check${index}`" autocomplete="off">
-                                                <label class="border border-black-300 drop-btn"  :for="`btn-check${index}`"><span>{{room.value}}</span></label>
-                                            </li>
-                                        </ul>
-
-                                    </div>
+                                    <DesktopQuantityRoom v-if="showQuan"/>
                                 </div>
 
                                 <div class="w-[156px]">
                                     <button @click="showPrice" class="form-select hover:bg-sky-100 h-[100%] border-0" style="color:#7A7A7A; font-size:14px; box-shadow:none;">Цена</button>
-
-                                    <div class="drop-down" v-if="showP">
-                                        <div class="flex relative flex-nowrap justify-between">
-                                            <div class=" rounded hover:border-sky-600 h-[28px]  w-[100%] text-sm border-[2px] overflow-hidden flex relative">
-                                                <div class="absolute overflow-hidden  pl-[8px] pt-[4px]">
-                                                    <input v-model="price.from" @input="enterPrice" type="number" placeholder="от" class="block outline-none w-[100%] h-[100%]">
-                                                </div>
-                                                <span class="flex items-center justify-center h-[100%] absolute right-[0]  w-[20px]" style="background-color:white;">
-                                                <div>с.</div>
-                                                </span>
-                                            </div>
-                                            
-                                            <div class="rounded hover:border-sky-600 h-[28px] w-[100%] ml-[8px] text-sm border-[2px] flex relative overflow-hidden ">
-                                                <div class=" absolute overflow-hidden pl-[8px] pt-[4px]">
-                                                    <input v-model="price.to" @input="enterPrice" type="number" style="font-size:inherit; line-height:inherit; padding:0;" placeholder="до" class="block outline-none w-[100%] h-[100%]">
-                                                </div>
-                                                <span class="flex items-center  justify-center h-[100%] absolute right-[0]  w-[20px]" style="background-color:white;">
-                                                    <div>с.</div>
-                                                </span>
-                                            </div>
-                                        </div>
-                                    </div>
+                                    <DesktopPrice v-if="showP"/>
                                 </div>
 
                                 <div style="flex:1 0 380px ;">
@@ -500,18 +470,6 @@ const dealType = ref([
     {name:'Разместить объявление',value:'Разместить объявление'},
 ])
 
-const quantityRooms = ref([
-    {value:1},
-    {value:2},
-    {value:3},
-    {value:4},
-    {value:5},
-])
-
-const price = {
-    from:0,
-    to:0
-}
 
 // setTimeout(()=>{
 
@@ -542,17 +500,7 @@ function showQuantity(){
     showQuan.value = !showQuan.value;
     showP.value = false
 }
-const quantityRoom = []
-function selectQuanitityRoom(room){
-    if (event.target.checked) {
-        quantityRoom.push(room.value)
-        filter.quantityRoom = quantityRoom;
-    }
-    if (!event.target.checked) {
-        quantityRoom.splice(quantityRoom.indexOf(room.value),1)
-    }
-        sessionStorage.setItem('filter',JSON.stringify(filter)) 
-}
+
 
 const showC = ref(false)
 const showR = ref(true)
@@ -566,12 +514,7 @@ function showCom(){
     showR.value = false
 }
 
-function enterPrice(){
-    console.log(price.to);
-    filter.priceFrom = price.from 
-    filter.priceTo = price.to
-    sessionStorage.setItem('filter',JSON.stringify(filter))
-}
+
 
 const showP = ref(false)
 function showPrice(){

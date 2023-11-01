@@ -11,9 +11,15 @@ export default function getData(){
     const dataFormBack = useState('dataFormBack',()=>[])
     const direction = useState('direction',()=>'')
     const showAnnouns = useState('showAnnoun',()=>[])
-    const typeObject = useState('typeObject',()=>'')
+    const typeObject = useState('typeObject', () => '')
+    const quantityRoom = useState('quantityRoom',()=>[])
+    const priceFrom = useState('priceFrom',()=>'')
+    const priceTo = useState('priceTo',()=>'')
      
-    return {
+    return{
+        priceFrom,
+        priceTo,
+        quantityRoom,
         formData,
         dataFormBack,
         isUpload,
@@ -25,7 +31,7 @@ export default function getData(){
         showAnnouns,
         AnnounOgj,
         images,
-        typeObject,
-        avatar
+        avatar,
+        typeObject
     }
 }

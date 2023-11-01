@@ -4,7 +4,7 @@
             <li style="margin-top:10px" >
                 <ul class="form-check" style="paddong:0;" >
                     <li style="list-style:none; padding:4px 0; margin:0; " class="flex flex-column" >
-                        <label @click="selectTypeCommercial(comm)" v-for="(comm,idx) of commercial" :for="`check${idx}`" class="form-check-label my-[5px]">
+                        <label @click="selectTypeCommercial(comm)" v-for="(comm,idx) of commercial" :key="idx" :for="`check${idx}`" class="form-check-label my-[5px]">
                             <input :checked="typeObject == comm.name" class="form-check-input" :id="`check${idx}`" name="commersial" type="radio" style="box-shadow:none;">
                             <span style="font-size:15px; font-weight:normal;">{{ comm.name }}</span>
                         </label>
@@ -21,6 +21,7 @@
     </div>
 </template>
 <script setup>
+const {typeObject} = getData ()
 const commercial = ref([
     {name:'Офис'},
     {name:'Склад'},
@@ -28,7 +29,6 @@ const commercial = ref([
     {name:'Торговая плолщадь'},
     {name:'Коммерчемкая земля'},
 ])
-const {typeObject} = getData()
 typeObject.value = JSON.parse(sessionStorage.getItem('filter')).typeObject || ''
 const filter = {}
 
