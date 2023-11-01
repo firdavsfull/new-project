@@ -39,6 +39,7 @@ Route::post('/get_user_with_announ',[CreateOwnerController::class,'getOwnerFromA
 Route::post('/get_announs',[CreateAnnounController::class,'getAnnouns']);
 Route::get('/get_data',[getAnnounController::class, 'getData']);
 Route::post('/create_user', [CreateOwnerController::class, 'createOwner']);
+Route::post('/verify-user', [CreateOwnerController::class, 'verifyUser']);
 Route::post('/filter',[FilterController::class,'FiltersAnnoun']);
 
 

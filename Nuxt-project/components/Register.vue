@@ -51,7 +51,6 @@
         <button
           style="font-family: Lato, Arial, sans-serif"
           class="btn-light text-primary btn mt-[10px]"
-          @click.prevent
         >
           Другим способом
         </button>
@@ -80,7 +79,7 @@ input::-webkit-inner-spin-button {
 </style>
 <script setup>
 const loader = ref(false);
-const { responce,direction } = getData();
+const { responce } = getData();
 const { showMadoal,active } = useSwitch();
 function hideModal() {
   const { showMadoal, active } = useSwitch();
@@ -94,8 +93,8 @@ const tel = ref({
 });
 async function createUser() {
   loader.value = true;
-  if (tel.value.phone.length >= 19) {
-    await fetch("http://192.168.100.45:8000/api/create_user", {
+  if (tel.value.phone && tel.value.phone.length >= 9) {
+    await fetch("http://192.168.0.116:8000/api/create_user", {
       method: "post",
       headers: {
         "Content-type": "application/json",
@@ -106,7 +105,7 @@ async function createUser() {
     })
       .then((res) => {
         if (res.ok) {
-          window.location.replace(direction.value)
+          window.location.replace('personal_area/profile')
           active.value = false
         }
         return res.json();
@@ -117,8 +116,6 @@ async function createUser() {
         responce.value = res;
         localStorage.setItem("owner", JSON.stringify(responce.value));
       });
-  }else{
-    showMadoal.value = false
   }
   tel.value.phone = "";
   loader.value = false;

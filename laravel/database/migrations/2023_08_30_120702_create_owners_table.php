@@ -19,6 +19,7 @@ return new class extends Migration
             $table->string('birth_date')->nullable();
             $table->string('email')->nullable();
             $table->string('pass')->nullable();
+            $table->integer('verification_code')->nullable();
             $table->string('phone_number');
             $table->timestamps();
         });

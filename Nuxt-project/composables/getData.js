@@ -11,8 +11,9 @@ export default function getData(){
     const dataFormBack = useState('dataFormBack',()=>[])
     const direction = useState('direction',()=>'')
     const showAnnouns = useState('showAnnoun',()=>[])
+    const typeObject = useState('typeObject',()=>'')
      
-    return{
+    return {
         formData,
         dataFormBack,
         isUpload,
@@ -24,5 +25,7 @@ export default function getData(){
         showAnnouns,
         AnnounOgj,
         images,
-        avatar}
+        typeObject,
+        avatar
+    }
 }

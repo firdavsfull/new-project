@@ -22,21 +22,18 @@
       >
         Выберите файлы
       </button>
-      <input type="file" max="12" multiple style="display: none" accept=".jpg, .jpeg, .png, .webp" id="input" />
+      <input type="file" multiple style="display: none" id="input" />
     </div>
-    <p v-for="(item,index) of size" :key="index" class="text-center text-[red] my-[1px] mx-[auto] text-[14px] mb-[0]">
-        Не получилось загрузить {{item.name}}: Минимальный размер изображения - 800x400px.
-      </p>
+
     <div
       v-if="pictures.length"
       class="flex overflow-hidden mt-[10px] w-[100%] min-h-[50px] rounded-[13px] border"
     >
       <div
         id="areaBorder"
-        class="w-full relative p-[10px] sm:mx-[auto] mx-[auto] flex flex-wrap"
+        class="w-full p-[10px] sm:mx-[auto] mx-[auto] flex flex-wrap"
         style="flex-basis: 100%"
       >
-      
         <div
         v-for="(img, index) of pictures"
         :key="index"
@@ -49,10 +46,10 @@
           @touchend ="handleTouchEnd(img, pictures)"
           draggable="true"
           id="images"
-          
+           
           class="bg-[black] relative flex responsive mx-[auto] m-[10px] w-[48%] h-[150px] sm:h-[170px] sm:w-[250px] sm:h-[170px] md:w-[200px] md:h-[120px] lg:min-w-[180px] lg:h-[120px] overflow-hidden rounded"
         >
-        <div class="cursor-grab" >
+        <div class="cursor-grab">
 
           <div class="hover pointer-events-none transition duration-150 cursor-default z-[2] absolute top-[-30px] w-full bg-[black]/40 h-[30px]">
                 <div :data-id="index"
@@ -66,7 +63,7 @@
             </div>
           </div>
             <img
-              :style="`transform: rotate(${img.rotation}deg); object-fit:cover;` "
+              :style="`transform: rotate(${img.rotation}deg);`"
               :data-id="index"
               class="picture left-[0] absolute z-[1] top-[0] w-full h-full"
               :src="img.url"
@@ -74,6 +71,28 @@
             />
         </div>
         </div>
+        <!-- <div v-if="imageLoader" class="w-[100%] flex justify-center">
+          <div class="lds-spinner">
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+          </div>
+        </div> -->
+        <!-- <div
+          @click.prevent="change"
+          v-if="images.length"
+          class="border border-[blue] relative justify-center flex m-[10px] w-[48%] h-[150px] sm:h-[170px] sm:w-[125px] sm:h-[85px] md:w-[200px] md:h-[120px] lg:min-w-[180px] lg:h-[120px] rounded"
+        ></div> -->
+        
       </div>
     </div>
   </form>
@@ -85,53 +104,38 @@ function change(event) {
   file.click();
 }
 const pictures = ref([]);
+const imageLoader = ref(false);
 const formD = ref(new FormData());
 const {images, isUpload} = getData()
-const size = ref([])
 function saveImages(e) {
   const files = e.target.files;
   for (let i = 0; i < files.length; i++) {
+    formD.value.append("images[]", files[i]);
     const reader = new FileReader();
-      reader.onload = (e) => {
-        let img = new Image()
-        img.src = e.target.result;
-        img.onload = function (event) {
-          console.log(this.width,this.height);
-          if (this.width > 800 && this.height > 400) {
-            formD.value.append("images[]", files[i]);
-            pictures.value.push({
-              url: e.target.result,
-            position: pictures.value.length,
-            rotation:0,
-            file: files[i],
-          });
-          }else{
-            size.value.push({
-            name:files[i].name,
-            width:this.width,
-            height:this.height
-          })
-          }
-        } 
-      
-        images.value = pictures.value;
-      } 
-          reader.readAsDataURL(files[i]);
+    reader.onload = (e) => {
+      if (pictures.value.length < 12) {
+        pictures.value.push({
+          url: e.target.result,
+          position: pictures.value.length,
+          rotation:0,
+          file: files[i],
+        });
+        images.value = pictures.value
+      }
     };
-
-        setTimeout(() => {
-          update_formdate();
-        }, 50);
-
-        
+    
+    reader.readAsDataURL(files[i]);
   }
-
+  setTimeout(() => {
+    update_formdate();
+  }, 50);
+}
 
   
 const update_formdate = () => {
   formD.value = new FormData()
   for (let i = 0; i < pictures.value.length; i++) {
-      formD.value.append("images[]", pictures.value[i].file);
+    formD.value.append("images[]", pictures.value[i].file);
   }
 
 };
@@ -140,7 +144,6 @@ const update_formdate = () => {
 
 function removeImg(img, picture) {
   picture.splice(picture.indexOf(img), 1);
-  size.value = []
 }
 
 let currentIndex = null;

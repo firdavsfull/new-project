@@ -13,7 +13,7 @@
         <font-awesome-icon :icon="['fas', 'location-dot']" />
       </div>
       <div class="mx-[10px]">
-        {{ filter.city ? `${filter.city}` : "Все" }}
+        {{ selectedCity ? `${selectedCity}` : "Все" }}
       </div>
     </button>
 
@@ -53,19 +53,18 @@ const props = defineProps({
 async function selectCity(event) {
   route.query.city = props.filter.city = event.target.textContent;
   selectedCity.value = props.filter.city;
-  console.log();
   if (event.target.textContent == "Все") {
     route.query.city = props.filter.city = "";
     sessionStorage.setItem("filter", JSON.stringify(props.filter));
   }
     sessionStorage.setItem("filter", JSON.stringify(props.filter));
     props.updateLoader(true);
- await fetch("http://192.168.100.45:8000/api/filter", {
+ await fetch("http://192.168.0.116:8000/api/filter", {
     method: "post",
     headers: {
       "Content-type": "application/json",
     },
-    body: JSON.stringify(props.filter),
+    body: JSON.stringify(route.query),
   })
     .then((res) => res.json())
     .then((res) => {

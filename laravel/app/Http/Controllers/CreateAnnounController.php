@@ -47,7 +47,13 @@ public function createResidentAnnoun(Request $request){
             'house_area' => $announs['homeArea'] ?? null,
             'land_area' => $announs['landArea'] ?? null,
             'allowKids' => $announs['allowKids'] ?? 'нет',
-            'allowAnimal' => $announs['allowAnimals'] ?? 'нет',
+            'allowAnimal' => $announs['allowAnimals'] ?? 'нет', 
+            'building_area'=>$announs['buildingArea']??null,
+            'state'=>$announs['State']??null,
+            'numberSeats'=>$announs['numberSeats']??null,
+            'layout'=>$announs['layout']??null,
+            'furniture'=>$announs['Furniture']??null,
+            'CeilingHeight'=>$announs['CeilingHeight']??null,
             'owner_id' => $request->user()->id
         ]);
 
@@ -86,54 +92,29 @@ public function createResidentAnnoun(Request $request){
                 foreach ($announs['condition'] as $value) {
                     ConditionAnnoun::firstOrCreate(['condition_id' => $value, 'announ_id' => $announ->id]);
                 }
-                return ['success'];
-
-            } else {
-                return ['error'];
-            }   
-    }
-
-    public function createAnnoun(Request $request){
-            $commercial = $request->commercial;
-            if ($commercial[0]['Estate'] == 'Коммерческая') {
-                $announ = Announ::firstOrcreate([
-                    'deal_type'=> $commercial[0]['rent'],
-                    'type_real_estate'=> $commercial[0]['Estate'],
-                    'type_object'=> $commercial[0]['objects'],
-                    'city'=> $commercial[1]['city'],
-                    'floor'=> $commercial[1]['floor'],
-                    'floor_in_house' =>$commercial[1]['floorFrom'],
-                    'year_of_construction'=>$commercial[1]['yearConstruction'],
-                    'total_area'=>$commercial[1]['totalArea'],
-                    'parking'=>$commercial[1]['Parking'],
-                    'title'=>$commercial[1]['title'],
-                    'description'=>$commercial[1]['description'],
-                    'price'=>$commercial[1]['price'],
-                    'land_area'=>$commercial[1]['plot'],
-                    'building_area'=>$commercial[1]['buildingArea'],
-                    'state'=>$commercial[1]['State'],
-                    'numberSeats'=>$commercial[1]['numberSeats'],
-                    'layout'=>$commercial[1]['layout'],
-                    'furniture'=>$commercial[1]['Furniture'],
-                    'CeilingHeight'=>$commercial[1]['CeilingHeight'],
-                    'owner_id'=>$request->user()->id
-                ]);
-
-                if ($commercial[0]['rent'] == 'Аренда') {
-                    $announ->update(['rental_type'=>$commercial[0]['typeRent']]);
+            } 
+            if(isset($announs['infrastructure']) && is_array($announs['infrastructure'])){
+                foreach ($announs['infrastructure'] as $value) {
+                InfrastructureAnnoun::firstOrCreate(['infrastructure_id'=>$value,'announ_id'=>$announ->id]);
                 }
-
-                if(array_values($commercial[2]) === $commercial[2]){
-                    foreach ($commercial[2] as $value) {
-                    InfrastructureAnnoun::firstOrCreate(['infrastructure_id'=>$value,'announ_id'=>$announ->id]);
-                    }
-                }else{
-                    return;
-                }
-                return [$announ->id];
             }
+            return ['you have successfully placed ads'];
+        }
+
+
+
+
+    //         if(array_values($commercial[2]) === $commercial[2]){
+    //                 foreach ($commercial[2] as $value) {
+    //                 InfrastructureAnnoun::firstOrCreate(['infrastructure_id'=>$value,'announ_id'=>$announ->id]);
+    //                 }
+    //             }else{
+    //                 return;
+    //             }
+    //             return [$announ->id];
+    //         }
             
-    }
+    
 
     public function getAnnouns(Request $request){
         // $data = Announ::all();

@@ -6,12 +6,12 @@
       >
         <div style="margin-right: 8px">
           <span style="margin-left: -12px">
-            <NuxtLink to="http://192.168.100.45:3000/" class="bg-white-500 text-[#0468ff]">
+            <button @click="homeBack" class="bg-white-500 text-[#0468ff]">
               <font-awesome-icon
                 class="ml-[15px] font-light text-[25px] text-[gray]"
                 :icon="['fasl', 'chevron-left']"
               />
-            </NuxtLink>
+            </button>
           </span>
         </div>
         <div class="self-center overflow-hidden">
@@ -60,7 +60,7 @@
         <div class="px-[9px] mt-[16px]">
           <div class="flex w-[230px] justify-between flex-nowrap">
             <input
-              :checked="filters.dealType == 'Продажа'"
+              :checked="isCheck1 == 'buy'"
               data-route="buy"
               @change="check"
               name="btnradio"
@@ -80,7 +80,7 @@
               >
             </label>
             <input
-              :checked="filters.dealType == 'Аренда'"
+              :checked="isCheck1 == 'take_off'"
               data-route="take_off"
               @change="check"
               name="btnradio"
@@ -121,35 +121,69 @@
             </label>
           </div>
         </div>
-          <MobileFilterUITypeHome :updateFilters="sessionFilter" :filter="filter"  :updateLoader="updateLoader" :uploadQuantityRoom="uploadQuantityRoom" :updateData="updateData"/>
-        <div v-if="filter.dealType == 'Продажа' && filter.typeObject == 'Квартира' || filter.typeObject == 'Квартира в Новостройке'||!filter.typeObject" class="px-[8px] mt-[26px]">
+
+        <MobileFilterUITypeHome :filter="filter"  :updateLoader="updateLoader" :uploadQuantityRoom="uploadQuantityRoom" :updateData="updateData"/>
+        
+        <div class="px-[8px] mt-[26px]" v-if="isCheck1 == 'buy'">
           <div class="flex w-[230px] justify-between flex-nowrap">
-            <div v-for="(item,i) of typeApartment" :key="i">
-              <input
-                  @change="check(item)"
-                  name="typeBuilding"
-                  class="checked-5 hidden"
-                  type="radio"
-                  :id="i + 1"
-                  :checked="item.checked"
-                />
-                <label
-                data-name="Новостройка"
-                :for="i + 1"
-                class="type-aprt border px-[10px] py-[7px]"
-                >
-                {{ item.name }}
-              </label>
-            </div>  
+            <input
+              @click="select"
+              name="btnradio1"
+              class="checked-4 hidden"
+              type="radio"
+              id="inp4"
+            />
+            <label
+              data-name="Все"
+              for="inp4"
+              class="rounded-tl rounded-bl border px-[10px] py-[2px] rounded-[0]"
+            >
+              <span
+                class="text-[15px]"
+                style="font-family: Lato, Arial, sans-serif"
+                >Все</span
+              >
+            </label>
+            <input
+              @click="select"
+              name="btnradio1"
+              class="checked-5 hidden"
+              type="radio"
+              id="inp5"
+            />
+            <label
+              data-name="Новостройка"
+              for="inp5"
+              class="border px-[10px] py-[2px] rounded-[0]"
+            >
+              <span
+                class="text-[15px]"
+                style="font-family: Lato, Arial, sans-serif"
+                >Новостройка</span
+              >
+            </label>
+            <input
+              @click="select"
+              name="btnradio1"
+              class="checked-6 hidden"
+              type="radio"
+              id="inp6"
+            />
+            <label
+              data-name="Вторичка"
+              for="inp6"
+              class="rounded-tr rounded-br border px-[10px] py-[2px] rounded-[0]"
+            >
+              <span
+                class="text-[15px]"
+                style="font-family: Lato, Arial, sans-serif"
+                >Вторичка</span
+              >
+            </label>
           </div>
         </div>
 
-        
-        
-        
-        
-
-        <div class="mt-[40px] px-[8px]" v-if="filter.typeObject =='Квартира' || filter.typeObject =='Комната'">
+        <div class="mt-[40px] px-[8px]" v-if="showQuantityRoom">
           <div class="flex items-center">
             <div
               style="font-family: Lato, Arial, sans-serif"
@@ -160,16 +194,64 @@
           </div>
           <div class="mt-[10px]">
             <div class="flex mt-[4px] mb-[-4px] w-[50%]">
-              <label v-for="(itm,i) of quantityRoom" :key="i" :for="`input${i+1}`" class="flex quantityRoom">
+              <label for="input1" class="flex">
                 <input
                   @click="selectQuanitityRoom"
                   class="hidden"
                   type="checkbox"
                   name="radio"
-                  :id="`input${i+1}`"
+                  id="input1"
                 />
                 <span class="mr-[5px] border py-[7px] rounded-[4px] px-[16px]"
-                  >{{ itm.value }}</span
+                  >1</span
+                >
+              </label>
+              <label for="input2" class="flex">
+                <input
+                  @click="selectQuanitityRoom"
+                  class="hidden"
+                  type="checkbox"
+                  name="radio"
+                  id="input2"
+                />
+                <span class="mr-[5px] border py-[7px] rounded-[4px] px-[16px]"
+                  >2</span
+                >
+              </label>
+              <label for="input3" class="flex">
+                <input
+                  @click="selectQuanitityRoom"
+                  class="hidden"
+                  type="checkbox"
+                  name="radio"
+                  id="input3"
+                />
+                <span class="mr-[5px] border py-[7px] rounded-[4px] px-[16px]"
+                  >3</span
+                >
+              </label>
+              <label for="input4" class="flex">
+                <input
+                  @change="selectQuanitityRoom"
+                  class="hidden"
+                  type="checkbox"
+                  name="radio"
+                  id="input4"
+                />
+                <span class="mr-[5px] border py-[7px] rounded-[4px] px-[16px]"
+                  >4</span
+                >
+              </label>
+              <label for="5" class="flex">
+                <input
+                  @change="selectQuanitityRoom"
+                  class="hidden"
+                  type="checkbox"
+                  name="radio"
+                  id="5"
+                />
+                <span class="mr-[5px] border px-[16px] py-[7px] rounded-[4px]"
+                  >5</span
                 >
               </label>
             </div>
@@ -177,193 +259,113 @@
         </div>
 
         <MobileFilterUIInput 
-        :tag="`span`" 
-        :innerText="`с`"
-        title="Цена"
-        placeholder1="от"
-        placeholder2="до"
-        :enterPrice="enterPrice"
-        :updateLoader="updateLoader"
-        :updateData="updateData"
+         :tag="`span`" :innerText="`с`"
+         :sup="``" :textSup="``" 
+         title="Ценна"
+         placeholder1="от"
+         placeholder2="до"
+         @write="sendWrite"
          />
 
-         <MobileFilterUIInput
-        v-if="filter.typeObject == 'Дом/дача'||filter.typeObject == 'Коттедж'"
-        :tag="`span`" 
-        :innerText="`м`" 
-        :sup="`sup`"
-        :textSup="`2`"
-        title="Площадь дома" 
-        placeholder1="от" 
-        placeholder2="до"
-        :updateLoader="updateLoader"
-        :updateData="updateData"
-        :updateTotalArea="updateTotalArea"
-        />
+        <MobileFilterUIInput :tag="`span`" :innerText="`м`" :sup="`sup`" :textSup="`2`" title="Общая площадь" placeholder1="от" placeholder2="до" :price-from="totalArea.from" :price-to="totalArea.to" />
 
-        <MobileFilterUIInput
-        v-if="filter.typeObject == 'Дом/дача'||filter.typeObject == 'Коттедж'"
-        :tag="`span`" 
-        :innerText="`сот`" 
-        :sup="`sup`"
-        :textSup="``"
-        title="Площадь участка" 
-        placeholder1="от" 
-        placeholder2="до"
-        :updateLoader="updateLoader"
-        :updateData="updateData"
-        :updateLandArea="updateLandArea"
-        />
+        
 
-        <MobileFilterUIInput 
-        v-if="filter.dealType && filter.typeObject == 'Квартира' || filter.typeObject == 'Комната'"
-        :tag="`span`" 
-        :innerText="`м`" 
-        :sup="`sup`"
-        :textSup="`2`"
-        title="Общая площадь" 
-        placeholder1="от" 
-        placeholder2="до"
-        :updateTotalArea="updateTotalArea"
-        :updateLoader="updateLoader"
-        :updateData="updateData"
-        />
-
-        <div class="mt-[40px] px-[8px]" v-if="filter.dealType=='Аренда'">
+        <div class="mt-[40px] px-[8px]">
           <div class="flex items-center">
             <div
               style="font-family: Lato, Arial, sans-serif"
               class="font-bold leading-[24px] text-[16px] text-[#152242] tracking-[normal]"
             >
-              Удобства
+              Площадь
             </div>
           </div>
           <div class="mt-[10px] mb-[10px]">
-            <div class="mt-[5px]">
-              <div
-                class="flex   mt-[4px] mb-[-4px] flex-wrap w-full"
+            <div class="flex flex-col mt-[4px]">
+              <p
+                class="text-[13px]"
+                style="font-family: Lato, Arial, sans-serif; margin-bottom: 0"
               >
-                <label v-for="(condition,index) of c" :key="index" :for="`condition${index+1}`" class="flex mr-[3px] mt-[3px] condition">
+                Жилая
+              </p>
+              <div class="w-[100%] justify-between flex flex-nowrap">
+                <div
+                  class="outline-1 outline-black-500 flex border h-[40px] w-[49%] rounded-[4px] px-[8px] overflow-hidden"
+                >
                   <input
-                    class="hidden"
-                    type="checkbox"
-                    name="condition"
-                    :data-name="condition.id"
-                    :id="`condition${index+1}`"
-                    @change="check"
+                    @input="writeFloor"
+                    v-model="area.from"
+                    class="outline-0 w-[100%]"
+                    placeholder="от"
+                    type="number"
                   />
-                  <span
-                    style="font-family: Lato, Arial, sans-serif"
-                    class="text-[15px] overflow-hidden text-ellipsis whitespace-nowrap mr-[5px] border rounded-[4px] px-[10px] py-[6px]"
-                    >{{ condition.name == 'В комнатах'?'Комнатная мебель':condition.name == 'На кухне'?'Кухонная мебель':condition.name  }}</span
+                  <span class="w-[20px] mt-[5px] h-[100%]"
+                    >м<sup class="text-[10px]">2</sup></span
                   >
-                </label>
-                
+                </div>
+                <div
+                  class="outline-1 outline-black-500 flex border h-[40px] w-[49%] rounded-[4px] px-[8px] overflow-hidden"
+                >
+                  <input
+                    @input="writeFloor"
+                    v-model="area.to"
+                    class="outline-0 w-[100%]"
+                    :maxlength="5"
+                    placeholder="до"
+                    type="number"
+                  />
+                  <span class="w-[20px] mt-[5px] h-[100%]"
+                    >м<sup class="text-[10px]">2</sup></span
+                  >
+                </div>
+              </div>
+              <div class="mt-[15px]">
+                <p
+                  class="text-[13px]"
+                  style="font-family: Lato, Arial, sans-serif; margin-bottom: 0"
+                >
+                  Кухня
+                </p>
+                <div class="w-[100%] justify-between flex flex-nowrap">
+                  <div
+                    class="outline-1 outline-black-500 flex border h-[40px] w-[49%] rounded-[4px] px-[8px] overflow-hidden"
+                  >
+                    <input
+                      @input="writeFloor"
+                      v-model="kitchenArea.from"
+                      class="outline-0 w-[100%]"
+                      placeholder="от"
+                      type="number"
+                    />
+                    <span class="w-[20px] mt-[5px] h-[100%]"
+                      >м<sup class="text-[10px]">2</sup></span
+                    >
+                  </div>
+                  <div
+                    class="outline-1 outline-black-500 flex border h-[40px] w-[49%] rounded-[4px] px-[8px] overflow-hidden"
+                  >
+                    <input
+                      @input="writeFloor"
+                      v-model="kitchenArea.to"
+                      class="outline-0 w-[100%]"
+                      :maxlength="5"
+                      placeholder="до"
+                      type="number"
+                    />
+                    <span class="w-[20px] mt-[5px] h-[100%]"
+                      >м<sup class="text-[10px]">2</sup></span
+                    >
+                  </div>
+                </div>
               </div>
             </div>
           </div>
         </div>
 
-        <div class="mt-[40px] px-[8px]" v-if="filter.dealType ==  'Аренда'">
-          <div class="flex items-center">
-            <div
-              style="font-family: Lato, Arial, sans-serif"
-              class="font-bold leading-[24px] text-[16px] text-[#152242] tracking-[normal]"
-            >
-              Срок аренды
-            </div>
-          </div>
-          <div class="mt-[10px]">
-            <div class="flex mt-[4px] mb-[-4px] w-[50%]">
-              <label for="balcon1" class="flex">
-                <input @change="check" class="hidden" type="radio" name="rental period" id="balcon1" />
-                <span class="w-[max-content] mr-[5px] py-[6px] border rounded-[4px] px-[15px]"
-                  >От года</span
-                >
-              </label>
-              <label for="balcon2" class="flex">
-                <input @change="check" class="hidden" type="radio" name="rental period" id="balcon2" />
-                <span class="w-[max-content] mr-[5px] py-[6px] border rounded-[4px] px-[15px]"
-                  >На несколько месяйев</span
-                >
-              </label>
-            </div>
-          </div>
-        </div>
+        <MobileFilterUIInput :tag="``" :innerText="``" :sup="``" :textSup="``" title="Этаж" placeholder1="от" placeholder2="до" :price-from="totalArea.from" :price-to="totalArea.to" />
         
-        <MobileFilterUIInput
-        v-if="filter.dealType && filter.typeObject == 'Квартира'||filter.typeObject == 'Комната'"
-        :tag="`span`" 
-        title="Площадь"
-        :sup="`sup`"
-        innerText="м" 
-        textSup="2"
-        placeholder1="от" 
-        placeholder2="до"
-        :updateLoader="updateLoader"
-        :updateData="updateData"
-        :updateArea="updateArea"
-        />
 
-        <MobileFilterUIInput
-        v-if="filter.dealType && filter.typeObject == 'Квартира'||filter.typeObject == 'Комната'"
-        :tag="`span`" 
-        :sup="`sup`"
-        innerText="м"
-        textSup="2"
-        :title="``" 
-        placeholder1="от" 
-        placeholder2="до"
-        :updateLoader="updateLoader"
-        :updateData="updateData"
-        :updateKitchenArea="updateKitchenArea"
-        />
-        
-        <div class="mt-[40px] px-[8px]" v-if="filter.dealType=='Аренда'">
-          <div class="flex items-center">
-            <div
-              style="font-family: Lato, Arial, sans-serif"
-              class="font-bold leading-[24px] text-[16px] text-[#152242] tracking-[normal]"
-            >
-              Ремонт
-            </div>
-          </div>
-          <div class="mt-[10px] mb-[10px]">
-            <div class="mt-[5px]">
-              <div
-                class="flex   mt-[4px] mb-[-4px] flex-wrap w-full"
-              >
-                <label v-for="(r,index) of repair" :key="index" :for="`repair${index+1}`" class="repair flex mr-[3px] mt-[3px]">
-                  <input
-                    class="hidden"
-                    type="checkbox"
-                    name="repair"
-                    :data-name="r.label"
-                    :id="`repair${index+1}`"
-                    @change="check"
-                  />
-                  <span
-                    style="font-family: Lato, Arial, sans-serif"
-                    class="text-[15px] overflow-hidden text-ellipsis whitespace-nowrap mr-[5px] border rounded-[4px] px-[10px] py-[6px]"
-                    >{{ r.label }}</span
-                  >
-                </label>
-                
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <MobileFilterUIInput  
-        title="Этаж" 
-        placeholder1="от"
-        placeholder2="до"
-        :updateLoader="updateLoader"
-        :updateData="updateData"
-        :updateFloor="updateFloor"
-        />
-
-        <div class="mt-[40px] px-[8px]" v-if="filter.dealType == 'Аренда' || filter.typeObject == 'Квартира' || filter.typeObject == 'Комната'">
+        <div class="mt-[40px] px-[8px]">
           <div class="flex items-center">
             <div
               style="font-family: Lato, Arial, sans-serif"
@@ -375,13 +377,13 @@
           <div class="mt-[10px]">
             <div class="flex mt-[4px] mb-[-4px] w-[50%]">
               <label for="balcon1" class="flex">
-                <input @change="check" class="hidden" type="radio" name="balcon" id="balcon1" />
+                <input class="hidden" type="radio" name="balcon" id="balcon1" />
                 <span class="mr-[5px] py-[6px] border rounded-[4px] px-[15px]"
                   >есть</span
                 >
               </label>
               <label for="balcon2" class="flex">
-                <input @change="check" class="hidden" type="radio" name="balcon" id="balcon2" />
+                <input class="hidden" type="radio" name="balcon" id="balcon2" />
                 <span class="mr-[5px] py-[6px] border rounded-[4px] px-[15px]"
                   >нет</span
                 >
@@ -390,25 +392,7 @@
           </div>
         </div>
 
-        <MobileFilterUIInput
-        v-if="filter.dealType == 'Аренда'"  
-        title="Этаж в доме" 
-        placeholder1="от"
-        placeholder2="до"
-        :updateLoader="updateLoader"
-        :updateData="updateData"
-        :updateFloor="updateFloor"
-        />
-
-
-        <MobileFilterUIInput 
-        title="Год постройки"
-        placeholder1="от"
-        placeholder2="до"
-        :updateLoader="updateLoader"
-        :updateData="updateData"
-        :updateYear="updateYear"
-        />
+        <MobileFilterUIInput :tag="``" :innerText="``" :sup="``" :textSup="``" title="Год постройки" placeholder1="от" placeholder2="до" :price-from="totalArea.from" :price-to="totalArea.to" />
 
 
         <div class="mt-[40px] px-[8px]">
@@ -417,29 +401,92 @@
               style="font-family: Lato, Arial, sans-serif"
               class="font-bold leading-[24px] text-[16px] text-[#152242] tracking-[normal]"
             >
-              Материал дома
+              Материл дома
             </div>
           </div>
           <div class="mt-[10px] mb-[10px]">
             <div class="mt-[5px]">
               <div
-                class="flex  mb-[-4px] w-full flex-wrap"
+                class="flex max-lg:flex-wrap max-md:flex-wrap max-sm:flex-wrap mt-[4px] mb-[-4px] w-[50%]"
               >
-                <label v-for="(home,index) of homeType" :key="index" :for="`home${index+1}`" class="flex mr-[3px] mt-[3px]">
+                <label for="home1" class="flex mr-[3px] mt-[3px]">
                   <input
                     class="hidden"
                     type="checkbox"
                     name="home"
-                    :id="`home${index+1}`"
-                    @change="check"
+                    id="home1"
                   />
                   <span
                     style="font-family: Lato, Arial, sans-serif"
                     class="text-[15px] overflow-hidden text-ellipsis whitespace-nowrap mr-[5px] border rounded-[4px] px-[10px] py-[6px]"
-                    >{{ home.label }}</span
+                    >Кирпичный</span
                   >
                 </label>
-                
+                <label for="home2" class="flex mr-[3px] mt-[3px]">
+                  <input
+                    class="hidden"
+                    type="checkbox"
+                    name="home"
+                    id="home2"
+                  />
+                  <span
+                    style="font-family: Lato, Arial, sans-serif"
+                    class="text-[15px] overflow-hidden text-ellipsis whitespace-nowrap mr-[5px] border rounded-[4px] px-[10px] py-[6px]"
+                    >Монолитный</span
+                  >
+                </label>
+                <label for="home3" class="flex mr-[3px] mt-[3px]">
+                  <input
+                    class="hidden"
+                    type="checkbox"
+                    name="home"
+                    id="home3"
+                  />
+                  <span
+                    style="font-family: Lato, Arial, sans-serif"
+                    class="text-[15px] overflow-hidden text-ellipsis whitespace-nowrap mr-[5px] border rounded-[4px] px-[10px] py-[6px]"
+                    >Кирпично-монолитный</span
+                  >
+                </label>
+                <label for="home4" class="flex mr-[3px] mt-[3px]">
+                  <input
+                    class="hidden"
+                    type="checkbox"
+                    name="home"
+                    id="home4"
+                  />
+                  <span
+                    style="font-family: Lato, Arial, sans-serif"
+                    class="text-[15px] overflow-hidden text-ellipsis whitespace-nowrap mr-[5px] border rounded-[4px] px-[10px] py-[6px]"
+                    >Панельный</span
+                  >
+                </label>
+                <label for="home5" class="flex mr-[3px] mt-[3px]">
+                  <input
+                    class="hidden"
+                    type="checkbox"
+                    name="home"
+                    id="home5"
+                  />
+                  <span
+                    style="font-family: Lato, Arial, sans-serif"
+                    class="text-[15px] overflow-hidden text-ellipsis whitespace-nowrap mr-[5px] border rounded-[4px] px-[10px] py-[6px]"
+                    >Блочный</span
+                  >
+                </label>
+                <label for="home6" class="flex mr-[3px] mt-[3px]">
+                  <input
+                    class="hidden"
+                    type="checkbox"
+                    name="home"
+                    id="home6"
+                  />
+                  <span
+                    style="font-family: Lato, Arial, sans-serif"
+                    class="text-[15px] overflow-hidden text-ellipsis whitespace-nowrap mr-[5px] border rounded-[4px] px-[10px] py-[6px]"
+                    >Деревянный</span
+                  >
+                </label>
               </div>
             </div>
           </div>
@@ -451,7 +498,6 @@
         <div>
           <button
             class="py-[6px] px-[12px] h-[40px] rounded items-center bg-[rgba(4,104,255,.1)] flex flex-nowrap"
-            @click="navigateTo('/yandex-map')"
           >
             <span>
               <font-awesome-icon
@@ -469,10 +515,8 @@
         </div>
         <div class="ml-[8px] w-full">
           <button
-            @click="navigate"
-            class="bg-[#0468ff] flex items-center justify-center text-[white] px-[5px] w-[100%] h-[40px] rounded"
-            :class="!data.length?'bg-[rgb(123, 173, 249)]':''"
-            :disabled="!data.length"
+            @click="navigateTo('/list')"
+            class="bg-[#0468ff] text-white px-[5px] w-[100%] h-[40px] rounded"
           >
             <span
               style="font-family: Lato, Arial, sans-serif"
@@ -480,13 +524,14 @@
             >
               <div v-if="loader" class="inline h-[100%]">
                 <div
-                  class="spinner-border mt-[5px]"
+                  class="spinner-border"
                   role="status"
+                  style="position: absolute; top: 22%; left: 59%"
                 >
                   <span class="sr-only"></span>
                 </div>
               </div>
-              <div v-if="!loader">{{data.length ? `${data.length} объявлений`:'нет объявления'}} </div>
+              <div v-if="!loader">{{ data.length }} объявлений</div>
             </span>
           </button>
         </div>
@@ -499,14 +544,8 @@ input:checked + label {
   border: 1px solid black !important;
   background-color: rgba(21, 34, 66, 0.1);
 }
-.type-aprt:first{
-  border-top-left-radius: 9px;
-}
-/* .hidden:checked + .type-aprt {
-  border: 1px solid black !important;
-  background-color: rgba(21, 34, 66, 0.1);
-} */
-.flex input:checked + span:not(.apartament) {
+
+.flex input:checked + span {
   border: 1px solid black !important;
   background-color: rgba(21, 34, 66, 0.1);
 }
@@ -521,32 +560,15 @@ const loader = ref(false);
 const data = ref([]);
 const checks = ref(false);
 let dealType;
-useHead({
-  title:'Фильтры'
-})
-const typeApartment = ref([
-  {name:'Все',value:'Все',checked:true},
-  {name:'Новостройка',value:'Квартира в Новостройке',checked:false},
-  {name:'Вторичка',value:'Квартира',checked:false},
-])
 const showQuantityRoom = ref(false)
 function uploadQuantityRoom(value){
   showQuantityRoom.value = value
 }
 
-// const filters = ref(JSON.parse)
 const price = ref({
   from: "",
   to: "",
 });
-
-function enterPrice(value1,value2){
-  price.value.from = value1
-  price.value.to = value2
-  filter.value.priceFrom = price.value.from
-  filter.value.priceTo = price.value.to
-  sessionStorage.setItem('filter',JSON.stringify(filter.value))
-}
 
 const textObj = ref({
   price:'',
@@ -560,78 +582,23 @@ const totalArea = ref({
   to: "",
 });
 
-function updateTotalArea(value1,value2){
-  totalArea.value.from = value1
-  totalArea.value.to = value2
-  filter.value.totalAreaFrom = totalArea.value.from
-  filter.value.totalAreaTo = totalArea.value.to
-  sessionStorage.setItem('filter',JSON.stringify(filter.value))
-}
-
 const area = ref({
   from: "",
   to: "",
 });
-
-
-function updateArea(value1, value2){
-  area.value.from = value1
-  area.value.to = value2
-  filter.value.areaFrom = area.value.from
-  filter.value.areaTo = area.value.to
-  sessionStorage.setItem('filter',JSON.stringify(filter.value))
-}
-
-const landArea = ref({
-  from:"",
-  to:""
-})
-
-function updateLandArea(value1, value2){
-  landArea.value.from = value1
-  landArea.value.to = value2
-  filter.value.landAreaFrom = landArea.value.from
-  filter.value.landAreaTo = landArea.value.to
-  sessionStorage.setItem('filter',JSON.stringify(filter.value))
-}
-
 const kitchenArea = ref({
   from: "",
   to: "",
 });
-
-function updateKitchenArea(value1, value2){
-  kitchenArea.value.from = value1
-  kitchenArea.value.to = value2
-  filter.value.kitchenAreaFrom = kitchenArea.value.from
-  filter.value.kitchenAreaTo = kitchenArea.value.to
-  sessionStorage.setItem('filter',JSON.stringify(filter.value))
-}
 const floor = ref({
   from: "",
   to: "",
 });
 
-function updateFloor(value1, value2){
-  floor.value.from = value1
-  floor.value.to = value2
-  filter.value.floorFrom = floor.value.from
-  filter.value.floorTo = floor.value.to
-  sessionStorage.setItem('filter',JSON.stringify(filter.value))
-}
-
 const year = ref({
   from: "",
   to: "",
 });
-
-function updateYear(value1, value2){
-  year.value.from = value1
-  year.value.to = value2
-  filter.value.yearFrom = year.value.from
-  filter.value.yearTo = year.value.to
-  sessionStorage.setItem('filter',JSON.stringify(filter.value))
-}
 
 function updateLoader(value){
   loader.value = value
@@ -642,133 +609,68 @@ function updateData(value){
 }
 
 function homeBack() {
-  history.back();
-  if (route.fullPath == '/filters') {
-    showNavBar.value = isShow.value = false;
-  }
+  router.push("/");
+
+  showNavBar.value = isShow.value = true;
 }
-let group = []
-let types =''
+
+function select() {
+  console.log(event.target.nextSibling.dataset.name.toLowerCase());
+}
 
 const filter = ref({});
 
-const quantityRoom = ref([
-  {name:'input',value:1,checked:false},
-  {name:'input',value:2,checked:false},
-  {name:'input',value:3,checked:false},
-  {name:'input',value:4,checked:false},
-  {name:'input',value:5,checked:false},
-])
-
-const homeType = ref([
-  {name:'check1', label:'Кирпичный',checked:false},
-  {name:'check2', label:'Монолитный',checked:false},
-  {name:'check3', label:'Кирпично-монолитный',checked:false},
-  {name:'check4', label:'Панельный',checked:false},
-  {name:'check5', label:'Блочный',checked:false},
-  {name:'check6', label:'Деревянный',checked:false},
-
-])
-
-  let sessionFilter  = JSON.parse(sessionStorage.getItem('filter'))
-
-
-const repair = ref([
-  {name:'repair1',label:'Без ремонта',checked:false},
-  {name:'repair1',label:'Обичный',checked:false},
-  {name:'repair1',label:'Косметический',checked:false},
-  {name:'repair1',label:'Евро',checked:false},
-  {name:'repair1',label:'Дизайнерский',checked:false},
-])
-const selectHome = ref([])
-let conds = JSON.parse(sessionStorage.getItem('filter')).condition || []
-let rep = JSON.parse(sessionStorage.getItem('filter')).repair || []
-async function check(item) {
-  if (event.target.name == 'home') {
-      if (event.target.checked) {
-        selectHome.value.push(event.target.nextSibling.textContent.trim())
-      }
-      if (!event.target.checked) {
-        selectHome.value =
-        selectHome.value.filter((item)=> item !== event.target.nextSibling.textContent.trim())
-      }
-      filter.value.typeHome = selectHome.value
-      sessionStorage.setItem('filter', JSON.stringify(filter.value))
+async function check(event) {
+  if (event.target.name == "btnradio") {
+    dealType = event.target.nextSibling.dataset.name;
+    // filter.value.city = route.query.city = JSON.parse(sessionStorage.getItem('city'))
+    filter.value.dealType = route.query.dealType = dealType;
+    sessionStorage.setItem("filter", JSON.stringify(filter.value));
   }
   
-  if (event.target.name == 'btnradio') {
-  const buttonText = event.target.nextSibling.textContent;
-  filter.value.dealType = buttonText === 'Купить' ? 'Продажа' : buttonText === 'Снять' ? 'Аренда' : filter.value.dealType;
-  router.push(`/filters/${filter.value.dealType.toLowerCase()}`)
-  if (filter.value.typeObject == 'Квартира') {
-    filter.value.typeObject = 'Квартира';
-    filter.value.buildingType = buttonText === 'Снять' ? null : filter.value.buildingType;
-  }
-  sessionStorage.setItem('filter', JSON.stringify(filter.value));
-}
+  // if (event.target.name == "check") {
+  //   if (event.target.checked) {
+  //     const text = event.target.previousSibling.textContent.trim();
+  //     const select = document.querySelector(".select");
+  //     select.textContent = text;
 
-  if (event.target.name === 'repair') {
-  const repairText = event.target.nextSibling.textContent.trim();
-
-  if (event.target.checked) {
-    rep.push(repairText);
-  } else {
-    rep = rep.filter(item => item !== repairText);
-  }
-
-  filter.value.repair = rep;
-  sessionStorage.setItem('filter', JSON.stringify(filter.value));
-}
-  
-  if (event.target.name == 'balcon') {
-    filter.value.balcon = event.target.nextSibling.textContent 
-    sessionStorage.setItem('filter', JSON.stringify(filter.value))
-    
-  }
-
-  if (event.target.name == 'condition') {
-    if (event.target.checked) {
-      conds.push(parseInt(event.target.dataset.name))
-      filter.value.condition = conds
-    }
-    if (!event.target.checked)
-    {
-      conds =
-      conds.filter((item)=> item !== parseInt(event.target.dataset.name))
-      filter.value.condition = conds
-    }
-    sessionStorage.setItem('filter',JSON.stringify(filter.value))
-  }
-if (event.target.name == 'typeBuilding') {
-  if (item.value == 'Все') {
-    group = ['Квартира в Новостройке','Квартира']
-    filter.value.buildingType = group
-    filter.value.typeObject = null
-  }else{
-    filter.value.buildingType = null
-    filter.value.typeObject = item.value
-  }
-  sessionStorage.setItem('filter',JSON.stringify(filter.value))
-}
+  //     filter.value.typeObject = route.query.typeObject = text;
+  //     sessionStorage.setItem("filter", JSON.stringify(filter.value));
+  //   }
+  // }
   loader.value = true;
-  await fetch("http://192.168.100.45:8000/api/filter", {
+  await fetch("http://192.168.0.116:8000/api/filter", {
     method: "post",
     headers: {
       "Content-type": "application/json",
     },
-    body: JSON.stringify(filter.value),
+    body: JSON.stringify(route.query),
   })
     .then((res) => res.json())
     .then((res) => {
-      let uniqueSet = new Set(res.map(JSON.stringify));
-      data.value = Array.from(uniqueSet).map(JSON.parse)
-      console.log(data.value);
+      data.value = res;
+      console.log(res);
     });
   loader.value = false;
 }
 
+function sendWrite(p){
+  console.log(emit('write'));
+}
 
-let qtRoom = JSON.parse(sessionStorage.getItem('filter')).quantityRoom || [];
+const el = document.querySelector(".select");
+const lists = document.querySelectorAll(".dropdown-item > input");
+const textEl = ref("");
+
+lists.forEach((item) => {
+  textEl.value = item.previousSibling.textContent.trim();
+  if (textEl.value == saveText.value) {
+    check.value = !check.value;
+    el.textContent = saveText.value;
+  }
+});
+
+const qtRoom = [];
 async function selectQuanitityRoom(event) {
   const quantityRoom = ref(parseInt(event.target.nextSibling.textContent));
   if (event.target.checked) {
@@ -782,83 +684,63 @@ async function selectQuanitityRoom(event) {
   filter.value.quantityRoom = route.query.quantityRoom = qtRoom;
   sessionStorage.setItem("filter", JSON.stringify(filter.value));
   loader.value = true;
-  await fetch("http://192.168.100.45:8000/api/filter", {
+  await fetch("http://192.168.0.116:8000/api/filter", {
     method: "post",
     headers: {
       "Content-type": "application/json",
     },
-    body: JSON.stringify(filter.value),
+    body: JSON.stringify(route.query),
   })
     .then((res) => res.json())
     .then((res) => {
       data.value = res;
-      console.log(data.value);
+      console.log(res);
     });
   loader.value = false;
 }
 
+// async function writeFloor(ps) {
+//   setTimeout(async () => {
+//     filter.value = JSON.parse(sessionStorage.getItem("filter")) || [];
+//     filter.value.priceFrom = route.query.priceFrom = price.value.from;
+//     filter.value.priceTo = route.query.priceTo = price.value.to;
+//     filter.value.totalAreaFrom = route.query.totalAreaFrom =
+//       totalArea.value.from;
+//     filter.value.totalAreaTo = route.query.totalAreaTo = totalArea.value.to;
+//     filter.value.areaFrom = route.query.areaFrom = area.value.from;
+//     filter.value.areaTo = route.query.areaTo = area.value.to;
+//     filter.value.kitchenAreaFrom = route.query.kitchenAreaFrom =
+//       kitchenArea.value.from;
+//     filter.value.kitchenAreaTo = route.query.kitchenAreaTo =
+//       kitchenArea.value.to;
+//     filter.value.floorFrom = route.query.floorFrom = floor.value.from;
+//     filter.value.yaerFrom = route.query.yaerFrom = year.value.from;
+//     filter.value.yaerTo = route.query.yearTo = year.value.to;
+//     sessionStorage.setItem("filter", JSON.stringify(filter.value));
+//     console.log(price.from);
+//     loader.value = true;
+//     await fetch("http://192.168.0.116:8000/api/filter", {
+//       method: "post",
+//       headers: {
+//         "Content-type": "application/json",
+//       },
+//       body: JSON.stringify(route.query),
+//     })
+//       .then((res) => res.json())
+//       .then((res) => {
+//         data.value = res;
+//         console.log(res);
+//       });
+//     loader.value = false;
+//   }, 1000);
+// }
+
 const isCheck1 = ref("");
 const cities = ref();
 
-const c = ref()
-const conditions = fetch('http://192.168.100.45:8000/api/conditions')
-const condition = await conditions
-c.value = await condition.json() 
-
-const technics = [
-        'Кондиционер',
-        'На кухне',
-        'В комнатах',
-        'Посудамоечная машина',
-        'Стиральная машина',
-        'Телевизор',
-        'Холодильник',
-        'Интернет',
-        'Телефон'
-        ]
-
-        c.value = c.value.filter(item=>{
-            return  technics.indexOf(item.name) !== -1;
-        })
-        // c.value = c.value.filter(item=>{
-        //     return item.name == 'На кухне' || item.name == 'В комнатах'
-        // })
+onMounted(async () => {
   
-          
-      function onMountSelect(el,filter){
-          if (filter.quantityRoom && filter.quantityRoom.length) {
-            el.forEach(item=>{
-                filter.quantityRoom.forEach(itm=>{
-                  if (parseInt(item.children[1].textContent) == itm) {
-                    item.children[0].checked = true
-                  }
-                })
-            })
-          }
-
-          if (filter.condition && filter.condition.length) {
-            el.forEach(item=>{
-              filter.condition.forEach(itm=>{
-                if (parseInt(item.children[0].dataset.name) == itm) {
-                 item.children[0].checked = true 
-                }
-              })
-            })
-          }
-          
-          if (filter.repair && filter.repair.length) {
-            el.forEach(item=>{
-              filter.repair.forEach(itm=>{
-                if (item.children[0].dataset.name == itm) {
-                 item.children[0].checked = true 
-                }
-              })
-            })
-          }
-      }
-  const filters = ref(JSON.parse(sessionStorage.getItem("filter")));
-  onMounted(async () => {
-  filter.value = JSON.parse(sessionStorage.getItem('filter'))
+  sessionStorage.setItem('filter',JSON.stringify(filter.value))
   if (navigator.maxTouchPoints < 1) {
     router.push("/");
   }
@@ -868,52 +750,42 @@ const technics = [
       isCheck1.value = item.dataset.route;
     }
   });
-  
+  const filters = JSON.parse(sessionStorage.getItem("filter"));
   showNavBar.value = false;
   loader.value = true;
-  await fetch("http://192.168.100.45:8000/api/filter", {
+  await fetch("http://192.168.0.116:8000/api/filter", {
     method: "post",
     headers: {
       "Content-Type": "application/json",
     },
-    body: JSON.stringify(filters.value),
+    body: JSON.stringify(filters),
   })
     .then((res) => res.json())
     .then((res) => {
-      let uniqueSet = new Set(res.map(JSON.stringify));
-      data.value = Array.from(uniqueSet).map(JSON.parse)
-
+      data.value = res;
+      console.log(res);
     });
-    loader.value = false
-  const cityUrl = fetch(`http://192.168.100.45:8000/api/city`);
+  loader.value = false;
+  // const el = document.querySelector('.select')
+  // const lists = document.querySelectorAll('.dropdown-item > input')
+  // lists.forEach(item=>{
+  //     textEl.value =
+  //     item.previousSibling.textContent.trim()
+  //     if (textEl.value == saveText.value) {
+  //       item.checked = true
+  //       el.textContent = saveText.value
+  //     }
+  // })
+
+  const cityUrl = fetch(`http://192.168.0.116:8000/api/city`);
   const c = await cityUrl;
   cities.value = await c.json();
-
-  setTimeout(() => {
-  let filter = JSON.parse(sessionStorage.getItem('filter'))
-  const el = document.querySelectorAll('.quantityRoom')
-  onMountSelect(el,filter)
-  const cond = document.querySelectorAll('.condition')
-  onMountSelect(cond,filter)
-  const repr = document.querySelectorAll('.repair')
-  onMountSelect(repr,filter)
-},160);
 });
 
 function clearInput() {
   const inputs = document.querySelectorAll("input");
   inputs.forEach((input) => (input.value = ""));
 }
-
-
-function navigate(){
-  loader.value = true
-  if (data.value.length) {
-    window.location.replace('/list')
-  } 
-   
-}
-
 </script>
 
 

@@ -71,7 +71,7 @@
                                 Войти
                             </span>
                         </a>
-                    <div v-if="data.phone_number" class="user" @click="logOut" :style="`background-image: url('http://192.168.100.45:8000/api/avatar/${data.avatar}');`">
+                    <div v-if="data.phone_number" class="user" @click="logOut" :style="`background-image: url('http://192.168.0.116:8000/api/avatar/${data.avatar}');`">
                     </div>
             </div>
             <!-- mobileSize &&  -->
@@ -92,7 +92,7 @@
     const route = useRoute()
     const router = useRouter()
     const {isShow, toggleShow, active,showMadoal} = useSwitch();
-    const {responce,direction} = getData()
+    const {responce} = getData()
     responce.value = JSON.parse(localStorage.getItem('owner')) || []
     const data = responce.value[1] || {}
     
@@ -103,7 +103,6 @@
          isShow.value = false
      }else{
         showMadoal.value = true
-        direction.value = '/announ'
      }
     
         }       
@@ -163,40 +162,24 @@ function logOut(){
 }
 
 function message(){
-    if (data.phone_number) {
-        navigateTo(('/personal_area/message'))
-        document.body.style.overflow = 'auto'
-        isShow.value = false
-    }else{
-        showMadoal.value = true
-        direction.value = '/personal_area/message'
-    }
+    navigateTo(('personal_area/message'))
+    document.body.style.overflow = 'auto'
+    isShow.value = false
 }
 function favorite(){
-    if (data.phone_number) {
-        navigateTo('/personal_area/favorite')
-        document.body.style.overflow = 'auto'
-        isShow.value = false
-    }else{
-        showMadoal.value = true
-        direction.value = '/personal_area/favorite'
-    }
+    navigateTo('personal_area/favorite')
+    document.body.style.overflow = 'auto'
+    isShow.value = false
 }
 
 function notification(){
-    if (data.phone_number) {
-        navigateTo('/personal_area/notification') 
-        document.body.style.overflow = 'auto'
-        isShow.value = false
-    }else{
-        showMadoal.value = true
-        direction.value = '/personal_area/notification'
-    }
+    navigateTo('personal_area/notification') 
+    document.body.style.overflow = 'auto'
+    isShow.value = false
 }
 function showModalWindow(){
     const {active,showMadoal} = useSwitch()
     document.body.style.overflow ='hidden';
-    direction.value = '/personal_area/profile'
     showMadoal.value = true
 }
 

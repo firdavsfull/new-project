@@ -1,3 +1,4 @@
+
 <template>
     
     <main class="bg-[#f4f4f4] flex w-[100%] min-h-[100vh] sm:w-[100%] md:w-[700px] lg:w-[1000px] ">
@@ -9,7 +10,7 @@
                                             <a style="flex: 0 0 56px; user-select: none; text-decoration: none;" class="mr-[15px] overflow-hidden rounded-[50%] flex justify-center items-center h-[56px] overflow-hidden"
                                                 >
                                                 <span  class="rounded-[50%] bg-[silver] w-[92%] h-[52px] ">
-                                                    <img v-if="avatar || id.avatar" :src="`http://192.168.100.45:8000/api/avatar/${avatar? avatar :id.avatar}`" class="w-full h-full rounded-[50%]">
+                                                    <img v-if="avatar || id.avatar" :src="`http://192.168.0.116:8000/api/avatar/${avatar? avatar :id.avatar}`" class="w-full h-full rounded-[50%]">
                                                 </span>
                                             </a>
                                             <div class="flex flex-col justify-center" style="flex: 1 1;">
@@ -65,20 +66,7 @@
                                 <div class=" w-[100%] mt-[3px] sm:w-[100%] bg-[white]">
                                     <div @click="show" class="block py-[5px] justify-between flex px-[10px]">
                                         <h6 class="text-[15px] mt-[5px] font-bold">Сменить пароль</h6>
-                                        <div>
-                                            <font-awesome-icon
-                                                v-if="!showHide"
-                                                style="margin-right: 5px"
-                                                class="font-bold text-[12px] text-primary"
-                                                :icon="['fas', 'chevron-up']"
-                                            />
-                                            <font-awesome-icon
-                                                v-if="showHide"
-                                                style="margin-right: 5px"
-                                                class="font-bold text-[12px] text-primary"
-                                                :icon="['fas', 'chevron-down']"
-                                            />
-                                        </div>
+                                        <div style="border-right:2px solid; border-bottom:2px solid; border-color:#0d6efd; transform:rotate(45deg)" :style="!showHide?'transform:rotate(-135deg);':''" class="w-[8px] transition mt-[5px] h-[8px]"></div>
                                     </div>
                                     <div class="flex px-[10px] flex-col w-[300px] overflow-hidden transition-all" :class="showHide ? 'h-[0]': 'h-[120px]'">
                                         <div class="border rounded overflow-hidden flex my-[5px] h-[30px] items-center">
@@ -151,11 +139,8 @@ async function addNewPicture(event){
     formData.append('phone', id.phone_number)
     // console.log(formData.get('phone'));
 
-    await fetch('http://192.168.100.45:8000/api/avatar',{
+    await fetch('http://192.168.0.116:8000/api/avatar',{
         method:'post',
-        headers:{
-            Authorization:'Bearer '+JSON.parse(localStorage.getItem('owner'))[0] 
-        },
         body:formData
     })
     .then(res=>res.json())
@@ -167,11 +152,10 @@ async function addNewPicture(event){
 }
 
 async function sendData(){
-   await fetch('http://192.168.100.45:8000/api/update_user',{
+   await fetch('http://192.168.0.116:8000/api/update_user',{
         method:'post',
         headers:{
             "Content-Type":'application/json',
-            Authorization:'Bearer '+JSON.parse(localStorage.getItem('owner'))[0] 
         },
         body:JSON.stringify({
             name:name.value,
@@ -194,11 +178,10 @@ async function sendData(){
 }
 
 async function sendMessage(){
-    await fetch('http://192.168.100.45:8000/api/send_message',{
+    await fetch('http://192.168.0.116:8000/api/send_message',{
         method:'post',
         headers:{
-            "Content-Type":'application/json',
-            Authorization:'Bearer '+JSON.parse(localStorage.getItem('owner'))[0] 
+            "Content-Type":'application/json'
         },
         body:JSON.stringify({
             'phone':id.phone_number,
@@ -216,11 +199,10 @@ function confirm(){
     console.log(password.value,confirm_password.value);
 }
 onMounted(async ()=>{
-    await fetch('http://192.168.100.45:8000/api/get_user',{
+    await fetch('http://192.168.0.116:8000/api/get_user',{
         method:'post',
         headers:{
             "Content-Type":'application/json',
-            Authorization:'Bearer '+JSON.parse(localStorage.getItem('owner'))[0] 
         },
         body:JSON.stringify({phone:id.phone_number})
     })

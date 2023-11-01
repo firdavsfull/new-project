@@ -587,8 +587,8 @@ function search(){
     white-space: nowrap;
     }
     .drop-down{
-    position: relative;
-    left: 0;
+    position: absolute;
+    /* left: 0; */
     z-index: 10;
     /* margin-top: 5px; */
     box-shadow: 0 10px 20px 0 rgba(0,0,0,.1);
@@ -599,7 +599,6 @@ function search(){
     min-width: 300px;
     }
     .list-drop{
-    margin: 0;
     display: flex;
     justify-content: space-around;
     margin: 0;

@@ -26,7 +26,7 @@
         <div class="text-container" style="font-weight: normal; color: #152242">
           <span>
             {{
-              announData.rent == "Аренда" ? "Ценна и условия сделки" : "Цена"
+              announData[0].rent == "Аренда" ? "Ценна и условия сделки" : "Цена"
             }}
           </span>
         </div>
@@ -34,19 +34,17 @@
           <Pictures class="mt-[10px]" />
           <div class="group-container d-flex f-wrap flex-column mt-3">
             <label for="price" style="font-size: 14px" class="mb-2">{{
-              announData.rent == "Аренда" ? "Аренда в месяц" : "Цена"
+              announData[0].rent == "Аренда" ? "Аренда в месяц" : "Цена"
             }}</label>
             <div
               class="price-container d-flex align-items-center overflow-hidden form-control"
-              style="width: 250px; height: 40px;"
-              :style="!announData.price || announData.price < 100 ? 'border-color:red;color:red;':'border-color:green;color:green'"
+              style="width: 250px; height: 40px"
             >
               <input
                 @input="enterPrice"
-                v-model="announData.price"
+                v-model="price"
                 type="tel"
                 maxlength="9"
-                autocomplete="off"
                 id="price"
                 style="border: none; outline: none"
               />
@@ -56,9 +54,8 @@
                 <span class="h-full flex leading-[40px]">c</span>
               </div>
             </div>
-              <p v-if="!announData.price || announData.price < 100" class="text-[red] text-[14px]">Введите цена</p>
 
-            <div class="balcon w-25 mt-3" v-if="announData.rent == 'Аренда'">
+            <div class="balcon w-25 mt-3" v-if="announData[0].rent == 'Аренда'">
               <span
                 for="#balcon"
                 class="mb-2 text-nowrap"
@@ -73,21 +70,20 @@
                   v-for="items of cond"
                   :key="items.id"
                   :for="items.id"
-                  class="me-2 "
+                  class="me-2"
                 >
                   <input
-                    @change="chooseConditions(items)"
+                    @change="chooseConditions"
                     :data-name="items.id"
                     type="checkbox"
                     :id="items.id"
-                    :checked="items.name == announData.allowAnimals || items.name == announData.allowKids"
                     class="d-none"
                   />
-                  <span class="form-control border-1">{{ items.name }}</span>
+                  <span class="form-control">{{ items.name }}</span>
                 </label>
               </div>
             </div>
-            <div class="balcon" v-if="announData.rent == 'Аренда'">
+            <div class="balcon" v-if="announData[0].rent == 'Аренда'">
               <p
                 for="#balcon"
                 class="mb-1 mt-2"
@@ -104,11 +100,9 @@
                   data-name="От года"
                   name="options"
                   id="option5"
-                  :checked="announData.period == 'От года'"
                   autocomplete="off"
                 />
-                <label class="form-control border-1 me-2 my-1" for="option5"
-                 :style="!announData.period? 'border:1px solid  red;':''"
+                <label class="form-control me-2 my-1" for="option5"
                   >От года</label
                 >
 
@@ -119,10 +113,9 @@
                   class="btn-check"
                   name="options"
                   id="option6"
-                  :checked="announData.period == 'Несколько месяцев'"
                   autocomplete="off"
                 />
-                <label :style="!announData.period? 'border:1px solid red;':''" class="form-control border-1 me-2 my-1" for="option6"
+                <label class="form-control me-2 my-1" for="option6"
                   >Несколько месяцев</label
                 >
               </div>
@@ -143,14 +136,13 @@
             @click.prevent="place"
           >
             <div
-            style="pointer-events: none;"
               v-if="loading"
               class="text-[white] spinner-border"
               role="status"
             >
-              <span style="pointer-events: none;" class="sr-only">Loading...</span>
+              <span class="sr-only">Loading...</span>
             </div>
-            <span style="pointer-events: none;" class="text-[white]" v-if="!loading">Разместить</span>
+            <span class="text-[white]" v-if="!loading">Разместить</span>
           </next-btn>
         </div>
       </div>
@@ -159,129 +151,107 @@
 </template>
 <script setup>
 const { announData } = getData();
-announData.value = JSON.parse(localStorage.getItem('announ'))||{}
 const loading = ref(false);
 
 const priceObj = ref({});
 const priceObj1 = ref({});
 const price = ref();
-const { images, isUpload, responce } = getData();
-const minPrice = ref(0)
+const { images, isUpload, formData } = getData();
+
 function enterPrice() {
-  announData.value.price = parseInt(announData.value.price)
-  localStorage.setItem('announ',JSON.stringify(announData.value))
-}
-
-const allowKids = ref('')
-const allowAnimals = ref('')
-function chooseConditions(el) {
-  if (event.target.checked) {
-    parseInt(event.target.dataset.name);
-    if (el.name == 'Можно с детьми') {
-      announData.value.allowKids = el.name 
-      localStorage.setItem('announ', JSON.stringify(announData.value))  
-    }
-    if (el.name == 'Можно с животными') {
-      announData.value.allowAnimals = el.name 
-      localStorage.setItem('announ', JSON.stringify(announData.value))
-    }
-  }
-
-  if (!event.target.checked) {
-    if (el.name == 'Можно с детьми') { 
-      announData.value.allowKids = "нет"
-      localStorage.setItem('announ', JSON.stringify(announData.value))
-    }
-
-    if (el.name == 'Можно с животными') { 
-      announData.value.allowAnimals = 'нет'
-      localStorage.setItem('announ', JSON.stringify(announData.value))
-    }
-      announData.value.allowAnimals = allowAnimals.value
-  }
-}
-function choosePeriod(event) {
-  announData.value.period = event.target.dataset.name
-  localStorage.setItem('announ', JSON.stringify(announData.value))
+  priceObj.value.price = parseInt(price.value.trim());
 }
 const image = ref([]);
-async function place(event) {
-  if (!images.value.length) {
-    // console.log(responce.value[1]);
-    return
-  }else{
+async function place() {
   const progress = document.querySelector(".progress > .progress-bar");
   progress.style.width = "100%";
-  // localStorage.setItem("announ", JSON.stringify(announData.value));
+  announData.value[0] = JSON.parse(localStorage.getItem("announ"))[0];
+  announData.value[1] = JSON.parse(localStorage.getItem("announ"))[1];
+  announData.value[2] = JSON.parse(localStorage.getItem("announ"))[2];
+  announData.value[3] = JSON.parse(localStorage.getItem("announ"))[3];
+  announData.value[4] = JSON.parse(localStorage.getItem("announ"))[4];
+  announData.value[5] = JSON.parse(localStorage.getItem("announ"))[5];
+  announData.value[6] = priceObj.value;
+  localStorage.setItem("announ", JSON.stringify(announData.value));
+  loading.value = true;
+  // const data = localStorage.getItem('announ')
+  // return console.log(data);
+  await fetch("http://192.168.0.116:8000/api/create/announ", {
+    method: "post",
+    headers: {
+      "Content-Type": "application/json",
+      // Authorization:'Bearer '+JSON.parse(localStorage.getItem('owner'))[1] 
+    },
+    body: JSON.stringify(JSON.parse(localStorage.getItem("announ"))),
+  })
+    .then((res) => res.json())
+    .then((id) => {
+    //   return console.log(id);
+      for (const img of images.value) {
+        img.id = id[0];
+      }
+    });
+
   const formD = new FormData();
   for (const item of images.value) {
     formD.append("images[]", item.file);
-    formD.append('announs',JSON.stringify(announData.value))
   }
-    formD.append("dataImage", JSON.stringify(images.value))
 
-  loading.value = true;
-  event.target.disabled = true   
-await fetch("http://192.168.100.45:8000/api/create/announ", {
+  await fetch("http://192.168.0.116:8000/api/upload-image", {
+    method: "post",
+    // headers:{
+    //   Authorization:'Bearer '+JSON.parse(localStorage.getItem('owner'))[1] 
+    // },
+    body: formD,
+  })
+    .then((res) => {
+      return res.json();
+    })
+    .then((res) => {
+      for (let i = 0; i < images.value.length; i++) {
+        images.value[i].name = res[i].name;
+      }
+    });
+
+  await fetch("http://192.168.0.116:8000/api/save-pictures", {
     method: "post",
     headers: {
-      Authorization:'Bearer '+JSON.parse(localStorage.getItem('owner'))[0] 
+      "content-Type": "application/json",
+      // Authorization:'Bearer '+JSON.parse(localStorage.getItem('owner'))[1] 
     },
-    body:formD
+    body: JSON.stringify({ image: images.value }),
   })
-    .then((res) =>{
+    .then((res) => {
       if (res.ok) {
-        navigateTo('/personal_area/my_announ')
+        navigateTo("/list");
       }
-      return res.json()
+      return res.json();
     })
-    .then((announ) => {
-      console.log(announ);
-    });
-    loading.value = false;
-    event.target.disabled = false
-
-  // await fetch("http://192.168.100.45:8000/api/upload-image", {
-  //   method: "post",
-  //   headers:{
-  //     Authorization:'Bearer '+JSON.parse(localStorage.getItem('owner'))[0] 
-  //   },
-  //   body: formD,
-  // })
-  //   .then((res) => {
-  //     return res.json();
-  //   })
-  //   .then((res) => {
-  //     for (let i = 0; i < images.value.length; i++) {
-  //       // images.value[i].name = res[i].name;
-  //       console.log(res);
-  //     }
-  //   });
-    
-
-  // await fetch("http://192.168.100.45:8000/api/save-pictures", {
-  //   method: "post",
-  //   headers: {
-  //     "content-Type": "application/json",
-  //     Authorization:'Bearer '+JSON.parse(localStorage.getItem('owner'))[0] 
-  //   },
-  //   body: JSON.stringify({ image: images.value }),
-  // })
-  //   .then((res) => {
-  //     if (res.ok) {
-  //       navigateTo("/personal_area/my_announ");
-  //     }
-  //     return res.json();
-  //   })
-  //   .then((res) => console.log(res));
-  // loading.value = false;
-  // event.target.disabled = false
-  // }
-  }
-  }
+    .then((res) => console.log(res));
+  loading.value = false;
+}
 
 const arr = [];
 
+function chooseConditions(event) {
+  if (event.target.checked) {
+    arr.push(parseInt(event.target.dataset.name));
+  }
+
+  arr.forEach((item) => {
+    if (
+      !event.target.checked &&
+      parseInt(event.target.dataset.name) == parseInt(item)
+    ) {
+      arr.splice(arr.indexOf(item), 1);
+    }
+  });
+  priceObj.value.condition = arr;
+}
+
+function choosePeriod(event) {
+  priceObj.value.period = event.target.dataset.name;
+}
 
 const elems = document.querySelectorAll(".d-none");
 elems.forEach((elem) => {
@@ -292,7 +262,7 @@ elems.forEach((elem) => {
   });
 });
 
-const conditions = fetch("http://192.168.100.45:8000/api/conditions");
+const conditions = fetch("http://192.168.0.116:8000/api/conditions");
 const condition = await conditions;
 const c = ref(await condition.json());
 const cond = ref(

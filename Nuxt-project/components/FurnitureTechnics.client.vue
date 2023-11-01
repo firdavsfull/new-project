@@ -3,7 +3,7 @@
          <div  class="container-xl mt-4">
              <div class="progress-container container">
                  <div class="d-flex justify-content-between mb-2 mt-3">
-                     <span class="fw-bold pt-1 2">{{ announData.objects !== 'Квартира' && announData.objects !== 'Комната'?'О дома и участка':'Мебель и техника' }}</span>
+                     <span class="fw-bold pt-1 2">{{ announData[0].objects !== 'Квартира' && announData[0].objects !== 'Комната'?'О дома и участка':'Мебель и техника' }}</span>
                      <button class="btn btn-none fs-5 p-0 m-0 text-primary me-2">
                          <font-awesome-icon :icon="['fas', 'circle-question']" />
                      </button>
@@ -16,10 +16,10 @@
 
              <div class="container-sm" >
                  <div class="text-container" style="font-weight:normal; color:#152242;">
-                     <span>{{ announData.objects !== 'Квартира' && announData.objects !== 'Комната' && announData.objects !=='Квартира в Новостройке' ?'О дома и участка':'В квартире есть' }}</span>
+                     <span>{{ announData[0].objects !== 'Квартира' && announData[0].objects !== 'Комната'?'О дома и участка':'В квартире есть' }}</span>
                  </div>
-                 <div class="container w-100" >
-                     <div class="col mt-4" v-if="announData.objects == 'Квартира' || announData.objects == 'Комната' || announData.objects =='Квартира в Новостройке'" style="color:#152242;">
+                 <div class="container w-100">
+                     <div class="col mt-4" v-if="announData[0].objects == 'Квартира' || announData[0].objects == 'Комната'" style="color:#152242;">
 
                            <div class="row mt-2">
                              <div class="preview-window">
@@ -28,6 +28,7 @@
                                      <div class="d-flex text-nowrap mt-2" style="font-family:lato, sans-serif;">
 
                                          <label v-for="pos of furniture" :key="pos.id" :for="`${pos.id}`" class="me-2">
+                                            
                                             <input :data-name="pos.id" @change="selecTechnics" type="checkbox" :id="`${pos.id}`" class="d-none">
                                              <span class="form-control">{{ pos.name }}</span>
                                          </label>
@@ -88,7 +89,7 @@
                          </div>
                      </div>
 
-                    <div class="mt-[40px]" v-else>
+                     <div class="mt-[40px]" v-else>
                         <div class="overflow-hidden rounded max-w-xlg mx-[auto] ">
 
                             <div class="block ]">
@@ -100,9 +101,9 @@
                                         Площадь участка
                                     </label>
 
-                                    <div :class="!announData.landArea ?'border-[red] text-[red]':'border-[green] text-[green]'" class="h-[40px] w-[250px] flex rounded-1 border-1 bg-[white] overflow-hidden">
-                                        <input @input="inputLandArera" v-model="announData.landArea" autocomplete="off" v-maska data-maska="##########" class="border-[0] outline-0 px-[10px] h-full w-[85%]" type="text" id="area-plot">
-                                        <select :class="!announData.landArea ?'border-[red]':'border-[green]'" style="-webkit-appearance: none; text-align: center;" class="flex border-l h-full outline-0 items-center justify-center bg-[white] w-[30%]" name="name">
+                                    <div class="h-[40px] w-[250px] flex rounded-1 border bg-[white] overflow-hidden">
+                                        <input @input="inputLandArera" v-model="landArea" autocomplete="off" v-maska data-maska="##########" class="border-[0] outline-0 px-[10px] h-full w-[85%]" type="text" id="area-plot">
+                                        <select style="-webkit-appearance: none; text-align: center;" class="flex  border-l h-full outline-0 items-center justify-center bg-[white] w-[30%]" name="name" id="">
                                                 <option value="сот.">сот.</option>
                                                 <option value="га">га</option>
                                         </select>
@@ -111,73 +112,73 @@
 
                                 <div class="flex bg-[green]w-full mt-[5px]">
                                     <div class="flex flex-col">
-                                        <div class="text-[14px] font-normal mt-[10px] text-[#152242]" for="some-texts">
+                                        <label class="text-[14px] font-normal mt-[10px] text-[#152242]" for="some-texts">
                                         Категория земель
-                                        </div>
+                                        </label>
 
-                                        <div class="flex items-center flex-wrap w-full mt-[10px]">
-                                            <label class="flex mr-[5px] landArea" for="v1">
-                                                <input :checked="announData.landCategry == 'Земли населённых пунктов'" @change="selectLandCategory" data-category="Земли населённых пунктов" class="d-none check" type="radio" name="landArea" id="v1">
-                                                <span class="py-[9px] px-[5px] bg-white rounded-1 border mt-[5px] ">Земли населённых пунктов</span>
+                                        <div class="flex flex-wrap w-full">
+                                            <label class="mr-[5px] " for="1">
+                                                <input @change="selectLandCategory" data-category="Земли населённых пунктов" class="d-none check" type="radio" name="radio1" id="1">
+                                                <span class="form-control rounded-1 border mt-[5px] ">Земли населённых пунктов</span>
                                             </label>
-                                            <label class="flex mr-[5px] landArea" for="v2">
-                                                <input :checked="announData.landCategry == 'Земли сельхозназначения'" @change="selectLandCategory" data-category="Земли сельхозназначения" class="d-none check" type="radio" name="landArea" id="v2">
-                                                <span class="py-[9px] px-[5px] bg-white rounded-1 border mt-[5px] ">Земли сельхозназначения</span>
+                                            <label class="mr-[5px] " for="2">
+                                                <input @change="selectLandCategory" data-category="Земли сельхозназначения" class="d-none check" type="radio" name="radio1" id="2">
+                                                <span class="form-control rounded-1 border mt-[5px] ">Земли сельхозназначения</span>
                                             </label>
-                                            <label class="flex mr-[5px] landArea" for="v3">
-                                                <input :checked="announData.landCategry == 'Другое'" @change="selectLandCategory" data-category="Другое" class="d-none check" type="radio" name="landArea" id="v3">
-                                                <span class="py-[9px] px-[5px] bg-white rounded-1 border mt-[5px] ">Другое</span>
+                                            <label class="mr-[5px] " for="3">
+                                                <input @change="selectLandCategory" data-category="Другое" class="d-none check" type="radio" name="radio1" id="3">
+                                                <span class="form-control rounded-1 border mt-[5px] ">Другое</span>
                                             </label>
                                             
                                         </div>
                                     </div>
                                 </div>
                                 
-                                <div v-if="announData.objects !=='Участок'" class="mt-[20px] flex flex-col w-[300px] ">
+                                <div class="mt-[20px] flex flex-col w-[300px] ">
                                         <label class="text-[14px] font-normal mt-[10px] text-[#152242]" for="area-home">
                                             Площадь дома
                                         </label>
     
-                                        <div :class="!announData.homeArea?'border-[red] text-[red]':'border-[green] text-[green]'" class="h-[40px] w-[200px] flex rounded-1 border-1 bg-[white] overflow-hidden">
-                                            <input @input="inputHomeArea" v-model="announData.homeArea" autocomplete="off" v-maska data-maska="####" class="border-[0] outline-0 px-[10px] h-full w-[85%]" type="text" id="area-home">
+                                        <div class="h-[40px] w-[200px] flex rounded-1 border bg-[white] overflow-hidden">
+                                            <input @input="inputHomeArea" v-model="homeArea" autocomplete="off" v-maska data-maska="####" class="border-[0] outline-0 px-[10px] h-full w-[85%]" type="text" id="area-home">
                                             <span class="flex items-center justify-center bg-[white] w-[15%]">м<sup class="text-[10px]">2</sup></span>
                                             
                                         </div>
-                                </div>
+                                    </div>
 
-                                <div v-if="announData.objects !=='Участок'" class="flex flex-col w-[300px] mt-[5px]">
+                                <div class="flex flex-col w-[300px] mt-[5px]">
                                     <label class="text-[14px] font-normal mt-[10px] text-[#152242]" for="quantity-bedroom">
                                         Количество спален
                                     </label>
 
-                                    <div :class="!announData.quantityBedroom?'border-[red] text-[red]':'border-[green] text-[green]'" class="h-[40px] w-[200px] flex rounded-1 border-1 bg-[white] overflow-hidden">
-                                        <input @input="chooseQuantityBedroom" v-model="announData.quantityBedroom" v-maska data-maska="#" autocomplete="off" class="border-[0] outline-0 px-[10px] h-full w-full" type="text" id="quantity-bedroom">
+                                    <div class="h-[40px] w-[200px] flex rounded-1 border bg-[white] overflow-hidden">
+                                        <input @input="chooseQuantityBedroom" v-model="quantityBedroom" v-maska data-maska="##" class="border-[0] outline-0 px-[10px] h-full w-full" type="text" id="quantity-bedroom">
                                         <!-- <span class="flex items-center justify-center bg-[white] w-[15%]">м<sup class="text-[10px]">2</sup></span> -->
                                     </div>
                                 </div>
 
-                                <div v-if="announData.objects !=='Участок'" class="flex bg-[green]w-full mt-[5px]">
+                                <div class="flex bg-[green]w-full mt-[5px]">
                                     <div class="flex flex-col">
-                                        <div class="text-[14px] font-normal mt-[10px] text-[#152242]" for="some-text">
+                                        <label class="text-[14px] font-normal mt-[10px] text-[#152242]" for="some-text">
                                         Состояние дома
-                                        </div>
+                                        </label>
 
                                         <div class="flex flex-wrap w-full">
                                             <label class="mr-[5px] " for="4">
-                                                <input :checked="announData.conditionHome == 'Можно жить'" @change="selectConditionHome" data-name="Можно жить" class="d-none check" type="radio" name="radio" id="4">
-                                                <span class="form-control bg-white text-[green] rounded-1 border mt-[5px] ">Можно жить</span>
+                                                <input @change="selectConditionHome" data-name="Можно жить" class="d-none" type="radio" name="radio" id="4">
+                                                <span class="form-control text-[green] rounded-1 border mt-[5px] ">Можно жить</span>
                                             </label>
                                             <label class="mr-[5px] " for="5">
-                                                <input :checked="announData.conditionHome == 'Нужен ремонт'" @change="selectConditionHome" data-name="Нужен ремонт" class="d-none check" type="radio" name="radio" id="5">
-                                                <span class="form-control bg-white rounded-1 border mt-[5px] ">Нужен ремонт</span>
+                                                <input @change="selectConditionHome" data-name="Нужен ремонт" class="d-none" type="radio" name="radio" id="5">
+                                                <span class="form-control rounded-1 border mt-[5px] ">Нужен ремонт</span>
                                             </label>
                                             <label class="mr-[5px] " for="6">
-                                                <input :checked="announData.conditionHome == 'Нужно достроит'" @change="selectConditionHome" data-name="Нужно достроит" class="d-none check" type="radio" name="radio" id="6">
-                                                <span class="form-control bg-white rounded-1 border mt-[5px] ">Нужно достроит</span>
+                                                <input @change="selectConditionHome" data-name="Нужно достроит" class="d-none" type="radio" name="radio" id="6">
+                                                <span class="form-control rounded-1 border mt-[5px] ">Нужно достроит</span>
                                             </label>
                                             <label class="mr-[5px] " for="7">
-                                                <input :checked="announData.conditionHome == 'Нужен капремонт или под снос'" @change="selectConditionHome" data-name="Нужен капремонт или под снос" class="d-none check" type="radio" name="radio" id="7">
-                                                <span class="form-control bg-white rounded-1 border mt-[5px] ">Нужен капремонт или под снос</span>
+                                                <input @change="selectConditionHome" data-name="Нужен капремонт или под снос" class="d-none" type="radio" name="radio" id="7">
+                                                <span class="form-control rounded-1 border mt-[5px] ">Нужен капремонт или под снос</span>
                                             </label>
                                         </div>
                                     </div>
@@ -190,12 +191,12 @@
 
                                         <div class="flex flex-wrap w-full">
                                             <label class="mr-[5px] flex w-[80px] text-center" for="electric1">
-                                                <input :checked="announData.electricity =='есть'" @change="selectElectricity" data-name="есть" class="d-none check" type="radio" name="radio2" id="electric1">
-                                                <span class="form-control bg-white rounded-1 border mt-[5px]">есть</span>
+                                                <input @change="selectElectricity" data-name="Есть" v-model="facilities.electricity" class="d-none check" type="radio" name="radio2" id="electric1">
+                                                <span class="form-control rounded-1 border mt-[5px] ">Есть</span>
                                             </label>
                                             <label class="mr-[5px] flex w-[80px] text-center" for="electric2">
-                                                <input :checked="announData.electricity =='нет'" @change="selectElectricity" data-name="нет" class="d-none check" type="radio" name="radio2" id="electric2">
-                                                <span class="form-control bg-white rounded-1 border mt-[5px]">нет</span>
+                                                <input @change="selectElectricity" data-name="Нет" v-model="facilities.electricity" class="d-none check" type="radio" name="radio2" id="electric2">
+                                                <span class="form-control rounded-1 border mt-[5px] ">Нет</span>
                                             </label>
                                             
                                         </div>
@@ -224,10 +225,10 @@
 </template>
 <script setup>
 
-const {announData} = getData()
-announData.value = JSON.parse(localStorage.getItem('announ'))||{}
+const {announData,AnnounOgj} = getData()
 const facilities = ref([])
-
+const facilitiesObj = ref({})
+const facilities1 = ref([]||{})
 const landArea = ref('')
 const homeArea = ref('')
 const quantityBedroom = ref('')
@@ -235,37 +236,31 @@ let checkStyle = false
 
 
 function inputLandArera(){
-    announData.value.landArea = parseInt(announData.value.landArea);
-    localStorage.setItem('announ',JSON.stringify(announData.value))
+    facilitiesObj.value.landArea = parseInt(landArea.value);
 }
 
 function selectLandCategory(event){
-    announData.value.landCategry = event.target.dataset.category.trim()
-    localStorage.setItem('announ',JSON.stringify(announData.value))
+    facilitiesObj.value.landCategry=event.target.dataset.category.trim().toLowerCase()
 }
 
 function inputHomeArea(){
-    announData.value.homeArea = parseInt(announData.value.homeArea)
-    localStorage.setItem('announ',JSON.stringify(announData.value))
+    facilitiesObj.value.homeArea = parseInt(homeArea.value)
 }
 
 function selectConditionHome(event){
-    announData.value.conditionHome = event.target.dataset.name.trim()
-    localStorage.setItem('announ',JSON.stringify(announData.value))
+    facilitiesObj.value.conditionHome = event.target.dataset.name.trim().toLowerCase()
 }
 
 function chooseQuantityBedroom(){
-    announData.value.quantityBedroom = parseInt(announData.value.quantityBedroom)
-    localStorage.setItem('announ',JSON.stringify(announData.value))
+    facilitiesObj.value.quantityBedroom = parseInt(quantityBedroom.value)
 }
 
 function selectElectricity(event){
-    announData.value.electricity = event.target.dataset.name.trim().toLowerCase()
-    localStorage.setItem('announ',JSON.stringify(announData.value))
+    facilitiesObj.value.electricity = event.target.dataset.name.trim().toLowerCase()
 }
-        const c = ref()
+const c = ref()
         
-        const conditions = fetch('http://192.168.100.45:8000/api/conditions')
+        const conditions = fetch('http://192.168.0.116:8000/api/conditions')
         const condition = await conditions
         c.value = await condition.json() 
 
@@ -319,7 +314,7 @@ onMounted(async ()=>{
     ]
     
 
-    await fetch('http://192.168.100.45:8000/api/create/furniture',{
+    await fetch('http://192.168.0.116:8000/api/create/furniture',{
          method:'post',
          headers:{
            "Content-type":"application/json"
@@ -329,38 +324,44 @@ onMounted(async ()=>{
         .then(res=> res)
         
             setTimeout(()=>{
-            let inputs = document.querySelectorAll('.d-none');
-            if (announData.value.condition&&announData.value.condition.length) {
-                facilities.value = announData.value.condition
-                inputs.forEach(elem  =>{
-                let checks = elem.dataset.name
-                announData.value.condition.forEach((item) => {
-                if(parseInt(checks) === item){
-                    elem.checked = true
-                }
-                })
-                })
-            }
+                let inputs = document.querySelectorAll('.d-none');
+                    inputs.forEach(elem  =>{
+                        let checks = elem.dataset.name
+                        facilities.value.forEach((item) => {
+                            if(parseInt(checks) === item){
+                                 elem.checked = true
+                            }
+                            })
+                    })
             })
+
+
+        if (Array.isArray(JSON.parse(localStorage.getItem('announ'))[4])) {
+            facilities.value = JSON.parse(localStorage.getItem('announ'))[4]
+        }else{
+            facilities.value = facilities1.value
+        }
+        AnnounOgj.value = JSON.parse(localStorage.getItem('announ'))[0]
+        if (!announData.value[3]) {
+            window.location.replace('/')
+            }
         })
-
-
     function selecTechnics(event){
-        announData.value.condition = []
         if (event.target.checked) {
-            if (Array.isArray(facilities.value)) {  
-                 facilities.value.push(parseInt(event.target.dataset.name))
+            if (Array.isArray(facilities.value)) {
+                facilities.value.push(parseInt(event.target.dataset.name))
             }
         }
-        facilities.value.forEach(item => {
-            if (!event.target.checked && parseInt(event.target.dataset.name) === parseInt(item)) {
-                facilities.value.splice(facilities.value.indexOf(item),1)
-            }
-            announData.value.condition = facilities.value
-            localStorage.setItem('announ',JSON.stringify(announData.value))           
+        
+            facilities.value.forEach(item => {
+                if (!event.target.checked && parseInt(event.target.dataset.name) === parseInt(item)) {
+                    facilities.value.splice(facilities.value.indexOf(item),1)
+                }
+
+                         
 
 
-            c.value = c.value.sort((a, b)=>{
+        c.value = c.value.sort((a, b)=>{
             const nameA = a.name.toUpperCase()
             const nameB = b.name.toUpperCase()
 
@@ -371,50 +372,46 @@ onMounted(async ()=>{
                 return 1
             }
             return 0 
-            })
-        });
-
-        const elems = document.querySelectorAll('.d-none');
-        elems.forEach(elem => {
-            announData.value.condition.forEach(val =>{
-                if (parseInt(elem.dataset.name) == val) {
-                    elem.checked = true
-                }
-            })
         })
+     });
 
-    }   
+            const elems = document.querySelectorAll('.d-none');
+            elems.forEach(elem => {
+                facilities.value.forEach(val =>{
+                    if (parseInt(elem.dataset.name) == val) {
+                        elem.checked = true
+                    }
+                })
+            })
+
+             
+}
 
 
-   
+    // if (AnnounOgj.Estate == 'Жилая' && AnnounOgj.object == 'Квартира') {
+        
+        // }
         
         
 
 
-function next(){   
-    if (announData.value.objects == 'Дом/Дача' || announData.value.objects == 'Коттедж') {
-        if (announData.value.landArea < 2||
-            announData.value.landCategry == ''||
-            announData.value.homeArea < 1||
-            announData.value.conditionHome == ''||
-            announData.value.quantityBedroom < 1||
-            announData.value.electricity == ''
-        ) {
-            navigateTo('/technicsandfurniture')
-        }else navigateTo('/description')
-    }else{
-        localStorage.setItem('announ', JSON.stringify(announData.value))
-        navigateTo('/description')
-    }
-
+function next(){
+ announData.value[0] = JSON.parse(localStorage.getItem('announ'))[0]
+ announData.value[1] = JSON.parse(localStorage.getItem('announ'))[1]
+ announData.value[2] = JSON.parse(localStorage.getItem('announ'))[2]
+ announData.value[3] = JSON.parse(localStorage.getItem('announ'))[3]
+//  announData.value[4] = facilities.value
+        if (facilities.value.length) {
+            announData.value[4] = facilities.value
+        }else{
+            announData.value[4] = facilitiesObj.value
+        }
+ localStorage.setItem('announ', JSON.stringify(announData.value))
+ navigateTo('/description')
+ facilities.value = facilities1.value
 }
 function prew(){
-    if (announData.value.objects == 'Дом/Дача' || announData.value.objects == 'Коттедж') {
-            navigateTo('/pictures')
-    }else navigateTo('/feature')
- if (announData.value.objects == 'Участок') {
-    navigateTo('/map')
- }
+ navigateTo('/feature')
 }
 
 function change(){
@@ -428,6 +425,10 @@ function change(){
 
 *{
     font-family: Lato,Arial,sans-serif;
+}
+.check:checked + span{
+    border-radius: 3px;
+    border: 1px solid #152242;
 }
 @media screen and (min-width:320px) {
  .progress{
@@ -464,7 +465,6 @@ function change(){
 }
 
 @media screen and (min-width:640px){
-
  .container-btn{
          display: flex;
          justify-content: flex-end;
@@ -572,14 +572,10 @@ label > input:checked + span{
 }
 
 .container-repair input:checked + .form-control{
-background-color: rgb(230, 230, 230) !important;
-border: 1px solid #152242 !important;
+  background-color: rgb(230, 230, 230);
+ border: 1px solid #152242;
 }
 
-.check:checked + .bg-white{
-    border-radius: 3px;
-    border: 1px solid #152242 !important;
-    background: rgb(235, 232, 232) !important;
-}
+
 
 </style>

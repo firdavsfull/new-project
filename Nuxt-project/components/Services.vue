@@ -43,7 +43,7 @@
 <script setup>
 const route = useRoute()
 const {isShow,showMadoal, toggleShow, active} = useSwitch()
-const {responce,direction} = getData()
+const {responce} = getData()
 responce.value = JSON.parse(localStorage.getItem('owner')) || []
 const data = responce.value[1] || {}
 function Announ(){
@@ -58,8 +58,7 @@ function Announ(){
             showMadoal.value = false
             isShow.value = false
         }else{
-            showMadoal.value = true
-            direction.value = '/announ'            
+            showMadoal.value = true            
         }
         
 
