@@ -2,7 +2,7 @@
     const {avatar} = getData()
     const router = useRouter();
     const route = useRoute();
-    const id = JSON.parse(localStorage.getItem('owner'))[1] || {}
+    const id = JSON.parse(localStorage.getItem('owner'))[0] || {}
     function selectItem(event){
         router.push(`/personal_area/${event.target.dataset.name}`)
     }
@@ -145,6 +145,7 @@ setTimeout(() => {
 
                 <!-- Profile -->
                 <Profile v-if="route.fullPath == `/personal_area/profile`"/>
+                <MyAnnouns v-if="route.fullPath == `/personal_area/my_announ`"/>
             </div>
         </div>
     </div>

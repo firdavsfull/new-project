@@ -22,48 +22,53 @@
       >
         Выберите файлы
       </button>
-      <input type="file" multiple style="display: none" id="input" />
+      <input type="file" max="12" multiple style="display: none" accept=".jpg, .jpeg, .png, .webp" id="input" />
     </div>
-
+    <p v-for="(item,index) of size" :key="index" class="text-center text-[red] my-[1px] mx-[auto] text-[14px] mb-[0]">
+        Не получилось загрузить {{item.name}}: Минимальный размер изображения - 800x400px.
+      </p>
     <div
       v-if="pictures.length"
       class="flex overflow-hidden mt-[10px] w-[100%] min-h-[50px] rounded-[13px] border"
     >
       <div
         id="areaBorder"
-        class="w-full p-[10px] sm:mx-[auto] mx-[auto] flex flex-wrap"
+        class="w-full picture relative  sm:mx-[auto] mx-[auto] flex flex-wrap"
         style="flex-basis: 100%"
+        data-id="0"
       >
+      
         <div
         v-for="(img, index) of pictures"
         :key="index"
           @dragend="handleDrop(img, pictures)"
-          @dragleave="handleDragLeave(pictures)"
+          @dragleave.stop="handleDragLeave(pictures)"
           @dragenter.prevent="handleDragEnter(pictures)"
-          @dragstart="handleDragStart"
+          @dragstart.stop="handleDragStart"
           @dragover.prevent
-          @touchstart="handleTouchStart"
-          @touchend ="handleTouchEnd(img, pictures)"
+          @touchstart.stop="handleTouchStart"
+          @touchend.stop ="handleTouchEnd(img, pictures)"
           draggable="true"
           id="images"
-           
+          
           class="bg-[black] relative flex responsive mx-[auto] m-[10px] w-[48%] h-[150px] sm:h-[170px] sm:w-[250px] sm:h-[170px] md:w-[200px] md:h-[120px] lg:min-w-[180px] lg:h-[120px] overflow-hidden rounded"
         >
-        <div class="cursor-grab">
+        <div class="cursor-grab" >
 
-          <div class="hover pointer-events-none transition duration-150 cursor-default z-[2] absolute top-[-30px] w-full bg-[black]/40 h-[30px]">
-                <div :data-id="index"
-                    @click="removeImg(img, pictures)"
-                    class="pointer-events-auto cursor-pointer absolute overflow-hidden right-[10px] top-[4px] cursor-pointer text-[white] text-shadow text-[14px]"
+          <div class="hover transition duration-150 cursor-default z-[2] absolute picture top-[-30px] w-full bg-[black]/50 h-[28px]">
+                <div
+                :data-id="index"
+                    @click.stop="removeImg(img, pictures)"
+                    class="cursor-pointer absolute overflow-hidden right-[10px] top-[4px] picture cursor-pointer text-[white] text-shadow text-[14px]"
                       >
                       <font-awesome-icon :icon="['fas', 'trash']" />
                 </div>
-            <div @click="rotate(img)" class="pointer-events-auto absolute left-[8px] cursor-pointer top-[2px] text-[white]">
+            <div @click.stop="rotate(img)" :data-id="index" class="absolute picture left-[8px] cursor-pointer top-[2px] text-[white]">
               <font-awesome-icon :icon="['fas', 'rotate-right']" />
             </div>
           </div>
             <img
-              :style="`transform: rotate(${img.rotation}deg);`"
+              :style="`transform: rotate(${img.rotation}deg); object-fit:cover;` "
               :data-id="index"
               class="picture left-[0] absolute z-[1] top-[0] w-full h-full"
               :src="img.url"
@@ -71,28 +76,6 @@
             />
         </div>
         </div>
-        <!-- <div v-if="imageLoader" class="w-[100%] flex justify-center">
-          <div class="lds-spinner">
-            <div></div>
-            <div></div>
-            <div></div>
-            <div></div>
-            <div></div>
-            <div></div>
-            <div></div>
-            <div></div>
-            <div></div>
-            <div></div>
-            <div></div>
-            <div></div>
-          </div>
-        </div> -->
-        <!-- <div
-          @click.prevent="change"
-          v-if="images.length"
-          class="border border-[blue] relative justify-center flex m-[10px] w-[48%] h-[150px] sm:h-[170px] sm:w-[125px] sm:h-[85px] md:w-[200px] md:h-[120px] lg:min-w-[180px] lg:h-[120px] rounded"
-        ></div> -->
-        
       </div>
     </div>
   </form>
@@ -104,38 +87,52 @@ function change(event) {
   file.click();
 }
 const pictures = ref([]);
-const imageLoader = ref(false);
 const formD = ref(new FormData());
 const {images, isUpload} = getData()
+const size = ref([])
 function saveImages(e) {
   const files = e.target.files;
   for (let i = 0; i < files.length; i++) {
-    formD.value.append("images[]", files[i]);
     const reader = new FileReader();
-    reader.onload = (e) => {
-      if (pictures.value.length < 12) {
-        pictures.value.push({
-          url: e.target.result,
-          position: pictures.value.length,
-          rotation:0,
-          file: files[i],
-        });
-        images.value = pictures.value
-      }
+      reader.onload = (e) => {
+        let img = new Image()
+        img.src = e.target.result;
+        img.onload = function (event) {
+          if (this.width > 800 && this.height > 400) {
+            formD.value.append("images[]", files[i]);
+            pictures.value.push({
+              url: e.target.result,
+            position: pictures.value.length,
+            rotation:0,
+            file: files[i],
+          });
+          }else{
+            size.value.push({
+            name:files[i].name,
+            width:this.width,
+            height:this.height
+          })
+          }
+        } 
+      
+        images.value = pictures.value;
+      } 
+          reader.readAsDataURL(files[i]);
     };
-    
-    reader.readAsDataURL(files[i]);
+
+        setTimeout(() => {
+          update_formdate();
+        }, 50);
+
+        
   }
-  setTimeout(() => {
-    update_formdate();
-  }, 50);
-}
+
 
   
 const update_formdate = () => {
   formD.value = new FormData()
   for (let i = 0; i < pictures.value.length; i++) {
-    formD.value.append("images[]", pictures.value[i].file);
+      formD.value.append("images[]", pictures.value[i].file);
   }
 
 };
@@ -144,6 +141,7 @@ const update_formdate = () => {
 
 function removeImg(img, picture) {
   picture.splice(picture.indexOf(img), 1);
+  size.value = []
 }
 
 let currentIndex = null;
@@ -188,22 +186,36 @@ function handleDragLeave(){
 }
 
 function handleTouchEnd(img, picture) {
-  document.body.style.overflow = ''
+  document.body.style.overflow = '';
   const touches = event.changedTouches[0];
   const element = document.elementFromPoint(touches.clientX, touches.clientY);
-  const targetPhotoId = element.closest(".picture").dataset.id;
-  const saveElems = picture[startIndex]
-  picture[startIndex] = picture[targetPhotoId];
-  picture[targetPhotoId] = saveElems
-  startIndex = null
-  picture.forEach((item,index)=>{
-    item.position = index
-  })
+  let targetPhotoId = null;
+
+  // Проверка, что найденный элемент или его родители имеют класс "picture"
+  let currentElement = element;
+  while (currentElement) {
+    if (currentElement.classList.contains("picture")) {
+      targetPhotoId = currentElement.dataset.id;
+      break;
+    }
+    currentElement = currentElement.parentElement;
+  }
+
+  if (targetPhotoId !== null) {
+    const saveElems = picture[startIndex];
+    picture[startIndex] = picture[targetPhotoId];
+    picture[targetPhotoId] = saveElems;
+    startIndex = null;
+    picture.forEach((item, index) => {
+      item.position = index;
+    });
+  }
 }
 
 
 function rotate(img){
-  img.rotation += 90
+  if (img) {
+    img.rotation += 90
   const images = document.querySelectorAll('img')
   images.forEach(image=>{
     if(image.src === img.url){
@@ -213,6 +225,7 @@ function rotate(img){
   })
   if (img.rotation >= 360) {
     img.rotation = 0
+  }
   }
 }
 

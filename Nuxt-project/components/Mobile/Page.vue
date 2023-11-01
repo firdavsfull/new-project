@@ -4,54 +4,54 @@
             <section class="container" style="margin-top: 16px;">
                 <div class="filters">
                     <a data-name="buy" class="filter" @click="filter">
-                        <div>
+                        <div style="pointer-events:none;">
                             <!-- <font-awesome-icon class="fas" :icon="['fas', 'wallet']" /> -->
                             <Icon name="uil:wallet" size="20"/>
                         </div>
-                        <span @click="filter">Купить</span>
+                        <span style="pointer-events:none;">Купить</span>
                     </a>
                     <a data-name="take_off" class="filter" @click="filter">
-                        <div>
+                        <div style="pointer-events:none;">
                             <font-awesome-icon class="fas" :icon="['fas', 'couch']" />
                             <!-- <Icon name="uil:couch"/> -->
 
                         </div>
-                        <span @click="filter">Снять</span>
+                        <span style="pointer-events:none;">Снять</span>
                     </a>
                     
                     <a data-name="new_buildings" class="filter" @click="filter">
-                        <div>
+                        <div style="pointer-events:none;">
                             <!-- <font-awesome-icon  class="fas" :icon="['far', 'building']" /> -->
                             <Icon name="uil:building" size="20"/>
                             
                         </div>
                         
-                        <span @click="filter">Новостройки</span>
+                        <span style="pointer-events:none;">Новостройки</span>
                     </a>
                     
                     <a data-name="house" class="filter" @click="filter">
-                        <div >
+                        <div style="pointer-events:none;">
                             <!-- <font-awesome-icon class="fas" :icon="['fas', 'house-chimney']" /> -->
                             <Icon name="uil:home" size="20"/>
 
                         </div>
-                        <span @click="filter">Дом</span>
+                        <span style="pointer-events:none;">Дом</span>
                     </a>
                     
                     <a data-name="commercial" class="filter" @click="filter">
-                        <div>
+                        <div style="pointer-events:none;">
                             <font-awesome-icon  class="fas" :icon="['fas', 'chair']" />
                             <!-- <IconCSS name="uil:"/> -->
 
                         </div>
-                        <span @click="filter">&nbsp;Коммерческая</span>
+                        <span style="pointer-events:none;">&nbsp;Коммерческая</span>
                     </a>  
 
                     <a data-name="daily" class="filter" @click="filter">
-                        <div>
+                        <div style="pointer-events:none;">
                             <font-awesome-icon class="fas" :icon="['fas', 'calendar-day']" />
                         </div>
-                        <span @click="filter">&nbsp;Посуточно</span>
+                        <span style="pointer-events:none;">&nbsp;Посуточно</span>
                     </a>  
                 </div>
                 
@@ -82,36 +82,6 @@
                         <span class="description nowrap">{{item.description}}</span>
                         <span class="description nowrap">{{item.city}}</span>    
                     </a>
-                    <!-- <a href="#" target="_blank" class="addition">
-                        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSDD7aO2be4WMGJPPTmH57IbYu3-PiCVjAciA&usqp=CAU" alt="">
-                        <span class="price nowrap">260&nbsp;000$</span>
-                        <span class="description nowrap">This is the first apartament from Dushanbe city</span>
-                        <span class="description nowrap">Хучанд</span>
-                    </a>
-                    <a href="#" target="_blank" class="addition">
-                        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRE3eampwBdDhZnnhM0AfE3Xnt0O0wU6kuKDA&usqp=CAU" alt="">
-                        <span class="price nowrap">425&nbsp;000$</span>
-                        <span class="description nowrap">fsdafkjdfsladjfhvas,fjshgfliasglsdkj</span>
-                        <span class="description nowrap">Абдурахмони Чоми</span>
-                    </a>
-                    <a href="#" target="_blank" class="addition">
-                        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTCvMEiCIB9Pt8jPp3h-cgNlXAZuQbGW4zO6w&usqp=CAU" alt="">
-                        <span class="price nowrap">879&nbsp;500$</span>
-                        <span class="description nowrap">fasdflkhbjsdf;JHDF;AOSUDHF;OH;OIH</span>
-                        <span class="description nowrap">Балдьжувон</span>
-                    </a>
-                    <a href="#" target="_blank" class="addition">
-                        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTif8b7bkd3WAMWaafPL1SwD1AV0GJFgOG5oQ&usqp=CAU" alt="">
-                        <span class="price nowrap">131&nbsp;000$</span>
-                        <span class="description nowrap">fsadfd;ashflakjdsfhlaskjfyhlakjh</span>
-                        <span class="description nowrap">Бохтар</span>
-                    </a>
-                    <a href="#" target="_blank" class="addition">
-                        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSZyvgZz-YcUf3YDqIO3ATJPOE2ITI0TVoUtA&usqp=CAU" alt="">
-                        <span class="price nowrap">900&nbsp;000$</span>
-                        <span class="description nowrap">fdsaf;asughlksjdfhalskjfahlskfja</span>
-                        <span class="description nowrap">Вахдат</span>
-                    </a> -->
                 </div>
             </section>
 
@@ -319,35 +289,66 @@
             required:true
         }
     })
+const sStorage = {}
 
 const {showNavBar,isShow} = useSwitch()
 const router = useRouter()
 function filter(event){
-        showNavBar.value = isShow.value = false 
-        const items = document.querySelectorAll('.filters > .filter');
-        items.forEach(item =>{
-            item.children[1].dataset.name = item.dataset.name
-            if (item.dataset.name === event.target.dataset.name && navigator.maxTouchPoints > 0) {
-                router.push(`filters/${event.target.dataset.name}`)
-            }
-        })
+    showNavBar.value = isShow.value = false 
+    if (event.target.children[1].textContent.trim() == 'Купить') {
+        sStorage.dealType = 'Продажа'
+        sStorage.typeObject = 'Квартира'
+        sStorage.buildingType = ['Квартира','Квартира в Новостройке']
+        sessionStorage.setItem('filter', JSON.stringify(sStorage))
+        router.push('/filters/buy')
+    }
+    if (event.target.children[1].textContent.trim() == 'Снять') {
+        sStorage.dealType =  'Аренда'
+        sStorage.typeObject = 'Квартира'
+        sStorage.buildingType = []
+        sessionStorage.setItem('filter', JSON.stringify(sStorage))
+        router.push('/filters/buy')
+    }
+    if (event.target.children[1].textContent.trim() == 'Новостройки') {
+        sStorage.dealType =  'Продажа'
+        sStorage.buildingType = []
+        sStorage.typeObject = 'Квартира в Новостройке'
+        sessionStorage.setItem('filter', JSON.stringify(sStorage))
+        router.push('/filters/buy')
+    }
+    if (event.target.children[1].textContent.trim() == 'Дом') {
+        sStorage.dealType =  'Продажа'
+        sStorage.buildingType = []
+        sStorage.typeObject = 'Дом/дача'
+        sessionStorage.setItem('filter', JSON.stringify(sStorage))
+        router.push('/filters/buy')
+    }
+    
+    if (event.target.children[1].textContent.trim() == 'Коммерческая') {
+        // sStorage.dealType =  'Продажа'
+        // sStorage.buildingType = []
+        // sStorage.typeObject = 'Дом/дача'
+        // sessionStorage.setItem('filter', JSON.stringify(sStorage))
+        router.push('/filters/commercial')
+    }
     }
 
 useHead({title:'Аренда и Продажа Квартир'})
         const active = ref(true) 
     function isActive(){
-        if(active.value == false){
+        if(!active.value){
             active.value = true
 
         }else{
             active.value = false
         }
     }
+        active.value =true
         const {announ} = getData()
         
-            // for (const item of props.pictures) {
-            //     console.log(item);
-            // }
+            onMounted(()=>{
+                sessionStorage.setItem('filter',JSON.stringify(sStorage))
+            })
 </script>
 
 <style scoped>

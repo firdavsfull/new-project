@@ -1,4 +1,3 @@
-
 <template>
     
     <main class="bg-[#f4f4f4] flex w-[100%] min-h-[100vh] sm:w-[100%] md:w-[700px] lg:w-[1000px] ">
@@ -44,7 +43,7 @@
                                         <div class="flex flex-col">
 
                                             <label class="text-[14px]" for="">Дата рождения</label>
-                                            <input @change="data" v-model="date" class="border h-[30px] rounded outline-0 px-[8px]" type="date">
+                                            <input @change="data" v-model="date" class="border bg-[white] h-[30px] rounded outline-0 px-[8px]" type="date">
                                         </div>
 
                                         <button @click="sendData" class="w-[max-content] bg-[#075ad9] px-[10px] outline-0 text-[white] rounded h-[28px]">Сохранить</button>
@@ -66,7 +65,20 @@
                                 <div class=" w-[100%] mt-[3px] sm:w-[100%] bg-[white]">
                                     <div @click="show" class="block py-[5px] justify-between flex px-[10px]">
                                         <h6 class="text-[15px] mt-[5px] font-bold">Сменить пароль</h6>
-                                        <div style="border-right:2px solid; border-bottom:2px solid; border-color:#0d6efd; transform:rotate(45deg)" :style="!showHide?'transform:rotate(-135deg);':''" class="w-[8px] transition mt-[5px] h-[8px]"></div>
+                                        <div>
+                                            <font-awesome-icon
+                                                v-if="!showHide"
+                                                style="margin-right: 5px"
+                                                class="font-bold text-[12px] text-primary"
+                                                :icon="['fas', 'chevron-up']"
+                                            />
+                                            <font-awesome-icon
+                                                v-if="showHide"
+                                                style="margin-right: 5px"
+                                                class="font-bold text-[12px] text-primary"
+                                                :icon="['fas', 'chevron-down']"
+                                            />
+                                        </div>
                                     </div>
                                     <div class="flex px-[10px] flex-col w-[300px] overflow-hidden transition-all" :class="showHide ? 'h-[0]': 'h-[120px]'">
                                         <div class="border rounded overflow-hidden flex my-[5px] h-[30px] items-center">
@@ -105,7 +117,7 @@ const date = ref('')
 const message = ref('')
 const password = ref('')
 const confirm_password = ref('')
-const id = JSON.parse(localStorage.getItem('owner'))[1]
+const id = JSON.parse(localStorage.getItem('owner'))[0]
 const d = new Date()
 const age = ref(0)
 const {avatar} = getData()
@@ -141,6 +153,9 @@ async function addNewPicture(event){
 
     await fetch('http://192.168.0.116:8000/api/avatar',{
         method:'post',
+        headers:{
+            Authorization:'Bearer '+JSON.parse(localStorage.getItem('token')) 
+        },
         body:formData
     })
     .then(res=>res.json())
@@ -156,6 +171,7 @@ async function sendData(){
         method:'post',
         headers:{
             "Content-Type":'application/json',
+            Authorization:'Bearer '+JSON.parse(localStorage.getItem('token')) 
         },
         body:JSON.stringify({
             name:name.value,
@@ -181,7 +197,8 @@ async function sendMessage(){
     await fetch('http://192.168.0.116:8000/api/send_message',{
         method:'post',
         headers:{
-            "Content-Type":'application/json'
+            "Content-Type":'application/json',
+            Authorization:'Bearer '+JSON.parse(localStorage.getItem('token')) 
         },
         body:JSON.stringify({
             'phone':id.phone_number,
@@ -203,6 +220,7 @@ onMounted(async ()=>{
         method:'post',
         headers:{
             "Content-Type":'application/json',
+            Authorization:'Bearer '+JSON.parse(localStorage.getItem('token')) 
         },
         body:JSON.stringify({phone:id.phone_number})
     })

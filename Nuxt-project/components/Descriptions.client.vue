@@ -37,13 +37,14 @@
 
               <div
                 class="border-1 bg-red-500 rounded flex w-full h-[40px] overflow-hidden"
-                :style="!announData.title && announData.title.length < 6 ? 'border-color:red; color:red' : 'border-color:green; color:green'"
+                :style="mooreTitle ? 'border-color:red; color:red' : 'border-color:green; color:green'"
               >
                 <input
                   @input="writeTitle"
-                  v-model="announData.title"
+                  v-model="title"
                   class="w-full px-[10px] outline-0 border-0"
                   type="text"
+                  autocomplete="off"
                   id="exampleFormControlInput1"
                   placeholder="Просторная видовая двушка у парка"
                 />
@@ -67,9 +68,10 @@
               >Описание</label
             >
             <textarea
-              :style="announData.description && announData.description.length < 15 ? 'border:1px solid red;color:red;' : 'border-color:green;color:green;'"
+              :style="mooreDescription ? 'border:1px solid red;color:red;' : 'border-color:green;color:green;'"
               @input="writeDescription"
-              v-model="announData.description"
+              v-model="description"
+              autocomplete="off"
               class="form-control"
               id="floatingTextarea2"
               placeholder="Уютная светлая двушка в тихом спальном районе. Окна на красивые цветущие деревья. Свежий ремонт 2020 года делали для себя. Рядом есть детсад. Можно заезжать и жить!"
@@ -77,8 +79,8 @@
             >
             </textarea>
             <p
-              v-if="announData.description && announData.description.length < 15"
-              :class="announData.description && announData.description.length < 15 ? 'mt-[6px] text-[12px] text-[red]' : ''"
+              v-if="mooreDescription"
+              :class="mooreDescription ? 'mt-[6px] text-[12px] text-[red]' : ''"
             >
               Напишите хотя бы пару предложений: от 15 до 3 000 букв
             </p>
@@ -101,12 +103,13 @@
 </template>
 <script setup>
 const { announData } = getData();
+
 const message = ref({});
 const message1 = ref({});
 const title = ref("");
 const description = ref("");
-const mooreTitle = ref(true);
-const mooreDescription = ref(true);
+const mooreTitle = ref(false);
+const mooreDescription = ref(false);
 
 function change() {
   const file = document.querySelector(".choose-picture > input");
@@ -114,56 +117,47 @@ function change() {
 }
 
 function writeTitle() {
-  title.value = message.value.title;
-  if (message.value.title.length < 6) {
+  if (title.value.length < 6) {
     mooreTitle.value = true;
   } else mooreTitle.value = false;
+  announData.value.title = title.value
+  localStorage.setItem('announ',JSON.stringify(announData.value))
 }
 
 function writeDescription() {
-  description.value = message.value.description;
-  if (message.value.description.length < 15) {
+  if (description.value.length < 15) {
     mooreDescription.value = true;
   } else {
     mooreDescription.value = false;
   }
+  announData.value.description = description.value
+  localStorage.setItem('announ',JSON.stringify(announData.value))
+
 }
 
 const route = useRoute();
 
 function next() {
-  if (
-    title.value == "" ||
-    !description.value ||
-    description.value.length < 15
-  ) {
-    navigateTo("/description");
-  } else {
-    announData.value[0] = JSON.parse(localStorage.getItem("announ"))[0];
-    announData.value[1] = JSON.parse(localStorage.getItem("announ"))[1];
-    announData.value[2] = JSON.parse(localStorage.getItem("announ"))[2];
-    announData.value[3] = JSON.parse(localStorage.getItem("announ"))[3];
-    if (announData.value[0].rent == 'Аренда'||announData.value[0].objects == 'Дом/Дача'||announData.value[0].objects=='Коттедж') {
-        announData.value[4] = JSON.parse(localStorage.getItem("announ"))[4];
-        announData.value[5] = message.value;
-        // localStorage.setItem("announ", JSON.stringify(announData.value));
-      }else{
-        announData.value[4] = message.value;
-      }
-  
-  localStorage.setItem("announ", JSON.stringify(announData.value));
-    message.value = message1.value;
-    navigateTo("/price");
+    if (announData.value.title.length < 6 || announData.value.description.length<15) {
+      return
+    }else navigateTo("/price");
+        
+    if (announData.value.objects == 'Участок') {
+      localStorage.setItem("announ", JSON.stringify(announData.value));
+    }
   }
-}
 
-function back() {
-  if (announData.value[0].rent == "Аренда" || announData.value[0].objects == 'Коттедж'|| announData.value[0].objects == 'Дом/Дача') {
-    navigateTo("/technicsandfurniture");
-  } else {
-    navigateTo("/feature");
-  }
-}
+
+        function back() {
+          if (announData.value.rent == "Аренда" || announData.value.objects == 'Коттедж'|| announData.value.objects == 'Дом/Дача') {
+            navigateTo("/technicsandfurniture");
+          } else {
+            navigateTo("/feature");
+          }
+          if (announData.value.objects == 'Участок') {
+            navigateTo('/technicsandfurniture')
+          }
+        }
 
 
 
@@ -171,6 +165,18 @@ function back() {
 const router = useRouter();
 onMounted(() => {
   announData.value = JSON.parse(localStorage.getItem('announ'))||{}
+
+  if (announData.value.title && announData.value.title.length < 6 || !title.value && title.value.length < 6) {
+    mooreTitle.value = true;
+  } else mooreTitle.value = false;
+
+  if (announData.value.description && announData.value.description.length < 15||!description.value && description.value.length < 15) {
+    mooreDescription.value = true;
+  } else {
+    mooreDescription.value = false;
+  }
+  title.value = announData.value.title
+  description.value = announData.value.description
 });
 </script>
 

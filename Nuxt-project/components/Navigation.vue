@@ -24,8 +24,8 @@
 </template>
 <script setup>
 const {isShow,active,showMadoal} = useSwitch()
-const {responce} = getData()
-const data = responce.value[1] || {}
+const {responce,direction} = getData()
+const data = responce.value[0] || {}
     const phone = ref()
     function logOut(){
         if (data.phone_number) {
@@ -36,7 +36,7 @@ const data = responce.value[1] || {}
         showMadoal.value = false
     } else  {
         showMadoal.value = true
-
+        direction.value = '/personal_area/profile'
         }
         
     }

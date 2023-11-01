@@ -16,43 +16,43 @@
              </div>
         <div class="rounded-[15px] mx-[auto] my-[10px] sm:max-w-[95%] min-w-[100%]  lg:max-w-[95%] lg:min-w-[70%] lg:shadow-2xl">
             <div  class="mx-[20px] mt-[10px] h-[auto]">
-                <div style="margin-top:10px;" v-if="announData[0].objects == 'Квартира' || announData[0].objects == 'Комната'" class="text-container">
+                <div style="margin-top:10px;" v-if="announData.objects == 'Квартира' || announData.objects == 'Комната' || announData.objects =='Квартира в Новостройке'" class="text-container">
                     <span>Параметры Квартиры </span>
                 </div>
-             <div v-if="announData[0].objects == 'Квартира' || announData[0].objects == 'Комната'" class="quantity-room-container">
+             <div v-if="announData.objects == 'Квартира' || announData.objects == 'Комната' || announData.objects =='Квартира в Новостройке'" class="quantity-room-container">
                  <p>Количество Комнат</p>
                  <div class="quantity-room">
                      <label class="quantity-room-item" for="1">
-                         <input :checked="apartmentParams.quantityRoom == 1" @change="quantityRoom" data-name="1" name="radioInput" type="radio" id="1">
-                         <span :style="!apartmentParams.quantityRoom ?'border:1px solid red;':''" class="form-control">1</span>
+                         <input :checked="announData.quantityRoom == 1" @change="quantityRoom" data-name="1" name="radioInput" type="radio" id="1">
+                         <span :style="!announData.quantityRoom ?'border:1px solid red; color:red;':announData.quantityRoom == 1 ?'border-color:green;background:white;color:green;':''" class="form-control" >1</span>
                      </label>
                      <label class="quantity-room-item" for="2">
-                         <input :checked="apartmentParams.quantityRoom == 2" @change="quantityRoom" data-name="2" name="radioInput" type="radio"  id="2">
-                         <span :style="!apartmentParams.quantityRoom ?'border:1px solid red;':''" class="form-control">2</span>
+                         <input :checked="announData.quantityRoom == 2" @change="quantityRoom" data-name="2" name="radioInput" type="radio"  id="2">
+                         <span :style="!announData.quantityRoom ?'border:1px solid red; color:red;':announData.quantityRoom == 2 ?'border-color:green;background:white;color:green;':''" class="form-control" >2</span>
                      </label>
                      <label class="quantity-room-item" for="3">
-                         <input :checked="apartmentParams.quantityRoom == 3" @change="quantityRoom" data-name="3" name="radioInput" type="radio"  id="3">
-                         <span :style="!apartmentParams.quantityRoom ?'border:1px solid red;':''" class="form-control">3</span>
+                         <input :checked="announData.quantityRoom == 3" @change="quantityRoom" data-name="3" name="radioInput" type="radio"  id="3">
+                         <span :style="!announData.quantityRoom ?'border:1px solid red; color:red;':announData.quantityRoom == 3 ?'border-color:green;background:white;color:green;':''" class="form-control" >3</span>
                      </label>
                      <label class="quantity-room-item" for="4">
-                         <input :checked="apartmentParams.quantityRoom == 4" @change="quantityRoom" data-name="4" name="radioInput" type="radio"  id="4">
-                         <span :style="!apartmentParams.quantityRoom ?'border:1px solid red;':''" class="form-control">4</span>
+                         <input :checked="announData.quantityRoom == 4" @change="quantityRoom" data-name="4" name="radioInput" type="radio"  id="4">
+                         <span :style="!announData.quantityRoom ?'border:1px solid red; color:red;':announData.quantityRoom == 4 ?'border-color:green;background:white;color:green;':''" class="form-control" >4</span>
                      </label>
                      <label class="quantity-room-item" for="5">
-                         <input :checked="apartmentParams.quantityRoom == 5" @change="quantityRoom" data-name="5" name="radioInput" type="radio"  id="5">
-                         <span :style="!apartmentParams.quantityRoom ?'border:1px solid red;':''" class="form-control">5</span>
+                         <input :checked="announData.quantityRoom == 5" @change="quantityRoom" data-name="5" name="radioInput" type="radio"  id="5">
+                         <span :style="!announData.quantityRoom ?'border:1px solid red; color:red;':announData.quantityRoom == 5 ?'border-color:green;background:white;color:green;':''" class="form-control" >5</span>
                      </label>
                  </div>
              </div>
 
-             <div v-if="announData[0].objects == 'Квартира' || announData[0].objects == 'Комната'" class="area-room-container">
+             <div v-if="announData.objects == 'Квартира' || announData.objects == 'Комната' || announData.objects =='Квартира в Новостройке'" class="area-room-container">
                  <div class="area-room">
                     <div class="room">
                      <p>  Общая площадь</p>
                      <div style="flex-direction:column;" class="relative min-w-[200px]">
 
-                        <div :style="!apartmentParams.generalArea ?'border:1px solid red;':''" class="input-area form-control">
-                            <input @input="verfied" v-model="apartmentParams.generalArea" type="text" v-maska
+                        <div :style="!announData.generalArea || mooreArea?'border:1px solid red; color:red;':'border-color:green;color:green'" class="input-area form-control">
+                            <input @input="verfied" v-model="announData.generalArea" type="text" v-maska
                                 data-maska="####">
                             <div>м<sup class="text-[10px]">2</sup></div>
                         </div>
@@ -68,22 +68,22 @@
                     </div> 
                      
 
-                    <div v-if="announData[0].objects == 'Квартира' || announData[0].objects == 'Комната'" class="room">
+                    <div v-if="announData.objects == 'Квартира' || announData.objects == 'Комната' || announData.objects =='Квартира в Новостройке'" class="room">
                      
                      <p>Жилая площадь</p>
-                     <div :style="!apartmentParams.liveArea ?'border:1px solid red;':''" class="input-area form-control">
-                         <input @input="verfied" v-model="apartmentParams.liveArea" type="text" v-maska data-maska="####">
+                     <div :style="!announData.liveArea || mooreArea ?'border:1px solid red;color:red':'border-color:green;color:green'" class="input-area form-control">
+                         <input @input="verfied" v-model="announData.liveArea" type="text" v-maska data-maska="####">
                          <div>м<sup class="text-[10px]">2</sup></div>
                      </div>
                     </div>
                  </div>
              </div>
-             <div v-if="announData[0].objects == 'Квартира' || announData[0].objects == 'Комната'" class="area-room-container mt-5">
+             <div v-if="announData.objects == 'Квартира' || announData.objects == 'Комната' || announData.objects =='Квартира в Новостройке'" class="area-room-container mt-5">
                  <div class="area-room">
                      <div class="room">
                      <p>Кухня</p>
-                     <div :style="!apartmentParams.kitchenArea ?'border:1px solid red;':''" class="input-area form-control">
-                         <input @input="verfied" v-model="apartmentParams.kitchenArea" type="text" v-maska data-maska="####">
+                     <div :style="!announData.kitchenArea || mooreArea ?'border:1px solid red; color:red;':'border-color:green; color:green'" class="input-area form-control">
+                         <input @input="verfied" v-model="announData.kitchenArea" type="text" v-maska data-maska="####">
                          <div>м<sup class="text-[10px]">2</sup></div>
                      </div>
                     </div>
@@ -103,7 +103,7 @@
                      <label for="link-video">
                          Ссылка на Youtube
                      </label>
-                     <textarea v-model="apartmentParams.linkvideo" class="font-monospace"  id="link-video" rows="1" placeholder="https://"></textarea>
+                     <textarea v-model="announData.linkvideo" class="font-monospace"  id="link-video" rows="1" placeholder="https://"></textarea>
                  </div>
              </div>
              <div class="container mt-4 mb-2 d-flex justify-content-end">
@@ -122,9 +122,10 @@
 
 
 const {announData} = getData()
-const apartmentParams = ref({})
-const apartmentParams1 = ref({})
+announData.value = JSON.parse(localStorage.getItem('announ')) || {}
+
 const mooreArea = ref(false)
+const quantityRooms = ref(0)
 const generalArea = ref('')
 const liveArea = ref('')
 const kitchenArea = ref('')
@@ -132,42 +133,62 @@ const videoLink = ref('')
 
 
 function quantityRoom (event){
- apartmentParams.value.quantityRoom = parseInt(event.target.dataset.name)
+ quantityRooms.value = announData.value.quantityRoom = parseInt(event.target.dataset.name)
+ localStorage.setItem('announ',JSON.stringify(announData.value))
 }
 
 function verfied(){
+    if (announData.value.liveArea) {
+        announData.value.liveArea = parseInt(announData.value.liveArea);
+    }
+    if (announData.value.generalArea) {
+        announData.value.generalArea = parseInt(announData.value.generalArea);
+    }
+    if (announData.value.kitchenArea) {
+        announData.value.kitchenArea = parseInt(announData.value.kitchenArea);    
+    }
+        
         if (
-            parseInt(apartmentParams.value.liveArea) 
-            + parseInt(apartmentParams.value.kitchenArea) 
-            > parseInt(apartmentParams.value.generalArea)
-            || parseInt(apartmentParams.value.generalArea) 
-            < parseInt(apartmentParams.value.kitchenArea)
-            || parseInt(apartmentParams.value.liveArea) 
-            > parseInt(apartmentParams.value.generalArea) 
+            parseInt(announData.value.liveArea) 
+            + parseInt(announData.value.kitchenArea) 
+            > parseInt(announData.value.generalArea)
+            || parseInt(announData.value.generalArea) 
+            < parseInt(announData.value.kitchenArea)
+            || parseInt(announData.value.liveArea) 
+            > parseInt(announData.value.generalArea) 
             ) {
             mooreArea.value = true
         }else {
             mooreArea.value = false
         }
+        localStorage.setItem('announ', JSON.stringify(announData.value))    
     }
 
 function next(){
- announData.value[0] = JSON.parse(localStorage.getItem('announ'))[0]
- announData.value[1] = JSON.parse(localStorage.getItem('announ'))[1]
- announData.value[2] = apartmentParams.value
- localStorage.setItem('announ', JSON.stringify(announData.value))
- 
-
- if (announData.value[0].objects == 'Участок') {
+ if (announData.value.objects == 'Участок') {
     navigateTo('/technicsandfurniture')
- }else{
-    navigateTo('/feature')
  }
-
- if (parseInt(apartmentParams.value.liveArea) + parseInt(apartmentParams.value.kitchenArea) > parseInt(apartmentParams.value.generalArea)) {
-    navigateTo('/pictures')
-    announData.value[2] = ''
-    localStorage.setItem('announ', JSON.stringify(announData.value))
+ if (announData.value.objects == 'Дом/Дача' || announData.value.objects == 'Коттедж'|| announData.value.objects == 'Часть дома'||announData.value.objects == 'Дом') {
+    navigateTo('/technicsandfurniture')
+    
+ }
+ if (announData.value.objects == 'Квартира'||announData.value.objects == 'Комната'||announData.value.objects == 'Квартира в Новостройке') {
+     if (
+        !announData.value.liveArea 
+        ||
+        !announData.value.kitchenArea
+        ||
+        !announData.value.generalArea
+        ||
+        announData.value.liveArea + announData.value.kitchenArea > announData.value.generalArea
+        || !announData.value.quantityRoom
+           ) {
+            console.log(announData.value.objects);
+        navigateTo('/pictures')
+     }else{
+        localStorage.setItem('announ', JSON.stringify(announData.value))
+        navigateTo('/feature')
+     }
  }
 }
 function prew(){
@@ -176,66 +197,8 @@ function prew(){
 
 const router = useRouter()
 onMounted(()=>{
-    if (!announData.value[1]) {
-    router.push('/announ')
-    }
-    announData.value[0] = JSON.parse(localStorage.getItem('announ'))[0]
- if (JSON.parse(localStorage.getItem('announ'))[2]) {
-     apartmentParams.value = JSON.parse(localStorage.getItem('announ'))[2];
- }else{
-     apartmentParams.value = apartmentParams1.value
- }
-
- 
 })
 
-
-
-// function change(event){
-//  const file =  document.querySelector('.choose-picture > input')
-//  file.click()
-//  console.log(file.files);
-// }
-//     const pictures = ref([])
-// function sendPictures(event){
-//  const file =  document.querySelector('.choose-picture > input')
-//  const files = Array.from(file.files)
-//  if (!files.length) {
-//     return
-//  }
-//  const form = document.querySelector('#forms')
-//  const FormD = new FormData(form);
-//     FormD.append(`images[]`,files)
-
-//     imageLoader.value = true
-//    await fetch('http://192.168.0.116:8000/api/upload-image',{
-//         method:'post',
-//         body:FormD
-//    }).then(res=>{
-//     if (res.ok) {
-//         console.log('Картинки успешно отправлены на сервер');
-//     }else{
-//         console.log('Произошла ошибка при отправке картинок');
-//     }
-//     return res.json()
-//    })
-//    .then(r=>{
-//     r.forEach(file => {
-//        images.value.push(file)
-//        localStorage.setItem('images',JSON.stringify(images.value))
-//     });
-//     imageLoader.value = false
-// })
-
-   
- 
-// }
-
-
-function removeImg(img,picture){
-    picture.splice(picture.indexOf(img),1)
-    localStorage.setItem('images',JSON.stringify(picture))
-}
 
 </script>
 

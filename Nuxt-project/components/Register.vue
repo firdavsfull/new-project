@@ -16,41 +16,84 @@
         class="w-full h-[max-content] mb-[24px] text-center mt-[20px] mx-[auto]"
       >
         <h3
+        v-if="!sendDataUSer"
           style="white-space: wrap"
           class="text-[#152242] text-[22px] font-bold"
         >
           Войти или<br />
           зарегистрировать
         </h3>
+        <h3
+        v-if="sendDataUSer"
+          style="white-space: wrap"
+          class="text-[#152242] text-[20px] font-bold"
+        >
+          Подтверждение входа
+        </h3>
+        <span v-if="sendDataUSer" class="text-[14px] mt-[5px]">
+          <div>Подтвердите номер телефона</div> 
+        <div>{{tel.phone}} введите код из смс</div>
+        <div @click="change"><a style="text-decoration:none;" class="text-primary">Изменить номер</a></div>
+        </span>
       </div>
       <form class="w-[80%] h-[max-content] flex flex-col mx-auto">
         <input
+          v-if="!sendDataUSer"
           v-maska
           data-maska="+(992) ##-###-##-##"
           v-model="tel.phone"
           class="form-control"
           type="text"
+          style="box-shadow:none;"
           placeholder="phone"
         />
+        <input
+        v-if="sendDataUSer"
+          v-maska
+          v-model="verified"
+          @input="getCode"
+          data-maska="******"
+          class="form-control text-[20px]"
+          type="text"
+          style="box-shadow:none;"
+          placeholder="Код"
+        />
+        <span style="text-decoration:none;" v-if="time" class="text-center decoration-0 text-[silver] mt-[6px] text-[13px]">Отправить код повторно через <b>{{time}}</b> сек.</span>
+        <a style="text-decoration:none;" v-if="!time && sendDataUSer" @click.prevent="createUser" class="text-center text-primary mt-[6px] text-[13px]">Отправить код повторно</a>
         <button
+        v-if="sendDataUSer"
+          @click.prevent
+          style="font-family: Lato, Arial, sans-serif"
+          class="mt-[25px] bg-primary text-white py-[5px] rounded-1 flex justify-center h-[40px] text-[rgba(13,110,253,1)] py-[6px] items-center"
+          id="continue"
+          :style="verified.length === 6 ?'opacity:0.5;':'opacity:1;'"
+          >
+        <span v-if="!loader">Продолжить</span> 
+          
+          <div v-if="loader" class="spinner-border" role="status">
+            <span class="sr-only">Loading...</span>
+          </div>
+        </button>
+        
+        <button
+        v-if="!sendDataUSer"
           @click.prevent="createUser"
           :class="tel.phone.length >= 19 ? 'bg-primary text-white py-[5px]' : 'bg-light'"
           style="font-family: Lato, Arial, sans-serif"
           class="mt-[10px] rounded-1 flex justify-center h-[40px] text-[rgba(13,110,253,1)] py-[6px] items-center"
         >
           <span v-if="!loader">Получить код</span> 
-          <!-- <span v-if="loader" class="spinner-btn" style="color: white;">
-            <span class="spinner"></span>
-          </span> -->
           
           <div v-if="loader" class="spinner-border" role="status">
             <span class="sr-only">Loading...</span>
           </div>
-
         </button>
+        
         <button
+        v-if="!sendDataUSer"
           style="font-family: Lato, Arial, sans-serif"
           class="btn-light text-primary btn mt-[10px]"
+          @click.prevent
         >
           Другим способом
         </button>
@@ -79,21 +122,25 @@ input::-webkit-inner-spin-button {
 </style>
 <script setup>
 const loader = ref(false);
-const { responce } = getData();
+const { responce,direction } = getData();
 const { showMadoal,active } = useSwitch();
+const verified = ref('')
 function hideModal() {
   const { showMadoal, active } = useSwitch();
   document.body.style.overflow = "scroll";
   tel.value = "";
   showMadoal.value = false;
 }
+const sendDataUSer = ref(false)
 
 const tel = ref({
   phone: "(992)",
 });
+let time = ref(0)
 async function createUser() {
   loader.value = true;
-  if (tel.value.phone && tel.value.phone.length >= 9) {
+  verified.value =''
+  if (tel.value.phone.length >= 19) {
     await fetch("http://192.168.0.116:8000/api/create_user", {
       method: "post",
       headers: {
@@ -105,21 +152,73 @@ async function createUser() {
     })
       .then((res) => {
         if (res.ok) {
-          window.location.replace('personal_area/profile')
-          active.value = false
+          time.value = 59
+          // window.location.replace(direction.value)
+          // active.value = false
+          sendDataUSer.value = true
+          let timer = setInterval(()=>{
+          time.value--;
+          if (time.value < 1) {
+            // sendDataUSer.value = false;
+            clearInterval(timer); // Остановка таймера, когда time.value достигает 0
+            timer = null; // Сброс таймера
+          }
+          },1000)
+        } else{
+          sendDataUSer.value = false
+        }
+        return res.json();
+      })
+      .then((res) => {
+        // console.log(res);
+        setTimeout(()=>{
+          verified.value = res[0]
+          responce.value = res[1];
+        localStorage.setItem("token", JSON.stringify(responce.value));
+        },3000)
+      });
+  }
+  // else{
+  //   showMadoal.value = false
+  // }
+  // tel.value.phone = "";
+  loader.value = false;
+}
+async function getCode(){
+  if (verified.value.length === 6) {
+  loader.value = true;
+    await fetch("http://192.168.0.116:8000/api/verify-user", {
+      method: "post",
+      headers: {
+        "Content-type": "application/json",
+      },
+      body: JSON.stringify({
+        code: parseInt(verified.value),
+        phone:tel.value.phone.replace(/[^0-9]/g, "").slice(3, 12),
+      }),
+    })
+      .then((res) => {
+        if (res.ok) {
+          window.location.replace(direction.value)
         }
         return res.json();
       })
       .then((res) => {
         
-        showMadoal.value = false;
+        // showMadoal.value = false;
         responce.value = res;
         localStorage.setItem("owner", JSON.stringify(responce.value));
+        
       });
-  }
-  tel.value.phone = "";
   loader.value = false;
+  }
 }
+  function change(){
+    sendDataUSer.value = false
+    time.value = 1
+    tel.value.phone = '+(992)'
+  }
+// }
 </script>
 <style scoped>
 .button {

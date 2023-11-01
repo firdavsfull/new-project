@@ -92,20 +92,22 @@
     const route = useRoute()
     const router = useRouter()
     const {isShow, toggleShow, active,showMadoal} = useSwitch();
-    const {responce} = getData()
+    const {responce,direction} = getData()
     responce.value = JSON.parse(localStorage.getItem('owner')) || []
-    const data = responce.value[1] || {}
+    const data = responce.value[0] || {}
     
     function showAndHide(){
-     if (data.phone_number) {
-         window.location.replace('/announ')
-         localStorage.removeItem('announ')
+        if (data.phone_number) {
          isShow.value = false
+        //  window.location.replace('/announ')
+        navigateTo('/announ')
+         localStorage.removeItem('announ')
      }else{
-        showMadoal.value = true
+         showMadoal.value = true
+        direction.value = '/announ'
      }
     
-        }       
+}       
  function isActive(){
      if(!active.value){
         active.value = true;
@@ -144,6 +146,7 @@ function handleSize(){
 onMounted(()=>{
     window.addEventListener('resize', handleSize)
     handleSize()
+    isShow.value = false
 })
 
 onUpdated(()=>{
@@ -162,29 +165,46 @@ function logOut(){
 }
 
 function message(){
-    navigateTo(('personal_area/message'))
-    document.body.style.overflow = 'auto'
-    isShow.value = false
+    if (data.phone_number) {
+        navigateTo(('/personal_area/message'))
+        document.body.style.overflow = 'auto'
+        isShow.value = false
+    }else{
+        showMadoal.value = true
+        direction.value = '/personal_area/message'
+    }
 }
 function favorite(){
-    navigateTo('personal_area/favorite')
-    document.body.style.overflow = 'auto'
-    isShow.value = false
+    if (data.phone_number) {
+        navigateTo('/personal_area/favorite')
+        document.body.style.overflow = 'auto'
+        isShow.value = false
+    }else{
+        showMadoal.value = true
+        direction.value = '/personal_area/favorite'
+    }
 }
 
 function notification(){
-    navigateTo('personal_area/notification') 
-    document.body.style.overflow = 'auto'
-    isShow.value = false
+    if (data.phone_number) {
+        navigateTo('/personal_area/notification') 
+        document.body.style.overflow = 'auto'
+        isShow.value = false
+    }else{
+        showMadoal.value = true
+        direction.value = '/personal_area/notification'
+    }
 }
 function showModalWindow(){
     const {active,showMadoal} = useSwitch()
     document.body.style.overflow ='hidden';
+    direction.value = '/personal_area/profile'
     showMadoal.value = true
 }
 
 function Home(){
     window.location.replace('/')
+    // navigateTo('/')
 }
 </script>
 
