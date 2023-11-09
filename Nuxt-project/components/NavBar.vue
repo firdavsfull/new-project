@@ -199,7 +199,7 @@ function showModalWindow(){
     const {active,showMadoal} = useSwitch()
     document.body.style.overflow ='hidden';
     direction.value = '/personal_area/profile'
-    showMadoal.value = true
+    showMadoal.value = true 
 }
 
 function Home(){
@@ -225,13 +225,14 @@ function Home(){
     z-index: 101;
     top: 0;
     visibility: visible;
-    overflow-y:auto ;
+    overflow-y:auto;
     transition: left .5s ease;
 }
 
  .active{
         left: -110%;
         color: white;
+        overflow-y:scroll;
     }
     .no-active{
         left: 0;

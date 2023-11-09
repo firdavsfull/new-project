@@ -21,7 +21,7 @@
     </div>
 </template>
 <script setup>
-const {typeObject} = getData ()
+const {typeObject} = getData()
 const commercial = ref([
     {name:'Офис'},
     {name:'Склад'},

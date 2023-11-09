@@ -3,10 +3,12 @@
 use App\Http\Controllers\CreateAnnounController;
 use App\Http\Controllers\CreateOwnerController;
 use App\Http\Controllers\createPictureController;
+use App\Http\Controllers\deleteAnnounController;
 use App\Http\Controllers\FilterController;
 use App\Http\Controllers\getAnnounController;
 use App\Http\Controllers\getDataController;
 use App\Http\Controllers\getImageController;
+use App\Http\Controllers\UpdateAnnounController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -30,11 +32,16 @@ Route::group(['middleware' => 'auth:sanctum'], function(){
     Route::post('/avatar',[getImageController::class,'getAvatar']);
     Route::post('/get_user',[CreateOwnerController::class,'getUser']);
     Route::post('/get_announs_by_user',[CreateAnnounController::class,'getAnnounByUser']);
+    Route::post('/delete-announ',[deleteAnnounController::class,'deleteAnnoun']);
+    Route::post('/update-announ',[UpdateAnnounController::class,'updateAnnoun']);
+    Route::post('/restore',[UpdateAnnounController::class,'restoreData']);
 });
 
 Route::get('/avatar/{name}',function($name){
     return response()->download(public_path("avatar/$name",));
 });
+
+Route::post('/get-data-info',[UpdateAnnounController::class,'getDataInfo']);
 Route::post('/get_user_with_announ',[CreateOwnerController::class,'getOwnerFromAnnoun']);
 Route::post('/get_announs',[CreateAnnounController::class,'getAnnouns']);
 Route::get('/get_data',[getAnnounController::class, 'getData']);

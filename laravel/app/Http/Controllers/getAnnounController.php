@@ -17,12 +17,18 @@ class getAnnounController extends Controller
         $pictures = Pictures::where('position','<',1)->get();
         
         $announ = Announ::join('pictures','announs.id', 'pictures.announ_id')
+        ->withTrashed()
         ->where('pictures.position', 0)
         ->select('announs.*')
         ->get();
         $allData = [];
         for ($i=0; $i < count($pictures); $i++) { 
-            $announ[$i]['image'] = $pictures[$i]['pictures'];
+            $announ[$i]['image'] = $pictures[$i]['pictures'] ??'deafault.jpg';
+            // if ($picture[$i] == null) {
+            //     $picture[$i] = [
+            //         'pictures'=>'deafault.jpg'
+            //     ];
+            // }
             $allData[] =  $announ[$i];
         }
         return $allData;

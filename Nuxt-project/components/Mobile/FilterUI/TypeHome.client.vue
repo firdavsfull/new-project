@@ -105,7 +105,11 @@ const props = defineProps({
     if (event.target.name == "check") {
       choose.value = event.target.dataset.name
       props.filter.typeObject = choose.value;
-      props.filter.buildingType = []
+      if (props.filter.dealType == 'Продажа'&&choose.value == 'Квартира') {
+      props.filter.buildingType = ['Квартира','Квартира в Новостройке']
+      }else{
+        props.filter.buildingType = []
+      }
       sessionStorage.setItem('filter', JSON.stringify(props.filter));
       if (props.filter.typeObject.length && props.filter.typeObject.indexOf('Квартира') !== -1) {
         props.uploadQuantityRoom(true)

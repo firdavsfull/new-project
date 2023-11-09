@@ -241,43 +241,6 @@ await fetch("http://192.168.0.116:8000/api/create/announ", {
     });
     loading.value = false;
     event.target.disabled = false
-
-  // await fetch("http://192.168.0.116:8000/api/upload-image", {
-  //   method: "post",
-  //   headers:{
-  //     Authorization:'Bearer '+JSON.parse(localStorage.getItem('owner'))[0] 
-  //   },
-  //   body: formD,
-  // })
-  //   .then((res) => {
-  //     return res.json();
-  //   })
-  //   .then((res) => {
-  //     for (let i = 0; i < images.value.length; i++) {
-  //       // images.value[i].name = res[i].name;
-  //       console.log(res);
-  //     }
-  //   });
-    
-
-  // await fetch("http://192.168.0.116:8000/api/save-pictures", {
-  //   method: "post",
-  //   headers: {
-  //     "content-Type": "application/json",
-  //     Authorization:'Bearer '+JSON.parse(localStorage.getItem('owner'))[0] 
-  //   },
-  //   body: JSON.stringify({ image: images.value }),
-  // })
-  //   .then((res) => {
-  //     if (res.ok) {
-  //       navigateTo("/personal_area/my_announ");
-  //     }
-  //     return res.json();
-  //   })
-  //   .then((res) => console.log(res));
-  // loading.value = false;
-  // event.target.disabled = false
-  // }
   }
   }
 

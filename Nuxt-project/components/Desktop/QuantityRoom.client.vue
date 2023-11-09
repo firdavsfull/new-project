@@ -10,7 +10,7 @@
     </div>
 </template>
 <script setup>
-const filter = JSON.parse(sessionStorage.getItem('filter'))||{}
+const filter = JSON.parse(sessionStorage.getItem('filter')) || {}
 const quantityRooms = ref([
     {value:1},
     {value:2},
@@ -19,13 +19,13 @@ const quantityRooms = ref([
     {value:5},
 ])
 
-const { quantityRoom,priceFrom,priceTo } = getData()
+const { quantityRoom, priceFrom, priceTo } = getData()
 function selectQuanitityRoom(room){
-    if (event.target.checked) {
+    if (event.target.checked ) {
         quantityRoom.value.push(room.value)
         filter.quantityRoom = quantityRoom.value;
-        filter.priceFrom = priceFrom.value
-        filter.priceTo = priceTo.value
+        // filter.priceFrom = priceFrom.value
+        // filter.priceTo = priceTo.value
     }
     if (!event.target.checked) {
         quantityRoom.value.splice(quantityRoom.value.indexOf(room.value), 1)
@@ -33,11 +33,14 @@ function selectQuanitityRoom(room){
         
     sessionStorage.setItem('filter',JSON.stringify(filter)) 
 }
+
+
 onMounted(()=>{
     setTimeout(() => {
         const items = document.querySelectorAll('.room')
-        items.forEach(item=>{
+        if (filter.quantityRoom) {
             quantityRoom.value = filter.quantityRoom 
+            items.forEach(item=>{
             filter.quantityRoom.forEach(el=>{
                 // quantityRoom.value.push(el)
                 if (parseInt(item.nextSibling.textContent) == el) {
@@ -45,6 +48,10 @@ onMounted(()=>{
                 }
             })
         })
+        }else{
+            quantityRoom.value = []
+        }
+        
     });
 })
 </script>

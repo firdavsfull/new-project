@@ -25,21 +25,21 @@ class CreateOwnerController extends Controller
         $today = Carbon::now();
         $today->format('Y-m-d H:i:s');
 
-        // Генерация верификационного кода
         $verificationCode = strval(random_int(100000, 999999));
-        // // Сохранение номера телефона и верификационного кода в базе данных
         $owner = Owner::firstOrCreate([
             'phone_number' => $phone,
         ]);
         $token = $owner->createToken('user');
         $owner->where('phone_number',$phone)
         ->update(['verification_code' => $verificationCode]);
-
-        // $token = $owner->createToken('user');
-        // return [$owner,$token];
-
-        // return $today->format('i')-($today->format('i')-1); 
-        // response()->json(['message' => 'Неправильный верификационный код.']);
+        //  if ($owner->created_at < Carbon::now()->subMinutes(1)) {
+        //     $owner->update([
+        //         'verification_code'=>null,
+        //     ]);
+        //     return [$owner->created_at,$token->plainTextToken];
+        //  }
+        //  $owner->where('created_at', '<', Carbon::now()->subMinutes(1))->update(['verification_code'=> null]);
+        //  update(['verification_code'=>null]);
         return [$verificationCode,$token->plainTextToken];
     }
     public function verifyUser(Request $request){
@@ -58,6 +58,7 @@ class CreateOwnerController extends Controller
                 'birth_date'=>$request->date
                 ]
              );
+            
             return $owner;
     }
 

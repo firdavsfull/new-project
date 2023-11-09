@@ -16,6 +16,7 @@ return new class extends Migration
             $table->integer('condition_id');
             $table->integer('announ_id');
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

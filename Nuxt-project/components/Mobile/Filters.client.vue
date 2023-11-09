@@ -692,7 +692,11 @@ async function check(item) {
   if (buttonText === 'Купить') {
     filter.value.dealType ='Продажа'
     filter.value.buildingType = ['Квартира','Квартира в Новостройке']
-    filter.value.typeObject == 'Квартира'
+    // filter.value.typeObject = 'Квартира'
+    if (filter.value.typeObject !== 'Квартира') {
+      filter.value.buildingType = []
+      
+    }
   }
   if (buttonText === 'Снять')
   {

@@ -15,8 +15,12 @@ export default function getData(){
     const quantityRoom = useState('quantityRoom',()=>[])
     const priceFrom = useState('priceFrom',()=>'')
     const priceTo = useState('priceTo',()=>'')
+    const typeDeal = useState('typeDeal',()=>'')
+    const updateAnnounData = useState('updateAnnounData',()=>{})
      
     return{
+        updateAnnounData,
+        typeDeal,
         priceFrom,
         priceTo,
         quantityRoom,

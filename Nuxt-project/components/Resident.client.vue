@@ -4,15 +4,11 @@
             <div style="margin-top:10px" >
                 <ul class="form-check" style="paddong:0;" >
                     <li style="list-style:none; padding:4px 0; margin:0; " >
-                        <label v-if="filter.dealType == 'Продажа'" for="check1" class="my-[5px] form-check-label">
+                        <label v-if="typeDeal == 'Продажа'" for="check1" class="my-[5px] block form-check-label">
                             <input :checked="typeObject == 'Квартира в новостройке'" @change="selectTypeResident" class="form-check-input" id="check1" name="radio" type="radio" style="box-shadow:none;">
                             <span style="font-size:15px; font-weight:normal;">Квартира в новостройке</span>
                         </label>
-                        <label v-if="filter.dealType == 'Продажа'" for="check2" class="my-[5px] block">
-                            <input :checked="typeObject == 'Квартира'" @change="selectTypeResident" id="check2" class="form-check-input" name="radio" type="radio" style="box-shadow:none;">
-                            <span style="font-size:15px; font-weight:normal;">Квартира</span>
-                        </label>
-                         <label v-if="filter.dealType == 'Аренда'" for="check2" class="my-[5px] ">
+                        <label for="check2" class="my-[5px] block">
                             <input :checked="typeObject == 'Квартира'" @change="selectTypeResident" id="check2" class="form-check-input" name="radio" type="radio" style="box-shadow:none;">
                             <span style="font-size:15px; font-weight:normal;">Квартира</span>
                         </label>
@@ -33,7 +29,7 @@
                 <div class="form-check" style="paddong:0;">
                     <div class="flex flex-col" style="list-style:none; padding:4px 0">
                         <label v-for="(home,index) of house" :key="index" :for="`checks${index}`" class="mt-[5px]">
-                            <input :checked="typeObject == home.name" @change="selectTypeResident" :id="`checks${index}`" class="form-check-input" name="radio" type="radio" style="box-shadow:none;">
+                            <input :checked="typeObject == home.name" @change="selectTypeResident(home)" :id="`checks${index}`" class="form-check-input" name="radio" type="radio" style="box-shadow:none;">
                             <span style="font-size:15px; font-weight:normal;">{{ home.name }}</span>
                             <!-- <p>{{ typeHome[index] }}</p> -->
                         </label>
@@ -44,23 +40,39 @@
     </div>
 </template>
 <script setup>
-const {typeObject} = getData()
+const {typeObject,typeDeal,quantityRoom} = getData()
 
-typeObject.value = JSON.parse(sessionStorage.getItem('filter')).typeObject || ''
-const filter = JSON.parse(sessionStorage.getItem('filter')) || {}
+if (!typeObject.value) {
+    typeObject.value = JSON.parse(sessionStorage.getItem('filter')).typeObject
+}
+// if (!typeDeal.value) {
+//     typeDeal.value = JSON.parse(sessionStorage.getItem('filter')).dealType
+// }
+
+
+let filter = JSON.parse(sessionStorage.getItem('filter'))
+//  
 const house = ref([
     {name:'Дом/Дача', checked:false},
-    {name:'Часть дома', checked:false},
+    {name:'Коттедж', checked:false},
     {name:'Участок', checked:false},
 ]);
 let typeHome = ref([])
-function selectTypeResident(event){
+function selectTypeResident(home){
     if (event.target.checked) {
+        typeObject.value = event.target.nextSibling.textContent.trim()
+        if (typeObject.value == 'Дом/Дача'||typeObject.value == 'Коттедж'||typeObject.value == 'Участок') {
+            filter.quantityRoom = []
+        }else{
+            filter.quantityRoom = quantityRoom.value
+        }
+            filter.typeObject = typeObject.value
+            sessionStorage.setItem('filter',JSON.stringify(filter))
+        // filter.dealType = typeDeal.value
     }
-    if (!event.target.checked) {
-        typeHome.value.splice(typeHome.value.indexOf(event.target.nextSibling.textContent),1)
-    }
-    filter.typeObject = typeObject.value = event.target.nextSibling.textContent.trim()
-    sessionStorage.setItem('filter',JSON.stringify(filter))
+    // if (!event.target.checked) {
+    //     typeHome.value.splice(typeHome.value.indexOf(event.target.nextSibling.textContent),1)
+    // }
+    // console.log(filter.typeObject);
 }
 </script>

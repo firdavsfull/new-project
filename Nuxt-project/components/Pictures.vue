@@ -70,9 +70,9 @@
             <img
               :style="`transform: rotate(${img.rotation}deg); object-fit:cover;` "
               :data-id="index"
-              class="picture left-[0] absolute z-[1] top-[0] w-full h-full"
-              :src="img.url"
-              alt="img"
+              class="picture left-[0] absolute text-[white] z-[1] top-[0] w-full h-full"
+              :src="img.url?img.url:`http://192.168.0.116:8000/api/image/large/${img.pictures}`"
+              :alt="img.url"
             />
         </div>
         </div>
@@ -81,14 +81,20 @@
   </form>
 </template>
 <script setup>
+const props = defineProps({
+  image:{
+    type:Array,
+    required:true
+  }
+})
 
 function change(event) {
   const file = document.querySelector(".choose-picture > input");
   file.click();
 }
 const pictures = ref([]);
-const formD = ref(new FormData());
 const {images, isUpload} = getData()
+const formD = ref(new FormData());
 const size = ref([])
 function saveImages(e) {
   const files = e.target.files;
@@ -128,7 +134,12 @@ function saveImages(e) {
   }
 
 
-  
+  setTimeout(()=>{
+  if (props.image.length) {
+    pictures.value = props.image
+    images.value = props.image
+  }
+},1000)
 const update_formdate = () => {
   formD.value = new FormData()
   for (let i = 0; i < pictures.value.length; i++) {

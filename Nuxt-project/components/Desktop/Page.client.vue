@@ -14,10 +14,10 @@
                             Если недвижимость, то Циан
                         </div>
                         <ul class="list flex m-0 p-0 list-none">
-                            <li :class="filter.dealType == type.value ? 'select' : '' " @click="isActive(type)" v-for="type of dealType" :key="type.name" class="cursor-pointer font-bold bg-black/40"  style="padding: 9px 16px 16px; margin-bottom:-8px; border-radius:4px 4px 0 0;" >{{ type.name }}</li>
+                            <li :class="filter.dealType == type.value ? 'select' : '' " @click="isActive(type)" v-for="type of dealType" :key="type.name" class="cursor-pointer font-bold bg-black/40 items"  style="padding: 9px 16px 16px; margin-bottom:-8px; border-radius:4px 4px 0 0;" >{{ type.name }}</li>
                         </ul>
 
-                        <div  class="flex relative w-[100%]  rounded-lg bg-white" style=" height:60px; box-shadow: 0 10px 20px 0 rgba(0,0,0,.1)">
+                        <div class="flex relative w-[100%] rounded-lg bg-white" style=" height:60px; box-shadow: 0 10px 20px 0 rgba(0,0,0,.1)">
                             <div  class="flex w-full">
                                 <div class="form-select relative hover:bg-sky-100" style="height:100%; border-right:1px solid #f4f4f4; min-width:140px; max-width:316px;">
                                     <button @click="showCategory" class="text-btn truncate" style="border-top-left-radius:8px; line-height:1.22; border-bottom-left-radius: 8px;">
@@ -43,7 +43,7 @@
 
 
                                 <div class="form-select quantity-room relative hover:bg-sky-100"  style="height:100%; border-right:1px solid #f4f4f4; min-width:140px; max-width:316px;">
-                                    <button @click="showQuantity" class="text-btn">комнат</button>
+                                    <button @click="showQuantity" class="text-btn truncate">{{quantityRoom.join('-')+' комнать'}}</button>
                                     <DesktopQuantityRoom v-if="showQuan"/>
                                 </div>
 
@@ -52,10 +52,10 @@
                                     <DesktopPrice v-if="showP"/>
                                 </div>
 
-                                <div style="flex:1 0 380px ;">
+                                <div style="flex:1 0 380px;border-left:1px solid silver" >
                                     <div class="relative ">
                                         <div class="relative">
-                                            <input @input="getCity" v-model="city"  @click="search" class="addres border text-[16px] overflow-hidden" type="text" maxlength="255" autocomplete="off" placeholder="Город, адрес, район, улица и др.">
+                                            <input @input="getCity" v-model="city"  @click="search" class="addres text-[16px] overflow-hidden" type="text" maxlength="255" autocomplete="off" placeholder="Город, адрес, район, улица и др.">
                                         </div>
                                     </div>
                                 </div>
@@ -456,11 +456,13 @@
     
 </template>
 <script setup>
+    const {typeObject,quantityRoom, direction } = getData()
     const filter = JSON.parse(sessionStorage.getItem('filter')) || {}
     
     filter.dealType = 'Продажа'
+    filter.typeObject = 'Квартира в новостройке'
+    filter.quantityRoom = []
     sessionStorage.setItem('filter',JSON.stringify(filter))
-    const {typeObject} = getData()
     typeObject.value = JSON.parse(sessionStorage.getItem('filter')).typeObject || ''
 const dealType = ref([
     {name:'Купить', value:"Продажа"},
@@ -478,15 +480,23 @@ const dealType = ref([
 const showCat = ref(false)
 const showQuan = ref(false)
 function isActive(type){
-    const lists = document.querySelectorAll('.list-none > li');
+    const lists = document.querySelectorAll('.list-none > .items');
     lists.forEach((item)=>{
         if (item.textContent == type.name) {
             item.classList.add('select')
             showQuan.value = showCat.value = showP.value = false
-        } else item.classList.remove('select')
+        } else {
+            item.classList.remove('select')
+        }
+        if (type.name == 'Разместить объявление') {
+                const {active,showMadoal} = useSwitch()
+                document.body.style.overflow ='hidden';
+                direction.value = '/announ'
+                showMadoal.value = true 
+                localStorage.removeItem('announ')
+        }
     })
     filter.dealType = type.value
-    filter.typeObject 
     sessionStorage.setItem('filter',JSON.stringify(filter))
 }
 function showCategory() {
@@ -535,7 +545,6 @@ function search(){
 function getCity(){
     filter.city = city.value
     sessionStorage.setItem('filter', JSON.stringify(filter))
-    console.log(filter.city);
 }
 
 const {isShow} = useSwitch() 
@@ -543,6 +552,9 @@ function next(){
     window.location.replace('/list')
     isShow.value = false
 }
+onMounted(()=>{
+    city.value = filter.city
+})
 </script>
 
 

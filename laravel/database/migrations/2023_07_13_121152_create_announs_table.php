@@ -52,6 +52,7 @@ return new class extends Migration
             $table->string('allowKids')->default('нет');
             $table->string('allowAnimal')->default('нет');
             $table->integer('owner_id')->nullable();
+            $table->softDeletes();
             $table->timestamps();
         });
     }

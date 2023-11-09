@@ -33,7 +33,7 @@
                 <div>
                     <div class="dropdown">
                     <button class="btn w-[max-content] border" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
-                        {{ typeDeal == 'Продажа'?'Купить':typeDeal == 'Аренда'?'Снять':typeDeal == 'Посуточно'?'Посуточно':'' }}
+                        {{ typeDeal == 'Продажа'?'Купить':typeDeal == 'Аренда'?'Снять':typeDeal == 'Посуточно'?'Посуточно':'Купить' }}
                     </button>
                     <ul class="dropdown-menu border-0" aria-labelledby="dropdownMenuButton1" style="box-shadow:0 0 10px silver;">
                         <li  v-for="(type,i) of dealType" :key="i" :style="type.value == filteredData.dealType ?'background: rgb(0, 102, 255); color:white':''" @click="selectDealType(type)">
@@ -54,10 +54,14 @@
                     </div>
                     </div>
                 </div>
-                <div class="ml-[10px]" v-if="filteredData.typeObject == 'Квартира'||filteredData.typeObject == 'Комната'||filteredData.typeObject == 'Квартира в новостройке'">
+                <div class="ml-[10px]" v-if="typeObject == 'Квартира' || typeObject == 'Комната' || typeObject == 'Квартира в новостройке'">
                     <div class="dropdown" >
                     <button class="btn border" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
-                        Комнатность
+                        <!-- <span v-for="(qtRoom,i) of filteredData.quantityRoom" :key="i">{{ qtRoom }}</span> -->
+                        <span class="truncate">
+                            {{quantityRoom.join('-')}}{{quantityRoom.length?' комнать':''}}
+                        </span>
+                        <span v-if="!quantityRoom.length">Комнатность</span>
                     </button>
                     <ul class="dropdown-menu py-[10px] border-0 ml-[20px] p-0 m-[0]" style="box-shadow:0 0 10px silver;">
                     <DesktopQuantityRoom v-if="filteredData.typeObject == 'Квартира'||filteredData.typeObject == 'Комната'||filteredData.typeObject == 'Квартира в новостройке'" />
@@ -86,7 +90,7 @@
                         <div class="text-[gray]">
                             <font-awesome-icon :icon="['fas', 'magnifying-glass']" />
                         </div>
-                        <input lang="tj" class="w-[100%] px-[5px] border-0 outline-0" placeholder="Адрес или город" type="text">
+                        <input @input="searchCIty" v-model="city" class="w-[100%] px-[5px] border-0 outline-0" placeholder="Адрес, город" type="text">
                     </div>
                 </div>
                 <div class="ml-[10px]">
@@ -186,7 +190,7 @@
                                 <div class="w-[200px] regular-w bg-[silver] h-[max-content] md:d-none mr-[0] h-[100px]" >
                                     <div class="flex flex-col items-center mt-[10px] relative">
                                         <div class="overflow-hidden flex justify-center items-center w-[80px] avatar_image rounded-[5%] h-[80px] bg-[red]">
-                                            <img style="object-fit: cover;" class="w-full h-full bg-[lime]" :src="`http://192.168.0.116:8000/api/avatar/${item.owner && item.owner.avatar ? item.owner.avatar : ''}`" :alt="item.owner && item.owner.name ? item.owner.name : ''">
+                                            <img style="object-fit: cover;" class="w-full h-full bg-[lime]" :src="`http://192.168.0.116:8000/api/avatar/${item.owner && item.owner.avatar ? item.owner.avatar : 'avatar.jpg'}`" :alt="item.owner && item.owner.name ? item.owner.name : ''">
                                         </div>
                                         <div class="mt-[10px] avatar_image">
                                             <h5 class="text-[17px]">{{ item.owner && item.owner.name ? item.owner.name : '' }} {{ item.owner && item.owner.last_name ? item.owner.last_name : '' }}</h5>
@@ -236,20 +240,26 @@
                     </article>
                 </div>
             </div>
-        <MooreFilter v-if="showFIlterModal"/>
+            <MooreFilter :getAnnouns="getAnnouns" v-if="showFIlterModal"/>
         </div>
 </template>
 <script setup>
 const data = ref([])
 const images = ref([])
 const route = useRoute()
-const {responce,showAnnouns,typeObject,quantityRoom,priceFrom,priceTo} = getData()
-const {showNavBar,showMadoal,showFIlterModal} = useSwitch()
+const {responce, showAnnouns, typeObject, quantityRoom, priceFrom, priceTo, typeDeal} = getData()
+const {showNavBar,showMadoal,showFIlterModal,showObject} = useSwitch()
 const announLoader = ref(false)
+const city = ref('')
 const filteredData = JSON.parse(sessionStorage.getItem('filter'))
 function showAnnoun(item){
     navigateTo('/show_announ')
     showAnnouns.value[0] = item
+}
+
+function searchCIty(){
+    filteredData.city = city.value
+    sessionStorage.setItem('filter',JSON.stringify(filteredData))
 }
 
 function filters(){
@@ -258,7 +268,6 @@ function filters(){
         showNavBar.value = false
     }
 }
-
 
 async function getAnnouns(filter){
     showNavBar.value = true
@@ -302,7 +311,7 @@ async function getAnnouns(filter){
         ownerWithAd = res[1]
         // announWithUser = res[0]
     })
-
+    
     for (let i = 0; i < data.value.length; i++) {
         for (let j = 0; j < ownerWithAd.length; j++) { 
             if (data.value[i].owner_id == ownerWithAd[j].id) {
@@ -312,7 +321,6 @@ async function getAnnouns(filter){
 
     }
 }
-
 const dealType = ref([
     {name:'Купить',value:'Продажа'},
     {name:'Снять',value:'Аренда'},
@@ -320,11 +328,19 @@ const dealType = ref([
 
 ])
 
-const typeDeal = ref('');
+
 function selectDealType(item){
+    quantityRoom.value = filteredData.quantityRoom ? filteredData.quantityRoom:[]
+    filteredData.quantityRoom = quantityRoom.value?quantityRoom.value:[]
     filteredData.dealType = typeDeal.value = item.value
     if (item.value == 'Посуточно') {
-        filteredData.dealType = typeDeal.value = 'Аренда'
+        filteredData.dealType = 'Аренда'
+    }
+    if (item.value == 'Купить') {
+        filteredData.typeObject  = 'Квартира в новостройке'
+    }
+    if (item.value == 'Снять') {
+        filteredData.typeObject = 'Квартира'
     }
     sessionStorage.setItem('filter',JSON.stringify(filteredData))
 }
@@ -340,24 +356,28 @@ async function Search(){
 function isShowHideModal(){
     showFIlterModal.value = true
 }
+
+city.value = filteredData.city
  
 onMounted(() =>{
-        getAnnouns(filteredData)
+    getAnnouns(filteredData)
+    window.onscroll = function(event){
+    setTimeout(()=>{
         typeDeal.value = JSON.parse(sessionStorage.getItem('filter')).dealType
-        window.onscroll = function(event){
-        if (route.fullPath == '/list') {
-            const filterEl = document.querySelector('.responce');
-        if(event.target.scrollingElement.scrollTop > 50){
-            filterEl.classList.add('sticky')
-            filterEl.classList.add('top-[0]')
-        }else{
-            filterEl.classList.remove('sticky')
-            filterEl.classList.remove('top-[0]')
+    },2000)
+    if (route.fullPath == '/list') {
+        const filterEl = document.querySelector('.responce');
+    if(event.target.scrollingElement.scrollTop > 50){
+        filterEl.classList.add('sticky')
+        filterEl.classList.add('top-[0]')
+    }else{
+        filterEl.classList.remove('sticky')
+        filterEl.classList.remove('top-[0]')
 
-        }
-        }else{
-            return
-        }
+    }
+    }else{
+        return
+    }
     }
 })
     

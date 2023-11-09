@@ -90,15 +90,15 @@
               {{announData.objects == 'Здание'||announData.objects == 'Коммерческая земля'?'Площадь':'Общая площадь'}}
             </div>
 
-            <div v-if="announData.objects !== 'Коммерческая земля'" :style="!announData.totalArea ? 'border:1px solid red;color:red;':'border:1px solid green;color:green;'" class="flex h-[30px] rounded-1 px-[4px] w-[90px]">
+            <div v-if="announData.objects !== 'Коммерческая земля'" :style="!announData.generalArea ? 'border:1px solid red;color:red;':'border:1px solid green;color:green;'" class="flex h-[30px] rounded-1 px-[4px] w-[90px]">
               <input
-                v-model="announData.totalArea"
+                v-model="announData.generalArea"
                 @input="getTotalArea"
                 class="border-0 outline-0 w-[100%] text-[14px] font-[450] text-[gray]"
                 v-maska
                 data-maska="####"
                 type="text"
-                :style="!announData.totalArea ? 'color:red;':'color:green;'"
+                :style="!announData.generalArea ? 'color:red;':'color:green;'"
               />
               <span class="my-[auto]">м<sup class="text-[10px]">2</sup></span>
             </div>
@@ -639,8 +639,8 @@ const {announData, images} = getData()
 
 
     function getTotalArea(){
-      if (announData.value.totalArea) {
-        announData.value.totalArea = parseInt(announData.value.totalArea) 
+      if (announData.value.generalArea) {
+        announData.value.generalArea = parseInt(announData.value.generalArea) 
       }
       localStorage.setItem('announ', JSON.stringify(announData.value))
     }

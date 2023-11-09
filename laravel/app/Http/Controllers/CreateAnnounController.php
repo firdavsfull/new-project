@@ -190,6 +190,14 @@ public function createResidentAnnoun(Request $request){
             $query->where('floor','<=',$request->floorTo);  
         }
 
+        if ($request->floorHouseFrom) {
+            $query->where('floor_in_house','>=',$request->floorHouseFrom);  
+        }
+
+        if ($request->floorHouseTo) {
+            $query->where('floor_in_house','<=',$request->floorHouseTo);  
+        }
+
         if ($request->yearFrom) {
             $query->where('year_of_construction','>=',$request->yearFrom);  
         }
@@ -212,6 +220,11 @@ public function createResidentAnnoun(Request $request){
         if ($request->repair) {
             $query->WhereIn('repair',$request->repair);
         }
+        if ($request->parking) {
+            $query->WhereIn('parking', $request->parking);
+        }
+
+        // $query->where('deleted_at',null);
 
         $data = $query->get();
         $picture = [];
@@ -224,7 +237,9 @@ public function createResidentAnnoun(Request $request){
     }
 
     public function getAnnounByUser(Request $request){
-        $announ = Announ::where('owner_id',$request->id)->get();
+        $announ = Announ::where('owner_id',$request->id)->withTrashed()
+        // ->where('deleted_at','!=',null)
+        ->get();
         $data = $announ;
         $picture = [];
         for ($i = 0; $i < count($data); $i++) { 
@@ -234,10 +249,15 @@ public function createResidentAnnoun(Request $request){
         }
         $allData = [];
         for ($x=0; $x < count($picture); $x++) { 
+            if ($picture[$x] == null) {
+                $picture[$x] = [
+                    'pictures'=>'deafault.jpg'
+                ];
+            }
             $data[$x]['image'] = $picture[$x]['pictures'];
             $allData[] = $data[$x]; 
-            //$picture[$i]['pictures'];
-
+            // //$picture[$i]['pictures'];
+            // return $picture;
         }
         
         return $allData;

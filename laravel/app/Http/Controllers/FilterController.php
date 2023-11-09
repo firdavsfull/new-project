@@ -75,6 +75,14 @@ class FilterController extends Controller
                 $query->where('floor','<=',$request->floorTo);  
             }
 
+            if ($request->floorHouseFrom) {
+                $query->where('floor_in_house','>=',$request->floorHouseFrom);  
+            }
+
+            if ($request->floorHouseTo) {
+                $query->where('floor_in_house','<=',$request->floorHouseTo);  
+            }
+
             if ($request->yearFrom) {
                 $query->where('year_of_construction','>=',$request->yearFrom);  
             }
@@ -105,6 +113,10 @@ class FilterController extends Controller
             if ($request->repair) {
                 $query->WhereIn('repair',$request->repair);
             }
+            if ($request->parking) {
+                $query->WhereIn('parking', $request->parking);
+            }
+            $query->where('deleted_at',null);
             return $query->get();
     }
 }

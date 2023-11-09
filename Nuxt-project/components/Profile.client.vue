@@ -127,7 +127,6 @@ function changeType(){
 
 function changeType2(){
     isPassword1.value = !isPassword1.value
-    console.log(isPassword1.value);
 }
 
 const showHide = ref(true)
